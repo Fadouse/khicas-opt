@@ -1,0 +1,357 @@
+{
+  "scope": "Repository integration, normalization and FXCG simplification entry points; other dependencies host Giac, not a CG50 emulator or hardware timings",
+  "validation": "Printed target results independently checked in a separate host-Giac process",
+  "corpus_sha256": "82b8a7ba4f5d92a5b9117936ea026bb0741a602d76e869024be98748015931b0",
+  "validation_probe_sha256": "389931bcb1768f94a589ce5b4cdc1422b9629a9e2b5e3281dab7e775beb834a4",
+  "source_sha256": {
+    "yintg.cc": "a48dbadb20258e41728503786ae5bf3360459b1f69f23f918d7e3d06dbb43807",
+    "zintgab.cc": "3b6fa78aba4d53b1a11479c33bacb4c85e3d6091389ef3073ec60085a7ae9448",
+    "ysym2poly.cc": "ca2e4abe3652bf6314e38703100426e6996b3d272ad6f6215d469acf7ecb979c",
+    "ksubst.cc": "ed6a15795d6ae8d73d046a41045495add3067dfbbdc32a21815826c4e6b385a0",
+    "integration_guard.h": "5f4bfda11a19fdf8b4b41da6bb037f602dd741ec1f3492066abab251e85d48a9",
+    "equation_normalize.h": "4bfb644f0e18bb36e280ce8886c8ac12695c9aeeaef187ea3e5f967cd1642e37",
+    "dilogarithm.h": "9f43a9c61b8d6ee26fc344dc11fe6b14b11a14e0fd3f13c7d7e83720f1170dd2"
+  },
+  "runs": [
+    {
+      "id": "GAP-TRIG-LOG-QUARTER",
+      "input": "integrate(ln(3*cos(x)^2+sin(x)^2),x,0,pi/2)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "pi/2*2*ln((sqrt(3)+1)/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000365945\nMAX_RSS_KB 65468\n",
+      "host_seconds": 0.000365945,
+      "parser_calls": 1,
+      "host_max_rss_kb": 65468,
+      "result_characters": 24,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000279227\nMAX_RSS_KB 65468\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "GAP-TRIG-LOG-QUARTER",
+      "input": "integrate(ln(3*cos(x)^2+sin(x)^2),x,0,pi/2)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "pi/2*2*ln((sqrt(3)+1)/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000366836\nMAX_RSS_KB 65468\n",
+      "host_seconds": 0.000366836,
+      "parser_calls": 1,
+      "host_max_rss_kb": 65468,
+      "result_characters": 24,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000278027\nMAX_RSS_KB 65468\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "GAP-TRIG-LOG-QUARTER",
+      "input": "simplify(integrate(ln(3*cos(x)^2+sin(x)^2),x,0,pi/2))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "pi*ln((sqrt(3)+1)/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000701022\nMAX_RSS_KB 65468\n",
+      "host_seconds": 0.000701022,
+      "parser_calls": 1,
+      "host_max_rss_kb": 65468,
+      "result_characters": 20,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000310737\nMAX_RSS_KB 65468\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "GAP-TRIG-LOG-QUARTER",
+      "input": "simplify(integrate(ln(3*cos(x)^2+sin(x)^2),x,0,pi/2))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "pi*ln((sqrt(3)+1)/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000709052\nMAX_RSS_KB 65468\n",
+      "host_seconds": 0.000709052,
+      "parser_calls": 1,
+      "host_max_rss_kb": 65468,
+      "result_characters": 20,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000267767\nMAX_RSS_KB 65468\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "GAP-SYMMETRIC-QUARTIC",
+      "input": "integrate((1+x^2)/((1-x^2)*sqrt(1+x^4)),x)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "ln((1+sqrt(2)*x/sqrt(1+x^4))/(1-sqrt(2)*x/sqrt(1+x^4)))/2/sqrt(2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000371796\nMAX_RSS_KB 65468\n",
+      "host_seconds": 0.000371796,
+      "parser_calls": 1,
+      "host_max_rss_kb": 65468,
+      "result_characters": 65,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000315966\nMAX_RSS_KB 65468\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "GAP-SYMMETRIC-QUARTIC",
+      "input": "integrate((1+x^2)/((1-x^2)*sqrt(1+x^4)),x)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "ln((1+sqrt(2)*x/sqrt(1+x^4))/(1-sqrt(2)*x/sqrt(1+x^4)))/2/sqrt(2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000402785\nMAX_RSS_KB 65468\n",
+      "host_seconds": 0.000402785,
+      "parser_calls": 1,
+      "host_max_rss_kb": 65468,
+      "result_characters": 65,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000305076\nMAX_RSS_KB 65468\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "GAP-SYMMETRIC-QUARTIC",
+      "input": "simplify(integrate((1+x^2)/((1-x^2)*sqrt(1+x^4)),x))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(sqrt(2)*ln(x^4+2*x^2+1+2*x*sqrt(x^4+1)*sqrt(2))-sqrt(2)*ln(x^4-2*x^2+1))/4",
+      "stderr": "Simplification assuming x near 0\nPARSER_CALLS 1\nSECONDS 0.00205564\nMAX_RSS_KB 65468\n",
+      "host_seconds": 0.00205564,
+      "parser_calls": 1,
+      "host_max_rss_kb": 65468,
+      "result_characters": 75,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000298886\nMAX_RSS_KB 65468\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "GAP-SYMMETRIC-QUARTIC",
+      "input": "simplify(integrate((1+x^2)/((1-x^2)*sqrt(1+x^4)),x))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(sqrt(2)*ln(x^4+2*x^2+1+2*x*sqrt(x^4+1)*sqrt(2))-sqrt(2)*ln(x^4-2*x^2+1))/4",
+      "stderr": "Simplification assuming x near 0\nPARSER_CALLS 1\nSECONDS 0.00220267\nMAX_RSS_KB 65468\n",
+      "host_seconds": 0.00220267,
+      "parser_calls": 1,
+      "host_max_rss_kb": 65468,
+      "result_characters": 75,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000303156\nMAX_RSS_KB 65468\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "GAP-ATAN-CIRCLE",
+      "input": "integrate(atan(x)/(x*sqrt(1-x^2)),x,0,1)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "pi*ln(1+sqrt(2))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000378566\nMAX_RSS_KB 65468\n",
+      "host_seconds": 0.000378566,
+      "parser_calls": 1,
+      "host_max_rss_kb": 65468,
+      "result_characters": 18,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000273627\nMAX_RSS_KB 65468\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "GAP-ATAN-CIRCLE",
+      "input": "integrate(atan(x)/(x*sqrt(1-x^2)),x,0,1)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "pi*ln(1+sqrt(2))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000381536\nMAX_RSS_KB 65468\n",
+      "host_seconds": 0.000381536,
+      "parser_calls": 1,
+      "host_max_rss_kb": 65468,
+      "result_characters": 18,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000277497\nMAX_RSS_KB 65468\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "GAP-ATAN-CIRCLE",
+      "input": "simplify(integrate(atan(x)/(x*sqrt(1-x^2)),x,0,1))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "pi*ln(sqrt(2)+1)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000659982\nMAX_RSS_KB 65468\n",
+      "host_seconds": 0.000659982,
+      "parser_calls": 1,
+      "host_max_rss_kb": 65468,
+      "result_characters": 18,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000297396\nMAX_RSS_KB 65468\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "GAP-ATAN-CIRCLE",
+      "input": "simplify(integrate(atan(x)/(x*sqrt(1-x^2)),x,0,1))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "pi*ln(sqrt(2)+1)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000670982\nMAX_RSS_KB 65468\n",
+      "host_seconds": 0.000670982,
+      "parser_calls": 1,
+      "host_max_rss_kb": 65468,
+      "result_characters": 18,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000270757\nMAX_RSS_KB 65468\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "GAP-OSCILLATORY-FRULLANI",
+      "input": "integrate((exp(-x)-exp(-3*x))*cos(x)/x,x,0,+infinity)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-ln(2)/2+ln(10)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000422305\nMAX_RSS_KB 65468\n",
+      "host_seconds": 0.000422305,
+      "parser_calls": 1,
+      "host_max_rss_kb": 65468,
+      "result_characters": 17,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000271786\nMAX_RSS_KB 65468\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "GAP-OSCILLATORY-FRULLANI",
+      "input": "integrate((exp(-x)-exp(-3*x))*cos(x)/x,x,0,+infinity)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-ln(2)/2+ln(10)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000359446\nMAX_RSS_KB 65468\n",
+      "host_seconds": 0.000359446,
+      "parser_calls": 1,
+      "host_max_rss_kb": 65468,
+      "result_characters": 17,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000265827\nMAX_RSS_KB 65468\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "GAP-OSCILLATORY-FRULLANI",
+      "input": "simplify(integrate((exp(-x)-exp(-3*x))*cos(x)/x,x,0,+infinity))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "ln(5)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000454735\nMAX_RSS_KB 65468\n",
+      "host_seconds": 0.000454735,
+      "parser_calls": 1,
+      "host_max_rss_kb": 65468,
+      "result_characters": 7,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000256447\nMAX_RSS_KB 65468\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "GAP-OSCILLATORY-FRULLANI",
+      "input": "simplify(integrate((exp(-x)-exp(-3*x))*cos(x)/x,x,0,+infinity))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "ln(5)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000457144\nMAX_RSS_KB 65468\n",
+      "host_seconds": 0.000457144,
+      "parser_calls": 1,
+      "host_max_rss_kb": 65468,
+      "result_characters": 7,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000259987\nMAX_RSS_KB 65468\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "GAP-TRIG-LOG-HALF",
+      "input": "integrate(ln(2+cos(x)),x,0,pi)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "pi*ln((2+sqrt(3))/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000324446\nMAX_RSS_KB 65468\n",
+      "host_seconds": 0.000324446,
+      "parser_calls": 1,
+      "host_max_rss_kb": 65468,
+      "result_characters": 20,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000272757\nMAX_RSS_KB 65468\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "GAP-TRIG-LOG-HALF",
+      "input": "integrate(ln(2+cos(x)),x,0,pi)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "pi*ln((2+sqrt(3))/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000325626\nMAX_RSS_KB 65468\n",
+      "host_seconds": 0.000325626,
+      "parser_calls": 1,
+      "host_max_rss_kb": 65468,
+      "result_characters": 20,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000270427\nMAX_RSS_KB 65468\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "GAP-TRIG-LOG-HALF",
+      "input": "simplify(integrate(ln(2+cos(x)),x,0,pi))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "pi*ln((sqrt(3)+2)/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000662993\nMAX_RSS_KB 65468\n",
+      "host_seconds": 0.000662993,
+      "parser_calls": 1,
+      "host_max_rss_kb": 65468,
+      "result_characters": 20,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000315036\nMAX_RSS_KB 65468\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "GAP-TRIG-LOG-HALF",
+      "input": "simplify(integrate(ln(2+cos(x)),x,0,pi))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "pi*ln((sqrt(3)+2)/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000680172\nMAX_RSS_KB 65468\n",
+      "host_seconds": 0.000680172,
+      "parser_calls": 1,
+      "host_max_rss_kb": 65468,
+      "result_characters": 20,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000277057\nMAX_RSS_KB 65468\nCHECK exact\n"
+      },
+      "status": "exact"
+    }
+  ]
+}

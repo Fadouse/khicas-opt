@@ -1,8 +1,8 @@
 # 已通过的积分题目列表
 
-验证源码：`checkpoint/dilogarithm-2026a`。
-正式题库与用户题目共 **619 条通过记录**：**614 条精确验证、5 条导数采样通过、0 条数值常量检查通过**。
-保留各题库的编号和重复项；仅去除输入空白后有 596 种输入文本，这不是数学意义的去重。
+验证源码：`checkpoint/trig-log-simplify-2026a`。
+正式题库与用户题目共 **633 条通过记录**：**628 条精确验证、5 条导数采样通过、0 条数值常量检查通过**。
+保留各题库的编号和重复项；仅去除输入空白后有 610 种输入文本，这不是数学意义的去重。
 
 “核对参考结果”来自已验证题库，用于阅读和比对，并不保证与计算器实际打印的写法相同。
 不定积分省略积分常数；实根、对数和反三角函数须遵守原题定义域。采样检查不能代替完整符号证明。
@@ -13,7 +13,7 @@
 
 ## 用户原始 8 题（8 条）
 
-[原题与定义域](../tests/user-integrals.json) · [实际输出和验证记录](benchmarks/user-eight-cycle8-dilog-2026a.json)
+[原题与定义域](../tests/user-integrals.json) · [实际输出和验证记录](benchmarks/user-eight-cycle8-trig-log-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -28,7 +28,7 @@
 
 ## 用户追加 2 题（2 条）
 
-[原题与定义域](../tests/user-extra-integrals.json) · [实际输出和验证记录](benchmarks/user-extra-cycle8-dilog-2026a.json)
+[原题与定义域](../tests/user-extra-integrals.json) · [实际输出和验证记录](benchmarks/user-extra-cycle8-trig-log-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -37,7 +37,7 @@
 
 ## 用户追加 5 题（5 条）
 
-[原题与定义域](../tests/user-challenge-integrals.json) · [实际输出和验证记录](benchmarks/user-challenge-cycle8-dilog-2026a.json)
+[原题与定义域](../tests/user-challenge-integrals.json) · [实际输出和验证记录](benchmarks/user-challenge-cycle8-trig-log-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -49,7 +49,7 @@
 
 ## MIT / Princeton 题库（168 条）
 
-[原题与定义域](../tests/calculus-corpus.json) · [实际输出和验证记录](benchmarks/calculus-cycle8-dilog-2026a.json)
+[原题与定义域](../tests/calculus-corpus.json) · [实际输出和验证记录](benchmarks/calculus-cycle8-trig-log-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -224,7 +224,7 @@
 
 ## 独立泛化题库（152 条）
 
-[原题与定义域](../tests/generalization-corpus.json) · [实际输出和验证记录](benchmarks/generalization-cycle8-dilog-2026a.json)
+[原题与定义域](../tests/generalization-corpus.json) · [实际输出和验证记录](benchmarks/generalization-cycle8-trig-log-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -383,7 +383,7 @@
 
 ## 第二轮泛化题库（61 条）
 
-[原题与定义域](../tests/generalization-cycle2.json) · [实际输出和验证记录](benchmarks/cycle2-cycle8-dilog-2026a.json)
+[原题与定义域](../tests/generalization-cycle2.json) · [实际输出和验证记录](benchmarks/cycle2-cycle8-trig-log-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -451,7 +451,7 @@
 
 ## 第三轮泛化题库（30 条）
 
-[原题与定义域](../tests/generalization-cycle3.json) · [实际输出和验证记录](benchmarks/cycle3-cycle8-dilog-2026a.json)
+[原题与定义域](../tests/generalization-cycle3.json) · [实际输出和验证记录](benchmarks/cycle3-cycle8-trig-log-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -488,7 +488,7 @@
 
 ## 第四轮泛化题库（16 条）
 
-[原题与定义域](../tests/generalization-cycle4.json) · [实际输出和验证记录](benchmarks/cycle4-cycle8-dilog-2026a.json)
+[原题与定义域](../tests/generalization-cycle4.json) · [实际输出和验证记录](benchmarks/cycle4-cycle8-trig-log-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -511,7 +511,7 @@
 
 ## 第五轮泛化题库（8 条）
 
-[原题与定义域](../tests/generalization-cycle5.json) · [实际输出和验证记录](benchmarks/cycle5-cycle8-stack-dilog-2026a.json)
+[原题与定义域](../tests/generalization-cycle5.json) · [实际输出和验证记录](benchmarks/cycle5-cycle8-stack-trig-log-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -526,7 +526,7 @@
 
 ## 第六轮泛化题库（8 条）
 
-[原题与定义域](../tests/generalization-cycle6.json) · [实际输出和验证记录](benchmarks/cycle6-cycle8-stack-dilog-2026a.json)
+[原题与定义域](../tests/generalization-cycle6.json) · [实际输出和验证记录](benchmarks/cycle6-cycle8-stack-trig-log-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -541,7 +541,7 @@
 
 ## 第七轮泛化题库（8 条）
 
-[原题与定义域](../tests/generalization-cycle7.json) · [实际输出和验证记录](benchmarks/cycle7-cycle8-stack-dilog-2026a.json)
+[原题与定义域](../tests/generalization-cycle7.json) · [实际输出和验证记录](benchmarks/cycle7-cycle8-stack-trig-log-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -556,7 +556,7 @@
 
 ## 第八轮泛化题库（8 条）
 
-[原题与定义域](../tests/generalization-cycle8.json) · [实际输出和验证记录](benchmarks/cycle8-stack-dilog-2026a.json)
+[原题与定义域](../tests/generalization-cycle8.json) · [实际输出和验证记录](benchmarks/cycle8-stack-trig-log-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -571,7 +571,7 @@
 
 ## 基础有限区间积分（14 条）
 
-[原题与定义域](../tests/basic-finite-integrals.json) · [实际输出和验证记录](benchmarks/basic-finite-cycle8-dilog-2026a.json)
+[原题与定义域](../tests/basic-finite-integrals.json) · [实际输出和验证记录](benchmarks/basic-finite-cycle8-trig-log-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -592,7 +592,7 @@
 
 ## 误差函数与分母对数变体（15 条）
 
-[原题与定义域](../tests/cycle7-tail-mellin.json) · [实际输出和验证记录](benchmarks/cycle7-tail-mellin-cycle8-stack-dilog-2026a.json)
+[原题与定义域](../tests/cycle7-tail-mellin.json) · [实际输出和验证记录](benchmarks/cycle7-tail-mellin-cycle8-stack-trig-log-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -614,7 +614,7 @@
 
 ## Gamma 对数矩变体（15 条）
 
-[原题与定义域](../tests/cycle8-gamma-log.json) · [实际输出和验证记录](benchmarks/cycle8-gamma-log-stack-dilog-2026a.json)
+[原题与定义域](../tests/cycle8-gamma-log.json) · [实际输出和验证记录](benchmarks/cycle8-gamma-log-stack-trig-log-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -636,7 +636,7 @@
 
 ## 用户 A1–F6 全模式通过项（34 条）
 
-[原题与定义域](../tests/user-acceptance-passed-dilog.json) · [实际输出和验证记录](benchmarks/user-acceptance-passed-dilog-2026a.json)
+[原题与定义域](../tests/user-acceptance-passed-dilog.json) · [实际输出和验证记录](benchmarks/user-acceptance-passed-trig-log-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -677,7 +677,7 @@
 
 ## 用户前五道未解题（5 条）
 
-[原题与定义域](../tests/user-reported-five-gaps.json) · [实际输出和验证记录](benchmarks/user-reported-five-gaps-dilog-2026a.json)
+[原题与定义域](../tests/user-reported-five-gaps.json) · [实际输出和验证记录](benchmarks/user-reported-five-gaps-trig-log-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -689,7 +689,7 @@
 
 ## 验收错题结构变体（33 条）
 
-[原题与定义域](../tests/user-matrix-next.json) · [实际输出和验证记录](benchmarks/user-matrix-next-dilog-2026a.json)
+[原题与定义域](../tests/user-matrix-next.json) · [实际输出和验证记录](benchmarks/user-matrix-next-trig-log-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -729,7 +729,7 @@
 
 ## Li2 换元与端点变体（29 条）
 
-[原题与定义域](../tests/dilogarithm-corpus.json) · [实际输出和验证记录](benchmarks/dilogarithm-corpus-2026a.json)
+[原题与定义域](../tests/dilogarithm-corpus.json) · [实际输出和验证记录](benchmarks/dilogarithm-corpus-trig-log-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -762,6 +762,27 @@
 | `reverse-endpoint` | `integrate(ln(1+x)/x,x,1,0)` | `-pi^2/12` | 精确验证 |
 | `negative-argument-endpoint` | `integrate(ln(1+2*x)/x,x,0,1)` | `-Li2(-2)` | 精确验证 |
 | `finite-exponential` | `integrate(ln(1-exp(-x)),x,0,1)` | `Li2(exp(-1))-pi^2/6` | 精确验证 |
+
+## 三角对数与主值分支（14 条）
+
+[原题与定义域](../tests/trig-log-corpus.json) · [实际输出和验证记录](benchmarks/trig-log-corpus-2026a.json)
+
+| 编号 | 可输入的题目 | 核对参考结果 | 验证 |
+| --- | --- | --- | --- |
+| `TL1` | `integrate(3*ln((1)*sin((2)*x+(0))),x)` | `(3)*(x*ln(1/2)-im(Li2(exp(2*i*(((2)*x+(0))))))/(2*(2)))+(3)*i*pi*(((((2)*x+(0)))-pi+abs((((2)*x+(0)))-2*pi*floor((((2)*x+(0)))/(2*pi))-pi))/(2*(2)))` | 精确验证 |
+| `TL2` | `integrate(1*ln((1)*cos((3)*x+(1))),x)` | `(1)*(x*ln(1/2)-im(Li2(exp(2*i*(((3)*x+(1))+pi/2))))/(2*(3)))+(1)*i*pi*(((((3)*x+(1))+pi/2)-pi+abs((((3)*x+(1))+pi/2)-2*pi*floor((((3)*x+(1))+pi/2)/(2*pi))-pi))/(2*(3)))` | 精确验证 |
+| `TL3` | `integrate(1*ln((1)*sin((-2)*x+(1))),x)` | `(1)*(x*ln(1/2)-im(Li2(exp(2*i*(((-2)*x+(1))))))/(2*(-2)))+(1)*i*pi*(((((-2)*x+(1)))-pi+abs((((-2)*x+(1)))-2*pi*floor((((-2)*x+(1)))/(2*pi))-pi))/(2*(-2)))` | 精确验证 |
+| `TL4` | `integrate(1*ln(abs((1)*sin((1)*x+(0)))),x)` | `(1)*(x*ln(1/2)-im(Li2(exp(2*i*(((1)*x+(0))))))/(2*(1)))` | 精确验证 |
+| `TL5` | `integrate(2*ln(abs((1)*cos((-3)*x+(1)))),x)` | `(2)*(x*ln(1/2)-im(Li2(exp(2*i*(((-3)*x+(1))+pi/2))))/(2*(-3)))` | 精确验证 |
+| `TL6` | `integrate(ln(sin(x))+ln(sin(x+pi)),x)` | `-2*x*ln(2)-im(Li2(exp(2*i*x)))+i*pi*x` | 精确验证 |
+| `shift-abs-1` | `integrate(2*ln(abs((3)*sin((1)*x+(pi/3)))),x)` | `(2)*(x*ln(3/2)-im(Li2(exp(2*i*(((1)*x+(pi/3))))))/(2*(1)))` | 精确验证 |
+| `shift-principal-1` | `integrate(-2*ln((-3)*cos((1)*x+(pi/3))),x)` | `(-2)*(x*ln(3/2)-im(Li2(exp(2*i*(((1)*x+(pi/3))+pi/2+pi))))/(2*(1)))+(-2)*i*pi*(((((1)*x+(pi/3))+pi/2+pi)-pi+abs((((1)*x+(pi/3))+pi/2+pi)-2*pi*floor((((1)*x+(pi/3))+pi/2+pi)/(2*pi))-pi))/(2*(1)))` | 精确验证 |
+| `shift-abs--1` | `integrate(2*ln(abs((3)*sin((-1)*x+(-2)))),x)` | `(2)*(x*ln(3/2)-im(Li2(exp(2*i*(((-1)*x+(-2))))))/(2*(-1)))` | 精确验证 |
+| `shift-principal--1` | `integrate(-2*ln((-3)*cos((-1)*x+(-2))),x)` | `(-2)*(x*ln(3/2)-im(Li2(exp(2*i*(((-1)*x+(-2))+pi/2+pi))))/(2*(-1)))+(-2)*i*pi*(((((-1)*x+(-2))+pi/2+pi)-pi+abs((((-1)*x+(-2))+pi/2+pi)-2*pi*floor((((-1)*x+(-2))+pi/2+pi)/(2*pi))-pi))/(2*(-1)))` | 精确验证 |
+| `shift-abs-7` | `integrate(2*ln(abs((3)*sin((7)*x+(3*pi/2)))),x)` | `(2)*(x*ln(3/2)-im(Li2(exp(2*i*(((7)*x+(3*pi/2))))))/(2*(7)))` | 精确验证 |
+| `shift-principal-7` | `integrate(-2*ln((-3)*cos((7)*x+(3*pi/2))),x)` | `(-2)*(x*ln(3/2)-im(Li2(exp(2*i*(((7)*x+(3*pi/2))+pi/2+pi))))/(2*(7)))+(-2)*i*pi*(((((7)*x+(3*pi/2))+pi/2+pi)-pi+abs((((7)*x+(3*pi/2))+pi/2+pi)-2*pi*floor((((7)*x+(3*pi/2))+pi/2+pi)/(2*pi))-pi))/(2*(7)))` | 精确验证 |
+| `shift-abs-1/3` | `integrate(2*ln(abs((3)*sin((1/3)*x+(-pi/7)))),x)` | `(2)*(x*ln(3/2)-im(Li2(exp(2*i*(((1/3)*x+(-pi/7))))))/(2*(1/3)))` | 精确验证 |
+| `shift-principal-1/3` | `integrate(-2*ln((-3)*cos((1/3)*x+(-pi/7))),x)` | `(-2)*(x*ln(3/2)-im(Li2(exp(2*i*(((1/3)*x+(-pi/7))+pi/2+pi))))/(2*(1/3)))+(-2)*i*pi*(((((1/3)*x+(-pi/7))+pi/2+pi)-pi+abs((((1/3)*x+(-pi/7))+pi/2+pi)-2*pi*floor((((1/3)*x+(-pi/7))+pi/2+pi)/(2*pi))-pi))/(2*(1/3)))` | 精确验证 |
 
 ---
 

@@ -1,0 +1,969 @@
+{
+  "scope": "Repository integration, normalization and FXCG simplification entry points; other dependencies host Giac, not a CG50 emulator or hardware timings",
+  "validation": "Printed target results independently checked in a separate host-Giac process",
+  "corpus_sha256": "756d9d35ce6a0af2d49e3b1722a75eef136f2133d5f227d8a5150a93a8e71a0c",
+  "validation_probe_sha256": "389931bcb1768f94a589ce5b4cdc1422b9629a9e2b5e3281dab7e775beb834a4",
+  "source_sha256": {
+    "yintg.cc": "a48dbadb20258e41728503786ae5bf3360459b1f69f23f918d7e3d06dbb43807",
+    "zintgab.cc": "3b6fa78aba4d53b1a11479c33bacb4c85e3d6091389ef3073ec60085a7ae9448",
+    "ysym2poly.cc": "ca2e4abe3652bf6314e38703100426e6996b3d272ad6f6215d469acf7ecb979c",
+    "ksubst.cc": "ed6a15795d6ae8d73d046a41045495add3067dfbbdc32a21815826c4e6b385a0",
+    "integration_guard.h": "5f4bfda11a19fdf8b4b41da6bb037f602dd741ec1f3492066abab251e85d48a9",
+    "equation_normalize.h": "4bfb644f0e18bb36e280ce8886c8ac12695c9aeeaef187ea3e5f967cd1642e37",
+    "dilogarithm.h": "9f43a9c61b8d6ee26fc344dc11fe6b14b11a14e0fd3f13c7d7e83720f1170dd2"
+  },
+  "runs": [
+    {
+      "id": "constant",
+      "input": "integrate(1,x,0,1)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "1",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000270007\nMAX_RSS_KB 63420\n",
+      "host_seconds": 0.000270007,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63420,
+      "result_characters": 1,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000231798\nMAX_RSS_KB 63420\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "constant",
+      "input": "integrate(1,x,0,1)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "1",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000261997\nMAX_RSS_KB 63420\n",
+      "host_seconds": 0.000261997,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63420,
+      "result_characters": 1,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000237058\nMAX_RSS_KB 63420\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "constant",
+      "input": "simplify(integrate(1,x,0,1))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "1",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000268767\nMAX_RSS_KB 63420\n",
+      "host_seconds": 0.000268767,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63420,
+      "result_characters": 1,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000235448\nMAX_RSS_KB 63420\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "constant",
+      "input": "simplify(integrate(1,x,0,1))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "1",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000278036\nMAX_RSS_KB 63420\n",
+      "host_seconds": 0.000278036,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63420,
+      "result_characters": 1,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000457345\nMAX_RSS_KB 63420\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "linear",
+      "input": "integrate(x,x,0,1)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "1/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000276947\nMAX_RSS_KB 63420\n",
+      "host_seconds": 0.000276947,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63420,
+      "result_characters": 3,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000246007\nMAX_RSS_KB 63420\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "linear",
+      "input": "integrate(x,x,0,1)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "1/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000292337\nMAX_RSS_KB 63420\n",
+      "host_seconds": 0.000292337,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63420,
+      "result_characters": 3,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000247947\nMAX_RSS_KB 63676\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "linear",
+      "input": "simplify(integrate(x,x,0,1))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "1/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000295247\nMAX_RSS_KB 63676\n",
+      "host_seconds": 0.000295247,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63676,
+      "result_characters": 3,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000253307\nMAX_RSS_KB 63676\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "linear",
+      "input": "simplify(integrate(x,x,0,1))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "1/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000294576\nMAX_RSS_KB 63676\n",
+      "host_seconds": 0.000294576,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63676,
+      "result_characters": 3,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000245507\nMAX_RSS_KB 63676\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "quadratic",
+      "input": "integrate(x^2,x,0,1)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "1/3",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000274497\nMAX_RSS_KB 63676\n",
+      "host_seconds": 0.000274497,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63676,
+      "result_characters": 3,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000247827\nMAX_RSS_KB 63676\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "quadratic",
+      "input": "integrate(x^2,x,0,1)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "1/3",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000278577\nMAX_RSS_KB 63676\n",
+      "host_seconds": 0.000278577,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63676,
+      "result_characters": 3,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000248857\nMAX_RSS_KB 63676\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "quadratic",
+      "input": "simplify(integrate(x^2,x,0,1))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "1/3",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000296537\nMAX_RSS_KB 63676\n",
+      "host_seconds": 0.000296537,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63676,
+      "result_characters": 3,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000256607\nMAX_RSS_KB 63676\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "quadratic",
+      "input": "simplify(integrate(x^2,x,0,1))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "1/3",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000301687\nMAX_RSS_KB 63676\n",
+      "host_seconds": 0.000301687,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63676,
+      "result_characters": 3,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000270647\nMAX_RSS_KB 63676\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "cubic",
+      "input": "integrate(x^3,x,-1,1)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "0",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000279417\nMAX_RSS_KB 63676\n",
+      "host_seconds": 0.000279417,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63676,
+      "result_characters": 1,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000232017\nMAX_RSS_KB 63676\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "cubic",
+      "input": "integrate(x^3,x,-1,1)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "0",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000281697\nMAX_RSS_KB 63676\n",
+      "host_seconds": 0.000281697,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63676,
+      "result_characters": 1,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000230138\nMAX_RSS_KB 63676\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "cubic",
+      "input": "simplify(integrate(x^3,x,-1,1))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "0",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000279237\nMAX_RSS_KB 63676\n",
+      "host_seconds": 0.000279237,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63676,
+      "result_characters": 1,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000278426\nMAX_RSS_KB 63676\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "cubic",
+      "input": "simplify(integrate(x^3,x,-1,1))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "0",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000308777\nMAX_RSS_KB 63676\n",
+      "host_seconds": 0.000308777,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63676,
+      "result_characters": 1,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000237517\nMAX_RSS_KB 63676\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "sparse-polynomial",
+      "input": "integrate(3*x^10-5*x^3+2,x,0,1)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "45/44",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000295206\nMAX_RSS_KB 63676\n",
+      "host_seconds": 0.000295206,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63676,
+      "result_characters": 5,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000276277\nMAX_RSS_KB 63676\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "sparse-polynomial",
+      "input": "integrate(3*x^10-5*x^3+2,x,0,1)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "45/44",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000334677\nMAX_RSS_KB 63676\n",
+      "host_seconds": 0.000334677,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63676,
+      "result_characters": 5,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000250357\nMAX_RSS_KB 63676\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "sparse-polynomial",
+      "input": "simplify(integrate(3*x^10-5*x^3+2,x,0,1))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "45/44",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000318916\nMAX_RSS_KB 63676\n",
+      "host_seconds": 0.000318916,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63676,
+      "result_characters": 5,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000251657\nMAX_RSS_KB 63676\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "sparse-polynomial",
+      "input": "simplify(integrate(3*x^10-5*x^3+2,x,0,1))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "45/44",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000323686\nMAX_RSS_KB 63676\n",
+      "host_seconds": 0.000323686,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63676,
+      "result_characters": 5,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000250307\nMAX_RSS_KB 63676\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "reverse-polynomial",
+      "input": "integrate(x^2,x,2,-1)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-3",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000290537\nMAX_RSS_KB 63676\n",
+      "host_seconds": 0.000290537,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63676,
+      "result_characters": 2,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000237097\nMAX_RSS_KB 63676\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "reverse-polynomial",
+      "input": "integrate(x^2,x,2,-1)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-3",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000279907\nMAX_RSS_KB 63676\n",
+      "host_seconds": 0.000279907,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63676,
+      "result_characters": 2,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000238747\nMAX_RSS_KB 63676\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "reverse-polynomial",
+      "input": "simplify(integrate(x^2,x,2,-1))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-3",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000283597\nMAX_RSS_KB 63676\n",
+      "host_seconds": 0.000283597,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63676,
+      "result_characters": 2,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000453735\nMAX_RSS_KB 63676\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "reverse-polynomial",
+      "input": "simplify(integrate(x^2,x,2,-1))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-3",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000426415\nMAX_RSS_KB 63676\n",
+      "host_seconds": 0.000426415,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63676,
+      "result_characters": 2,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000232917\nMAX_RSS_KB 63676\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "rational-bounds",
+      "input": "integrate(x^2+1,x,1/2,3/2)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "25/12",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000306106\nMAX_RSS_KB 63676\n",
+      "host_seconds": 0.000306106,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63676,
+      "result_characters": 5,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000245557\nMAX_RSS_KB 63676\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "rational-bounds",
+      "input": "integrate(x^2+1,x,1/2,3/2)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "25/12",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000317036\nMAX_RSS_KB 63676\n",
+      "host_seconds": 0.000317036,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63676,
+      "result_characters": 5,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000268837\nMAX_RSS_KB 63676\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "rational-bounds",
+      "input": "simplify(integrate(x^2+1,x,1/2,3/2))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "25/12",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000323086\nMAX_RSS_KB 63676\n",
+      "host_seconds": 0.000323086,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63676,
+      "result_characters": 5,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000254097\nMAX_RSS_KB 63676\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "rational-bounds",
+      "input": "simplify(integrate(x^2+1,x,1/2,3/2))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "25/12",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000326966\nMAX_RSS_KB 63676\n",
+      "host_seconds": 0.000326966,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63676,
+      "result_characters": 5,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000255167\nMAX_RSS_KB 63676\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "simple-sine",
+      "input": "integrate(sin(x),x,0,pi)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000304796\nMAX_RSS_KB 63676\n",
+      "host_seconds": 0.000304796,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63676,
+      "result_characters": 1,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000236748\nMAX_RSS_KB 63676\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "simple-sine",
+      "input": "integrate(sin(x),x,0,pi)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000284747\nMAX_RSS_KB 63676\n",
+      "host_seconds": 0.000284747,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63676,
+      "result_characters": 1,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000236407\nMAX_RSS_KB 63676\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "simple-sine",
+      "input": "simplify(integrate(sin(x),x,0,pi))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000335776\nMAX_RSS_KB 63676\n",
+      "host_seconds": 0.000335776,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63676,
+      "result_characters": 1,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000238558\nMAX_RSS_KB 63676\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "simple-sine",
+      "input": "simplify(integrate(sin(x),x,0,pi))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000320346\nMAX_RSS_KB 63676\n",
+      "host_seconds": 0.000320346,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63676,
+      "result_characters": 1,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000235347\nMAX_RSS_KB 63676\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "simple-cosine",
+      "input": "integrate(cos(x),x,0,pi/2)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "1",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000316887\nMAX_RSS_KB 63676\n",
+      "host_seconds": 0.000316887,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63676,
+      "result_characters": 1,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000229478\nMAX_RSS_KB 63676\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "simple-cosine",
+      "input": "integrate(cos(x),x,0,pi/2)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "1",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000341416\nMAX_RSS_KB 63676\n",
+      "host_seconds": 0.000341416,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63676,
+      "result_characters": 1,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000232407\nMAX_RSS_KB 63676\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "simple-cosine",
+      "input": "simplify(integrate(cos(x),x,0,pi/2))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "1",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000331906\nMAX_RSS_KB 63676\n",
+      "host_seconds": 0.000331906,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63676,
+      "result_characters": 1,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000232827\nMAX_RSS_KB 63676\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "simple-cosine",
+      "input": "simplify(integrate(cos(x),x,0,pi/2))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "1",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000323836\nMAX_RSS_KB 63676\n",
+      "host_seconds": 0.000323836,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63676,
+      "result_characters": 1,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000238417\nMAX_RSS_KB 63676\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "exponential",
+      "input": "integrate(exp(x),x,0,1)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "exp(1)-1",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000365226\nMAX_RSS_KB 63676\n",
+      "host_seconds": 0.000365226,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63676,
+      "result_characters": 8,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000261967\nMAX_RSS_KB 63676\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "exponential",
+      "input": "integrate(exp(x),x,0,1)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "exp(1)-1",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000291466\nMAX_RSS_KB 63676\n",
+      "host_seconds": 0.000291466,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63676,
+      "result_characters": 8,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000272317\nMAX_RSS_KB 63676\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "exponential",
+      "input": "simplify(integrate(exp(x),x,0,1))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "exp(1)-1",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000415485\nMAX_RSS_KB 63676\n",
+      "host_seconds": 0.000415485,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63676,
+      "result_characters": 8,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000250517\nMAX_RSS_KB 63676\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "exponential",
+      "input": "simplify(integrate(exp(x),x,0,1))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "exp(1)-1",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000420075\nMAX_RSS_KB 63676\n",
+      "host_seconds": 0.000420075,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63676,
+      "result_characters": 8,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000250288\nMAX_RSS_KB 63676\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "positive-reciprocal",
+      "input": "integrate(1/x,x,1,2)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "ln(2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000283347\nMAX_RSS_KB 63676\n",
+      "host_seconds": 0.000283347,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63676,
+      "result_characters": 5,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000250027\nMAX_RSS_KB 63676\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "positive-reciprocal",
+      "input": "integrate(1/x,x,1,2)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "ln(2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000288447\nMAX_RSS_KB 63676\n",
+      "host_seconds": 0.000288447,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63676,
+      "result_characters": 5,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000245147\nMAX_RSS_KB 63676\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "positive-reciprocal",
+      "input": "simplify(integrate(1/x,x,1,2))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "ln(2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000310066\nMAX_RSS_KB 63676\n",
+      "host_seconds": 0.000310066,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63676,
+      "result_characters": 5,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000574893\nMAX_RSS_KB 63932\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "positive-reciprocal",
+      "input": "simplify(integrate(1/x,x,1,2))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "ln(2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000342086\nMAX_RSS_KB 63932\n",
+      "host_seconds": 0.000342086,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63932,
+      "result_characters": 5,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000247027\nMAX_RSS_KB 63932\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "basic-arctan",
+      "input": "integrate(1/(1+x^2),x,0,1)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "pi/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000302027\nMAX_RSS_KB 63932\n",
+      "host_seconds": 0.000302027,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63932,
+      "result_characters": 4,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000252477\nMAX_RSS_KB 63932\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "basic-arctan",
+      "input": "integrate(1/(1+x^2),x,0,1)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "pi/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000297746\nMAX_RSS_KB 63932\n",
+      "host_seconds": 0.000297746,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63932,
+      "result_characters": 4,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000253087\nMAX_RSS_KB 63932\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "basic-arctan",
+      "input": "simplify(integrate(1/(1+x^2),x,0,1))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "pi/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000368306\nMAX_RSS_KB 63932\n",
+      "host_seconds": 0.000368306,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63932,
+      "result_characters": 4,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000256387\nMAX_RSS_KB 63932\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "basic-arctan",
+      "input": "simplify(integrate(1/(1+x^2),x,0,1))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "pi/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000368786\nMAX_RSS_KB 63932\n",
+      "host_seconds": 0.000368786,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63932,
+      "result_characters": 4,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000253097\nMAX_RSS_KB 63932\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "basic-root",
+      "input": "integrate(sqrt(x),x,0,1)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "2/3",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000327146\nMAX_RSS_KB 63932\n",
+      "host_seconds": 0.000327146,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63932,
+      "result_characters": 3,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000251467\nMAX_RSS_KB 63932\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "basic-root",
+      "input": "integrate(sqrt(x),x,0,1)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "2/3",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000320486\nMAX_RSS_KB 63932\n",
+      "host_seconds": 0.000320486,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63932,
+      "result_characters": 3,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000248978\nMAX_RSS_KB 63932\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "basic-root",
+      "input": "simplify(integrate(sqrt(x),x,0,1))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "2/3",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000311056\nMAX_RSS_KB 63932\n",
+      "host_seconds": 0.000311056,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63932,
+      "result_characters": 3,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000250067\nMAX_RSS_KB 63932\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "basic-root",
+      "input": "simplify(integrate(sqrt(x),x,0,1))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "2/3",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000308377\nMAX_RSS_KB 63932\n",
+      "host_seconds": 0.000308377,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63932,
+      "result_characters": 3,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000243977\nMAX_RSS_KB 63932\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "basic-log",
+      "input": "integrate(ln(x),x,1,exp(1))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "1",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000305907\nMAX_RSS_KB 63932\n",
+      "host_seconds": 0.000305907,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63932,
+      "result_characters": 1,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000232507\nMAX_RSS_KB 63932\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "basic-log",
+      "input": "integrate(ln(x),x,1,exp(1))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "1",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000335306\nMAX_RSS_KB 63932\n",
+      "host_seconds": 0.000335306,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63932,
+      "result_characters": 1,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000243278\nMAX_RSS_KB 63932\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "basic-log",
+      "input": "simplify(integrate(ln(x),x,1,exp(1)))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "1",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000315666\nMAX_RSS_KB 63932\n",
+      "host_seconds": 0.000315666,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63932,
+      "result_characters": 1,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000230697\nMAX_RSS_KB 63932\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "basic-log",
+      "input": "simplify(integrate(ln(x),x,1,exp(1)))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "1",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000704302\nMAX_RSS_KB 63932\n",
+      "host_seconds": 0.000704302,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63932,
+      "result_characters": 1,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000238878\nMAX_RSS_KB 63932\nCHECK exact\n"
+      },
+      "status": "exact"
+    }
+  ]
+}

@@ -1428,7 +1428,9 @@ namespace giac {
     if (ext.empty())
       return false;
     gen a=r2e(a0,vars,contextptr);
-    vecteur w=*r2e(ext,vars,contextptr)._VECTptr;
+    gen converted=r2e(ext,vars,contextptr);
+    if(converted.type!=_VECT || converted._VECTptr->size()!=ext.size())return false;
+    vecteur w=*converted._VECTptr;
     w.push_back(a);
     vecteur l(lidnt(w));
     if (!l.empty()){ // check for random values of the variables
@@ -1451,6 +1453,7 @@ namespace giac {
     if (is_undef(S))
       return false;
     // if the first line of A has a small norm then it is the line of coeff
+    if(A.empty() || A[0].type!=_VECT)return false;
     coeffs=*A[0]._VECTptr;
     if (is_greater(linfnorm(coeffs,contextptr),20,contextptr))
       return false;
@@ -1507,10 +1510,13 @@ namespace giac {
   static gen branch_evalf(const gen & g,GIAC_CONTEXT){
     if (is_undef(g)) 
       return g;
-    vecteur v(*_lname(evalf(g,1,contextptr),contextptr)._VECTptr);
+    gen names=_lname(evalf(g,1,contextptr),contextptr);
+    if(names.type!=_VECT)return g;
+    const vecteur &v=*names._VECTptr;
     gen gg(g);
     int s=int(v.size());
     for (int i=0;i<s;++i){
+      if(v[i].type!=_IDNT)return g;
       vecteur w;
       gen point=0;
       int direction=1;
@@ -1932,8 +1938,10 @@ namespace giac {
       }
       // now rewrite ln[argln[i]] as a sum of ln[primeargs[]]
       // int p=primeargs.size();
-      vecteur lnprimeargs(*apply(r2e(primeargs,vars,contextptr),at_ln,contextptr)._VECTptr);
-      vecteur lnextargs(*apply(r2e(extargs,vars,contextptr),at_ln,contextptr)._VECTptr);
+      gen lp=apply(r2e(primeargs,vars,contextptr),at_ln,contextptr);
+      gen le=apply(r2e(extargs,vars,contextptr),at_ln,contextptr);
+      if(lp.type!=_VECT || le.type!=_VECT || lp._VECTptr->size()!=primeargs.size() || le._VECTptr->size()!=extargs.size())return e;
+      const vecteur &lnprimeargs=*lp._VECTptr,&lnextargs=*le._VECTptr;
       vecteur chk(lidnt(lop(lnextargs,at_rootof)));
       if (!chk.empty())
 	return e;
@@ -1977,7 +1985,9 @@ namespace giac {
     vecteur vars(1,cst_pi);
     lvar(newl,vars);
     vecteur ln_vars(lop(newl,at_ln));
-    vecteur independant(*e2r(ln_vars,vars,contextptr)._VECTptr);
+    gen ln_rational=e2r(ln_vars,vars,contextptr);
+    if(ln_rational.type!=_VECT)return e;
+    vecteur independant(*ln_rational._VECTptr);
     int n_ln=int(independant.size());
     independant.push_back(e2r(cst_ipi(),vars,contextptr));
     matrice m;
@@ -1996,6 +2006,8 @@ namespace giac {
     // we do the substitution l by exp[newl] in g
     // and we return normal(g)
     // First make m a rectangular array
+    if(m.empty())return e;
+    for(unsigned j=0;j<m.size();++j)if(m[j].type!=_VECT)return e;
     int c=int(m.back()._VECTptr->size()),r=int(m.size());
     for (int i=0;i<r;++i){
       int ms=int(m[i]._VECTptr->size());
@@ -2443,6 +2455,20 @@ namespace giac {
         if(variables>1 && radical)return ratnormal(e_orig,contextptr);
       }
     }
+    if(taille(e_orig,129)<=128){
+      vecteur angles=lop(e_orig,at_atan);
+      if(angles.size()>1 && !lidnt(angles).empty()){
+        bool reciprocal=false;
+        if(angles.size()==2){
+          const gen &a=angles[0]._SYMBptr->feuille,&b=angles[1]._SYMBptr->feuille;
+          reciprocal=is_zero(im(a,contextptr)) && is_zero(im(b,contextptr)) && is_zero(ratnormal(a*b-1,contextptr));
+        }
+        // The explicit reciprocal pair already excludes its zero/pole.
+        // Other variable atan combinations stay as atoms: logarithmic
+        // branch repair can otherwise create atan(1/x) at a regular x=0.
+        if(!reciprocal)return ratnormal(e_orig,contextptr);
+      }
+    }
     gen e=simplifier(e_orig,contextptr);
     // An algebraic extension for (a+x^(1/q))^(1/p) may have degree p*q.
     // Keep these powers as atoms while simplifying their rational coefficient
@@ -2744,7 +2770,7 @@ namespace giac {
 	}
       }
 #ifdef FXCG
-      if (s1!=2 || !v1[0].is_symb_of_sommet(at_tan) || !v1[1].is_symb_of_sommet(at_tan))
+      if (s1!=2 || v1.size()!=2 || !v1[0].is_symb_of_sommet(at_tan) || !v1[1].is_symb_of_sommet(at_tan))
 #endif
 	g=recursive_normal(trigcos(g,contextptr),contextptr); 
       return quotesubst(g,vabs2,vabs,contextptr);

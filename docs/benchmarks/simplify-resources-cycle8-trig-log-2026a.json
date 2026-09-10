@@ -1,0 +1,326 @@
+{
+  "scope": "Actual repository FXCG simplify and NO_STDEXCEPT. Host Giac dependencies, not SH4 emulation. Isolated raw nesting is constructed and compared on main stack.",
+  "ksubst_sha256": "ed6a15795d6ae8d73d046a41045495add3067dfbbdc32a21815826c4e6b385a0",
+  "runs": [
+    {
+      "id": "isolated-boundary",
+      "eager_binding": false,
+      "exit": 0,
+      "output": "PASS 66 isolated normal/64 KiB calls; raw nesting, simple leaf algebra, mode restoration and recovery\n",
+      "stderr": "CASE 0 6 0\nCASE 0 6 1\nCASE 0 6 2\nCASE 0 14 0\nCASE 0 14 1\nCASE 0 14 2\nCASE 0 15 0\nCASE 0 15 1\nCASE 0 15 2\nCASE 0 16 0\nCASE 0 16 1\nCASE 0 16 2\nCASE 0 24 0\nCASE 0 24 1\nCASE 0 24 2\nCASE 0 33 0\nCASE 0 33 1\nCASE 0 33 2\nCASE 0 64 0\nCASE 0 64 1\nCASE 0 64 2\nCASE 0 128 0\nCASE 0 128 1\nCASE 0 128 2\nCASE 0 256 0\nCASE 0 256 1\nCASE 0 256 2\nCASE 0 512 0\nCASE 0 512 1\nCASE 0 512 2\nCASE 1 6 0\nCASE 1 6 1\nCASE 1 6 2\nCASE 1 14 0\nCASE 1 14 1\nCASE 1 14 2\nCASE 1 15 0\nCASE 1 15 1\nCASE 1 15 2\nCASE 1 16 0\nCASE 1 16 1\nCASE 1 16 2\nCASE 1 24 0\nCASE 1 24 1\nCASE 1 24 2\nCASE 1 33 0\nCASE 1 33 1\nCASE 1 33 2\nCASE 1 64 0\nCASE 1 64 1\nCASE 1 64 2\nCASE 1 128 0\nCASE 1 128 1\nCASE 1 128 2\nCASE 1 256 0\nCASE 1 256 1\nCASE 1 256 2\nCASE 1 512 0\nCASE 1 512 1\nCASE 1 512 2\n:1: syntax error  line 1 col 1 at x in  \n\n:1: syntax error  line 1 col 3 at x in  \n\n:1: syntax error  line 1 col 7 at x in  \n\n:1: syntax error  line 1 col 5 at x in ]\ufffd\ufffdb\ufffda \n\n:1: syntax error  line 1 col 14 at x in \u0001 \n\n"
+    },
+    {
+      "id": "isolated-boundary",
+      "eager_binding": true,
+      "exit": 0,
+      "output": "PASS 66 isolated normal/64 KiB calls; raw nesting, simple leaf algebra, mode restoration and recovery\n",
+      "stderr": "CASE 0 6 0\nCASE 0 6 1\nCASE 0 6 2\nCASE 0 14 0\nCASE 0 14 1\nCASE 0 14 2\nCASE 0 15 0\nCASE 0 15 1\nCASE 0 15 2\nCASE 0 16 0\nCASE 0 16 1\nCASE 0 16 2\nCASE 0 24 0\nCASE 0 24 1\nCASE 0 24 2\nCASE 0 33 0\nCASE 0 33 1\nCASE 0 33 2\nCASE 0 64 0\nCASE 0 64 1\nCASE 0 64 2\nCASE 0 128 0\nCASE 0 128 1\nCASE 0 128 2\nCASE 0 256 0\nCASE 0 256 1\nCASE 0 256 2\nCASE 0 512 0\nCASE 0 512 1\nCASE 0 512 2\nCASE 1 6 0\nCASE 1 6 1\nCASE 1 6 2\nCASE 1 14 0\nCASE 1 14 1\nCASE 1 14 2\nCASE 1 15 0\nCASE 1 15 1\nCASE 1 15 2\nCASE 1 16 0\nCASE 1 16 1\nCASE 1 16 2\nCASE 1 24 0\nCASE 1 24 1\nCASE 1 24 2\nCASE 1 33 0\nCASE 1 33 1\nCASE 1 33 2\nCASE 1 64 0\nCASE 1 64 1\nCASE 1 64 2\nCASE 1 128 0\nCASE 1 128 1\nCASE 1 128 2\nCASE 1 256 0\nCASE 1 256 1\nCASE 1 256 2\nCASE 1 512 0\nCASE 1 512 1\nCASE 1 512 2\n:1: syntax error  line 1 col 1 at x in  \n\n:1: syntax error  line 1 col 3 at x in  \n\n:1: syntax error  line 1 col 7 at x in  \n\n:1: syntax error  line 1 col 5 at x in \ufffd\n\ufffd80_ \n\n:1: syntax error  line 1 col 14 at x in \u0001 \n\n"
+    },
+    {
+      "id": "sin-depth-14",
+      "stack": "normal",
+      "input": "sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(x))))))))))))))",
+      "exit": 0,
+      "result": "sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(x))))))))))))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000289227\nMAX_RSS_KB 64700\n",
+      "pass": true
+    },
+    {
+      "id": "sin-depth-14",
+      "stack": "64",
+      "input": "sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(x))))))))))))))",
+      "exit": 0,
+      "result": "sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(x))))))))))))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000285296\nMAX_RSS_KB 64700\n",
+      "pass": true
+    },
+    {
+      "id": "sin-depth-15",
+      "stack": "normal",
+      "input": "sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(x)))))))))))))))",
+      "exit": 0,
+      "result": "sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(x)))))))))))))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000286906\nMAX_RSS_KB 64700\n",
+      "pass": true
+    },
+    {
+      "id": "sin-depth-15",
+      "stack": "64",
+      "input": "sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(x)))))))))))))))",
+      "exit": 0,
+      "result": "sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(x)))))))))))))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000286546\nMAX_RSS_KB 64700\n",
+      "pass": true
+    },
+    {
+      "id": "sin-depth-16",
+      "stack": "normal",
+      "input": "sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(x))))))))))))))))",
+      "exit": 0,
+      "result": "sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(x))))))))))))))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000288537\nMAX_RSS_KB 64700\n",
+      "pass": true
+    },
+    {
+      "id": "sin-depth-16",
+      "stack": "64",
+      "input": "sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(x))))))))))))))))",
+      "exit": 0,
+      "result": "sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(x))))))))))))))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000302057\nMAX_RSS_KB 64700\n",
+      "pass": true
+    },
+    {
+      "id": "sin-depth-24",
+      "stack": "normal",
+      "input": "sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(x))))))))))))))))))))))))",
+      "exit": 0,
+      "result": "sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(x))))))))))))))))))))))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000290386\nMAX_RSS_KB 64700\n",
+      "pass": true
+    },
+    {
+      "id": "sin-depth-24",
+      "stack": "64",
+      "input": "sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(x))))))))))))))))))))))))",
+      "exit": 0,
+      "result": "sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(x))))))))))))))))))))))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000294617\nMAX_RSS_KB 64700\n",
+      "pass": true
+    },
+    {
+      "id": "sin-depth-33",
+      "stack": "normal",
+      "input": "sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(x)))))))))))))))))))))))))))))))))",
+      "exit": 0,
+      "result": "sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(x)))))))))))))))))))))))))))))))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000296667\nMAX_RSS_KB 64700\n",
+      "pass": true
+    },
+    {
+      "id": "sin-depth-33",
+      "stack": "64",
+      "input": "sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(x)))))))))))))))))))))))))))))))))",
+      "exit": 0,
+      "result": "sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(x)))))))))))))))))))))))))))))))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000303387\nMAX_RSS_KB 64700\n",
+      "pass": true
+    },
+    {
+      "id": "erf-depth-16",
+      "stack": "normal",
+      "input": "erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(x))))))))))))))))",
+      "exit": 0,
+      "result": "erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(x))))))))))))))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000280466\nMAX_RSS_KB 64700\n",
+      "pass": true
+    },
+    {
+      "id": "erf-depth-16",
+      "stack": "64",
+      "input": "erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(x))))))))))))))))",
+      "exit": 0,
+      "result": "erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(x))))))))))))))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000278977\nMAX_RSS_KB 64700\n",
+      "pass": true
+    },
+    {
+      "id": "erf-depth-24",
+      "stack": "normal",
+      "input": "erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(x))))))))))))))))))))))))",
+      "exit": 0,
+      "result": "erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(x))))))))))))))))))))))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000283036\nMAX_RSS_KB 64700\n",
+      "pass": true
+    },
+    {
+      "id": "erf-depth-24",
+      "stack": "64",
+      "input": "erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(x))))))))))))))))))))))))",
+      "exit": 0,
+      "result": "erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(x))))))))))))))))))))))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000293016\nMAX_RSS_KB 64700\n",
+      "pass": true
+    },
+    {
+      "id": "sin-depth-16-cheap-inner-algebra",
+      "stack": "normal",
+      "input": "sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(x+x))))))))))))))))",
+      "exit": 0,
+      "result": "sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(2*x))))))))))))))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000366176\nMAX_RSS_KB 64700\n",
+      "pass": true
+    },
+    {
+      "id": "sin-depth-16-cheap-inner-algebra",
+      "stack": "64",
+      "input": "sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(x+x))))))))))))))))",
+      "exit": 0,
+      "result": "sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(2*x))))))))))))))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000375076\nMAX_RSS_KB 64700\n",
+      "pass": true
+    },
+    {
+      "id": "sin-depth-24-cheap-inner-algebra",
+      "stack": "normal",
+      "input": "sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(x+x))))))))))))))))))))))))",
+      "exit": 0,
+      "result": "sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(2*x))))))))))))))))))))))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000370245\nMAX_RSS_KB 64700\n",
+      "pass": true
+    },
+    {
+      "id": "sin-depth-24-cheap-inner-algebra",
+      "stack": "64",
+      "input": "sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(x+x))))))))))))))))))))))))",
+      "exit": 0,
+      "result": "sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(sin(2*x))))))))))))))))))))))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000337246\nMAX_RSS_KB 64700\n",
+      "pass": true
+    },
+    {
+      "id": "erf-depth-16-cheap-inner-algebra",
+      "stack": "normal",
+      "input": "erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(3*x-2*x))))))))))))))))",
+      "exit": 0,
+      "result": "erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(x))))))))))))))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000301937\nMAX_RSS_KB 64700\n",
+      "pass": true
+    },
+    {
+      "id": "erf-depth-16-cheap-inner-algebra",
+      "stack": "64",
+      "input": "erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(3*x-2*x))))))))))))))))",
+      "exit": 0,
+      "result": "erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(x))))))))))))))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000308326\nMAX_RSS_KB 64700\n",
+      "pass": true
+    },
+    {
+      "id": "erf-depth-24-cheap-inner-algebra",
+      "stack": "normal",
+      "input": "erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(3*x-2*x))))))))))))))))))))))))",
+      "exit": 0,
+      "result": "erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(x))))))))))))))))))))))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000308617\nMAX_RSS_KB 64700\n",
+      "pass": true
+    },
+    {
+      "id": "erf-depth-24-cheap-inner-algebra",
+      "stack": "64",
+      "input": "erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(3*x-2*x))))))))))))))))))))))))",
+      "exit": 0,
+      "result": "erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(erf(x))))))))))))))))))))))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000349496\nMAX_RSS_KB 64700\n",
+      "pass": true
+    },
+    {
+      "id": "nested-vector-40",
+      "stack": "normal",
+      "input": "[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[x+x]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]",
+      "exit": 0,
+      "result": "[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[2*x]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000533194\nMAX_RSS_KB 64700\n",
+      "pass": true
+    },
+    {
+      "id": "nested-vector-40",
+      "stack": "64",
+      "input": "[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[x+x]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]",
+      "exit": 0,
+      "result": "[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[2*x]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000331786\nMAX_RSS_KB 64700\n",
+      "pass": true
+    },
+    {
+      "id": "compact-0",
+      "stack": "normal",
+      "input": "(1+x)^1024/x",
+      "exit": 0,
+      "result": "(1+x)^1024/x",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000279757\nMAX_RSS_KB 64700\n",
+      "pass": true
+    },
+    {
+      "id": "compact-0",
+      "stack": "64",
+      "input": "(1+x)^1024/x",
+      "exit": 0,
+      "result": "(1+x)^1024/x",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000292996\nMAX_RSS_KB 64700\n",
+      "pass": true
+    },
+    {
+      "id": "compact-1",
+      "stack": "normal",
+      "input": "(1+x)^(-1024)",
+      "exit": 0,
+      "result": "(1+x)^-1024",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000265547\nMAX_RSS_KB 64700\n",
+      "pass": true
+    },
+    {
+      "id": "compact-1",
+      "stack": "64",
+      "input": "(1+x)^(-1024)",
+      "exit": 0,
+      "result": "(1+x)^-1024",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000347616\nMAX_RSS_KB 64700\n",
+      "pass": true
+    },
+    {
+      "id": "compact-2",
+      "stack": "normal",
+      "input": "sqrt((x+1)^2048+1)",
+      "exit": 0,
+      "result": "sqrt((x+1)^2048+1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000287667\nMAX_RSS_KB 64700\n",
+      "pass": true
+    },
+    {
+      "id": "compact-2",
+      "stack": "64",
+      "input": "sqrt((x+1)^2048+1)",
+      "exit": 0,
+      "result": "sqrt((x+1)^2048+1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000290886\nMAX_RSS_KB 64700\n",
+      "pass": true
+    },
+    {
+      "id": "compact-3",
+      "stack": "normal",
+      "input": "(1+sin(x))^128",
+      "exit": 0,
+      "result": "(1+sin(x))^128",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000276437\nMAX_RSS_KB 64700\n",
+      "pass": true
+    },
+    {
+      "id": "compact-3",
+      "stack": "64",
+      "input": "(1+sin(x))^128",
+      "exit": 0,
+      "result": "(1+sin(x))^128",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000276627\nMAX_RSS_KB 64700\n",
+      "pass": true
+    },
+    {
+      "id": "compact-4",
+      "stack": "normal",
+      "input": "(x+i)^2048+(x-i)^2048",
+      "exit": 0,
+      "result": "(x+i)^2048+(x-i)^2048",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000282617\nMAX_RSS_KB 64700\n",
+      "pass": true
+    },
+    {
+      "id": "compact-4",
+      "stack": "64",
+      "input": "(x+i)^2048+(x-i)^2048",
+      "exit": 0,
+      "result": "(x+i)^2048+(x-i)^2048",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000472804\nMAX_RSS_KB 64700\n",
+      "pass": true
+    }
+  ]
+}

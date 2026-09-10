@@ -1,0 +1,215 @@
+{
+  "sources": {
+    "generator": "Fresh trig_log_questions_only supplied TL1-TL6 only and ended; root supplied bounded scale/phase variations and verified formulas."
+  },
+  "derivation": "d Im Li2(exp(2iu))/du=-2 Re Log(1-exp(2iu))=-2 ln(2|sin u|); derivative of (u-pi+|u-2pi floor(u/2pi)-pi|)/2 equals 0/1 on positive/negative sine half-periods. Continuous ramp handles crossings.",
+  "cases": [
+    {
+      "id": "TL1",
+      "f": "3*ln((1)*sin((2)*x+(0)))",
+      "expected": "(3)*(x*ln(1/2)-im(Li2(exp(2*i*(((2)*x+(0))))))/(2*(2)))+(3)*i*pi*(((((2)*x+(0)))-pi+abs((((2)*x+(0)))-2*pi*floor((((2)*x+(0)))/(2*pi))-pi))/(2*(2)))",
+      "frequency": "2",
+      "phase": "0",
+      "coefficient": "3",
+      "inside_coefficient": 1,
+      "absolute": false,
+      "cosine": false,
+      "domain": "x real excluding trig zeros; plain log uses principal complex values on negative half-periods",
+      "verification": {
+        "symbolic_proof": "trig-log-clausen"
+      }
+    },
+    {
+      "id": "TL2",
+      "f": "1*ln((1)*cos((3)*x+(1)))",
+      "expected": "(1)*(x*ln(1/2)-im(Li2(exp(2*i*(((3)*x+(1))+pi/2))))/(2*(3)))+(1)*i*pi*(((((3)*x+(1))+pi/2)-pi+abs((((3)*x+(1))+pi/2)-2*pi*floor((((3)*x+(1))+pi/2)/(2*pi))-pi))/(2*(3)))",
+      "frequency": "3",
+      "phase": "1",
+      "coefficient": "1",
+      "inside_coefficient": 1,
+      "absolute": false,
+      "cosine": true,
+      "domain": "x real excluding trig zeros; plain log uses principal complex values on negative half-periods",
+      "verification": {
+        "symbolic_proof": "trig-log-clausen"
+      }
+    },
+    {
+      "id": "TL3",
+      "f": "1*ln((1)*sin((-2)*x+(1)))",
+      "expected": "(1)*(x*ln(1/2)-im(Li2(exp(2*i*(((-2)*x+(1))))))/(2*(-2)))+(1)*i*pi*(((((-2)*x+(1)))-pi+abs((((-2)*x+(1)))-2*pi*floor((((-2)*x+(1)))/(2*pi))-pi))/(2*(-2)))",
+      "frequency": "-2",
+      "phase": "1",
+      "coefficient": "1",
+      "inside_coefficient": 1,
+      "absolute": false,
+      "cosine": false,
+      "domain": "x real excluding trig zeros; plain log uses principal complex values on negative half-periods",
+      "verification": {
+        "symbolic_proof": "trig-log-clausen"
+      }
+    },
+    {
+      "id": "TL4",
+      "f": "1*ln(abs((1)*sin((1)*x+(0))))",
+      "expected": "(1)*(x*ln(1/2)-im(Li2(exp(2*i*(((1)*x+(0))))))/(2*(1)))",
+      "frequency": "1",
+      "phase": "0",
+      "coefficient": "1",
+      "inside_coefficient": 1,
+      "absolute": true,
+      "cosine": false,
+      "domain": "x real excluding trig zeros; plain log uses principal complex values on negative half-periods",
+      "verification": {
+        "symbolic_proof": "trig-log-clausen"
+      }
+    },
+    {
+      "id": "TL5",
+      "f": "2*ln(abs((1)*cos((-3)*x+(1))))",
+      "expected": "(2)*(x*ln(1/2)-im(Li2(exp(2*i*(((-3)*x+(1))+pi/2))))/(2*(-3)))",
+      "frequency": "-3",
+      "phase": "1",
+      "coefficient": "2",
+      "inside_coefficient": 1,
+      "absolute": true,
+      "cosine": true,
+      "domain": "x real excluding trig zeros; plain log uses principal complex values on negative half-periods",
+      "verification": {
+        "symbolic_proof": "trig-log-clausen"
+      }
+    },
+    {
+      "id": "TL6",
+      "f": "ln(sin(x))+ln(sin(x+pi))",
+      "expected": "-2*x*ln(2)-im(Li2(exp(2*i*x)))+i*pi*x",
+      "domain": "No real-log common domain; principal complex logs on x not in pi*Z",
+      "components": [
+        "TL4"
+      ],
+      "verification": {
+        "symbolic_proof": "trig-log-clausen"
+      }
+    },
+    {
+      "id": "shift-abs-1",
+      "f": "2*ln(abs((3)*sin((1)*x+(pi/3))))",
+      "expected": "(2)*(x*ln(3/2)-im(Li2(exp(2*i*(((1)*x+(pi/3))))))/(2*(1)))",
+      "frequency": "1",
+      "phase": "pi/3",
+      "coefficient": "2",
+      "inside_coefficient": 3,
+      "absolute": true,
+      "cosine": false,
+      "domain": "x real excluding trig zeros; plain log uses principal complex values on negative half-periods",
+      "verification": {
+        "symbolic_proof": "trig-log-clausen"
+      }
+    },
+    {
+      "id": "shift-principal-1",
+      "f": "-2*ln((-3)*cos((1)*x+(pi/3)))",
+      "expected": "(-2)*(x*ln(3/2)-im(Li2(exp(2*i*(((1)*x+(pi/3))+pi/2+pi))))/(2*(1)))+(-2)*i*pi*(((((1)*x+(pi/3))+pi/2+pi)-pi+abs((((1)*x+(pi/3))+pi/2+pi)-2*pi*floor((((1)*x+(pi/3))+pi/2+pi)/(2*pi))-pi))/(2*(1)))",
+      "frequency": "1",
+      "phase": "pi/3",
+      "coefficient": "-2",
+      "inside_coefficient": -3,
+      "absolute": false,
+      "cosine": true,
+      "domain": "x real excluding trig zeros; plain log uses principal complex values on negative half-periods",
+      "verification": {
+        "symbolic_proof": "trig-log-clausen"
+      }
+    },
+    {
+      "id": "shift-abs--1",
+      "f": "2*ln(abs((3)*sin((-1)*x+(-2))))",
+      "expected": "(2)*(x*ln(3/2)-im(Li2(exp(2*i*(((-1)*x+(-2))))))/(2*(-1)))",
+      "frequency": "-1",
+      "phase": "-2",
+      "coefficient": "2",
+      "inside_coefficient": 3,
+      "absolute": true,
+      "cosine": false,
+      "domain": "x real excluding trig zeros; plain log uses principal complex values on negative half-periods",
+      "verification": {
+        "symbolic_proof": "trig-log-clausen"
+      }
+    },
+    {
+      "id": "shift-principal--1",
+      "f": "-2*ln((-3)*cos((-1)*x+(-2)))",
+      "expected": "(-2)*(x*ln(3/2)-im(Li2(exp(2*i*(((-1)*x+(-2))+pi/2+pi))))/(2*(-1)))+(-2)*i*pi*(((((-1)*x+(-2))+pi/2+pi)-pi+abs((((-1)*x+(-2))+pi/2+pi)-2*pi*floor((((-1)*x+(-2))+pi/2+pi)/(2*pi))-pi))/(2*(-1)))",
+      "frequency": "-1",
+      "phase": "-2",
+      "coefficient": "-2",
+      "inside_coefficient": -3,
+      "absolute": false,
+      "cosine": true,
+      "domain": "x real excluding trig zeros; plain log uses principal complex values on negative half-periods",
+      "verification": {
+        "symbolic_proof": "trig-log-clausen"
+      }
+    },
+    {
+      "id": "shift-abs-7",
+      "f": "2*ln(abs((3)*sin((7)*x+(3*pi/2))))",
+      "expected": "(2)*(x*ln(3/2)-im(Li2(exp(2*i*(((7)*x+(3*pi/2))))))/(2*(7)))",
+      "frequency": "7",
+      "phase": "3*pi/2",
+      "coefficient": "2",
+      "inside_coefficient": 3,
+      "absolute": true,
+      "cosine": false,
+      "domain": "x real excluding trig zeros; plain log uses principal complex values on negative half-periods",
+      "verification": {
+        "symbolic_proof": "trig-log-clausen"
+      }
+    },
+    {
+      "id": "shift-principal-7",
+      "f": "-2*ln((-3)*cos((7)*x+(3*pi/2)))",
+      "expected": "(-2)*(x*ln(3/2)-im(Li2(exp(2*i*(((7)*x+(3*pi/2))+pi/2+pi))))/(2*(7)))+(-2)*i*pi*(((((7)*x+(3*pi/2))+pi/2+pi)-pi+abs((((7)*x+(3*pi/2))+pi/2+pi)-2*pi*floor((((7)*x+(3*pi/2))+pi/2+pi)/(2*pi))-pi))/(2*(7)))",
+      "frequency": "7",
+      "phase": "3*pi/2",
+      "coefficient": "-2",
+      "inside_coefficient": -3,
+      "absolute": false,
+      "cosine": true,
+      "domain": "x real excluding trig zeros; plain log uses principal complex values on negative half-periods",
+      "verification": {
+        "symbolic_proof": "trig-log-clausen"
+      }
+    },
+    {
+      "id": "shift-abs-1/3",
+      "f": "2*ln(abs((3)*sin((1/3)*x+(-pi/7))))",
+      "expected": "(2)*(x*ln(3/2)-im(Li2(exp(2*i*(((1/3)*x+(-pi/7))))))/(2*(1/3)))",
+      "frequency": "1/3",
+      "phase": "-pi/7",
+      "coefficient": "2",
+      "inside_coefficient": 3,
+      "absolute": true,
+      "cosine": false,
+      "domain": "x real excluding trig zeros; plain log uses principal complex values on negative half-periods",
+      "verification": {
+        "symbolic_proof": "trig-log-clausen"
+      }
+    },
+    {
+      "id": "shift-principal-1/3",
+      "f": "-2*ln((-3)*cos((1/3)*x+(-pi/7)))",
+      "expected": "(-2)*(x*ln(3/2)-im(Li2(exp(2*i*(((1/3)*x+(-pi/7))+pi/2+pi))))/(2*(1/3)))+(-2)*i*pi*(((((1/3)*x+(-pi/7))+pi/2+pi)-pi+abs((((1/3)*x+(-pi/7))+pi/2+pi)-2*pi*floor((((1/3)*x+(-pi/7))+pi/2+pi)/(2*pi))-pi))/(2*(1/3)))",
+      "frequency": "1/3",
+      "phase": "-pi/7",
+      "coefficient": "-2",
+      "inside_coefficient": -3,
+      "absolute": false,
+      "cosine": true,
+      "domain": "x real excluding trig zeros; plain log uses principal complex values on negative half-periods",
+      "verification": {
+        "symbolic_proof": "trig-log-clausen"
+      }
+    }
+  ]
+}

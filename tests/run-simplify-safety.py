@@ -32,11 +32,11 @@ with tempfile.TemporaryDirectory(prefix='khicas-simplify-safety-') as tmp:
     report['stale_trig_count_checked_access']='passed (0, 1 and 2 actual trig nodes)'
     exe=args.probe or build(d/'probe',target_simplify=True)
     cases=[
-        ('reported','simplify(integrate(3*ln(sin(2*x)),x))',2),
-        ('implicit-products','simplify(integrate(3ln(sin(2x))))',2),
-        ('cosine-shift','simplify(integrate(ln(cos(3*x+1)),x))',2),
-        ('absolute-log','simplify(integrate(ln(abs(sin(2*x))),x))',2),
-        ('preserved-derivative','simplify(diff(simplify(integrate(3*ln(sin(2*x)),x)),x)-3*ln(sin(2*x)))',0),
+        ('reported','simplify(integrate(3*ln(sin(2*x)),x))','closed'),
+        ('implicit-products','simplify(integrate(3ln(sin(2x))))','closed'),
+        ('cosine-shift','simplify(integrate(ln(cos(3*x+1)),x))','closed'),
+        ('absolute-log','simplify(integrate(ln(abs(sin(2*x))),x))','closed'),
+        ('closed-absolute-derivative','simplify(diff(simplify(integrate(ln(abs(sin(x))),x)),x)-ln(abs(sin(x))))',0),
         ('elementary-log','simplify(diff(integrate(ln(x),x),x)-ln(x))',0),
         ('definite-log-sine','simplify(integrate(3*ln(sin(2*x)),x,0,pi/2)+3*pi*ln(2)/2)',0),
         ('weighted-definite','simplify(integrate(x*ln(sin(x)),x,0,pi)+pi^2*ln(2)/2)',0),
@@ -51,8 +51,9 @@ with tempfile.TemporaryDirectory(prefix='khicas-simplify-safety-') as tmp:
                  'result':result.stdout.strip(),'stderr':result.stderr}
             report['runs'].append(row)
             args.report.write_text(json.dumps(report,indent=2,ensure_ascii=False)+'\n')
-            assert result.returncode==status,row
+            assert result.returncode==(0 if status=='closed' else status),row
             if status==0:assert result.stdout.strip()=='0',row
+            elif status=='closed':assert 'integrate(' not in result.stdout and 'Li2(' in result.stdout,row
             else:assert 'integrate(' in result.stdout,row
             print(name,stack,'PASS',flush=True)
-print('PASS: target simplification bounds, preserved integrals and guarded computation stack')
+print('PASS: target simplification bounds, closed trigonometric-log integrals and guarded computation stack')

@@ -79,7 +79,11 @@ def build(directory, ref='current', target_simplify=False):
                 simplified+=function(s,'  static bool simplify_preflight(')+function(s,'  static gen simplify_shallow_leaf(')
             simplified+=function(s, '  static unsigned simplify_special_terms(')
             simplified+=function(s, '  static gen simplify_special_core(')
-        for sig in ('  gen tsimplify_noexpln(',
+        simplified+=function(source(ref,'kusual.cc'),'  gen expi(')
+        simplified+='static gen cst_ipi(){return cst_pi*cst_i;}\n'  # newer constant accessor, same exact value on the older host ABI
+        for sig in ('  static gen rewrite_strong_exp(', '  static bool ext_relation(', '  gen simplifypsi(', '  static void decompose(', '  static gen branch_evalf(', '  static gen expanded_ln(',
+                    '  static gen simplifylnarg(', '  static gen simplifylnexp(', '  gen tsimplify_common(',
+                    '  gen tsimplify_noexpln(',
                     '  gen simplify(const gen & e_orig,GIAC_CONTEXT)', '  gen _simplify('):
             simplified+=function(s, sig)
         (directory / 'simplify.cc').write_text(simplified+'}\n')

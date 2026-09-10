@@ -3246,6 +3246,53 @@ namespace giac {
     return true;
   }
 
+  // On each real interval avoiding sine zeros, the imaginary part of
+  // Li2(exp(2*i*u)) differentiates to -2*log(2*abs(sin(u))).
+  // The periodic ramp adds the principal-log imaginary part on negative
+  // sine half-periods, so plain log(sin) is not changed into log(abs(sin)).
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static bool integrate_log_trig_primitive(const gen &e,const gen &x,gen &res,GIAC_CONTEXT){
+    if(!angle_radian(contextptr) || taille(e,65)>64)return false;
+    if(e.is_symb_of_sommet(at_plus) && e._SYMBptr->feuille.type==_VECT){
+      const vecteur &terms=*e._SYMBptr->feuille._VECTptr;
+      if(terms.size()>4)return false;
+      gen total=0;
+      for(unsigned j=0;j<terms.size();++j){
+        gen t=terms[j],c=integration_coefficient(t,x,contextptr),primitive;
+        if(!integration_resource_rational(c) || !integrate_log_trig_primitive(t,x,primitive,contextptr))return false;
+        total+=c*primitive;
+      }
+      res=total;return true;
+    }
+    if(!e.is_symb_of_sommet(at_ln))return false;
+    gen f=e._SYMBptr->feuille,c=integration_coefficient(f,x,contextptr),u,a,b;
+    bool absolute=f.is_symb_of_sommet(at_abs);
+    if(absolute){
+      if(!is_strictly_positive(c,contextptr))return false;
+      f=gen(f._SYMBptr->feuille);c=c*integration_coefficient(f,x,contextptr);
+      c=abs(c,contextptr);
+    }
+    if(!integration_resource_rational(c) || is_zero(c) ||
+       (!f.is_symb_of_sommet(at_sin) && !f.is_symb_of_sommet(at_cos)))return false;
+    u=f._SYMBptr->feuille;
+    if(!is_linear_wrt(u,x,a,b,contextptr) || !integration_resource_rational(a) || is_zero(a))return false;
+    // Phase constants can be rational plus a rational multiple of pi.
+    gen pa,pb;
+    if(!is_linear_wrt(b,cst_pi,pa,pb,contextptr) || !integration_resource_rational(pa) || !integration_resource_rational(pb))return false;
+    if(f.is_symb_of_sommet(at_cos))u+=cst_pi/2;
+    if(is_strictly_positive(-c,contextptr)){c=-c;u+=cst_pi;}
+    gen dilog=symbolic(at_Li2,exp(2*cst_i*u,contextptr));
+    res=x*ln(c/2,contextptr)-gen(symbolic(at_im,dilog))/(2*a);
+    if(!absolute){
+      gen n=symbolic(at_floor,u/(2*cst_pi)),r=u-2*cst_pi*n-cst_pi;
+      gen ramp=(u-cst_pi+gen(symbolic(at_abs,r)))/2;
+      res+=cst_i*cst_pi*ramp/a;
+    }
+    return true;
+  }
+
 #if defined(__GNUC__) && !defined(__clang__)
   __attribute__((noinline,optimize("Os")))
 #endif
@@ -3255,7 +3302,8 @@ namespace giac {
     gen p;
     if (!is_undef(c) && !is_inf(c) && integrate_high_frequency_trig(e,x,p,contextptr)){res=c*p;return true;}
     if (!integration_rational(c)) return false;
-    if (!integrate_dilog_primitive(e,x,p,contextptr) &&
+    if (!integrate_log_trig_primitive(e,x,p,contextptr) &&
+        !integrate_dilog_primitive(e,x,p,contextptr) &&
         !integrate_composed_binomial(e,x,p,contextptr) &&
         !integrate_binomial_chain(e,x,p,false,contextptr) &&
         !integrate_reciprocal_quartic(e,x,p,contextptr) && !integrate_quartic_trig(e,x,p,contextptr)) return false;

@@ -45,6 +45,9 @@ with tempfile.TemporaryDirectory(prefix='khicas-user-challenge-') as tmp:
                     elif case.get('verification',{}).get('symbolic_proof')=='dilogarithm':
                         from dilogarithm_reference import verify_dilogarithm_reference
                         row['validation']=verify_dilogarithm_reference(case,row['result'])
+                    elif case.get('verification',{}).get('symbolic_proof')=='trig-log-clausen':
+                        from trig_log_reference import verify_trig_log_reference
+                        row['validation']=verify_trig_log_reference(case,row['result'])
                     else:
                         check=subprocess.run([str(validator),row['result']]+verification,
                                              capture_output=True,text=True,timeout=30)
