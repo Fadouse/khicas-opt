@@ -2,6 +2,7 @@
 #define STATIC_EXTERN
 namespace giac{
 struct unary_function_ptr;
+extern const unary_function_ptr * const at_Li2;
 extern const unary_function_ptr * const at_cart2param;
 extern const unary_function_ptr * const at_cart2polar;
 extern const unary_function_ptr * const at_param2cart;

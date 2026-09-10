@@ -4,7 +4,7 @@ from pathlib import Path
 import os, shlex, subprocess, tempfile
 from integration_build import ROOT, function
 s=(ROOT/'yintg.cc').read_text()
-text='#include "giacPCH.h"\nnamespace giac {\ngen linear_integrate_nostep(const gen &,const gen &,gen &,int,GIAC_CONTEXT);\n'
+text='#include "giacPCH.h"\n#include "'+str(ROOT/'dilogarithm.h')+'"\nnamespace giac {\ngen linear_integrate_nostep(const gen &,const gen &,gen &,int,GIAC_CONTEXT);\n'
 for sig in ('  void decompose_prod(', '  gen extract_cst(',
             '  static bool small_polynomial(', '  static bool small_sparse_polynomial(',
             '  static bool integration_rational(', '  static gen integration_syntax(',
@@ -12,7 +12,7 @@ for sig in ('  void decompose_prod(', '  gen extract_cst(',
             '  static bool integration_one_plus(', '  static gen integration_coefficient(',
             '  static bool integration_monomial(', '  static bool integrate_binomial_chain(',
             '  static bool integration_quadratic(', '  static bool integrate_reciprocal_quartic(',
-            '  static bool integrate_quartic_trig(', '  static bool integrate_high_frequency_trig(', '  static bool integration_resource_rational(', '  static bool integrate_composed_binomial(', '  static bool integrate_compact_primitive(',
+            '  static bool integrate_quartic_trig(', '  static bool integrate_high_frequency_trig(', '  static bool integration_resource_rational(', '  static bool integrate_composed_binomial(', '  static bool integration_dilog_form(', '  static bool integrate_dilog_primitive(', '  static bool integrate_compact_primitive(',
             '  static bool integrate_sine_dirichlet(', '  static bool integrate_logistic_moment(',
             '  static bool integrate_weighted_reflection(', '  static bool integrate_decay_transform(',
             '  static bool integration_square_root(', '  static bool integrate_atan_square(',
@@ -58,7 +58,7 @@ for sig in ('  void decompose_prod(', '  gen extract_cst(',
             '  static bool integration_scaled_chain_terms(',
             '  static bool integrate_monomial_gaussian_erf(',
             '  static bool integrate_atan_cauchy_power(',
-            '  static bool integrate_exponential_beta(', '  static bool integrate_complementary_ratio(', '  static bool integrate_cauchy_fourier(', '  static bool integrate_unit_log_arc(', '  static bool integrate_positive_cosine_kernel(', '  static bool integrate_compact_definite(',
+            '  static bool integrate_exponential_beta(', '  static bool integrate_complementary_ratio(', '  static bool integrate_cauchy_fourier(', '  static bool integrate_unit_log_arc(', '  static bool integrate_positive_cosine_kernel(', '  static bool integrate_dilog_definite(', '  static bool integrate_compact_definite(',
             '  static bool integrate_real_root(', '  static bool integrate_residue_kernel(',
             '  bool integration_rational_tail(', '  static bool integration_finite_poly_add(',
             '  static bool integration_finite_poly_product(',
@@ -75,6 +75,6 @@ with tempfile.TemporaryDirectory(prefix='khicas-real-definite-') as tmp:
     flags=[os.environ.get('CXX','c++'),'-std=c++11','-O2','-DHAVE_CONFIG_H','-DGIAC_GENERIC_CONSTANTS','-Wno-deprecated-declarations','-I',os.environ.get('GIAC_INCLUDE','/usr/include/giac')]+shlex.split(os.environ.get('CXXFLAGS',''))
     libs=shlex.split(os.environ.get('LDFLAGS',''))+['-lgiac']+shlex.split(os.environ.get('GIAC_NUMERIC_LIBS','-lgmp -lmpfr'))
     for test in ('real_definite.cc','compact_integrals.cc','cycle1_integrals.cc','cycle2_integrals.cc','user_extra_integrals.cc',
-                 'cycle3_laplace_integrals.cc','user_matrix_rules.cc','user_matrix_next_rules.cc','parameter_kernel_rules.cc'):
+                 'cycle3_laplace_integrals.cc','user_matrix_rules.cc','user_matrix_next_rules.cc','parameter_kernel_rules.cc','dilogarithm_rules.cc'):
         subprocess.run(flags+[str(p/'rules.cc'),str(ROOT/'tests'/test)]+libs+['-pthread','-o',str(p/'test')],check=True)
         subprocess.run([str(p/'test')],check=True,timeout=60)

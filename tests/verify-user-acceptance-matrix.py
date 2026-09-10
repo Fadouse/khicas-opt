@@ -38,7 +38,7 @@ for row in data['runs']:
      delta=sp.factor(delta)
     ok=sp.simplify(delta)==0;method='exact symbolic value identity under the stated real assumptions'
    else:
-    f=parse(c['f']);delta=sp.diff(actual,x)-f;rd=sp.diff(expected,x)-f
+    f=parse(c['f']);delta=sp.expand_func(sp.diff(actual,x))-f;rd=sp.expand_func(sp.diff(expected,x))-f
     # Ordinary derivatives are checked on open domain intervals. A1's zero
     # is separately checked by the vanishing difference quotient below.
     delta=delta.replace(sp.DiracDelta,lambda *args:sp.S.Zero)

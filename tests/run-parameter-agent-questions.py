@@ -31,5 +31,5 @@ for c in cases:
      assert r.returncode==0;assert sp.simplify(parse(row['result'])-parse(c['expected']))==0;row['status']='exact'
    except Exception as error:row['status']='unresolved-or-failed';row['verification_error']=repr(error)
    rows.append(row)
-a.report.write_text(json.dumps({'scope':'Root independently verifies whole-pipeline answers and complex condition predicates for eight agent-generated cases. A remaining unevaluated integral is not a pass.','corpus_sha256':hashlib.sha256(cp.read_bytes()).hexdigest(),'source_sha256':{n:hashlib.sha256((root/n).read_bytes()).hexdigest() for n in ['yintg.cc','ksubst.cc']},'runs':rows},indent=2)+'\n')
+a.report.write_text(json.dumps({'scope':'Root independently verifies whole-pipeline answers and complex condition predicates for eight agent-generated cases. A remaining unevaluated integral is not a pass.','corpus_sha256':hashlib.sha256(cp.read_bytes()).hexdigest(),'source_sha256':{n:hashlib.sha256((root/n).read_bytes()).hexdigest() for n in ['yintg.cc','ksubst.cc','dilogarithm.h']},'runs':rows},indent=2)+'\n')
 for c in cases:print(c['id'],sorted({r['status'] for r in rows if r['id']==c['id']}))

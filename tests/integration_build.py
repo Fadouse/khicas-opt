@@ -53,6 +53,8 @@ def build(directory, ref='current', target_simplify=False):
     (directory / 'zintgab.cc').write_text(source(ref, 'zintgab.cc'))
     if '#include "integration_guard.h"' in text:
         (directory / 'integration_guard.h').write_text(source(ref, 'integration_guard.h'))
+    if '#include "dilogarithm.h"' in text:
+        (directory / 'dilogarithm.h').write_text(source(ref, 'dilogarithm.h'))
     syms = source(ref, 'ysym2poly.cc')
     normalized = '#include "giacPCH.h"\nnamespace giac {\n'
     for sig in ('  static bool sort_func(', '  static vecteur sort1(',

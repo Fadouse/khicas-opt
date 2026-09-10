@@ -1,0 +1,64 @@
+{
+  "source": "Fresh li2_questions_only agent, questions only; generator ended after delivery. Root implements and verifies.",
+  "cases": [
+    {
+      "id": "L1",
+      "f": "ln(1+x)/x",
+      "expected": "-Li2(-x)",
+      "domain": "x>0"
+    },
+    {
+      "id": "L2",
+      "f": "ln(x)/(1-x)",
+      "expected": "Li2(1-x)",
+      "domain": "x>0, x!=1; separate real intervals"
+    },
+    {
+      "id": "L3",
+      "f": "ln(1-exp(-x))",
+      "expected": "Li2(exp(-x))",
+      "domain": "x>0"
+    },
+    {
+      "id": "L4",
+      "f": "ln(1-x)/(x*(1-x))",
+      "expected": "-Li2(x)-ln(1-x)^2/2",
+      "domain": "0<x<1"
+    },
+    {
+      "id": "L5",
+      "f": "ln(1-x)/x",
+      "bounds": [
+        "0",
+        "1"
+      ],
+      "expected": "-pi^2/6"
+    },
+    {
+      "id": "L6",
+      "f": "ln(1+x)/x",
+      "bounds": [
+        "0",
+        "1"
+      ],
+      "expected": "pi^2/12"
+    },
+    {
+      "id": "L7",
+      "type": "branch-limit",
+      "input": "Li2(2+i*epsilon), Li2(2-i*epsilon)",
+      "domain": "epsilon>0 tending to zero",
+      "expected": "pi^2/4+i*pi*ln(2), pi^2/4-i*pi*ln(2)"
+    },
+    {
+      "id": "L8",
+      "f": "ln(1+x)/x^2",
+      "bounds": [
+        "0",
+        "1"
+      ],
+      "expected": "+infinity",
+      "type": "divergence"
+    }
+  ]
+}

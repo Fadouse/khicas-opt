@@ -36,7 +36,7 @@ cases=json.loads((ROOT/'tests/user-integrals.json').read_text())
 report={'base_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
         'scope':'actual yintg, zintgab and normalization; other dependencies including outer simplify are host Giac; not CG50 timings',
         'validation_probe_sha256':hashlib.sha256((ROOT/'tests/integration_probe.cc').read_bytes()).hexdigest(),
-          'source_sha256':{n:hashlib.sha256((ROOT/n).read_bytes()).hexdigest() for n in ('yintg.cc','zintgab.cc','ysym2poly.cc','integration_guard.h')},
+          'source_sha256':{n:hashlib.sha256((ROOT/n).read_bytes()).hexdigest() for n in ('yintg.cc','zintgab.cc','ysym2poly.cc','integration_guard.h','dilogarithm.h')},
         'timeout_seconds':30,'virtual_address_limit_MiB':768,'cases':[]}
 report['stack_test']='64 KiB guarded pthread computation stack; process/library startup uses normal stack'
 report['validation_scope']='same probe process; host Giac outer simplify and repository normalization'

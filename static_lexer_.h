@@ -7,6 +7,7 @@ at_Heaviside,
 at_Kronecker,
 #endif
 at_LambertW,
+at_Li2,
 at_Si,
 at_a2q,
 at_abcuv,

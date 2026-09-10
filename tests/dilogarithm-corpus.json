@@ -1,0 +1,299 @@
+{
+  "sources": {
+    "questions": "tests/dilogarithm-agent-questions.json",
+    "variants": "Root derived monomial/affine/exponential pullbacks and endpoint variants"
+  },
+  "cases": [
+    {
+      "id": "L1",
+      "f": "ln(1+x)/x",
+      "expected": "-Li2(-x)",
+      "domain": "x>0",
+      "verification": {
+        "symbolic_proof": "dilogarithm"
+      }
+    },
+    {
+      "id": "L2",
+      "f": "ln(x)/(1-x)",
+      "expected": "Li2(1-x)",
+      "domain": "x>0, x!=1; separate real intervals",
+      "verification": {
+        "symbolic_proof": "dilogarithm"
+      }
+    },
+    {
+      "id": "L3",
+      "f": "ln(1-exp(-x))",
+      "expected": "Li2(exp(-x))",
+      "domain": "x>0",
+      "verification": {
+        "symbolic_proof": "dilogarithm"
+      }
+    },
+    {
+      "id": "L4",
+      "f": "ln(1-x)/(x*(1-x))",
+      "expected": "-Li2(x)-ln(1-x)^2/2",
+      "domain": "0<x<1",
+      "verification": {
+        "symbolic_proof": "dilogarithm"
+      }
+    },
+    {
+      "id": "L5",
+      "f": "ln(1-x)/x",
+      "bounds": [
+        "0",
+        "1"
+      ],
+      "expected": "-pi^2/6",
+      "verification": {
+        "symbolic_proof": "dilogarithm"
+      }
+    },
+    {
+      "id": "L6",
+      "f": "ln(1+x)/x",
+      "bounds": [
+        "0",
+        "1"
+      ],
+      "expected": "pi^2/12",
+      "verification": {
+        "symbolic_proof": "dilogarithm"
+      }
+    },
+    {
+      "id": "Q6",
+      "f": "ln(1-x^2)/x",
+      "expected": "-Li2(x^2)/2",
+      "domain": "0<x<1",
+      "verification": {
+        "symbolic_proof": "dilogarithm"
+      }
+    },
+    {
+      "id": "power-2",
+      "f": "ln(1-x^2)/x",
+      "expected": "-Li2(x^2)/2",
+      "domain": "0<x<1",
+      "verification": {
+        "symbolic_proof": "dilogarithm"
+      }
+    },
+    {
+      "id": "power-plus-2",
+      "f": "3*ln(1+2*x^2)/x",
+      "expected": "-3*Li2(-2*x^2)/2",
+      "domain": "x>0",
+      "verification": {
+        "symbolic_proof": "dilogarithm"
+      }
+    },
+    {
+      "id": "endpoint-2",
+      "f": "ln(1-x^2)/x",
+      "bounds": [
+        "0",
+        "1"
+      ],
+      "expected": "-pi^2/12",
+      "verification": {
+        "symbolic_proof": "dilogarithm"
+      }
+    },
+    {
+      "id": "power-3",
+      "f": "ln(1-x^3)/x",
+      "expected": "-Li2(x^3)/3",
+      "domain": "0<x<1",
+      "verification": {
+        "symbolic_proof": "dilogarithm"
+      }
+    },
+    {
+      "id": "power-plus-3",
+      "f": "3*ln(1+2*x^3)/x",
+      "expected": "-3*Li2(-2*x^3)/3",
+      "domain": "x>0",
+      "verification": {
+        "symbolic_proof": "dilogarithm"
+      }
+    },
+    {
+      "id": "endpoint-3",
+      "f": "ln(1-x^3)/x",
+      "bounds": [
+        "0",
+        "1"
+      ],
+      "expected": "-pi^2/18",
+      "verification": {
+        "symbolic_proof": "dilogarithm"
+      }
+    },
+    {
+      "id": "power-7",
+      "f": "ln(1-x^7)/x",
+      "expected": "-Li2(x^7)/7",
+      "domain": "0<x<1",
+      "verification": {
+        "symbolic_proof": "dilogarithm"
+      }
+    },
+    {
+      "id": "power-plus-7",
+      "f": "3*ln(1+2*x^7)/x",
+      "expected": "-3*Li2(-2*x^7)/7",
+      "domain": "x>0",
+      "verification": {
+        "symbolic_proof": "dilogarithm"
+      }
+    },
+    {
+      "id": "endpoint-7",
+      "f": "ln(1-x^7)/x",
+      "bounds": [
+        "0",
+        "1"
+      ],
+      "expected": "-pi^2/42",
+      "verification": {
+        "symbolic_proof": "dilogarithm"
+      }
+    },
+    {
+      "id": "power-16",
+      "f": "ln(1-x^16)/x",
+      "expected": "-Li2(x^16)/16",
+      "domain": "0<x<1",
+      "verification": {
+        "symbolic_proof": "dilogarithm"
+      }
+    },
+    {
+      "id": "power-plus-16",
+      "f": "3*ln(1+2*x^16)/x",
+      "expected": "-3*Li2(-2*x^16)/16",
+      "domain": "x>0",
+      "verification": {
+        "symbolic_proof": "dilogarithm"
+      }
+    },
+    {
+      "id": "endpoint-16",
+      "f": "ln(1-x^16)/x",
+      "bounds": [
+        "0",
+        "1"
+      ],
+      "expected": "-pi^2/96",
+      "verification": {
+        "symbolic_proof": "dilogarithm"
+      }
+    },
+    {
+      "id": "fractional",
+      "f": "ln(1-sqrt(x))/x",
+      "expected": "-2*Li2(sqrt(x))",
+      "domain": "0<x<1",
+      "verification": {
+        "symbolic_proof": "dilogarithm"
+      }
+    },
+    {
+      "id": "negative-power",
+      "f": "ln(1-1/x)/x",
+      "expected": "Li2(1/x)",
+      "domain": "x>1",
+      "verification": {
+        "symbolic_proof": "dilogarithm"
+      }
+    },
+    {
+      "id": "shifted",
+      "f": "ln(3-2*x)/(2*x-2)",
+      "expected": "-Li2(2*x-2)/2",
+      "domain": "1<x<3/2",
+      "verification": {
+        "symbolic_proof": "dilogarithm"
+      }
+    },
+    {
+      "id": "shifted-square",
+      "f": "ln(3-2*x)/((2*x-2)*(3-2*x))",
+      "expected": "-Li2(2*x-2)/2-ln(3-2*x)^2/4",
+      "domain": "1<x<3/2",
+      "verification": {
+        "symbolic_proof": "dilogarithm"
+      }
+    },
+    {
+      "id": "exponential-scaled",
+      "f": "5*ln(1-exp(-3*x))",
+      "expected": "5*Li2(exp(-3*x))/3",
+      "domain": "x>0",
+      "verification": {
+        "symbolic_proof": "dilogarithm"
+      }
+    },
+    {
+      "id": "exponential-plus",
+      "f": "ln(1+2*exp(3*x))",
+      "expected": "-Li2(-2*exp(3*x))/3",
+      "domain": "x real",
+      "verification": {
+        "symbolic_proof": "dilogarithm"
+      }
+    },
+    {
+      "id": "half-endpoint",
+      "f": "ln(1-x)/x",
+      "bounds": [
+        "0",
+        "1/2"
+      ],
+      "expected": "ln(2)^2/2-pi^2/12",
+      "verification": {
+        "symbolic_proof": "dilogarithm"
+      }
+    },
+    {
+      "id": "reverse-endpoint",
+      "f": "ln(1+x)/x",
+      "bounds": [
+        "1",
+        "0"
+      ],
+      "expected": "-pi^2/12",
+      "verification": {
+        "symbolic_proof": "dilogarithm"
+      }
+    },
+    {
+      "id": "negative-argument-endpoint",
+      "f": "ln(1+2*x)/x",
+      "bounds": [
+        "0",
+        "1"
+      ],
+      "expected": "-Li2(-2)",
+      "verification": {
+        "symbolic_proof": "dilogarithm"
+      }
+    },
+    {
+      "id": "finite-exponential",
+      "f": "ln(1-exp(-x))",
+      "bounds": [
+        "0",
+        "1"
+      ],
+      "expected": "Li2(exp(-1))-pi^2/6",
+      "verification": {
+        "symbolic_proof": "dilogarithm"
+      }
+    }
+  ]
+}

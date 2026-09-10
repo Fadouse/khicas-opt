@@ -51,6 +51,7 @@ using namespace std;
 #include "rpn.h"
 #include "modpoly.h"
 #include "giacintl.h"
+#include "dilogarithm.h"
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -3182,6 +3183,69 @@ namespace giac {
     return false;
   }
 
+  // Read a bounded pullback of log(1-u)*du/u, optionally divided by
+  // (1-u). Monomial, affine and exponential substitutions stay factored.
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static bool integration_dilog_form(const gen &e,const gen &x,gen &u,gen &scale,bool &extra,GIAC_CONTEXT){
+    if(taille(e,97)>96)return false;
+    gen f=e,coefficient=integration_coefficient(f,x,contextptr),weight=1,argument;
+    if(!integration_resource_rational(coefficient))return false;
+    vecteur v=f.is_symb_of_sommet(at_prod) && f._SYMBptr->feuille.type==_VECT?*f._SYMBptr->feuille._VECTptr:vecteur(1,f);
+    if(v.size()>4)return false;
+    bool found=false;extra=false;
+    for(unsigned i=0;i<v.size();++i){
+      if(v[i].is_symb_of_sommet(at_ln)){if(found)return false;found=true;argument=v[i]._SYMBptr->feuille;}
+      else weight=weight*v[i];
+    }
+    if(!found)return false;
+    gen other,a,b;
+    if(integration_one_plus(argument,other))u=-other;
+    else {
+      if(!is_linear_wrt(argument,x,a,b,contextptr) || !integration_resource_rational(a) || !integration_resource_rational(b) || is_zero(a))return false;
+      u=1-argument;
+    }
+    // The extra logarithmic pole has a separate log-square primitive.
+    vecteur weights=weight.is_symb_of_sommet(at_prod) && weight._SYMBptr->feuille.type==_VECT?*weight._SYMBptr->feuille._VECTptr:vecteur(1,weight);
+    weight=1;
+    for(unsigned i=0;i<weights.size();++i){
+      gen base;
+      if(!extra && integration_power(weights[i],base,-1) && base==argument)extra=true;
+      else weight=weight*weights[i];
+    }
+    gen c,q,w,n;
+    if(integration_monomial(u,x,c,q,contextptr) && integration_resource_rational(c) && !is_zero(c) &&
+       integration_resource_rational(q) && !is_zero(q) && !is_strictly_greater(abs(q,contextptr),32,contextptr)){
+      if(q.type==_FRAC && (q._FRACptr->den.type!=_INT_ || q._FRACptr->den.val>16))return false;
+      if(!integration_monomial(weight,x,w,n,contextptr) || n!=-1 || !integration_resource_rational(w))return false;
+      scale=coefficient*w/q;return true;
+    }
+    gen base=u;gen uc=integration_coefficient(base,x,contextptr);
+    if(base.is_symb_of_sommet(at_exp) && integration_resource_rational(uc) && !is_zero(uc) &&
+       is_linear_wrt(base._SYMBptr->feuille,x,a,b,contextptr) && integration_resource_rational(a) && !is_zero(a) && integration_resource_rational(b) &&
+       integration_monomial(weight,x,w,n,contextptr) && is_zero(n) && integration_resource_rational(w)){
+      scale=coefficient*w/a;return true;
+    }
+    if(!is_linear_wrt(u,x,a,b,contextptr) || !integration_resource_rational(a) || is_zero(a) || !integration_resource_rational(b))return false;
+    w=integration_coefficient(weight,x,contextptr);
+    if(!integration_resource_rational(w) || !integration_power(weight,base,-1))return false;
+    gen A,B;
+    if(!is_linear_wrt(base,x,A,B,contextptr) || !integration_resource_rational(A) || is_zero(A) || !integration_resource_rational(B) || B*a!=b*A)return false;
+    scale=coefficient*w/A;return true;
+  }
+
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static bool integrate_dilog_primitive(const gen &e,const gen &x,gen &res,GIAC_CONTEXT){
+    gen u,scale;bool extra;
+    if(!integration_dilog_form(e,x,u,scale,extra,contextptr))return false;
+    res=-scale*gen(symbolic(at_Li2,u));
+    if(extra){gen L=ln(1-u,contextptr);res-=scale*L*L/2;}
+    return true;
+  }
+
 #if defined(__GNUC__) && !defined(__clang__)
   __attribute__((noinline,optimize("Os")))
 #endif
@@ -3191,7 +3255,8 @@ namespace giac {
     gen p;
     if (!is_undef(c) && !is_inf(c) && integrate_high_frequency_trig(e,x,p,contextptr)){res=c*p;return true;}
     if (!integration_rational(c)) return false;
-    if (!integrate_composed_binomial(e,x,p,contextptr) &&
+    if (!integrate_dilog_primitive(e,x,p,contextptr) &&
+        !integrate_composed_binomial(e,x,p,contextptr) &&
         !integrate_binomial_chain(e,x,p,false,contextptr) &&
         !integrate_reciprocal_quartic(e,x,p,contextptr) && !integrate_quartic_trig(e,x,p,contextptr)) return false;
     res=c*p;return true;
@@ -5896,8 +5961,51 @@ namespace giac {
 #if defined(__GNUC__) && !defined(__clang__)
   __attribute__((noinline,optimize("Os")))
 #endif
+  static bool integrate_dilog_definite(const gen &e,const gen &x,const gen &lo,const gen &hi,gen &res,GIAC_CONTEXT){
+    if(!integration_resource_rational(lo) || !integration_resource_rational(hi) || is_strictly_positive(-lo,contextptr) || is_strictly_positive(-hi,contextptr))return false;
+    // log(1+d*x^q)*w*x^n ~ d*w*x^(q+n) at zero. Keep the
+    // cancellation inside the logarithm; a nonintegrable one-sided power
+    // has a signed infinite limit, without constructing a large primitive.
+    if(is_zero(lo) && is_strictly_positive(hi,contextptr) && taille(e,97)<=96){
+      vecteur terms=e.is_symb_of_sommet(at_prod) && e._SYMBptr->feuille.type==_VECT?*e._SYMBptr->feuille._VECTptr:vecteur(1,e);
+      gen argument,weight=1;unsigned logs=0;
+      if(terms.size()<=4){
+        for(unsigned j=0;j<terms.size();++j){
+          if(terms[j].is_symb_of_sommet(at_ln)){argument=terms[j]._SYMBptr->feuille;++logs;}
+          else weight=weight*terms[j];
+        }
+        gen other,d,q,w,n;
+        if(logs==1 && integration_one_plus(argument,other) &&
+           integration_monomial(other,x,d,q,contextptr) && integration_resource_rational(d) && !is_zero(d) &&
+           integration_resource_rational(q) && is_strictly_positive(q,contextptr) && !is_strictly_greater(q,32,contextptr) &&
+           integration_monomial(weight,x,w,n,contextptr) && integration_resource_rational(w) && !is_zero(w) &&
+           integration_resource_rational(n) && !is_strictly_positive(q+n+1,contextptr)){
+          gen endpoint=1+d*pow(hi,q,contextptr);
+          if(is_zero(endpoint) || is_strictly_positive(endpoint,contextptr)){
+            res=is_strictly_positive(w*d,contextptr)?plus_inf:minus_inf;return true;
+          }
+        }
+      }
+    }
+    gen u,scale;bool extra;
+    if(!integration_dilog_form(e,x,u,scale,extra,contextptr))return false;
+    gen c,q;
+    if(integration_monomial(u,x,c,q,contextptr) && !is_strictly_positive(q,contextptr))return false;
+    gen l=subst(u,x,lo,false,contextptr).eval(1,contextptr),r=subst(u,x,hi,false,contextptr).eval(1,contextptr);
+    if(!is_zero(im(l,contextptr)) || !is_zero(im(r,contextptr)) ||
+       (!is_zero(1-l) && !is_strictly_positive(1-l,contextptr)) || (!is_zero(1-r) && !is_strictly_positive(1-r,contextptr)))return false;
+    if(extra && (is_one(l) || is_one(r)))return false;
+    res=scale*(_Li2(l,contextptr)-_Li2(r,contextptr));
+    if(extra){gen L=ln(1-l,contextptr),R=ln(1-r,contextptr);res+=scale*(L*L-R*R)/2;}
+    return true;
+  }
+
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
   static bool integrate_compact_definite(const gen &e,const gen &x,const gen &lo,const gen &hi,gen &res,GIAC_CONTEXT){
-    if(integrate_positive_cosine_kernel(e,x,lo,hi,res,contextptr) ||
+    if(integrate_dilog_definite(e,x,lo,hi,res,contextptr) ||
+       integrate_positive_cosine_kernel(e,x,lo,hi,res,contextptr) ||
        integrate_unit_log_arc(e,x,lo,hi,res,contextptr) ||
        integrate_complementary_ratio(e,x,lo,hi,res,contextptr) ||
        integrate_cauchy_fourier(e,x,lo,hi,res,contextptr) ||

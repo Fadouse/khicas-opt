@@ -1,0 +1,531 @@
+{
+  "sources": {
+    "inputs": "User-authored A1-F6 acceptance table, 2026-09-10"
+  },
+  "notes": "34 positive exact results. C5/C6 correctly rejected divergence, excluded from solved-integral list. Explicit complex condition contracts separately verified.",
+  "cases": [
+    {
+      "id": "A1",
+      "f": "sqrt(x^2)",
+      "expected": "x*abs(x)/2",
+      "domain": "x real",
+      "priority": "P0",
+      "assumptions": [],
+      "samples": [
+        "-2",
+        "-1/3",
+        "1/3",
+        "2"
+      ],
+      "real_values": true,
+      "input": "integrate(sqrt(x^2),x)"
+    },
+    {
+      "id": "A2",
+      "f": "x/sqrt(x^2)",
+      "expected": "abs(x)",
+      "domain": "x real, x != 0",
+      "priority": "P0",
+      "assumptions": [],
+      "real_values": true,
+      "samples": [
+        "-2",
+        "-1/3",
+        "1/3",
+        "2"
+      ],
+      "input": "integrate(x/sqrt(x^2),x)"
+    },
+    {
+      "id": "A3",
+      "f": "1/(x*ln(x))",
+      "expected": "ln(abs(ln(x)))",
+      "domain": "x>0, x != 1",
+      "priority": "P0",
+      "assumptions": [],
+      "samples": [
+        "1/4",
+        "1/2",
+        "2",
+        "4"
+      ],
+      "real_values": true,
+      "input": "integrate(1/(x*ln(x)),x)"
+    },
+    {
+      "id": "A4",
+      "f": "sqrt((x-1/2)^2)",
+      "expected": "17/4",
+      "domain": "x real",
+      "priority": "P0",
+      "assumptions": [],
+      "bounds": [
+        "-1",
+        "3"
+      ],
+      "input": "integrate(sqrt((x-1/2)^2),x,-1,3)"
+    },
+    {
+      "id": "A5",
+      "f": "sqrt(sin(x)^2)",
+      "expected": "4",
+      "domain": "x real",
+      "priority": "P0",
+      "assumptions": [],
+      "bounds": [
+        "0",
+        "2*pi"
+      ],
+      "input": "integrate(sqrt(sin(x)^2),x,0,2*pi)"
+    },
+    {
+      "id": "A6",
+      "f": "1/(x^2-1)",
+      "expected": "ln(abs((x-1)/(x+1)))/2",
+      "domain": "x real, x != +/-1",
+      "priority": "P0",
+      "assumptions": [],
+      "samples": [
+        "-2",
+        "-1/3",
+        "1/3",
+        "2"
+      ],
+      "real_values": true,
+      "input": "integrate(1/(x^2-1),x)"
+    },
+    {
+      "id": "B1",
+      "f": "sin(x)^7/(sin(x)^7+cos(x)^7)",
+      "expected": "pi/4",
+      "domain": "continuous on interval",
+      "priority": "P0",
+      "assumptions": [],
+      "bounds": [
+        "0",
+        "pi/2"
+      ],
+      "input": "integrate(sin(x)^7/(sin(x)^7+cos(x)^7),x,0,pi/2)"
+    },
+    {
+      "id": "B2",
+      "f": "x^5/(x^5+(1-x)^5)",
+      "expected": "1/2",
+      "domain": "continuous on interval",
+      "priority": "P0",
+      "assumptions": [],
+      "bounds": [
+        "0",
+        "1"
+      ],
+      "input": "integrate(x^5/(x^5+(1-x)^5),x,0,1)"
+    },
+    {
+      "id": "B3",
+      "f": "x/(sin(x)+cos(x))",
+      "expected": "pi*ln(1+sqrt(2))/(2*sqrt(2))",
+      "domain": "continuous on interval",
+      "priority": "P0",
+      "assumptions": [],
+      "bounds": [
+        "0",
+        "pi/2"
+      ],
+      "input": "integrate(x/(sin(x)+cos(x)),x,0,pi/2)"
+    },
+    {
+      "id": "B4",
+      "f": "atan(x)/x",
+      "expected": "(Psi(1/4,1)-Psi(3/4,1))/16",
+      "domain": "ordinary integrable endpoint",
+      "priority": "P0",
+      "assumptions": [],
+      "textbook": "Catalan G",
+      "bounds": [
+        "0",
+        "1"
+      ],
+      "input": "integrate(atan(x)/x,x,0,1)"
+    },
+    {
+      "id": "B5",
+      "f": "ln(x)/(1+x^2)",
+      "expected": "-((Psi(1/4,1)-Psi(3/4,1))/16)",
+      "domain": "ordinary integrable endpoint",
+      "priority": "P0",
+      "assumptions": [],
+      "textbook": "-Catalan G",
+      "bounds": [
+        "0",
+        "1"
+      ],
+      "input": "integrate(ln(x)/(1+x^2),x,0,1)"
+    },
+    {
+      "id": "B6",
+      "f": "ln(cos(x))",
+      "expected": "-pi*ln(2)/4+((Psi(1/4,1)-Psi(3/4,1))/16)/2",
+      "domain": "positive cosine",
+      "priority": "P0",
+      "assumptions": [],
+      "bounds": [
+        "0",
+        "pi/4"
+      ],
+      "input": "integrate(ln(cos(x)),x,0,pi/4)"
+    },
+    {
+      "id": "C1",
+      "f": "(exp(-a*x)-exp(-b*x))/x",
+      "expected": "ln(b/a)",
+      "domain": "a,b>0",
+      "priority": "P0",
+      "assumptions": [
+        "assume(a>0)",
+        "assume(b>0)"
+      ],
+      "symbolic_parameters": true,
+      "bounds": [
+        "0",
+        "+infinity"
+      ],
+      "input": "[assume(a>0),assume(b>0),integrate((exp(-a*x)-exp(-b*x))/x,x,0,+infinity)][2]"
+    },
+    {
+      "id": "C2",
+      "f": "exp(-a*x)*sin(b*x)/x",
+      "expected": "atan(b/a)",
+      "domain": "a>0, b real",
+      "priority": "P0",
+      "assumptions": [
+        "assume(a>0)"
+      ],
+      "symbolic_parameters": true,
+      "bounds": [
+        "0",
+        "+infinity"
+      ],
+      "input": "[assume(a>0),integrate(exp(-a*x)*sin(b*x)/x,x,0,+infinity)][1]"
+    },
+    {
+      "id": "C3",
+      "f": "exp(-a*x)*(1-cos(b*x))/x",
+      "expected": "ln(1+b^2/a^2)/2",
+      "domain": "a>0, b real",
+      "priority": "P0",
+      "assumptions": [
+        "assume(a>0)"
+      ],
+      "symbolic_parameters": true,
+      "bounds": [
+        "0",
+        "+infinity"
+      ],
+      "input": "[assume(a>0),integrate(exp(-a*x)*(1-cos(b*x))/x,x,0,+infinity)][1]"
+    },
+    {
+      "id": "C4",
+      "f": "sin(x)/x",
+      "expected": "pi/2",
+      "domain": "ordinary conditionally convergent improper integral",
+      "priority": "P1",
+      "assumptions": [],
+      "bounds": [
+        "0",
+        "+infinity"
+      ],
+      "input": "integrate(sin(x)/x,x,0,+infinity)"
+    },
+    {
+      "id": "D1",
+      "f": "exp(-a*x)",
+      "expected": "1/a",
+      "domain": "Re(a)>0",
+      "priority": "P0",
+      "assumptions": [
+        "assume(a>0)"
+      ],
+      "symbolic_parameters": true,
+      "bounds": [
+        "0",
+        "+infinity"
+      ],
+      "complex_contract_verification": "docs/benchmarks/complex-parameter-contracts-2026a.json: explicit complex declarations, exact symbolic guard and answer verification, all modes plus eager binding; convergence boundary tests included.",
+      "input": "[assume(a>0),integrate(exp(-a*x),x,0,+infinity)][1]"
+    },
+    {
+      "id": "D2",
+      "f": "x^(s-1)*exp(-x)",
+      "expected": "Gamma(s)",
+      "domain": "Re(s)>0",
+      "priority": "P1",
+      "assumptions": [
+        "assume(s>0)"
+      ],
+      "symbolic_parameters": true,
+      "bounds": [
+        "0",
+        "+infinity"
+      ],
+      "complex_contract_verification": "docs/benchmarks/complex-parameter-contracts-2026a.json: explicit complex declarations, exact symbolic guard and answer verification, all modes plus eager binding; convergence boundary tests included.",
+      "input": "[assume(s>0),integrate(x^(s-1)*exp(-x),x,0,+infinity)][1]"
+    },
+    {
+      "id": "D3",
+      "f": "x^(a-1)*(1-x)^(b-1)",
+      "expected": "Gamma(a)*Gamma(b)/Gamma(a+b)",
+      "domain": "Re(a),Re(b)>0",
+      "priority": "P1",
+      "assumptions": [
+        "assume(a>0)",
+        "assume(b>0)"
+      ],
+      "symbolic_parameters": true,
+      "bounds": [
+        "0",
+        "1"
+      ],
+      "complex_contract_verification": "docs/benchmarks/complex-parameter-contracts-2026a.json: explicit complex declarations, exact symbolic guard and answer verification, all modes plus eager binding; convergence boundary tests included.",
+      "input": "[assume(a>0),assume(b>0),integrate(x^(a-1)*(1-x)^(b-1),x,0,1)][2]"
+    },
+    {
+      "id": "D4",
+      "f": "x^(s-1)/(1+x)",
+      "expected": "pi/sin(pi*s)",
+      "domain": "0<Re(s)<1",
+      "priority": "P0",
+      "assumptions": [
+        "assume(s>0 and s<1)"
+      ],
+      "symbolic_parameters": true,
+      "bounds": [
+        "0",
+        "+infinity"
+      ],
+      "complex_contract_verification": "docs/benchmarks/complex-parameter-contracts-2026a.json: explicit complex declarations, exact symbolic guard and answer verification, all modes plus eager binding; convergence boundary tests included.",
+      "input": "[assume(s>0 and s<1),integrate(x^(s-1)/(1+x),x,0,+infinity)][1]"
+    },
+    {
+      "id": "D5",
+      "f": "cos(b*x)/(x^2+a^2)",
+      "expected": "pi*exp(-a*abs(b))/(2*a)",
+      "domain": "a>0, b real",
+      "priority": "P0",
+      "assumptions": [
+        "assume(a>0)"
+      ],
+      "symbolic_parameters": true,
+      "bounds": [
+        "0",
+        "+infinity"
+      ],
+      "input": "[assume(a>0),integrate(cos(b*x)/(x^2+a^2),x,0,+infinity)][1]"
+    },
+    {
+      "id": "D6",
+      "f": "1/(a+b*cos(x))",
+      "expected": "2*pi/sqrt(a^2-b^2)",
+      "domain": "a>|b|, a,b real",
+      "priority": "P0",
+      "assumptions": [
+        "assume(a>abs(b))"
+      ],
+      "symbolic_parameters": true,
+      "bounds": [
+        "0",
+        "2*pi"
+      ],
+      "input": "[assume(a>abs(b)),integrate(1/(a+b*cos(x)),x,0,2*pi)][1]"
+    },
+    {
+      "id": "E1",
+      "f": "ln(1-2*r*cos(x)+r^2)",
+      "expected": "0",
+      "domain": "r real, |r|<1",
+      "priority": "P0",
+      "assumptions": [
+        "assume(r>-1 and r<1)"
+      ],
+      "symbolic_parameters": true,
+      "bounds": [
+        "0",
+        "pi"
+      ],
+      "input": "[assume(r>-1 and r<1),integrate(ln(1-2*r*cos(x)+r^2),x,0,pi)][1]"
+    },
+    {
+      "id": "E2",
+      "f": "ln(a+b*cos(x))",
+      "expected": "2*pi*ln((a+sqrt(a^2-b^2))/2)",
+      "domain": "a>|b|, a,b real",
+      "priority": "P0",
+      "assumptions": [
+        "assume(a>abs(b))"
+      ],
+      "symbolic_parameters": true,
+      "bounds": [
+        "0",
+        "2*pi"
+      ],
+      "input": "[assume(a>abs(b)),integrate(ln(a+b*cos(x)),x,0,2*pi)][1]"
+    },
+    {
+      "id": "E3",
+      "f": "cos(3*x)/(2+cos(x))",
+      "expected": "2*pi*(sqrt(3)-2)^3/sqrt(3)",
+      "domain": "positive denominator",
+      "priority": "P1",
+      "assumptions": [],
+      "bounds": [
+        "0",
+        "2*pi"
+      ],
+      "input": "integrate(cos(3*x)/(2+cos(x)),x,0,2*pi)"
+    },
+    {
+      "id": "E4",
+      "f": "1/(1-2*r*cos(x)+r^2)",
+      "expected": "2*pi/(1-r^2)",
+      "domain": "r real, |r|<1",
+      "priority": "P0",
+      "assumptions": [
+        "assume(r>-1 and r<1)"
+      ],
+      "symbolic_parameters": true,
+      "bounds": [
+        "0",
+        "2*pi"
+      ],
+      "input": "[assume(r>-1 and r<1),integrate(1/(1-2*r*cos(x)+r^2),x,0,2*pi)][1]"
+    },
+    {
+      "id": "E5",
+      "f": "cos(n*x)/(1-2*r*cos(x)+r^2)",
+      "expected": "2*pi*r^n/(1-r^2)",
+      "domain": "n nonnegative integer, r real, |r|<1",
+      "priority": "P0",
+      "assumptions": [
+        "assume(r>-1 and r<1)",
+        "assume(n,integer)",
+        "additionally(n>=0)"
+      ],
+      "symbolic_parameters": true,
+      "bounds": [
+        "0",
+        "2*pi"
+      ],
+      "assumption_verification": "tests/user_matrix_next_rules.cc checks is_assumed_integer before/after additionally, and rejects noninteger harmonic order.",
+      "input": "[assume(r>-1 and r<1),assume(n,integer),additionally(n>=0),integrate(cos(n*x)/(1-2*r*cos(x)+r^2),x,0,2*pi)][3]"
+    },
+    {
+      "id": "E6",
+      "f": "ln(1-2*r*cos(x)+r^2)*cos(n*x)",
+      "expected": "-2*pi*r^n/n",
+      "domain": "n positive integer, r real, |r|<1",
+      "priority": "P0",
+      "assumptions": [
+        "assume(r>-1 and r<1)",
+        "assume(n,integer)",
+        "additionally(n>=1)"
+      ],
+      "symbolic_parameters": true,
+      "bounds": [
+        "0",
+        "2*pi"
+      ],
+      "assumption_verification": "tests/user_matrix_next_rules.cc checks is_assumed_integer before/after additionally, and rejects noninteger harmonic order.",
+      "input": "[assume(r>-1 and r<1),assume(n,integer),additionally(n>=1),integrate(ln(1-2*r*cos(x)+r^2)*cos(n*x),x,0,2*pi)][3]"
+    },
+    {
+      "id": "F1",
+      "f": "exp(-x^2)",
+      "expected": "sqrt(pi)*erf(x)/2",
+      "domain": "x real",
+      "priority": "P1",
+      "assumptions": [],
+      "samples": [
+        "-2",
+        "-1/3",
+        "1/3",
+        "2"
+      ],
+      "input": "integrate(exp(-x^2),x)"
+    },
+    {
+      "id": "F2",
+      "f": "sin(x^2)",
+      "expected": "sqrt(pi/2)*FresnelS(sqrt(2/pi)*x)",
+      "domain": "FresnelS(z)=integral_0^z sin(pi*t^2/2) dt",
+      "priority": "P1",
+      "assumptions": [],
+      "reference_validation": "independent special-function normalization",
+      "samples": [
+        "-2",
+        "-1/3",
+        "1/3",
+        "2"
+      ],
+      "input": "integrate(sin(x^2),x)"
+    },
+    {
+      "id": "F3",
+      "f": "sin(x)/x",
+      "expected": "Si(x)",
+      "domain": "local real interval; continuous extension at zero",
+      "priority": "P1",
+      "assumptions": [],
+      "samples": [
+        "-2",
+        "-1/3",
+        "1/3",
+        "2"
+      ],
+      "input": "integrate(sin(x)/x,x)"
+    },
+    {
+      "id": "F4",
+      "f": "exp(x)/x",
+      "expected": "Ei(x)",
+      "domain": "local real intervals excluding zero",
+      "priority": "P1",
+      "assumptions": [],
+      "samples": [
+        "-2",
+        "-1/3",
+        "1/3",
+        "2"
+      ],
+      "input": "integrate(exp(x)/x,x)"
+    },
+    {
+      "id": "F5",
+      "f": "ln(1-x)/x",
+      "expected": "-Li2(x)",
+      "domain": "0<x<1",
+      "priority": "P0",
+      "assumptions": [],
+      "samples": [
+        "1/8",
+        "1/4",
+        "1/2",
+        "3/4"
+      ],
+      "input": "integrate(ln(1-x)/x,x)"
+    },
+    {
+      "id": "F6",
+      "f": "1/ln(x)",
+      "expected": "Ei(ln(x))",
+      "domain": "local real interval, x>0, x != 1",
+      "priority": "P1",
+      "assumptions": [],
+      "samples": [
+        "1/4",
+        "1/2",
+        "2",
+        "4"
+      ],
+      "input": "integrate(1/ln(x),x)"
+    }
+  ]
+}

@@ -13,7 +13,7 @@ report={'scope':'Repository integration, normalization and FXCG simplification e
         'validation':'Printed target results independently checked in a separate host-Giac process',
         'corpus_sha256':hashlib.sha256(corpus.read_bytes()).hexdigest(),
         'validation_probe_sha256':hashlib.sha256((ROOT/'tests/integration_probe.cc').read_bytes()).hexdigest(),
-          'source_sha256':{n:hashlib.sha256((ROOT/n).read_bytes()).hexdigest() for n in ('yintg.cc','zintgab.cc','ysym2poly.cc','ksubst.cc','integration_guard.h','equation_normalize.h') if (ROOT/n).exists()},
+          'source_sha256':{n:hashlib.sha256((ROOT/n).read_bytes()).hexdigest() for n in ('yintg.cc','zintgab.cc','ysym2poly.cc','ksubst.cc','integration_guard.h','equation_normalize.h','dilogarithm.h') if (ROOT/n).exists()},
         'runs':[]}
 with tempfile.TemporaryDirectory(prefix='khicas-user-challenge-') as tmp:
     d=Path(tmp);target=build(d/'target',target_simplify=True);validator=build_validation_probe(d/'validator')
@@ -42,6 +42,9 @@ with tempfile.TemporaryDirectory(prefix='khicas-user-challenge-') as tmp:
                     if case.get('verification',{}).get('symbolic_proof')=='generic-binomial-parts':
                         from compact_reference import verify_binomial_reference
                         row['validation']=verify_binomial_reference(case,row['result'])
+                    elif case.get('verification',{}).get('symbolic_proof')=='dilogarithm':
+                        from dilogarithm_reference import verify_dilogarithm_reference
+                        row['validation']=verify_dilogarithm_reference(case,row['result'])
                     else:
                         check=subprocess.run([str(validator),row['result']]+verification,
                                              capture_output=True,text=True,timeout=30)

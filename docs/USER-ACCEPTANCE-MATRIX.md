@@ -1,14 +1,14 @@
 # 用户 A1–F6 验收进度
 
-当前源码：`checkpoint/complex-parameter-2026a`（2026-09-10）。
+当前源码：`checkpoint/dilogarithm-2026a`（2026-09-10）。
 
-**36 题中 35 题通过全部四种运行方式**：33个精确积分结果，2个正确发散拒绝。最近两次checkpoint为14→31→35题。D1–D4还通过显式复数声明后的完整条件与答案核对；剩余F5的Li2实现仍未计入通过。
+**36/36 题通过全部四种运行方式**：34个精确积分结果，2个正确发散拒绝。进展为14→31→35→36题。D1–D4保留显式复参数条件核验，F5现在实际返回 `-Li2(x)`，通过独立求导证明。
 
 四种方式为直接积分／外层 `simplify` × 普通栈／带保护页的64 KiB线程栈。主机运行实际仓库积分、归一化和FXCG化简代码，依赖主机Giac；不是SH4/MMU模拟器或CG50实机测试。
 
-**此前另外5道未解积分已全部通过20次精确检查**。[原题](../tests/user-reported-five-gaps.json) · [实际输出](benchmarks/user-reported-five-gaps-parameter-2026a.json)。
+**此前另外5道未解积分已全部通过20次精确检查**。[原题](../tests/user-reported-five-gaps.json) · [实际输出](benchmarks/user-reported-five-gaps-dilog-2026a.json)。
 
-[36题原题与条件](../tests/user-acceptance-matrix.json) · [实际输出及无假设检查](benchmarks/user-acceptance-matrix-parameter-2026a.json) · [独立符号验证](benchmarks/user-acceptance-matrix-parameter-verification-2026a.json) · [完整通过列表](PASSED-INTEGRALS.md)。
+[36题原题与条件](../tests/user-acceptance-matrix.json) · [实际输出及无假设检查](benchmarks/user-acceptance-matrix-dilog-2026a.json) · [独立符号验证](benchmarks/user-acceptance-matrix-dilog-verification-2026a.json) · [完整通过列表](PASSED-INTEGRALS.md)。
 
 E5/E6 使用 `assume(n,integer)` 后接 `additionally(n>=0)`／`additionally(n>=1)`。直接测试确认整数标记仍存在；第二次使用 `assume` 会覆盖该标记。非整数阶、未经证明为整数的阶数、错误相位和有实极点的核均拒绝套用新公式。
 
@@ -48,7 +48,7 @@ E5/E6 使用 `assume(n,integer)` 后接 `additionally(n>=0)`／`additionally(n>=
 | F2 | 精确核对通过 | 精确核对通过 | 是 | `sqrt(pi)/((-1+i)/2*sqrt(2))/2*erf((-1+i)/2*sqrt(2)*x)/(2*i)+i*sqrt(pi)/((-1-i)/2*sqrt(2))/2*erf((-1-i)/2*sqrt(2)*x)/2` |
 | F3 | 精确核对通过 | 精确核对通过 | 是 | `Si(x)` |
 | F4 | 精确核对通过 | 精确核对通过 | 是 | `Ei(x)` |
-| F5 | 仍含积分 | 仍含积分 | 否 | `integrate(ln(-x+1)/x,x)` |
+| F5 | 精确核对通过 | 精确核对通过 | 是 | `-Li2(x)` |
 | F6 | 精确核对通过 | 精确核对通过 | 是 | `Ei(ln(x))` |
 
 ## 已验证的扩展
@@ -76,16 +76,18 @@ E5/E6 使用 `assume(n,integer)` 后接 `additionally(n>=0)`／`additionally(n>=
 
 ## 复参数、资源与剩余缺口
 
-D1–D4的复参数结果显示明确条件，例如 `when(re(a)>0,1/a,undef)`。通过了32次完整复参数条件/答案核验（含两种栈、外层化简、冷加载/eager binding）和16次必要收敛边界检查；条件用独立符号核对，不靠复数数值样例猜测。另有6个65位精度复积分独立数值检查。[条件验收](benchmarks/complex-parameter-contracts-2026a.json) · [独立数值参考](benchmarks/complex-parameter-reference-2026a.json)。
+D1–D4的复参数结果显示明确条件，例如 `when(re(a)>0,1/a,undef)`。通过了32次完整复参数条件/答案核验（含两种栈、外层化简、冷加载/eager binding）和16次必要收敛边界检查；条件用独立符号核对，不靠复数数值样例猜测。另有6个65位精度复积分独立数值检查。[条件验收](benchmarks/complex-parameter-contracts-dilog-2026a.json) · [独立数值参考](benchmarks/complex-parameter-reference-2026a.json)。
 
 泛化的复数尺度Gamma积分在右半平面给出条件公式；尺度落在纯虚轴时可能条件收敛，因此条件外保留原积分，不误判发散。`simplify` 保持未决条件的惰性分支，防止提前访问无定义的Gamma/对数分支。最多4项、衰减实部已证为正的复指数和直接算端点系数，修复新题Q2的小栈失败。
 
-仅新建的出题代理给出8题后已结束、未复用上下文。主代理独立检查后7/8通过（其中3题有明确复参数条件、2题为发散拒绝）；剩余Q6同属Li2。[原题](../tests/parameter-agent-questions.json) · [验收](benchmarks/parameter-agent-questions-2026a.json)。
+仅新建的出题代理给出8题后已结束、未复用上下文。主代理独立检查后8/8通过（其中3题有明确复参数条件、2题为发散拒绝）；Q6现在返回 `-Li2(x^2)/2`。[原题](../tests/parameter-agent-questions.json) · [验收](benchmarks/parameter-agent-questions-dilog-2026a.json)。
 
-CG50实编译：ROM **2056948/2065152 B**（余8204），静态RAM **424620/442368 B**（余17748），AC2 **2446824/2559996 B**（余113172）。相对上一checkpoint ROM增加112 B、AC2增加5960 B；CAS堆1572864 B与静态RAM不变。74个积分入口及6个转换入口的AC2位置已经检查，尚未达到实际代码容量上限。
+CG50实编译：ROM **2057972/2065152 B**（余7180），静态RAM **424620/442368 B**（余17748），AC2 **2454592/2559996 B**（余105404）。相对上个checkpoint，ROM增加1024 B、AC2增加7768 B；CAS堆1572864 B与静态RAM不变。81个积分/特殊函数辅助入口及6个转换入口的AC2位置已检查，仍有实际代码容量余量。
 
-F5和新题Q6需要可求值、可微分且分支一致的Li2函数，当前保留积分。独立通过列表有589条来源记录：584精确、5导数采样；原有518条验证等级保持不变。更一般的复杂化简资源与atan零点定义域仍在排期，之后处理圆锥曲线分支与标签。[排期](NEXT-PRIORITIES.md)。
+Li2新增29道换元与端点变体全部通过116次精确检查。最新出题代理的8项也全部通过：6项积分、1项支割极限、1项发散判定。生产数值核心在374个点与70位独立参考值核对，最大缩放误差2.73e-16；完整CAS另外通过140次注册、求导、数值和发散端点检查。Li2数值实现采用double，不能据此声称支持任意精度。
+
+独立通过列表已有619条来源记录：614精确、5导数采样；原有518条验证等级保持不变。主验收集通过不代表任意积分均可求闭式。原有若干三角对数不定积分仍安全保留原式，继续扩展；更一般的复杂化简资源与atan零点定义域仍待处理，随后修复圆锥曲线分支与标签。[Li2实现与边界](DILOGARITHM.md) · [排期](NEXT-PRIORITIES.md)。
 
 本checkpoint尚未安装到CG50。主机耗时不代表实机性能，主机小栈测试也不等同于SH4 TLB复现。
 
-[资源](benchmarks/resources-complex-parameter-2026a.json) · [回归索引](benchmarks/complex-parameter-verification-2026a.json) · [前一轮公式推导](USER-MATRIX-NEXT-DERIVATIONS.md)。
+[资源](benchmarks/resources-dilogarithm-2026a.json) · [回归索引](benchmarks/dilogarithm-verification-2026a.json) · [前一轮公式推导](USER-MATRIX-NEXT-DERIVATIONS.md)。
