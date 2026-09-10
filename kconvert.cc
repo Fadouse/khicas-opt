@@ -59,6 +59,58 @@ static bool curve_rational(const gen &g) {
     (g.type==_FRAC && (g._FRACptr->num.type==_INT_ || g._FRACptr->num.type==_ZINT) &&
      (g._FRACptr->den.type==_INT_ || g._FRACptr->den.type==_ZINT) && !is_zero(g._FRACptr->den));
 }
+// Return -1/0/1 for a proved sign, 2 when undecided. The engine's
+// positivity shortcut treats a symbolic square as positive even at its
+// possible zeros; that cannot justify discarding a degenerate conic.
+static int curve_sign(const gen &g,unsigned depth,GIAC_CONTEXT) {
+  if(depth>12 || taille(g,65)>64 || is_undef(g) || is_inf(g))return 2;
+  if(is_zero(g))return 0;
+  vecteur names=lidnt(g);bool numeric=true;
+  for(unsigned j=0;j<names.size();++j)if(names[j]!=cst_pi){numeric=false;break;}
+  if(numeric || g.type==_IDNT)
+    return is_strictly_greater(g,0,contextptr)?1:is_strictly_greater(-g,0,contextptr)?-1:2;
+  if(g.is_symb_of_sommet(at_neg)){
+    int s=curve_sign(g._SYMBptr->feuille,depth+1,contextptr);return s==2?2:-s;
+  }
+  if(g.is_symb_of_sommet(at_inv)){
+    int s=curve_sign(g._SYMBptr->feuille,depth+1,contextptr);return s==0?2:s;
+  }
+  if(g.is_symb_of_sommet(at_pow) && pair(g._SYMBptr->feuille)){
+    const vecteur &v=*g._SYMBptr->feuille._VECTptr;
+    int sign=curve_sign(v[0],depth+1,contextptr);
+    if(sign==2)return 2;
+    if(v[1].type==_INT_ && v[1].val){if(!sign)return v[1].val>0?0:2;return (v[1].val%2)?sign:1;}
+    if(sign==1 && curve_rational(v[1]))return 1;
+    return 2;
+  }
+  if(g.is_symb_of_sommet(at_prod) && g._SYMBptr->feuille.type==_VECT){
+    int sign=1;const vecteur &v=*g._SYMBptr->feuille._VECTptr;
+    for(unsigned j=0;j<v.size();++j){int t=curve_sign(v[j],depth+1,contextptr);if(t==2)return 2;sign*=t;}
+    return sign;
+  }
+  if(g.is_symb_of_sommet(at_plus) && g._SYMBptr->feuille.type==_VECT){
+    // Factoring short, low-degree parameter polynomials exposes possible
+    // zero factors such as (a-b)^2, instead of assuming them nonzero.
+    vecteur powers=lop(g,at_pow);
+    bool bounded=true;
+    for(unsigned j=0;j<powers.size();++j){
+      const gen &f=powers[j]._SYMBptr->feuille;
+      if(!pair(f) || f._VECTptr->back().type!=_INT_ || f._VECTptr->back().val<0 || f._VECTptr->back().val>8){bounded=false;break;}
+    }
+    if(bounded){gen factored=_factor(g,contextptr);if(!is_undef(factored) && factored!=g)return curve_sign(factored,depth+1,contextptr);}
+    const vecteur &v=*g._SYMBptr->feuille._VECTptr;
+    bool nonnegative=true,nonpositive=true,positive=false,negative=false;
+    for(unsigned j=0;j<v.size();++j){
+      int t=curve_sign(v[j],depth+1,contextptr);
+      positive=positive || t==1;negative=negative || t==-1;
+      nonnegative=nonnegative && is_positive(v[j],contextptr);
+      nonpositive=nonpositive && is_positive(-v[j],contextptr);
+    }
+    if(nonnegative && positive)return 1;if(nonpositive && negative)return -1;
+  }
+  return 2;
+}
+
 static gen curve_coefficient(const curve_polynomial_terms &p,unsigned x,unsigned y) {
   for(unsigned i=0;i<p.size();++i)if(p[i].px==x && p[i].py==y)return p[i].coefficient;
   return 0;
@@ -140,7 +192,7 @@ static bool curve_folium_param(const curve_polynomial_terms &p,const gen &t,gen 
     if(p.size()!=2)return false;
     out=vecteur(1,makevecteur(t,-t));return true;
   }
-  if(p.size()!=3 || !(is_strictly_positive(K,contextptr)||is_strictly_positive(-K,contextptr)))return false;
+  if(p.size()!=3 || !((curve_sign(K,0,contextptr)==1)||(curve_sign(-K,0,contextptr)==1)))return false;
   gen X=ratnormal((K/L)*t/(1+pow(t,3)),contextptr);
   out=vecteur(1,makevecteur(X,ratnormal(t*X,contextptr)));
   *logptr(contextptr)<<"Rational parametrization: t=-1 is excluded.\n";
@@ -150,15 +202,15 @@ static bool curve_folium_param(const curve_polynomial_terms &p,const gen &t,gen 
 static bool curve_lemniscate_param(const curve_polynomial_terms &p,const gen &t,gen &out,GIAC_CONTEXT) {
   if(p.size()!=3 && p.size()!=5)return false;
   gen L=curve_coefficient(p,4,0);
-  if(!(is_strictly_positive(L,contextptr)||is_strictly_positive(-L,contextptr)))return false;
+  if(!((curve_sign(L,0,contextptr)==1)||(curve_sign(-L,0,contextptr)==1)))return false;
   if(!is_zero(ratnormal(curve_coefficient(p,0,4)-L,contextptr)) ||
      !is_zero(ratnormal(curve_coefficient(p,2,2)-2*L,contextptr)) ||
      !is_zero(ratnormal(curve_coefficient(p,2,0)+curve_coefficient(p,0,2),contextptr)))return false;
   gen K=ratnormal(curve_coefficient(p,0,2)/L,contextptr);
   if(is_zero(K)){if(p.size()!=3)return false;out=vecteur(1,makevecteur(0,0));return true;}
   if(p.size()!=5 || !angle_radian(contextptr))return false;
-  bool rotated=is_strictly_positive(-K,contextptr);
-  if(!rotated && !is_strictly_positive(K,contextptr))return false;
+  bool rotated=(curve_sign(-K,0,contextptr)==1);
+  if(!rotated && !(curve_sign(K,0,contextptr)==1))return false;
   gen s=sin(t,contextptr),c=cos(t,contextptr),X=sqrt(rotated?-K:K,contextptr)*c/(1+s*s);
   out=vecteur(1,rotated?makevecteur(X*s,X):makevecteur(X,X*s));return true;
 }
@@ -189,6 +241,96 @@ static bool curve_origin_pencil(const curve_polynomial_terms &p,const gen &t,gen
   bool origin_at_zero=!is_zero(curve_coefficient(p,high,0)) && is_zero(curve_coefficient(p,high-1,0));
   if(!origin_at_zero && !(is_zero(verticalP)&&is_zero(verticalQ)))branches.push_back(makevecteur(0,0));
   *logptr(contextptr)<<"Rational parametrization: retain nonzero denominator conditions; constant branches include missing points.\n";
+  out=branches;return true;
+}
+
+// Classify degree-two curves before rational pencils or root isolation.
+// Symbolic signs must also preserve possible zero factors and degeneracies.
+// Complete real trigonometric/hyperbolic charts have no missing endpoints.
+#if defined(__GNUC__) && !defined(__clang__)
+__attribute__((noinline,optimize("Os")))
+#endif
+static bool curve_conic_param(const curve_polynomial_terms &p,const gen &t,gen &out,GIAC_CONTEXT) {
+  if(!angle_radian(contextptr) || p.empty() || p.size()>6)return false;
+  for(unsigned j=0;j<p.size();++j)
+    if(p[j].px+p[j].py>2 || taille(p[j].coefficient,33)>32 || !is_zero(im(p[j].coefficient,contextptr)))return false;
+  gen A=curve_coefficient(p,2,0),B=curve_coefficient(p,1,1),C=curve_coefficient(p,0,2);
+  gen D=curve_coefficient(p,1,0),E=curve_coefficient(p,0,1),F=curve_coefficient(p,0,0);
+  gen det=ratnormal(4*A*C-B*B,contextptr);
+  if(is_zero(A) && is_zero(B) && is_zero(C))return false;
+  if(is_zero(det)){
+    // Rank-one quadratic: u=x+B*y/(2*A) makes a parabola a polynomial
+    // graph, or a pair of parallel lines. Swap coordinates if necessary.
+    bool swapped=is_zero(A);
+    if(swapped){swapgen(A,C);swapgen(D,E);}
+    if(is_zero(A) || !((curve_sign(A,0,contextptr)==1) || (curve_sign(-A,0,contextptr)==1)))return false;
+    gen shear=B/(2*A),linear=ratnormal(E-D*shear,contextptr);
+    vecteur branches;
+    if((curve_sign(linear,0,contextptr)==1) || (curve_sign(-linear,0,contextptr)==1)){
+      gen U=t-D/(2*A),V=ratnormal((-A*t*t+D*D/(4*A)-F)/linear,contextptr);
+      gen X=ratnormal(U-shear*V,contextptr);
+      branches.push_back(swapped?makevecteur(V,X):makevecteur(X,V));
+    }
+    else if(is_zero(linear)){
+      gen discriminant=ratnormal(D*D-4*A*F,contextptr);
+      if((curve_sign(-discriminant,0,contextptr)==1)){out=vecteur(0);return true;}
+      if(!is_zero(discriminant) && !(curve_sign(discriminant,0,contextptr)==1))return false;
+      gen root=sqrt(discriminant,contextptr);
+      for(int sign=1;sign>=-1;sign-=2){
+        gen X=ratnormal((-D+sign*root)/(2*A)-shear*t,contextptr);
+        branches.push_back(swapped?makevecteur(t,X):makevecteur(X,t));
+        if(is_zero(root))break;
+      }
+    }
+    else return false;
+    out=branches;return true;
+  }
+  if(!((curve_sign(det,0,contextptr)==1) || (curve_sign(-det,0,contextptr)==1)))return false;
+  gen h=ratnormal((B*E-2*C*D)/det,contextptr),k=ratnormal((B*D-2*A*E)/det,contextptr);
+  gen rho=ratnormal(-F+(C*D*D-B*D*E+A*E*E)/det,contextptr);
+  if(is_zero(A) && is_zero(C)){
+    // Centered rectangular hyperbola B*X*Y=rho: exponential charts are
+    // shorter than rotated cosh/sinh sums and cover both signs of X.
+    if(is_zero(rho)){out=makevecteur(makevecteur(h+t,k),makevecteur(h,k+t));return true;}
+    gen product=ratnormal(rho/B,contextptr);
+    bool positive=(curve_sign(product,0,contextptr)==1);
+    if(!positive && !(curve_sign(-product,0,contextptr)==1))return false;
+    gen radius=sqrt(positive?product:-product,contextptr),X=radius*exp(t,contextptr),Y=(positive?1:-1)*radius*exp(-t,contextptr);
+    out=makevecteur(makevecteur(h+X,k+Y),makevecteur(h-X,k-Y));return true;
+  }
+  gen l1=A,l2=C,c=1,s=0;
+  if(!is_zero(B)){
+    // Exact orthonormal eigenvectors; no atan quadrant or angle ambiguity.
+    if(!((curve_sign(B,0,contextptr)==1) || (curve_sign(-B,0,contextptr)==1)))return false;
+    gen gap=sqrt((A-C)*(A-C)+B*B,contextptr);
+    l1=(A+C+gap)/2;l2=(A+C-gap)/2;
+    c=sqrt((1+(A-C)/gap)/2,contextptr);
+    s=((curve_sign(B,0,contextptr)==1)?1:-1)*sqrt((1-(A-C)/gap)/2,contextptr);
+  }
+  vecteur charts;
+  if(is_zero(rho)){
+    if((curve_sign(det,0,contextptr)==1)){out=vecteur(1,makevecteur(h,k));return true;}
+    gen slope=sqrt(-l1/l2,contextptr);
+    charts.push_back(makevecteur(t,slope*t));charts.push_back(makevecteur(t,-slope*t));
+  }
+  else {
+    gen r1=ratnormal(rho/l1,contextptr),r2=ratnormal(rho/l2,contextptr);
+    bool pos1=(curve_sign(r1,0,contextptr)==1),pos2=(curve_sign(r2,0,contextptr)==1);
+    bool neg1=(curve_sign(-r1,0,contextptr)==1),neg2=(curve_sign(-r2,0,contextptr)==1);
+    if(pos1 && pos2)charts.push_back(makevecteur(sqrt(r1,contextptr)*cos(t,contextptr),sqrt(r2,contextptr)*sin(t,contextptr)));
+    else if(neg1 && neg2){out=vecteur(0);return true;}
+    else if((pos1 && neg2) || (neg1 && pos2)){
+      gen U=sqrt(pos1?r1:-r1,contextptr)*(pos1?cosh(t,contextptr):sinh(t,contextptr));
+      gen V=sqrt(pos2?r2:-r2,contextptr)*(pos2?cosh(t,contextptr):sinh(t,contextptr));
+      charts.push_back(makevecteur(U,V));charts.push_back(pos1?makevecteur(-U,V):makevecteur(U,-V));
+    }
+    else return false;
+  }
+  vecteur branches;branches.reserve(charts.size());
+  for(unsigned j=0;j<charts.size();++j){
+    const vecteur &v=*charts[j]._VECTptr;
+    branches.push_back(makevecteur(ratnormal(h+c*v[0]-s*v[1],contextptr),ratnormal(k+s*v[0]+c*v[1],contextptr)));
+  }
   out=branches;return true;
 }
 
@@ -246,7 +388,7 @@ static bool curve_odd_polar_radius(const gen &f,const gen &r,const gen &theta,co
 
 static bool curve_polar_nonzero(const gen &g,GIAC_CONTEXT) {
   return !is_undef(g) && !is_inf(g) &&
-    (is_strictly_positive(g,contextptr) || is_strictly_positive(-g,contextptr));
+    ((curve_sign(g,0,contextptr)==1) || (curve_sign(-g,0,contextptr)==1));
 }
 
 static bool curve_compact_polar(const gen &g,const gen &x,const gen &y,
@@ -368,7 +510,8 @@ gen _cart2param(const gen &args,GIAC_CONTEXT) {
   if(curve_constant_linear_graph(f,xy,v[2],1,direct,contextptr))return direct;
   curve_polynomial_terms polynomial;
   bool bounded_polynomial=curve_polynomial(f,xy[0],xy[1],polynomial,contextptr);
-  if(bounded_polynomial && (curve_lemniscate_param(polynomial,v[2],direct,contextptr) ||
+  if(bounded_polynomial && (curve_conic_param(polynomial,v[2],direct,contextptr) ||
+      curve_lemniscate_param(polynomial,v[2],direct,contextptr) ||
       curve_folium_param(polynomial,v[2],direct,contextptr)))return direct;
   // Split reducible curves before isolation, so x*y=0 retains the vertical
   // component x=0 as well as y=0. Multiplicities do not create new branches.

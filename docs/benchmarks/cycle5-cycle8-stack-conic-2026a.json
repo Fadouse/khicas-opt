@@ -1,0 +1,561 @@
+{
+  "scope": "Repository integration, normalization and FXCG simplification entry points; other dependencies host Giac, not a CG50 emulator or hardware timings",
+  "validation": "Printed target results independently checked in a separate host-Giac process",
+  "corpus_sha256": "a5f42f94c3405ad6dc1abbb9a153c7539c66aa023d45e0a9d3fd8ee1de6ea8a6",
+  "validation_probe_sha256": "389931bcb1768f94a589ce5b4cdc1422b9629a9e2b5e3281dab7e775beb834a4",
+  "source_sha256": {
+    "yintg.cc": "a48dbadb20258e41728503786ae5bf3360459b1f69f23f918d7e3d06dbb43807",
+    "zintgab.cc": "3b6fa78aba4d53b1a11479c33bacb4c85e3d6091389ef3073ec60085a7ae9448",
+    "ysym2poly.cc": "ca2e4abe3652bf6314e38703100426e6996b3d272ad6f6215d469acf7ecb979c",
+    "ksubst.cc": "ea05ab78eda46e9882c4b558a076b218a792ccc8c61e9fa6d549eacd7f5242ad",
+    "integration_guard.h": "5f4bfda11a19fdf8b4b41da6bb037f602dd741ec1f3492066abab251e85d48a9",
+    "equation_normalize.h": "4bfb644f0e18bb36e280ce8886c8ac12695c9aeeaef187ea3e5f967cd1642e37",
+    "dilogarithm.h": "9f43a9c61b8d6ee26fc344dc11fe6b14b11a14e0fd3f13c7d7e83720f1170dd2"
+  },
+  "runs": [
+    {
+      "id": "C5-gaussian-erf-exponential-01",
+      "input": "integrate(exp(-x^2+erf(x)),x,-infinity,+infinity)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "sqrt(pi)*sinh(1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000322246\nMAX_RSS_KB 24144\n",
+      "host_seconds": 0.000322246,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24144,
+      "result_characters": 16,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000279167\nMAX_RSS_KB 24144\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C5-gaussian-erf-exponential-01",
+      "input": "integrate(exp(-x^2+erf(x)),x,-infinity,+infinity)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "sqrt(pi)*sinh(1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000321717\nMAX_RSS_KB 24144\n",
+      "host_seconds": 0.000321717,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24144,
+      "result_characters": 16,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000268397\nMAX_RSS_KB 24144\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C5-gaussian-erf-exponential-01",
+      "input": "simplify(integrate(exp(-x^2+erf(x)),x,-infinity,+infinity))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "sqrt(pi)*sinh(1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000743011\nMAX_RSS_KB 24144\n",
+      "host_seconds": 0.000743011,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24144,
+      "result_characters": 16,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000276287\nMAX_RSS_KB 24144\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C5-gaussian-erf-exponential-01",
+      "input": "simplify(integrate(exp(-x^2+erf(x)),x,-infinity,+infinity))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "sqrt(pi)*sinh(1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000730461\nMAX_RSS_KB 24144\n",
+      "host_seconds": 0.000730461,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24144,
+      "result_characters": 16,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000271167\nMAX_RSS_KB 24144\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C5-beta-affine-logit-01",
+      "input": "integrate(ln((1+x)/(1-x))^2/sqrt(1-x^2),x,-1,1)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "2*(sqrt(4))^-1*pi^2*pi",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000513024\nMAX_RSS_KB 24144\n",
+      "host_seconds": 0.000513024,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24144,
+      "result_characters": 22,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000287037\nMAX_RSS_KB 24144\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C5-beta-affine-logit-01",
+      "input": "integrate(ln((1+x)/(1-x))^2/sqrt(1-x^2),x,-1,1)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "2*(sqrt(4))^-1*pi^2*pi",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000521244\nMAX_RSS_KB 24144\n",
+      "host_seconds": 0.000521244,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24144,
+      "result_characters": 22,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000283447\nMAX_RSS_KB 24144\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C5-beta-affine-logit-01",
+      "input": "simplify(integrate(ln((1+x)/(1-x))^2/sqrt(1-x^2),x,-1,1))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "pi^3",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000584113\nMAX_RSS_KB 24144\n",
+      "host_seconds": 0.000584113,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24144,
+      "result_characters": 4,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000254887\nMAX_RSS_KB 24144\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C5-beta-affine-logit-01",
+      "input": "simplify(integrate(ln((1+x)/(1-x))^2/sqrt(1-x^2),x,-1,1))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "pi^3",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.0008303\nMAX_RSS_KB 24144\n",
+      "host_seconds": 0.0008303,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24144,
+      "result_characters": 4,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000291266\nMAX_RSS_KB 24144\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C5-frullani-root-log-01",
+      "input": "integrate((atan(2*sqrt(x))-atan(3*sqrt(x)))*ln(x)/x,x,0,+infinity)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "2*pi*(-ln(2)*ln(2)/2+ln(3)*ln(3)/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000451155\nMAX_RSS_KB 24144\n",
+      "host_seconds": 0.000451155,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24144,
+      "result_characters": 35,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000282767\nMAX_RSS_KB 24144\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C5-frullani-root-log-01",
+      "input": "integrate((atan(2*sqrt(x))-atan(3*sqrt(x)))*ln(x)/x,x,0,+infinity)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "2*pi*(-ln(2)*ln(2)/2+ln(3)*ln(3)/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000444305\nMAX_RSS_KB 24144\n",
+      "host_seconds": 0.000444305,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24144,
+      "result_characters": 35,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000289476\nMAX_RSS_KB 24144\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C5-frullani-root-log-01",
+      "input": "simplify(integrate((atan(2*sqrt(x))-atan(3*sqrt(x)))*ln(x)/x,x,0,+infinity))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-pi*ln(2)^2+pi*ln(3)^2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000599233\nMAX_RSS_KB 24144\n",
+      "host_seconds": 0.000599233,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24144,
+      "result_characters": 22,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000278637\nMAX_RSS_KB 24144\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C5-frullani-root-log-01",
+      "input": "simplify(integrate((atan(2*sqrt(x))-atan(3*sqrt(x)))*ln(x)/x,x,0,+infinity))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-pi*ln(2)^2+pi*ln(3)^2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000622272\nMAX_RSS_KB 24144\n",
+      "host_seconds": 0.000622272,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24144,
+      "result_characters": 22,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000272417\nMAX_RSS_KB 24144\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C5-loglog-frullani-second-01",
+      "input": "integrate((x-x^3)*ln(-ln(x))^2/(-ln(x)),x,0,1)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(-ln(2)*ln(2)*ln(2)+ln(4)*ln(4)*ln(4))/3-euler_gamma*(ln(2)*ln(2)-ln(4)*ln(4))-(euler_gamma*euler_gamma+pi*pi/6)*(ln(2)-ln(4))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000403125\nMAX_RSS_KB 24144\n",
+      "host_seconds": 0.000403125,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24144,
+      "result_characters": 126,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000294306\nMAX_RSS_KB 24144\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C5-loglog-frullani-second-01",
+      "input": "integrate((x-x^3)*ln(-ln(x))^2/(-ln(x)),x,0,1)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(-ln(2)*ln(2)*ln(2)+ln(4)*ln(4)*ln(4))/3-euler_gamma*(ln(2)*ln(2)-ln(4)*ln(4))-(euler_gamma*euler_gamma+pi*pi/6)*(ln(2)-ln(4))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000408135\nMAX_RSS_KB 24144\n",
+      "host_seconds": 0.000408135,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24144,
+      "result_characters": 126,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000295597\nMAX_RSS_KB 24144\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C5-loglog-frullani-second-01",
+      "input": "simplify(integrate((x-x^3)*ln(-ln(x))^2/(-ln(x)),x,0,1))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(6*euler_gamma^2*ln(2)+18*euler_gamma*ln(2)^2+pi^2*ln(2)+14*ln(2)^3)/6",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00080363\nMAX_RSS_KB 24144\n",
+      "host_seconds": 0.00080363,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24144,
+      "result_characters": 70,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000289537\nMAX_RSS_KB 24144\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C5-loglog-frullani-second-01",
+      "input": "simplify(integrate((x-x^3)*ln(-ln(x))^2/(-ln(x)),x,0,1))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(6*euler_gamma^2*ln(2)+18*euler_gamma*ln(2)^2+pi^2*ln(2)+14*ln(2)^3)/6",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00080511\nMAX_RSS_KB 24144\n",
+      "host_seconds": 0.00080511,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24144,
+      "result_characters": 70,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000292397\nMAX_RSS_KB 24144\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C5-laplace-second-log-01",
+      "input": "integrate((exp(-x)-2*exp(-2*x)+exp(-3*x))*ln(x)/x^2,x,0,+infinity)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(1-euler_gamma)*(-4*ln(2)+3*ln(3))-(-4*ln(2)*ln(2)+3*ln(3)*ln(3))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000397275\nMAX_RSS_KB 24144\n",
+      "host_seconds": 0.000397275,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24144,
+      "result_characters": 67,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000291197\nMAX_RSS_KB 24144\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C5-laplace-second-log-01",
+      "input": "integrate((exp(-x)-2*exp(-2*x)+exp(-3*x))*ln(x)/x^2,x,0,+infinity)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(1-euler_gamma)*(-4*ln(2)+3*ln(3))-(-4*ln(2)*ln(2)+3*ln(3)*ln(3))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000417536\nMAX_RSS_KB 24144\n",
+      "host_seconds": 0.000417536,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24144,
+      "result_characters": 67,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000296606\nMAX_RSS_KB 24144\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C5-laplace-second-log-01",
+      "input": "simplify(integrate((exp(-x)-2*exp(-2*x)+exp(-3*x))*ln(x)/x^2,x,0,+infinity))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(8*euler_gamma*ln(2)-6*euler_gamma*ln(3)+4*ln(2)^2-8*ln(2)-3*ln(3)^2+6*ln(3))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000674862\nMAX_RSS_KB 24144\n",
+      "host_seconds": 0.000674862,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24144,
+      "result_characters": 79,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000287537\nMAX_RSS_KB 24144\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C5-laplace-second-log-01",
+      "input": "simplify(integrate((exp(-x)-2*exp(-2*x)+exp(-3*x))*ln(x)/x^2,x,0,+infinity))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(8*euler_gamma*ln(2)-6*euler_gamma*ln(3)+4*ln(2)^2-8*ln(2)-3*ln(3)^2+6*ln(3))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000673013\nMAX_RSS_KB 24144\n",
+      "host_seconds": 0.000673013,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24144,
+      "result_characters": 79,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000290857\nMAX_RSS_KB 24144\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C5-reciprocal-gaussian-erf-01",
+      "input": "integrate((x+1)*exp(-(sqrt(x)-1/sqrt(x))^2)*erf((sqrt(x)-1/sqrt(x)))^2/x^(3/2),x,0,+infinity)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "2*sqrt(pi)*2/6",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000520324\nMAX_RSS_KB 24144\n",
+      "host_seconds": 0.000520324,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24144,
+      "result_characters": 14,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000275696\nMAX_RSS_KB 24144\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C5-reciprocal-gaussian-erf-01",
+      "input": "integrate((x+1)*exp(-(sqrt(x)-1/sqrt(x))^2)*erf((sqrt(x)-1/sqrt(x)))^2/x^(3/2),x,0,+infinity)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "2*sqrt(pi)*2/6",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000526544\nMAX_RSS_KB 24144\n",
+      "host_seconds": 0.000526544,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24144,
+      "result_characters": 14,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000274737\nMAX_RSS_KB 24144\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C5-reciprocal-gaussian-erf-01",
+      "input": "simplify(integrate((x+1)*exp(-(sqrt(x)-1/sqrt(x))^2)*erf((sqrt(x)-1/sqrt(x)))^2/x^(3/2),x,0,+infinity))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "2*sqrt(pi)/3",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000929139\nMAX_RSS_KB 24144\n",
+      "host_seconds": 0.000929139,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24144,
+      "result_characters": 12,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000278136\nMAX_RSS_KB 24144\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C5-reciprocal-gaussian-erf-01",
+      "input": "simplify(integrate((x+1)*exp(-(sqrt(x)-1/sqrt(x))^2)*erf((sqrt(x)-1/sqrt(x)))^2/x^(3/2),x,0,+infinity))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "2*sqrt(pi)/3",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000950009\nMAX_RSS_KB 24144\n",
+      "host_seconds": 0.000950009,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24144,
+      "result_characters": 12,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000273017\nMAX_RSS_KB 24144\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C5-arc-quartic-pullback-01",
+      "input": "integrate(4*x*acos((3-x^4)/(5-x^4))/(1+x^4),x,0,2^(1/4))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "4*(2*pi*atan(sqrt(2))-2*atan(sqrt(2))*atan(sqrt(2))-2*pi*atan(sqrt(5))+pi*pi/2)/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00445625\nMAX_RSS_KB 24144\n",
+      "host_seconds": 0.00445625,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24144,
+      "result_characters": 81,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000433045\nMAX_RSS_KB 24144\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C5-arc-quartic-pullback-01",
+      "input": "integrate(4*x*acos((3-x^4)/(5-x^4))/(1+x^4),x,0,2^(1/4))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "4*(2*pi*atan(sqrt(2))-2*atan(sqrt(2))*atan(sqrt(2))-2*pi*atan(sqrt(5))+pi*pi/2)/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00445635\nMAX_RSS_KB 24144\n",
+      "host_seconds": 0.00445635,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24144,
+      "result_characters": 81,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000432895\nMAX_RSS_KB 24144\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C5-arc-quartic-pullback-01",
+      "input": "simplify(integrate(4*x*acos((3-x^4)/(5-x^4))/(1+x^4),x,0,2^(1/4)))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(-4*atan(sqrt(2))^2+4*atan(sqrt(2))*pi-4*atan(sqrt(5))*pi+pi^2)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00542275\nMAX_RSS_KB 24144\n",
+      "host_seconds": 0.00542275,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24144,
+      "result_characters": 65,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000420665\nMAX_RSS_KB 24144\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C5-arc-quartic-pullback-01",
+      "input": "simplify(integrate(4*x*acos((3-x^4)/(5-x^4))/(1+x^4),x,0,2^(1/4)))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(-4*atan(sqrt(2))^2+4*atan(sqrt(2))*pi-4*atan(sqrt(5))*pi+pi^2)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00517315\nMAX_RSS_KB 24144\n",
+      "host_seconds": 0.00517315,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24144,
+      "result_characters": 65,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000601542\nMAX_RSS_KB 24144\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C5-atan-rectangle-pair-01",
+      "input": "integrate(2*atan(3/sqrt(4*x^2+2))/((1+4*x^2)*sqrt(4*x^2+2))+3*atan(2/sqrt(9*x^2+2))/((1+9*x^2)*sqrt(9*x^2+2)),x,0,1)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "atan(3)*atan(2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000443035\nMAX_RSS_KB 24144\n",
+      "host_seconds": 0.000443035,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24144,
+      "result_characters": 15,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000272467\nMAX_RSS_KB 24400\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C5-atan-rectangle-pair-01",
+      "input": "integrate(2*atan(3/sqrt(4*x^2+2))/((1+4*x^2)*sqrt(4*x^2+2))+3*atan(2/sqrt(9*x^2+2))/((1+9*x^2)*sqrt(9*x^2+2)),x,0,1)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "atan(3)*atan(2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000769441\nMAX_RSS_KB 24400\n",
+      "host_seconds": 0.000769441,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24400,
+      "result_characters": 15,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000271767\nMAX_RSS_KB 24400\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C5-atan-rectangle-pair-01",
+      "input": "simplify(integrate(2*atan(3/sqrt(4*x^2+2))/((1+4*x^2)*sqrt(4*x^2+2))+3*atan(2/sqrt(9*x^2+2))/((1+9*x^2)*sqrt(9*x^2+2)),x,0,1))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "atan(2)*atan(3)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000701562\nMAX_RSS_KB 24400\n",
+      "host_seconds": 0.000701562,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24400,
+      "result_characters": 15,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000269117\nMAX_RSS_KB 24400\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C5-atan-rectangle-pair-01",
+      "input": "simplify(integrate(2*atan(3/sqrt(4*x^2+2))/((1+4*x^2)*sqrt(4*x^2+2))+3*atan(2/sqrt(9*x^2+2))/((1+9*x^2)*sqrt(9*x^2+2)),x,0,1))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "atan(2)*atan(3)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000687212\nMAX_RSS_KB 24400\n",
+      "host_seconds": 0.000687212,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24400,
+      "result_characters": 15,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000285307\nMAX_RSS_KB 24400\nCHECK exact\n"
+      },
+      "status": "exact"
+    }
+  ]
+}

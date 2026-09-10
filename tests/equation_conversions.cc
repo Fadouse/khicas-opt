@@ -61,7 +61,8 @@ int main(int argc,char **argv) {
   p=call(_cart2param,"((x-y)^2=0,[x,y],t)",contextptr);
   expect_equal(p,parse("[[t,t]]",contextptr),contextptr);
   p=call(_cart2param,"(x^2+y^2=4,[x,y],t)",contextptr);
-  assert(p.type==_VECT && p._VECTptr->size()==2);
+  assert(p.type==_VECT && p._VECTptr->size()==1);
+  expect_equal(p,parse("[[2*cos(t),2*sin(t)]]",contextptr),contextptr);
   for (unsigned i=0;i<p._VECTptr->size();++i) {
     const vecteur &v=*(*p._VECTptr)[i]._VECTptr;
     expect_equal(v[0]*v[0]+v[1]*v[1],4,contextptr);

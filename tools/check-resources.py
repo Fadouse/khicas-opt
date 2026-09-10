@@ -23,7 +23,8 @@ for name in regions:
 selectors=re.findall(r'yintg\.o\(\.text\.\*(\w+)\*\)',(d/'prizm.ld').read_text())
 symbols=(d/'khicasen.elf.symbols').read_text(); moved={}
 conversion_names=['_'+name for name in ('cart2param','cart2polar','param2cart','param2polar','polar2cart','polar2param')] if 'kconvert.o(.text.*)' in (d/'prizm.ld').read_text() else []
-for name in selectors+conversion_names:
+conversion_helpers=['curve_conic_param','curve_sign'] if 'static bool curve_conic_param(' in (d/'kconvert.cc').read_text() else []
+for name in selectors+conversion_names+conversion_helpers:
     hits=re.findall(r'^([0-9a-f]+)\s+.*?\bF\s+(\S+)\s+([0-9a-f]+)\s+giac::'+name+r'\(',symbols,re.M)
     assert hits, f'Missing helper: {name}'
     for address,section,size in hits:
@@ -42,6 +43,8 @@ report={'scope':'SH4 linker/binary capacity and single compiler stack frames; no
         'configured_CAS_heap_bytes':0x180000,
         'moved_helpers':{name:moved[name] for name in selectors},
         'moved_conversion_entries':{name:moved[name] for name in conversion_names},
+        'moved_conversion_helpers':{name:moved[name] for name in conversion_helpers},
+        'conversion_helper_frames':[r for r in frames if any(name+'(' in r['function'] for name in conversion_helpers)],
         'largest_single_frames':sorted(frames,key=lambda v:v['bytes'],reverse=True)[:30],
         'integration_helper_frames':[r for r in frames if any(name+'(' in r['function'] for name in selectors)],
         'sha256':{name:hashlib.sha256((d/name).read_bytes()).hexdigest() for name in ('khicas50.g3a','khicas50.ac2','khicasen.elf','prizm.ld','main.cc','kglobal.cc','static_lexer_.h','static_lexer.h','static_extern.h','usual.h','dilogarithm.h','zmaple.cc','yintg.cc','ksubst.cc','equation_normalize.h','parametric_display.h','kconvert.cc','zprog.cc','input_lexer.cc','input_lexer.ll')}}

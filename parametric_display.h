@@ -9,7 +9,7 @@ extern const unary_function_ptr * const at_polar2param;
 inline bool parametric_display_view(const gen &request,const gen &result,gen &view){
   const gen *call=&request;
   for(unsigned depth=0;depth<8;++depth){
-    if(call->is_symb_of_sommet(at_simplify)){
+    if(call->is_symb_of_sommet(at_simplify) || call->is_symb_of_sommet(at_normal) || call->is_symb_of_sommet(at_ratnormal)){
       call=&call->_SYMBptr->feuille;
       if(call->type==_VECT && call->subtype==_SEQ__VECT)return false;
       continue;
@@ -27,12 +27,15 @@ inline bool parametric_display_view(const gen &request,const gen &result,gen &vi
   if(f.type!=_VECT || f._VECTptr->size()!=3)return false;
   const vecteur &args=*f._VECTptr;
   if(args[1].type!=_VECT || args[1]._VECTptr->size()!=2 || args[2].type!=_IDNT)return false;
-  if(result.type!=_VECT || result._VECTptr->empty() || result._VECTptr->size()>16 || taille(result,257)>256)return false;
+  if(result.type!=_VECT || result._VECTptr->empty() || result._VECTptr->size()>16)return false;
   gen x=cart?args[1]._VECTptr->front():gen(identificateur("x"));
   gen y=cart?args[1]._VECTptr->back():gen(identificateur("y"));
   if(x.type!=_IDNT || y.type!=_IDNT)return false;
   gen xcall=symbolic(at_of,makesequence(x,args[2]));
   gen ycall=symbolic(at_of,makesequence(y,args[2]));
+  // Labels add bounded wrapper nodes and share coordinate expressions; their
+  // construction need not scan or copy a potentially large result subtree.
+  // The renderer applies its own allocation limit after adding the labels.
   vecteur branches;
   branches.reserve(result._VECTptr->size());
   for(unsigned i=0;i<result._VECTptr->size();++i){

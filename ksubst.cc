@@ -2455,6 +2455,21 @@ namespace giac {
         if(variables>1 && radical)return ratnormal(e_orig,contextptr);
       }
     }
+    // A*cos(u)+B*sin(u)+C is defined at every finite real u. A
+    // half-angle rewrite introduces tan(u/2) poles and loses curve points.
+    // Keep this affine harmonic chart compact; quadratic identities such
+    // as sin(u)^2+cos(u)^2 still use the general simplifier.
+    if(taille(e_orig,257)<=256){
+      vecteur trig=loptab(e_orig,sincostan_tab);
+      if(trig.size()==2 &&
+         ((trig[0].is_symb_of_sommet(at_sin) && trig[1].is_symb_of_sommet(at_cos)) ||
+          (trig[0].is_symb_of_sommet(at_cos) && trig[1].is_symb_of_sommet(at_sin))) &&
+         trig[0]._SYMBptr->feuille==trig[1]._SYMBptr->feuille && !lidnt(trig[0]._SYMBptr->feuille).empty()){
+        gen a,b,c,d;
+        if(is_linear_wrt(e_orig,trig[0],a,b,contextptr) && !contains(a,trig[1]) &&
+           is_linear_wrt(b,trig[1],c,d,contextptr))return ratnormal(e_orig,contextptr);
+      }
+    }
     if(taille(e_orig,129)<=128){
       vecteur angles=lop(e_orig,at_atan);
       if(angles.size()>1 && !lidnt(angles).empty()){
@@ -2709,22 +2724,36 @@ namespace giac {
     }
     if (s1>1){
       // retry with trigtan/trigcos/trigsin/halftan
-      gen e2=recursive_normal(_trigtan(e,contextptr),contextptr);
-      if (int(loptab(e2,sincostan_tab).size())<s1)
-	return simplify(e2,contextptr);
+      vecteur existing_tangents=lop(v1,at_tan);
+      gen e2;
+      if(!existing_tangents.empty()){
+        e2=recursive_normal(_trigtan(e,contextptr),contextptr);
+        vecteur tangents=lop(e2,at_tan);bool same_domain=true;
+        for(unsigned j=0;j<tangents.size();++j)
+          if(!equalposcomp(existing_tangents,tangents[j])){same_domain=false;break;}
+        if(same_domain && int(loptab(e2,sincostan_tab).size())<s1)return simplify(e2,contextptr);
+      }
       e2=recursive_normal(_trigcos(e,contextptr),contextptr);
       if (int(loptab(e2,sincostan_tab).size())<s1)
 	return simplify(e2,contextptr);
       e2=recursive_normal(_trigsin(e,contextptr),contextptr);
       if (int(loptab(e2,sincostan_tab).size())<s1)
 	return simplify(e2,contextptr);
-      e2=_halftan(v1,contextptr);
-      if (e2.type==_VECT){
-	vecteur w1(loptab(e2,sincostan_tab));
-	if (w1.size()<v1.size()){
-	  e=subst(e,v1,e2,false,contextptr);
-	  return simplify(e,contextptr);
-	}
+      if(!existing_tangents.empty()){
+        e2=_halftan(v1,contextptr);
+        if (e2.type==_VECT){
+          vecteur w1(loptab(e2,sincostan_tab)),new_tangents=lop(e2,at_tan);
+          bool same_domain=true;
+          for(unsigned j=0;j<new_tangents.size();++j)
+            if(!equalposcomp(existing_tangents,new_tangents[j])){same_domain=false;break;}
+          // A new half-angle tangent can be infinite where the original
+          // expression is regular. Fewer atoms alone is not a valid reason
+          // to accept that loss of parameter points.
+          if(same_domain && w1.size()<v1.size()){
+            e=subst(e,v1,e2,false,contextptr);
+            return simplify(e,contextptr);
+          }
+        }
       }
     }
     e=quotesubst(e,vabs,vabs2,contextptr);
