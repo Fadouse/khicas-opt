@@ -594,47 +594,14 @@ namespace giac {
     return true;
   }
 
-  static gen derive_SYMB(const gen &g_orig,const identificateur & i,GIAC_CONTEXT){
-    gen abs_composed;if(derive_abs_composition(g_orig,i,abs_composed,contextptr))return abs_composed;
-    const symbolic & s = *g_orig._SYMBptr;
-    if (s.sommet==at_pnt){
-      gen f=g_orig._SYMBptr->feuille;
-      if (f.type==_VECT && !f._VECTptr->empty()){
-	vecteur v=*f._VECTptr;
-	v[0]=derive(v[0],i,contextptr);
-	f=gen(v,f.subtype);
-	return symbolic(at_pnt,f);
-      }
-    }
-    // if s does not depend on i return 0
-    if (!depend(g_orig,i))
-      return zero;
-    // On the unit circle, differentiate the imaginary dilogarithm before
-    // re/im expand the complex quotient into repeated trigonometric trees.
-    // d Im Li2(exp(i*u)) = -u' log(2*abs(sin(u/2))) for real u off 2*pi*Z.
-    if ((s.sommet==at_im || s.sommet==at_re) && s.feuille.is_symb_of_sommet(at_Li2)){
-      const gen &z=s.feuille._SYMBptr->feuille;
-      if(z.is_symb_of_sommet(at_exp) && angle_radian(contextptr) && taille(z,65)<=64){
-        gen u=ratnormal(-cst_i*z._SYMBptr->feuille,contextptr);
-        if(is_zero(im(u,contextptr))){
-          gen du=derive(u,i,contextptr);
-          if(s.sommet==at_re)
-            return du*(u-2*cst_pi*symbolic(at_floor,u/(2*cst_pi))-cst_pi)/2;
-          // The identity already needs the absolute value on every sign
-          // interval. Keep it instead of running a global Sturm sign test
-          // merely to rediscover the same symbolic abs(sin(...)).
-          gen answer=-du*symbolic(at_ln,2*symbolic(at_abs,sin(u/2,contextptr)));
-          unsigned budget=128;equation_polynomial_budget bound;
-          // At a stationary point of a polynomial phase, delta*log(delta)
-          // has derivative zero even when exp(i*u)=1. Keep the branch lazy.
-          if(depend(du,i) && equation_polynomial_bound(u,budget,0,bound))
-            return symbolic(at_when,makesequence(symb_equal(du,0),0,answer));
-          return answer;
-        }
-      }
-    }
-    // rational operators are treated first for efficiency
-    if (s.sommet==at_plus){
+  // Keep recursive arithmetic/chain rules out of the large frame holding
+  // special-function, implicit-function and higher-derivative temporaries.
+  static gen derive_SYMB(const gen &,const identificateur &,GIAC_CONTEXT);
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static gen derive_symbolic_plus(const gen &g_orig,const identificateur &i,GIAC_CONTEXT){
+    const symbolic &s=*g_orig._SYMBptr;
       bool do_step=step_infolevel(contextptr)>1 && count_noncst(s.feuille,i)>1;
       if (do_step)
 	gprintf(gettext("Derivative of %gen apply linearity: (u+v+...)'=u'+v'+..."),makevecteur(s),contextptr);
@@ -662,8 +629,13 @@ namespace giac {
       if (do_step)
 	gprintf(gettext("Hence derivative of %gen by linearity is %gen"),makevecteur(g_orig,res),contextptr);
       return res;
-    }
-    if (s.sommet==at_prod){
+
+  }
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static gen derive_symbolic_prod(const gen &g_orig,const identificateur &i,GIAC_CONTEXT){
+    const symbolic &s=*g_orig._SYMBptr;
       gen composed;if(derive_real_composition(s,i,composed,contextptr) || derive_root_product(g_orig,i,composed,contextptr))return composed;
       bool do_step=step_infolevel(contextptr)>1 && count_noncst(s.feuille,i)>1;
       if (s.feuille.type==_VECT && s.feuille._VECTptr->size()==2 && s.feuille._VECTptr->back().is_symb_of_sommet(at_inv) && !is_constant_wrt(s.feuille._VECTptr->back()._SYMBptr->feuille,i,contextptr)){
@@ -707,13 +679,13 @@ namespace giac {
       if (do_step)
 	gprintf(gettext("Hence derivative of %gen by product rule is %gen"),makevecteur(g_orig,res),contextptr);
       return res;
-    }
-    if (s.sommet==at_neg)
-      return -derive(s.feuille,i,contextptr);
-    if(s.sommet==at_pow || s.sommet==at_acos || s.sommet==at_asin || s.sommet==at_surd || s.sommet==at_NTHROOT){
-      gen result;if(derive_real_composition(s,i,result,contextptr))return result;
-    }
-    if (s.sommet==at_pow){
+
+  }
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static gen derive_symbolic_pow(const gen &g_orig,const identificateur &i,GIAC_CONTEXT){
+    const symbolic &s=*g_orig._SYMBptr;
       if (s.feuille.type!=_VECT || s.feuille._VECTptr->size()!=2)
 	return gensizeerr(contextptr);
       gen base = s.feuille._VECTptr->front(),exponent=s.feuille._VECTptr->back();
@@ -730,8 +702,13 @@ namespace giac {
       if (is_zero(dexponent))
 	return exponent*dbase*pow(base,expm1,contextptr);
       return dexponent*ln(base,contextptr)*s+exponent*dbase*pow(base,expm1,contextptr);
-    }
-    if (s.sommet==at_inv){
+
+  }
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static gen derive_symbolic_inv(const gen &g_orig,const identificateur &i,GIAC_CONTEXT){
+    const symbolic &s=*g_orig._SYMBptr;
       if (step_infolevel(contextptr)>1)
 	gprintf(gettext("Derivative of inv(u)=-u'/u^2 with u=%gen"),makevecteur(s.feuille),contextptr);
       if (s.feuille.is_symb_of_sommet(at_pow)){
@@ -740,7 +717,13 @@ namespace giac {
 	  return derive(symb_pow(f._VECTptr->front(),-f._VECTptr->back()),i,contextptr);
       }
       return rdiv(-derive(s.feuille,i,contextptr),pow(s.feuille,2),contextptr);
-    }
+
+  }
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static gen derive_symbolic_other(const gen &g_orig,const identificateur &i,GIAC_CONTEXT){
+    const symbolic &s=*g_orig._SYMBptr;
     if (equalposcomp(inequality_tab,s.sommet))
       return 0;
     if (s.sommet==at_fsolve && s.feuille.type==_VECT && s.feuille._VECTptr->size()>=2){
@@ -1044,6 +1027,81 @@ namespace giac {
     //i.dbgprint();
     //s.dbgprint();
   }
+
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static gen derive_symbolic_point(const gen &g_orig,const identificateur &i,GIAC_CONTEXT){
+    gen f=g_orig._SYMBptr->feuille;
+    vecteur v=*f._VECTptr;
+    v[0]=derive(v[0],i,contextptr);
+    return symbolic(at_pnt,gen(v,f.subtype));
+  }
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static bool derive_symbolic_dilog(const symbolic &s,const identificateur &i,gen &result,GIAC_CONTEXT){
+    if ((s.sommet==at_im || s.sommet==at_re) && s.feuille.is_symb_of_sommet(at_Li2)){
+      const gen &z=s.feuille._SYMBptr->feuille;
+      if(z.is_symb_of_sommet(at_exp) && angle_radian(contextptr) && taille(z,65)<=64){
+        gen u=ratnormal(-cst_i*z._SYMBptr->feuille,contextptr);
+        if(is_zero(im(u,contextptr))){
+          gen du=derive(u,i,contextptr);
+          if(s.sommet==at_re)
+            {result=du*(u-2*cst_pi*symbolic(at_floor,u/(2*cst_pi))-cst_pi)/2;return true;}
+          // The identity already needs the absolute value on every sign
+          // interval. Keep it instead of running a global Sturm sign test
+          // merely to rediscover the same symbolic abs(sin(...)).
+          gen answer=-du*symbolic(at_ln,2*symbolic(at_abs,sin(u/2,contextptr)));
+          unsigned budget=128;equation_polynomial_budget bound;
+          // At a stationary point of a polynomial phase, delta*log(delta)
+          // has derivative zero even when exp(i*u)=1. Keep the branch lazy.
+          if(depend(du,i) && equation_polynomial_bound(u,budget,0,bound))
+            {result=symbolic(at_when,makesequence(symb_equal(du,0),0,answer));return true;}
+          result=answer;return true;
+        }
+      }
+    }
+    return false;
+  }
+
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static gen derive_SYMB(const gen &g_orig,const identificateur & i,GIAC_CONTEXT){
+    gen abs_composed;if(derive_abs_composition(g_orig,i,abs_composed,contextptr))return abs_composed;
+    const symbolic & s = *g_orig._SYMBptr;
+    if(s.sommet==at_pnt && s.feuille.type==_VECT && !s.feuille._VECTptr->empty())
+      return derive_symbolic_point(g_orig,i,contextptr);
+    // if s does not depend on i return 0
+    if (!depend(g_orig,i))
+      return zero;
+    // On the unit circle, differentiate the imaginary dilogarithm before
+    // re/im expand the complex quotient into repeated trigonometric trees.
+    // d Im Li2(exp(i*u)) = -u' log(2*abs(sin(u/2))) for real u off 2*pi*Z.
+    if((s.sommet==at_im || s.sommet==at_re) && s.feuille.is_symb_of_sommet(at_Li2) &&
+       derive_symbolic_dilog(s,i,abs_composed,contextptr))return abs_composed;
+    // rational operators are treated first for efficiency
+    if (s.sommet==at_plus)
+      return derive_symbolic_plus(g_orig,i,contextptr);
+    if (s.sommet==at_prod)
+      return derive_symbolic_prod(g_orig,i,contextptr);
+    if (s.sommet==at_neg)
+      return -derive(s.feuille,i,contextptr);
+    if(s.sommet==at_pow || s.sommet==at_acos || s.sommet==at_asin || s.sommet==at_surd || s.sommet==at_NTHROOT){
+      gen result;if(derive_real_composition(s,i,result,contextptr))return result;
+    }
+    if (s.sommet==at_pow)
+      return derive_symbolic_pow(g_orig,i,contextptr);
+    if (s.sommet==at_inv)
+      return derive_symbolic_inv(g_orig,i,contextptr);
+    if (!step_infolevel(contextptr) && s.feuille.type!=_VECT && s.sommet.ptr()->D &&
+        (s.sommet==at_sin || s.sommet==at_cos || s.sommet==at_tan || s.sommet==at_exp ||
+         s.sommet==at_sinh || s.sommet==at_cosh || s.sommet==at_tanh))
+      return derive(s.feuille,i,contextptr)*(*s.sommet.ptr()->D)(1)(s.feuille,contextptr);
+    return derive_symbolic_other(g_orig,i,contextptr);
+  }
+
 
   static gen derive_VECT(const vecteur & v,const identificateur & i,GIAC_CONTEXT){
     vecteur w;

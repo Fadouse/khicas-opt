@@ -1,5 +1,5 @@
 """Build repository integration/normalization against the host Giac ABI."""
-import os, shlex, subprocess
+import os, re, shlex, subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -13,12 +13,20 @@ def source(ref, name):
 
 def function(s, signature):
     start = s.index(signature)
+    while ';' in s[start:s.index('{',start)]:
+        start=s.index(signature,start+len(signature))
     end = s.index('{', start) + 1
     depth = 1
     while depth:
         depth += (s[end] == '{') - (s[end] == '}')
         end += 1
-    return s[start:end] + '\n'
+    # Preserve the production GCC noinline/size attributes. Dropping them
+    # lets the host compiler inline the branch guards into each recursive
+    # derivative frame, invalidating the intended stack layout.
+    prefix = re.search(r'(#if defined\(__GNUC__\) && !defined\(__clang__\)\s*'
+                       r'__attribute__\(\(noinline,optimize\("Os"\)\)\)\s*'
+                       r'#endif\s*)$', s[:start])
+    return (prefix.group(1) if prefix else '') + s[start:end] + '\n'
 
 def compiler_options():
     flags = [os.environ.get('CXX', 'c++'), '-std=c++11', '-O1', '-g',
@@ -72,8 +80,9 @@ def derivative_source(ref='current'):
     out+=function(source(ref,'zusual.cc'),'  gen symb_acos(')
     out+=function(source(ref,'zusual.cc'),'  static gen asinasln(')
     out+=function(source(ref,'zusual.cc'),'  gen acos(const gen & e0,GIAC_CONTEXT)')
+    out+='static gen derive_SYMB(const gen &,const identificateur &,GIAC_CONTEXT);\n'
     out+='gen host_symb_derive(const gen &);\ngen host_symb_derive(const gen &,const gen &);\ngen host_symb_derive(const gen &,const gen &,const gen &);\n'
-    for sig in ('   gen eval_before_diff(', '  bool depend(', '  static int count_noncst(', '  static bool derive_real_composition(', '  static bool derive_piecewise_regular(', '  static bool derive_root_product(', '  static int derive_piecewise_oscillation(', '  static gen derive_piecewise_joints(', '  static gen derive_guarded_sum(', '  static bool derive_nonnegative_polynomial(', '  static bool derive_abs_analytic(', '  static bool derive_abs_composition(', '  static gen derive_SYMB(',
+    for sig in ('   gen eval_before_diff(', '  bool depend(', '  static int count_noncst(', '  static bool derive_real_composition(', '  static bool derive_piecewise_regular(', '  static bool derive_root_product(', '  static int derive_piecewise_oscillation(', '  static gen derive_piecewise_joints(', '  static gen derive_guarded_sum(', '  static bool derive_nonnegative_polynomial(', '  static bool derive_abs_analytic(', '  static bool derive_abs_composition(', '  static gen derive_symbolic_plus(', '  static gen derive_symbolic_prod(', '  static gen derive_symbolic_pow(', '  static gen derive_symbolic_inv(', '  static gen derive_symbolic_other(', '  static gen derive_symbolic_point(', '  static bool derive_symbolic_dilog(', '  static gen derive_SYMB(',
                 '  static gen derive_VECT(', '  gen derive(const gen & e,const identificateur & i,GIAC_CONTEXT)',
                 '  static gen _VECTderive(', '  static gen derivesymb(',
                 '  gen derive(const gen & e,const gen & vars,GIAC_CONTEXT)',
@@ -81,6 +90,7 @@ def derivative_source(ref='current'):
                 '  gen symb_derive(const gen & a)', '  gen symb_derive(const gen & a,const gen & b)',
                 '  gen symb_derive(const gen & a,const gen & b,const gen &c)', '  gen _derive(', '  gen _diff('):
         if sig not in s and sig in ('  static bool derive_real_composition(', '  static bool derive_piecewise_regular(', '  static bool derive_root_product(', '  static int derive_piecewise_oscillation(', '  static gen derive_piecewise_joints(', '  static gen derive_guarded_sum(', '  static bool derive_nonnegative_polynomial(', '  static bool derive_abs_analytic(', '  static bool derive_abs_composition('):continue
+        if 'derive_symbolic_' in sig and sig not in s:continue
         out+=function(s,sig).replace('symb_derive(', 'host_symb_derive(').replace('symb_plus(v)', 'symbolic(at_plus,gen(v,_SEQ__VECT))')
     return out+'}\n'
 
@@ -98,6 +108,8 @@ def build(directory, ref='current', target_simplify=False, target_derive=False):
         (directory / 'dilogarithm.h').write_text(source(ref, 'dilogarithm.h'))
     if '#include "equation_normalize.h"' in text:
         (directory/'equation_normalize.h').write_text(source(ref,'equation_normalize.h'))
+    if '#include "logarithmic_span.h"' in text:
+        (directory/'logarithmic_span.h').write_text(source(ref,'logarithmic_span.h'))
     syms = source(ref, 'ysym2poly.cc')
     normalized = '#include "giacPCH.h"\nnamespace giac {\n'
     for sig in ('  static bool sort_func(', '  static vecteur sort1(',
@@ -138,6 +150,13 @@ def build(directory, ref='current', target_simplify=False, target_derive=False):
             (directory/'conditional_eval.h').write_text(source(ref,'conditional_eval.h'))
         (directory/'derivative.cc').write_text(derivative_source(ref))
         extra.append(str(directory/'derivative.cc'))
+    if target_derive and '#include "determinant_small.h"' in source(ref,'zvecteur.cc'):
+        (directory/'determinant_small.h').write_text(source(ref,'determinant_small.h'))
+        matrix_source='#include "giacPCH.h"\n#include "determinant_small.h"\nnamespace giac {\n'
+        matrix_source+=function(source(ref,'zvecteur.cc'),'  gen det_minor(const matrice & a,bool convert_internal,GIAC_CONTEXT)')
+        matrix_source+=function(source(ref,'zvecteur.cc'),'  gen _det(')
+        (directory/'matrix.cc').write_text(matrix_source+'}\n')
+        extra.append(str(directory/'matrix.cc'))
     flags, libs = compiler_options()
     exe = directory / 'probe'
     subprocess.run(flags + ['-DKHICAS_TEST_INTEGRATION_LIMITS', str(directory / 'yintg.cc'),

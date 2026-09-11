@@ -5,6 +5,7 @@ int confirm(const char * msg1,const char * msg2,bool acexit=false);
 #if defined(FXCG) || defined(KHICAS_TEST_INTEGRATION_LIMITS)
 #include "integration_guard.h"
 #include "equation_normalize.h"
+#include "logarithmic_span.h"
 namespace giac { integration_guard *integration_guard::active_=0; }
 #endif
 
@@ -319,8 +320,12 @@ namespace giac {
 
   gen lnabs(const gen & x,GIAC_CONTEXT){
     bool _lnabs=do_lnabs(contextptr);
-    if (!complex_mode(contextptr) && _lnabs && !has_i(x))
+    if (!complex_mode(contextptr) && _lnabs && !has_i(x)){
+      // A symbolic sign search is unnecessary for log|u| and can recurse
+      // through global range finding while a rational integral is active.
+      if(x.type==_SYMB)return symbolic(at_ln,symbolic(at_abs,x));
       return ln(abs(x,contextptr),contextptr);
+    }
     else
       return ln(x,contextptr);
   }
@@ -3392,6 +3397,7 @@ namespace giac {
     if(integrate_affine_radical(input,x,res,contextptr))return true;
     gen e=integration_syntax(input,contextptr),c=integration_coefficient(e,x,contextptr);
     gen p;
+    if(integration_resource_rational(c) && integrate_logarithmic_span(e,x,p,contextptr)){res=c*p;return true;}
     if(integration_resource_rational(c) && integrate_global_trig_power(e,x,p,contextptr)){res=c*p;return true;}
     if (!is_undef(c) && !is_inf(c) && integrate_high_frequency_trig(e,x,p,contextptr)){res=c*p;return true;}
     // Real logarithms of C*sqrt(Q)+L, with Q-(L/C)^2 a positive

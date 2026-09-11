@@ -1,0 +1,89 @@
+{
+  "probe_sha256": "f7d5061d71d41cdc8853c00121cee62809abcb54cbb4a7c9ebbf3cf8b7d6b480",
+  "runs": [
+    {
+      "input": "ln(sqrt((x+(-2))^2-y^2)/((x+(-2))-y))-(ln((x+(-2))+y)-ln((x+(-2))-y))/2",
+      "stack": "normal",
+      "result": "ln(sqrt((x-2)^2-y^2)/(x-2-y))-(ln(x-2+y)-ln(x-2-y))/2",
+      "exact": true,
+      "method": "Original separate real logs require u+y>0,u-y>0. On exactly u>|y|, sqrt((u+y)(u-y))/(u-y)>0 and the identity is zero; retained nodes exclude both boundary rays. Simultaneous specialization verifies the excluded vertex."
+    },
+    {
+      "input": "ln(sqrt((x+(0))^2-y^2)/((x+(0))-y))-(ln((x+(0))+y)-ln((x+(0))-y))/2",
+      "stack": "normal",
+      "result": "ln(sqrt(x^2-y^2)/(x-y))-(ln(x+y)-ln(x-y))/2",
+      "exact": true,
+      "method": "Original separate real logs require u+y>0,u-y>0. On exactly u>|y|, sqrt((u+y)(u-y))/(u-y)>0 and the identity is zero; retained nodes exclude both boundary rays. Simultaneous specialization verifies the excluded vertex."
+    },
+    {
+      "input": "ln(sqrt((x+(3))^2-y^2)/((x+(3))-y))-(ln((x+(3))+y)-ln((x+(3))-y))/2",
+      "stack": "normal",
+      "result": "ln(sqrt((x+3)^2-y^2)/(x+3-y))-(ln(x+3+y)-ln(x+3-y))/2",
+      "exact": true,
+      "method": "Original separate real logs require u+y>0,u-y>0. On exactly u>|y|, sqrt((u+y)(u-y))/(u-y)>0 and the identity is zero; retained nodes exclude both boundary rays. Simultaneous specialization verifies the excluded vertex."
+    },
+    {
+      "input": "(x-2*atan(sin(x)/(2+sqrt(3)+cos(x))))/sqrt(3)",
+      "stack": "normal",
+      "result": "(x-2*atan(sin(x)/(2+sqrt(3)+cos(x))))/sqrt(3)",
+      "exact": true,
+      "method": "c=k+sqrt(k\u00b2-1)>1, so c+cos x>=c-1>0. Exact retained global atan chart; its derivative is 1/(k+cos x) by c\u00b2+1=2kc. Additional finite evaluations at both conjugate-zero candidates check actual specialization, not the identity proof."
+    },
+    {
+      "input": "(x-2*atan(sin(x)/(3+sqrt(8)+cos(x))))/sqrt(8)",
+      "stack": "normal",
+      "result": "(x-2*atan(sin(x)/(3+2*sqrt(2)+cos(x))))/(2*sqrt(2))",
+      "exact": true,
+      "method": "c=k+sqrt(k\u00b2-1)>1, so c+cos x>=c-1>0. Exact retained global atan chart; its derivative is 1/(k+cos x) by c\u00b2+1=2kc. Additional finite evaluations at both conjugate-zero candidates check actual specialization, not the identity proof."
+    },
+    {
+      "input": "(x-2*atan(sin(x)/(5+sqrt(24)+cos(x))))/sqrt(24)",
+      "stack": "normal",
+      "result": "(x-2*atan(sin(x)/(5+2*sqrt(6)+cos(x))))/(2*sqrt(6))",
+      "exact": true,
+      "method": "c=k+sqrt(k\u00b2-1)>1, so c+cos x>=c-1>0. Exact retained global atan chart; its derivative is 1/(k+cos x) by c\u00b2+1=2kc. Additional finite evaluations at both conjugate-zero candidates check actual specialization, not the identity proof."
+    },
+    {
+      "input": "ln(sqrt((x+(-2))^2-y^2)/((x+(-2))-y))-(ln((x+(-2))+y)-ln((x+(-2))-y))/2",
+      "stack": "64",
+      "result": "ln(sqrt((x-2)^2-y^2)/(x-2-y))-(ln(x-2+y)-ln(x-2-y))/2",
+      "exact": true,
+      "method": "Original separate real logs require u+y>0,u-y>0. On exactly u>|y|, sqrt((u+y)(u-y))/(u-y)>0 and the identity is zero; retained nodes exclude both boundary rays. Simultaneous specialization verifies the excluded vertex."
+    },
+    {
+      "input": "ln(sqrt((x+(0))^2-y^2)/((x+(0))-y))-(ln((x+(0))+y)-ln((x+(0))-y))/2",
+      "stack": "64",
+      "result": "ln(sqrt(x^2-y^2)/(x-y))-(ln(x+y)-ln(x-y))/2",
+      "exact": true,
+      "method": "Original separate real logs require u+y>0,u-y>0. On exactly u>|y|, sqrt((u+y)(u-y))/(u-y)>0 and the identity is zero; retained nodes exclude both boundary rays. Simultaneous specialization verifies the excluded vertex."
+    },
+    {
+      "input": "ln(sqrt((x+(3))^2-y^2)/((x+(3))-y))-(ln((x+(3))+y)-ln((x+(3))-y))/2",
+      "stack": "64",
+      "result": "ln(sqrt((x+3)^2-y^2)/(x+3-y))-(ln(x+3+y)-ln(x+3-y))/2",
+      "exact": true,
+      "method": "Original separate real logs require u+y>0,u-y>0. On exactly u>|y|, sqrt((u+y)(u-y))/(u-y)>0 and the identity is zero; retained nodes exclude both boundary rays. Simultaneous specialization verifies the excluded vertex."
+    },
+    {
+      "input": "(x-2*atan(sin(x)/(2+sqrt(3)+cos(x))))/sqrt(3)",
+      "stack": "64",
+      "result": "(x-2*atan(sin(x)/(2+sqrt(3)+cos(x))))/sqrt(3)",
+      "exact": true,
+      "method": "c=k+sqrt(k\u00b2-1)>1, so c+cos x>=c-1>0. Exact retained global atan chart; its derivative is 1/(k+cos x) by c\u00b2+1=2kc. Additional finite evaluations at both conjugate-zero candidates check actual specialization, not the identity proof."
+    },
+    {
+      "input": "(x-2*atan(sin(x)/(3+sqrt(8)+cos(x))))/sqrt(8)",
+      "stack": "64",
+      "result": "(x-2*atan(sin(x)/(3+2*sqrt(2)+cos(x))))/(2*sqrt(2))",
+      "exact": true,
+      "method": "c=k+sqrt(k\u00b2-1)>1, so c+cos x>=c-1>0. Exact retained global atan chart; its derivative is 1/(k+cos x) by c\u00b2+1=2kc. Additional finite evaluations at both conjugate-zero candidates check actual specialization, not the identity proof."
+    },
+    {
+      "input": "(x-2*atan(sin(x)/(5+sqrt(24)+cos(x))))/sqrt(24)",
+      "stack": "64",
+      "result": "(x-2*atan(sin(x)/(5+2*sqrt(6)+cos(x))))/(2*sqrt(6))",
+      "exact": true,
+      "method": "c=k+sqrt(k\u00b2-1)>1, so c+cos x>=c-1>0. Exact retained global atan chart; its derivative is 1/(k+cos x) by c\u00b2+1=2kc. Additional finite evaluations at both conjugate-zero candidates check actual specialization, not the identity proof."
+    }
+  ]
+}

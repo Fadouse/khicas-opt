@@ -1,0 +1,161 @@
+{
+  "scope": "Isolated production dispatch contracts; DEFER does not claim the native fallback is safe for arbitrary input. Full computed identities and excluded sets are tested separately.",
+  "source_sha256": {
+    "determinant_small.h": "b6ed110fa5a9155df1a821c32796db3ee73524d2df884353cf33b18dff869773",
+    "equation_normalize.h": "4bfb644f0e18bb36e280ce8886c8ac12695c9aeeaef187ea3e5f967cd1642e37"
+  },
+  "runs": [
+    {
+      "input": "[[1+x,y],[z,1]]",
+      "expected_accept": true,
+      "reason": "generic polynomial",
+      "exit": 0,
+      "result": "ACCEPT (x+1)*1-y*z",
+      "passed": true
+    },
+    {
+      "input": "[[1+x^2/(x+y),x*y/(x+y)],[x*y/(x+y),1+y^2/(x+y)]]",
+      "expected_accept": true,
+      "reason": "rank one",
+      "exit": 0,
+      "result": "ACCEPT ((x+y=0)? undef : 1+(x^2+y^2)/(x+y))",
+      "passed": true
+    },
+    {
+      "input": "[[((x+y)+x^2)/(x+y),x*y/(x+y)],[x*y/(x+y),((x+y)+y^2)/(x+y)]]",
+      "expected_accept": true,
+      "reason": "explicit common fraction",
+      "exit": 0,
+      "result": "ACCEPT ((x+y=0)? undef : 1+(x^2+y^2)/(x+y))",
+      "passed": true
+    },
+    {
+      "input": "[[1,1/(x+y)],[0,1]]",
+      "expected_accept": true,
+      "reason": "constant determinant preserves original matrix pole",
+      "exit": 0,
+      "result": "ACCEPT ((x+y=0)? undef : 1+0/(x+y))",
+      "passed": true
+    },
+    {
+      "input": "[[0,x],[y,0]]",
+      "expected_accept": true,
+      "reason": "zero pivots do not require division",
+      "exit": 0,
+      "result": "ACCEPT -x*y",
+      "passed": true
+    },
+    {
+      "input": "[[1,2],[3,4]]",
+      "expected_accept": false,
+      "reason": "native numeric path",
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    },
+    {
+      "input": "[[x]]",
+      "expected_accept": false,
+      "reason": "native one by one",
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    },
+    {
+      "input": "[[x,y,z],[1,2,3]]",
+      "expected_accept": false,
+      "reason": "non square",
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    },
+    {
+      "input": "[x,y]",
+      "expected_accept": false,
+      "reason": "not a matrix",
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    },
+    {
+      "input": "[[[x,0],[0,1]],minor_det]",
+      "expected_accept": false,
+      "reason": "option sequence",
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    },
+    {
+      "input": "[[sin(x),1],[0,x]]",
+      "expected_accept": false,
+      "reason": "non polynomial",
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    },
+    {
+      "input": "[[sqrt(x),0],[0,1]]",
+      "expected_accept": false,
+      "reason": "fractional power",
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    },
+    {
+      "input": "[[1/(x/y),0],[0,1]]",
+      "expected_accept": false,
+      "reason": "nested reciprocal retains inner hole",
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    },
+    {
+      "input": "[[1/x,0],[0,1/y]]",
+      "expected_accept": false,
+      "reason": "unrelated denominators",
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    },
+    {
+      "input": "[[1/x+1/y,0],[0,1]]",
+      "expected_accept": false,
+      "reason": "unrelated denominators within a sum",
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    },
+    {
+      "input": "[[x^17,0],[0,1]]",
+      "expected_accept": false,
+      "reason": "degree budget",
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    },
+    {
+      "input": "[[x^(-17),0],[0,1]]",
+      "expected_accept": false,
+      "reason": "denominator exponent budget",
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    },
+    {
+      "input": "[[2^4096*x,0],[0,1]]",
+      "expected_accept": false,
+      "reason": "coefficient bit budget",
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    },
+    {
+      "input": "[[x,0,0,0,0],[0,x,0,0,0],[0,0,x,0,0],[0,0,0,x,0],[0,0,0,0,x]]",
+      "expected_accept": false,
+      "reason": "dimension budget",
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    }
+  ]
+}

@@ -1,0 +1,1226 @@
+{
+  "scope": "38 expression families, direct/outer simplify and normal/64 KiB stack. Exact symbolic derivatives on each original differentiability component; dedicated historical branch/endpoint guards are separate.",
+  "source_sha256": {
+    "yderive.cc": "4626da228a96cef16118cade1017620c4265c20f7e07ba67f257d42f89ad6182",
+    "ksubst.cc": "7a1a36d7e0362b704b953791af5ac88a789b69d104b59129b56b049a5186f02a"
+  },
+  "probe_sha256": "f7d5061d71d41cdc8853c00121cee62809abcb54cbb4a7c9ebbf3cf8b7d6b480",
+  "runs": [
+    {
+      "case": 0,
+      "input": "diff(cos(x),x)",
+      "stack": "normal",
+      "exit": 0,
+      "result": "-sin(x)",
+      "passed": true
+    },
+    {
+      "case": 0,
+      "input": "diff(cos(x),x)",
+      "stack": "64",
+      "exit": 0,
+      "result": "-sin(x)",
+      "passed": true
+    },
+    {
+      "case": 0,
+      "input": "simplify(diff(cos(x),x))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "-sin(x)",
+      "passed": true
+    },
+    {
+      "case": 0,
+      "input": "simplify(diff(cos(x),x))",
+      "stack": "64",
+      "exit": 0,
+      "result": "-sin(x)",
+      "passed": true
+    },
+    {
+      "case": 1,
+      "input": "diff(sin(cos(x)),x)",
+      "stack": "normal",
+      "exit": 0,
+      "result": "-sin(x)*cos(cos(x))",
+      "passed": true
+    },
+    {
+      "case": 1,
+      "input": "diff(sin(cos(x)),x)",
+      "stack": "64",
+      "exit": 0,
+      "result": "-sin(x)*cos(cos(x))",
+      "passed": true
+    },
+    {
+      "case": 1,
+      "input": "simplify(diff(sin(cos(x)),x))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "-1/2*sin(-cos(x)+x)-1/2*sin(cos(x)+x)",
+      "passed": true
+    },
+    {
+      "case": 1,
+      "input": "simplify(diff(sin(cos(x)),x))",
+      "stack": "64",
+      "exit": 0,
+      "result": "-1/2*sin(-cos(x)+x)-1/2*sin(cos(x)+x)",
+      "passed": true
+    },
+    {
+      "case": 2,
+      "input": "diff(cos(sin(cos(x))),x)",
+      "stack": "normal",
+      "exit": 0,
+      "result": "sin(x)*cos(cos(x))*sin(sin(cos(x)))",
+      "passed": true
+    },
+    {
+      "case": 2,
+      "input": "diff(cos(sin(cos(x))),x)",
+      "stack": "64",
+      "exit": 0,
+      "result": "sin(x)*cos(cos(x))*sin(sin(cos(x)))",
+      "passed": true
+    },
+    {
+      "case": 2,
+      "input": "simplify(diff(cos(sin(cos(x))),x))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "cos(cos(x))*sin(sin(cos(x)))*sin(x)",
+      "passed": true
+    },
+    {
+      "case": 2,
+      "input": "simplify(diff(cos(sin(cos(x))),x))",
+      "stack": "64",
+      "exit": 0,
+      "result": "cos(cos(x))*sin(sin(cos(x)))*sin(x)",
+      "passed": true
+    },
+    {
+      "case": 3,
+      "input": "diff(sin(cos(sin(cos(x)))),x)",
+      "stack": "normal",
+      "exit": 0,
+      "result": "sin(x)*cos(cos(x))*sin(sin(cos(x)))*cos(cos(sin(cos(x))))",
+      "passed": true
+    },
+    {
+      "case": 3,
+      "input": "diff(sin(cos(sin(cos(x)))),x)",
+      "stack": "64",
+      "exit": 0,
+      "result": "sin(x)*cos(cos(x))*sin(sin(cos(x)))*cos(cos(sin(cos(x))))",
+      "passed": true
+    },
+    {
+      "case": 3,
+      "input": "simplify(diff(sin(cos(sin(cos(x)))),x))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "cos(cos(sin(cos(x))))*cos(cos(x))*sin(sin(cos(x)))*sin(x)",
+      "passed": true
+    },
+    {
+      "case": 3,
+      "input": "simplify(diff(sin(cos(sin(cos(x)))),x))",
+      "stack": "64",
+      "exit": 0,
+      "result": "cos(cos(sin(cos(x))))*cos(cos(x))*sin(sin(cos(x)))*sin(x)",
+      "passed": true
+    },
+    {
+      "case": 4,
+      "input": "diff(cos(sin(cos(sin(cos(x))))),x)",
+      "stack": "normal",
+      "exit": 0,
+      "result": "-sin(x)*cos(cos(x))*sin(sin(cos(x)))*cos(cos(sin(cos(x))))*sin(sin(cos(sin(cos(x)))))",
+      "passed": true
+    },
+    {
+      "case": 4,
+      "input": "diff(cos(sin(cos(sin(cos(x))))),x)",
+      "stack": "64",
+      "exit": 0,
+      "result": "-sin(x)*cos(cos(x))*sin(sin(cos(x)))*cos(cos(sin(cos(x))))*sin(sin(cos(sin(cos(x)))))",
+      "passed": true
+    },
+    {
+      "case": 4,
+      "input": "simplify(diff(cos(sin(cos(sin(cos(x))))),x))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "-cos(cos(sin(cos(x))))*cos(cos(x))*sin(sin(cos(sin(cos(x)))))*sin(sin(cos(x)))*sin(x)",
+      "passed": true
+    },
+    {
+      "case": 4,
+      "input": "simplify(diff(cos(sin(cos(sin(cos(x))))),x))",
+      "stack": "64",
+      "exit": 0,
+      "result": "-cos(cos(sin(cos(x))))*cos(cos(x))*sin(sin(cos(sin(cos(x)))))*sin(sin(cos(x)))*sin(x)",
+      "passed": true
+    },
+    {
+      "case": 5,
+      "input": "diff(sin(cos(sin(cos(sin(cos(x)))))),x)",
+      "stack": "normal",
+      "exit": 0,
+      "result": "-sin(x)*cos(cos(x))*sin(sin(cos(x)))*cos(cos(sin(cos(x))))*sin(sin(cos(sin(cos(x)))))*cos(cos(sin(cos(sin(cos(x))))))",
+      "passed": true
+    },
+    {
+      "case": 5,
+      "input": "diff(sin(cos(sin(cos(sin(cos(x)))))),x)",
+      "stack": "64",
+      "exit": 0,
+      "result": "-sin(x)*cos(cos(x))*sin(sin(cos(x)))*cos(cos(sin(cos(x))))*sin(sin(cos(sin(cos(x)))))*cos(cos(sin(cos(sin(cos(x))))))",
+      "passed": true
+    },
+    {
+      "case": 5,
+      "input": "simplify(diff(sin(cos(sin(cos(sin(cos(x)))))),x))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "-cos(cos(sin(cos(sin(cos(x))))))*cos(cos(sin(cos(x))))*cos(cos(x))*sin(sin(cos(sin(cos(x)))))*sin(sin(cos(x)))*sin(x)",
+      "passed": true
+    },
+    {
+      "case": 5,
+      "input": "simplify(diff(sin(cos(sin(cos(sin(cos(x)))))),x))",
+      "stack": "64",
+      "exit": 0,
+      "result": "-cos(cos(sin(cos(sin(cos(x))))))*cos(cos(sin(cos(x))))*cos(cos(x))*sin(sin(cos(sin(cos(x)))))*sin(sin(cos(x)))*sin(x)",
+      "passed": true
+    },
+    {
+      "case": 6,
+      "input": "diff(cos(sin(cos(sin(cos(sin(cos(x))))))),x)",
+      "stack": "normal",
+      "exit": 0,
+      "result": "sin(x)*cos(cos(x))*sin(sin(cos(x)))*cos(cos(sin(cos(x))))*sin(sin(cos(sin(cos(x)))))*cos(cos(sin(cos(sin(cos(x))))))*sin(sin(cos(sin(cos(sin(cos(x)))))))",
+      "passed": true
+    },
+    {
+      "case": 6,
+      "input": "diff(cos(sin(cos(sin(cos(sin(cos(x))))))),x)",
+      "stack": "64",
+      "exit": 0,
+      "result": "sin(x)*cos(cos(x))*sin(sin(cos(x)))*cos(cos(sin(cos(x))))*sin(sin(cos(sin(cos(x)))))*cos(cos(sin(cos(sin(cos(x))))))*sin(sin(cos(sin(cos(sin(cos(x)))))))",
+      "passed": true
+    },
+    {
+      "case": 6,
+      "input": "simplify(diff(cos(sin(cos(sin(cos(sin(cos(x))))))),x))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "sin(x)*cos(cos(x))*sin(sin(cos(x)))*cos(cos(sin(cos(x))))*sin(sin(cos(sin(cos(x)))))*cos(cos(sin(cos(sin(cos(x))))))*sin(sin(cos(sin(cos(sin(cos(x)))))))",
+      "passed": true
+    },
+    {
+      "case": 6,
+      "input": "simplify(diff(cos(sin(cos(sin(cos(sin(cos(x))))))),x))",
+      "stack": "64",
+      "exit": 0,
+      "result": "sin(x)*cos(cos(x))*sin(sin(cos(x)))*cos(cos(sin(cos(x))))*sin(sin(cos(sin(cos(x)))))*cos(cos(sin(cos(sin(cos(x))))))*sin(sin(cos(sin(cos(sin(cos(x)))))))",
+      "passed": true
+    },
+    {
+      "case": 7,
+      "input": "diff(sin(cos(sin(cos(sin(cos(sin(cos(x)))))))),x)",
+      "stack": "normal",
+      "exit": 0,
+      "result": "sin(x)*cos(cos(x))*sin(sin(cos(x)))*cos(cos(sin(cos(x))))*sin(sin(cos(sin(cos(x)))))*cos(cos(sin(cos(sin(cos(x))))))*sin(sin(cos(sin(cos(sin(cos(x)))))))*cos(cos(sin(cos(sin(cos(sin(cos(x))))))))",
+      "passed": true
+    },
+    {
+      "case": 7,
+      "input": "diff(sin(cos(sin(cos(sin(cos(sin(cos(x)))))))),x)",
+      "stack": "64",
+      "exit": 0,
+      "result": "sin(x)*cos(cos(x))*sin(sin(cos(x)))*cos(cos(sin(cos(x))))*sin(sin(cos(sin(cos(x)))))*cos(cos(sin(cos(sin(cos(x))))))*sin(sin(cos(sin(cos(sin(cos(x)))))))*cos(cos(sin(cos(sin(cos(sin(cos(x))))))))",
+      "passed": true
+    },
+    {
+      "case": 7,
+      "input": "simplify(diff(sin(cos(sin(cos(sin(cos(sin(cos(x)))))))),x))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "sin(x)*cos(cos(x))*sin(sin(cos(x)))*cos(cos(sin(cos(x))))*sin(sin(cos(sin(cos(x)))))*cos(cos(sin(cos(sin(cos(x))))))*sin(sin(cos(sin(cos(sin(cos(x)))))))*cos(cos(sin(cos(sin(cos(sin(cos(x))))))))",
+      "passed": true
+    },
+    {
+      "case": 7,
+      "input": "simplify(diff(sin(cos(sin(cos(sin(cos(sin(cos(x)))))))),x))",
+      "stack": "64",
+      "exit": 0,
+      "result": "sin(x)*cos(cos(x))*sin(sin(cos(x)))*cos(cos(sin(cos(x))))*sin(sin(cos(sin(cos(x)))))*cos(cos(sin(cos(sin(cos(x))))))*sin(sin(cos(sin(cos(sin(cos(x)))))))*cos(cos(sin(cos(sin(cos(sin(cos(x))))))))",
+      "passed": true
+    },
+    {
+      "case": 8,
+      "input": "diff(exp(x),x)",
+      "stack": "normal",
+      "exit": 0,
+      "result": "exp(x)",
+      "passed": true
+    },
+    {
+      "case": 8,
+      "input": "diff(exp(x),x)",
+      "stack": "64",
+      "exit": 0,
+      "result": "exp(x)",
+      "passed": true
+    },
+    {
+      "case": 8,
+      "input": "simplify(diff(exp(x),x))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "exp(x)",
+      "passed": true
+    },
+    {
+      "case": 8,
+      "input": "simplify(diff(exp(x),x))",
+      "stack": "64",
+      "exit": 0,
+      "result": "exp(x)",
+      "passed": true
+    },
+    {
+      "case": 9,
+      "input": "diff(sinh(x),x)",
+      "stack": "normal",
+      "exit": 0,
+      "result": "cosh(x)",
+      "passed": true
+    },
+    {
+      "case": 9,
+      "input": "diff(sinh(x),x)",
+      "stack": "64",
+      "exit": 0,
+      "result": "cosh(x)",
+      "passed": true
+    },
+    {
+      "case": 9,
+      "input": "simplify(diff(sinh(x),x))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "cosh(x)",
+      "passed": true
+    },
+    {
+      "case": 9,
+      "input": "simplify(diff(sinh(x),x))",
+      "stack": "64",
+      "exit": 0,
+      "result": "cosh(x)",
+      "passed": true
+    },
+    {
+      "case": 10,
+      "input": "diff(cosh(x),x)",
+      "stack": "normal",
+      "exit": 0,
+      "result": "sinh(x)",
+      "passed": true
+    },
+    {
+      "case": 10,
+      "input": "diff(cosh(x),x)",
+      "stack": "64",
+      "exit": 0,
+      "result": "sinh(x)",
+      "passed": true
+    },
+    {
+      "case": 10,
+      "input": "simplify(diff(cosh(x),x))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "sinh(x)",
+      "passed": true
+    },
+    {
+      "case": 10,
+      "input": "simplify(diff(cosh(x),x))",
+      "stack": "64",
+      "exit": 0,
+      "result": "sinh(x)",
+      "passed": true
+    },
+    {
+      "case": 11,
+      "input": "diff(tanh(x),x)",
+      "stack": "normal",
+      "exit": 0,
+      "result": "1-tanh(x)^2",
+      "passed": true
+    },
+    {
+      "case": 11,
+      "input": "diff(tanh(x),x)",
+      "stack": "64",
+      "exit": 0,
+      "result": "1-tanh(x)^2",
+      "passed": true
+    },
+    {
+      "case": 11,
+      "input": "simplify(diff(tanh(x),x))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "-tanh(x)^2+1",
+      "passed": true
+    },
+    {
+      "case": 11,
+      "input": "simplify(diff(tanh(x),x))",
+      "stack": "64",
+      "exit": 0,
+      "result": "-tanh(x)^2+1",
+      "passed": true
+    },
+    {
+      "case": 12,
+      "input": "diff(tan(x),x)",
+      "stack": "normal",
+      "exit": 0,
+      "result": "1+tan(x)^2",
+      "passed": true
+    },
+    {
+      "case": 12,
+      "input": "diff(tan(x),x)",
+      "stack": "64",
+      "exit": 0,
+      "result": "1+tan(x)^2",
+      "passed": true
+    },
+    {
+      "case": 12,
+      "input": "simplify(diff(tan(x),x))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "tan(x)^2+1",
+      "passed": true
+    },
+    {
+      "case": 12,
+      "input": "simplify(diff(tan(x),x))",
+      "stack": "64",
+      "exit": 0,
+      "result": "tan(x)^2+1",
+      "passed": true
+    },
+    {
+      "case": 13,
+      "input": "diff(exp(2*x+1),x)",
+      "stack": "normal",
+      "exit": 0,
+      "result": "2*exp(2*x+1)",
+      "passed": true
+    },
+    {
+      "case": 13,
+      "input": "diff(exp(2*x+1),x)",
+      "stack": "64",
+      "exit": 0,
+      "result": "2*exp(2*x+1)",
+      "passed": true
+    },
+    {
+      "case": 13,
+      "input": "simplify(diff(exp(2*x+1),x))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "2*exp(2*x+1)",
+      "passed": true
+    },
+    {
+      "case": 13,
+      "input": "simplify(diff(exp(2*x+1),x))",
+      "stack": "64",
+      "exit": 0,
+      "result": "2*exp(2*x+1)",
+      "passed": true
+    },
+    {
+      "case": 14,
+      "input": "diff(sinh(2*x+1),x)",
+      "stack": "normal",
+      "exit": 0,
+      "result": "2*cosh(2*x+1)",
+      "passed": true
+    },
+    {
+      "case": 14,
+      "input": "diff(sinh(2*x+1),x)",
+      "stack": "64",
+      "exit": 0,
+      "result": "2*cosh(2*x+1)",
+      "passed": true
+    },
+    {
+      "case": 14,
+      "input": "simplify(diff(sinh(2*x+1),x))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "2*cosh(2*x+1)",
+      "passed": true
+    },
+    {
+      "case": 14,
+      "input": "simplify(diff(sinh(2*x+1),x))",
+      "stack": "64",
+      "exit": 0,
+      "result": "2*cosh(2*x+1)",
+      "passed": true
+    },
+    {
+      "case": 15,
+      "input": "diff(cosh(2*x+1),x)",
+      "stack": "normal",
+      "exit": 0,
+      "result": "2*sinh(2*x+1)",
+      "passed": true
+    },
+    {
+      "case": 15,
+      "input": "diff(cosh(2*x+1),x)",
+      "stack": "64",
+      "exit": 0,
+      "result": "2*sinh(2*x+1)",
+      "passed": true
+    },
+    {
+      "case": 15,
+      "input": "simplify(diff(cosh(2*x+1),x))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "2*sinh(2*x+1)",
+      "passed": true
+    },
+    {
+      "case": 15,
+      "input": "simplify(diff(cosh(2*x+1),x))",
+      "stack": "64",
+      "exit": 0,
+      "result": "2*sinh(2*x+1)",
+      "passed": true
+    },
+    {
+      "case": 16,
+      "input": "diff(tanh(2*x+1),x)",
+      "stack": "normal",
+      "exit": 0,
+      "result": "2*(1-tanh(2*x+1)^2)",
+      "passed": true
+    },
+    {
+      "case": 16,
+      "input": "diff(tanh(2*x+1),x)",
+      "stack": "64",
+      "exit": 0,
+      "result": "2*(1-tanh(2*x+1)^2)",
+      "passed": true
+    },
+    {
+      "case": 16,
+      "input": "simplify(diff(tanh(2*x+1),x))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "-2*tanh(2*x+1)^2+2",
+      "passed": true
+    },
+    {
+      "case": 16,
+      "input": "simplify(diff(tanh(2*x+1),x))",
+      "stack": "64",
+      "exit": 0,
+      "result": "-2*tanh(2*x+1)^2+2",
+      "passed": true
+    },
+    {
+      "case": 17,
+      "input": "diff(tan(2*x+1),x)",
+      "stack": "normal",
+      "exit": 0,
+      "result": "2*(1+tan(2*x+1)^2)",
+      "passed": true
+    },
+    {
+      "case": 17,
+      "input": "diff(tan(2*x+1),x)",
+      "stack": "64",
+      "exit": 0,
+      "result": "2*(1+tan(2*x+1)^2)",
+      "passed": true
+    },
+    {
+      "case": 17,
+      "input": "simplify(diff(tan(2*x+1),x))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "2*tan(2*x+1)^2+2",
+      "passed": true
+    },
+    {
+      "case": 17,
+      "input": "simplify(diff(tan(2*x+1),x))",
+      "stack": "64",
+      "exit": 0,
+      "result": "2*tan(2*x+1)^2+2",
+      "passed": true
+    },
+    {
+      "case": 18,
+      "input": "diff(exp(x^2-1),x)",
+      "stack": "normal",
+      "exit": 0,
+      "result": "2*x*exp(x^2-1)",
+      "passed": true
+    },
+    {
+      "case": 18,
+      "input": "diff(exp(x^2-1),x)",
+      "stack": "64",
+      "exit": 0,
+      "result": "2*x*exp(x^2-1)",
+      "passed": true
+    },
+    {
+      "case": 18,
+      "input": "simplify(diff(exp(x^2-1),x))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "2*x*exp(x^2-1)",
+      "passed": true
+    },
+    {
+      "case": 18,
+      "input": "simplify(diff(exp(x^2-1),x))",
+      "stack": "64",
+      "exit": 0,
+      "result": "2*x*exp(x^2-1)",
+      "passed": true
+    },
+    {
+      "case": 19,
+      "input": "diff(sinh(x^2-1),x)",
+      "stack": "normal",
+      "exit": 0,
+      "result": "2*x*cosh(x^2-1)",
+      "passed": true
+    },
+    {
+      "case": 19,
+      "input": "diff(sinh(x^2-1),x)",
+      "stack": "64",
+      "exit": 0,
+      "result": "2*x*cosh(x^2-1)",
+      "passed": true
+    },
+    {
+      "case": 19,
+      "input": "simplify(diff(sinh(x^2-1),x))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "2*x*cosh(x^2-1)",
+      "passed": true
+    },
+    {
+      "case": 19,
+      "input": "simplify(diff(sinh(x^2-1),x))",
+      "stack": "64",
+      "exit": 0,
+      "result": "2*x*cosh(x^2-1)",
+      "passed": true
+    },
+    {
+      "case": 20,
+      "input": "diff(cosh(x^2-1),x)",
+      "stack": "normal",
+      "exit": 0,
+      "result": "2*x*sinh(x^2-1)",
+      "passed": true
+    },
+    {
+      "case": 20,
+      "input": "diff(cosh(x^2-1),x)",
+      "stack": "64",
+      "exit": 0,
+      "result": "2*x*sinh(x^2-1)",
+      "passed": true
+    },
+    {
+      "case": 20,
+      "input": "simplify(diff(cosh(x^2-1),x))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "2*x*sinh(x^2-1)",
+      "passed": true
+    },
+    {
+      "case": 20,
+      "input": "simplify(diff(cosh(x^2-1),x))",
+      "stack": "64",
+      "exit": 0,
+      "result": "2*x*sinh(x^2-1)",
+      "passed": true
+    },
+    {
+      "case": 21,
+      "input": "diff(tanh(x^2-1),x)",
+      "stack": "normal",
+      "exit": 0,
+      "result": "2*x*(1-tanh(x^2-1)^2)",
+      "passed": true
+    },
+    {
+      "case": 21,
+      "input": "diff(tanh(x^2-1),x)",
+      "stack": "64",
+      "exit": 0,
+      "result": "2*x*(1-tanh(x^2-1)^2)",
+      "passed": true
+    },
+    {
+      "case": 21,
+      "input": "simplify(diff(tanh(x^2-1),x))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "-2*x*tanh(x^2-1)^2+2*x",
+      "passed": true
+    },
+    {
+      "case": 21,
+      "input": "simplify(diff(tanh(x^2-1),x))",
+      "stack": "64",
+      "exit": 0,
+      "result": "-2*x*tanh(x^2-1)^2+2*x",
+      "passed": true
+    },
+    {
+      "case": 22,
+      "input": "diff(tan(x^2-1),x)",
+      "stack": "normal",
+      "exit": 0,
+      "result": "2*x*(1+tan(x^2-1)^2)",
+      "passed": true
+    },
+    {
+      "case": 22,
+      "input": "diff(tan(x^2-1),x)",
+      "stack": "64",
+      "exit": 0,
+      "result": "2*x*(1+tan(x^2-1)^2)",
+      "passed": true
+    },
+    {
+      "case": 22,
+      "input": "simplify(diff(tan(x^2-1),x))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "2*x*tan(x^2-1)^2+2*x",
+      "passed": true
+    },
+    {
+      "case": 22,
+      "input": "simplify(diff(tan(x^2-1),x))",
+      "stack": "64",
+      "exit": 0,
+      "result": "2*x*tan(x^2-1)^2+2*x",
+      "passed": true
+    },
+    {
+      "case": 23,
+      "input": "diff(exp(x^3+x),x)",
+      "stack": "normal",
+      "exit": 0,
+      "result": "(3*x^2+1)*exp(x^3+x)",
+      "passed": true
+    },
+    {
+      "case": 23,
+      "input": "diff(exp(x^3+x),x)",
+      "stack": "64",
+      "exit": 0,
+      "result": "(3*x^2+1)*exp(x^3+x)",
+      "passed": true
+    },
+    {
+      "case": 23,
+      "input": "simplify(diff(exp(x^3+x),x))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "3*x^2*exp(x^3+x)+exp(x^3+x)",
+      "passed": true
+    },
+    {
+      "case": 23,
+      "input": "simplify(diff(exp(x^3+x),x))",
+      "stack": "64",
+      "exit": 0,
+      "result": "3*x^2*exp(x^3+x)+exp(x^3+x)",
+      "passed": true
+    },
+    {
+      "case": 24,
+      "input": "diff(sinh(x^3+x),x)",
+      "stack": "normal",
+      "exit": 0,
+      "result": "(3*x^2+1)*cosh(x^3+x)",
+      "passed": true
+    },
+    {
+      "case": 24,
+      "input": "diff(sinh(x^3+x),x)",
+      "stack": "64",
+      "exit": 0,
+      "result": "(3*x^2+1)*cosh(x^3+x)",
+      "passed": true
+    },
+    {
+      "case": 24,
+      "input": "simplify(diff(sinh(x^3+x),x))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "3*x^2*cosh(x^3+x)+cosh(x^3+x)",
+      "passed": true
+    },
+    {
+      "case": 24,
+      "input": "simplify(diff(sinh(x^3+x),x))",
+      "stack": "64",
+      "exit": 0,
+      "result": "3*x^2*cosh(x^3+x)+cosh(x^3+x)",
+      "passed": true
+    },
+    {
+      "case": 25,
+      "input": "diff(cosh(x^3+x),x)",
+      "stack": "normal",
+      "exit": 0,
+      "result": "(3*x^2+1)*sinh(x^3+x)",
+      "passed": true
+    },
+    {
+      "case": 25,
+      "input": "diff(cosh(x^3+x),x)",
+      "stack": "64",
+      "exit": 0,
+      "result": "(3*x^2+1)*sinh(x^3+x)",
+      "passed": true
+    },
+    {
+      "case": 25,
+      "input": "simplify(diff(cosh(x^3+x),x))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "3*x^2*sinh(x^3+x)+sinh(x^3+x)",
+      "passed": true
+    },
+    {
+      "case": 25,
+      "input": "simplify(diff(cosh(x^3+x),x))",
+      "stack": "64",
+      "exit": 0,
+      "result": "3*x^2*sinh(x^3+x)+sinh(x^3+x)",
+      "passed": true
+    },
+    {
+      "case": 26,
+      "input": "diff(tanh(x^3+x),x)",
+      "stack": "normal",
+      "exit": 0,
+      "result": "(3*x^2+1)*(1-tanh(x^3+x)^2)",
+      "passed": true
+    },
+    {
+      "case": 26,
+      "input": "diff(tanh(x^3+x),x)",
+      "stack": "64",
+      "exit": 0,
+      "result": "(3*x^2+1)*(1-tanh(x^3+x)^2)",
+      "passed": true
+    },
+    {
+      "case": 26,
+      "input": "simplify(diff(tanh(x^3+x),x))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "-3*x^2*tanh(x^3+x)^2+3*x^2-tanh(x^3+x)^2+1",
+      "passed": true
+    },
+    {
+      "case": 26,
+      "input": "simplify(diff(tanh(x^3+x),x))",
+      "stack": "64",
+      "exit": 0,
+      "result": "-3*x^2*tanh(x^3+x)^2+3*x^2-tanh(x^3+x)^2+1",
+      "passed": true
+    },
+    {
+      "case": 27,
+      "input": "diff(tan(x^3+x),x)",
+      "stack": "normal",
+      "exit": 0,
+      "result": "(3*x^2+1)*(1+tan(x^3+x)^2)",
+      "passed": true
+    },
+    {
+      "case": 27,
+      "input": "diff(tan(x^3+x),x)",
+      "stack": "64",
+      "exit": 0,
+      "result": "(3*x^2+1)*(1+tan(x^3+x)^2)",
+      "passed": true
+    },
+    {
+      "case": 27,
+      "input": "simplify(diff(tan(x^3+x),x))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "3*x^2*tan(x^3+x)^2+3*x^2+tan(x^3+x)^2+1",
+      "passed": true
+    },
+    {
+      "case": 27,
+      "input": "simplify(diff(tan(x^3+x),x))",
+      "stack": "64",
+      "exit": 0,
+      "result": "3*x^2*tan(x^3+x)^2+3*x^2+tan(x^3+x)^2+1",
+      "passed": true
+    },
+    {
+      "case": 28,
+      "input": "diff((x^3+2)*(sin(x)+cos(x)),x)",
+      "stack": "normal",
+      "exit": 0,
+      "result": "3*x^2*(sin(x)+cos(x))+(x^3+2)*(cos(x)-sin(x))",
+      "passed": true
+    },
+    {
+      "case": 28,
+      "input": "diff((x^3+2)*(sin(x)+cos(x)),x)",
+      "stack": "64",
+      "exit": 0,
+      "result": "3*x^2*(sin(x)+cos(x))+(x^3+2)*(cos(x)-sin(x))",
+      "passed": true
+    },
+    {
+      "case": 28,
+      "input": "simplify(diff((x^3+2)*(sin(x)+cos(x)),x))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "x^3*cos(x)-x^3*sin(x)+3*x^2*cos(x)+3*x^2*sin(x)+2*cos(x)-2*sin(x)",
+      "passed": true
+    },
+    {
+      "case": 28,
+      "input": "simplify(diff((x^3+2)*(sin(x)+cos(x)),x))",
+      "stack": "64",
+      "exit": 0,
+      "result": "x^3*cos(x)-x^3*sin(x)+3*x^2*cos(x)+3*x^2*sin(x)+2*cos(x)-2*sin(x)",
+      "passed": true
+    },
+    {
+      "case": 29,
+      "input": "diff((1+x^2)/(2+cos(x)),x)",
+      "stack": "normal",
+      "exit": 0,
+      "result": "(2*x*(2+cos(x))+(1+x^2)*sin(x))/(2+cos(x))^2",
+      "passed": true
+    },
+    {
+      "case": 29,
+      "input": "diff((1+x^2)/(2+cos(x)),x)",
+      "stack": "64",
+      "exit": 0,
+      "result": "(2*x*(2+cos(x))+(1+x^2)*sin(x))/(2+cos(x))^2",
+      "passed": true
+    },
+    {
+      "case": 29,
+      "input": "simplify(diff((1+x^2)/(2+cos(x)),x))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "(x^2*sin(x)+2*x*cos(x)+4*x+sin(x))/(cos(x)^2+4*cos(x)+4)",
+      "passed": true
+    },
+    {
+      "case": 29,
+      "input": "simplify(diff((1+x^2)/(2+cos(x)),x))",
+      "stack": "64",
+      "exit": 0,
+      "result": "(x^2*sin(x)+2*x*cos(x)+4*x+sin(x))/(cos(x)^2+4*cos(x)+4)",
+      "passed": true
+    },
+    {
+      "case": 30,
+      "input": "diff(1/((x+2)^3),x)",
+      "stack": "normal",
+      "exit": 0,
+      "result": "-3*(x+2)^-4",
+      "passed": true
+    },
+    {
+      "case": 30,
+      "input": "diff(1/((x+2)^3),x)",
+      "stack": "64",
+      "exit": 0,
+      "result": "-3*(x+2)^-4",
+      "passed": true
+    },
+    {
+      "case": 30,
+      "input": "simplify(diff(1/((x+2)^3),x))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "-3/(x^4+8*x^3+24*x^2+32*x+16)",
+      "passed": true
+    },
+    {
+      "case": 30,
+      "input": "simplify(diff(1/((x+2)^3),x))",
+      "stack": "64",
+      "exit": 0,
+      "result": "-3/(x^4+8*x^3+24*x^2+32*x+16)",
+      "passed": true
+    },
+    {
+      "case": 31,
+      "input": "diff((sin(x)^2+cos(x)^3)^4,x)",
+      "stack": "normal",
+      "exit": 0,
+      "result": "4*(2*cos(x)*sin(x)-3*sin(x)*cos(x)^2)*(sin(x)^2+cos(x)^3)^3",
+      "passed": true
+    },
+    {
+      "case": 31,
+      "input": "diff((sin(x)^2+cos(x)^3)^4,x)",
+      "stack": "64",
+      "exit": 0,
+      "result": "4*(2*cos(x)*sin(x)-3*sin(x)*cos(x)^2)*(sin(x)^2+cos(x)^3)^3",
+      "passed": true
+    },
+    {
+      "case": 31,
+      "input": "simplify(diff((sin(x)^2+cos(x)^3)^4,x))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "-45/256*sin(10*x)+11/256*sin(11*x)-3/512*sin(12*x)+7/128*sin(2*x)+39/128*sin(3*x)-751/512*sin(4*x)+105/256*sin(5*x)-15/256*sin(6*x)+49/256*sin(7*x)-65/128*sin(8*x)+99/256*sin(9*x)-33/128*sin(x)",
+      "passed": true
+    },
+    {
+      "case": 31,
+      "input": "simplify(diff((sin(x)^2+cos(x)^3)^4,x))",
+      "stack": "64",
+      "exit": 0,
+      "result": "-45/256*sin(10*x)+11/256*sin(11*x)-3/512*sin(12*x)+7/128*sin(2*x)+39/128*sin(3*x)-751/512*sin(4*x)+105/256*sin(5*x)-15/256*sin(6*x)+49/256*sin(7*x)-65/128*sin(8*x)+99/256*sin(9*x)-33/128*sin(x)",
+      "passed": true
+    },
+    {
+      "case": 32,
+      "input": "diff(ln(abs(x+cos(x))),x)",
+      "stack": "normal",
+      "exit": 0,
+      "result": "(1-sin(x))/(x+cos(x))",
+      "passed": true
+    },
+    {
+      "case": 32,
+      "input": "diff(ln(abs(x+cos(x))),x)",
+      "stack": "64",
+      "exit": 0,
+      "result": "(1-sin(x))/(x+cos(x))",
+      "passed": true
+    },
+    {
+      "case": 32,
+      "input": "simplify(diff(ln(abs(x+cos(x))),x))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "(-sin(x)+1)/(x+cos(x))",
+      "passed": true
+    },
+    {
+      "case": 32,
+      "input": "simplify(diff(ln(abs(x+cos(x))),x))",
+      "stack": "64",
+      "exit": 0,
+      "result": "(-sin(x)+1)/(x+cos(x))",
+      "passed": true
+    },
+    {
+      "case": 33,
+      "input": "diff(ln((1+x^2)*(2+x^2)),x)",
+      "stack": "normal",
+      "exit": 0,
+      "result": "2*x/(1+x^2)+2*x/(2+x^2)",
+      "passed": true
+    },
+    {
+      "case": 33,
+      "input": "diff(ln((1+x^2)*(2+x^2)),x)",
+      "stack": "64",
+      "exit": 0,
+      "result": "2*x/(1+x^2)+2*x/(2+x^2)",
+      "passed": true
+    },
+    {
+      "case": 33,
+      "input": "simplify(diff(ln((1+x^2)*(2+x^2)),x))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "(4*x^3+6*x)/(x^4+3*x^2+2)",
+      "passed": true
+    },
+    {
+      "case": 33,
+      "input": "simplify(diff(ln((1+x^2)*(2+x^2)),x))",
+      "stack": "64",
+      "exit": 0,
+      "result": "(4*x^3+6*x)/(x^4+3*x^2+2)",
+      "passed": true
+    },
+    {
+      "case": 34,
+      "input": "diff(exp(x*sin(x)),x)",
+      "stack": "normal",
+      "exit": 0,
+      "result": "(sin(x)+x*cos(x))*exp(x*sin(x))",
+      "passed": true
+    },
+    {
+      "case": 34,
+      "input": "diff(exp(x*sin(x)),x)",
+      "stack": "64",
+      "exit": 0,
+      "result": "(sin(x)+x*cos(x))*exp(x*sin(x))",
+      "passed": true
+    },
+    {
+      "case": 34,
+      "input": "simplify(diff(exp(x*sin(x)),x))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "exp(x*sin(x))*x*cos(x)+exp(x*sin(x))*sin(x)",
+      "passed": true
+    },
+    {
+      "case": 34,
+      "input": "simplify(diff(exp(x*sin(x)),x))",
+      "stack": "64",
+      "exit": 0,
+      "result": "exp(x*sin(x))*x*cos(x)+exp(x*sin(x))*sin(x)",
+      "passed": true
+    },
+    {
+      "case": 35,
+      "input": "diff(sin(x)*cos(x)*exp(x),x)",
+      "stack": "normal",
+      "exit": 0,
+      "result": "cos(x)*cos(x)*exp(x)-sin(x)*sin(x)*exp(x)+sin(x)*cos(x)*exp(x)",
+      "passed": true
+    },
+    {
+      "case": 35,
+      "input": "diff(sin(x)*cos(x)*exp(x),x)",
+      "stack": "64",
+      "exit": 0,
+      "result": "cos(x)*cos(x)*exp(x)-sin(x)*sin(x)*exp(x)+sin(x)*cos(x)*exp(x)",
+      "passed": true
+    },
+    {
+      "case": 35,
+      "input": "simplify(diff(sin(x)*cos(x)*exp(x),x))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "cos(2*x)*exp(x)+1/2*exp(x)*sin(2*x)",
+      "passed": true
+    },
+    {
+      "case": 35,
+      "input": "simplify(diff(sin(x)*cos(x)*exp(x),x))",
+      "stack": "64",
+      "exit": 0,
+      "result": "cos(2*x)*exp(x)+1/2*exp(x)*sin(2*x)",
+      "passed": true
+    },
+    {
+      "case": 36,
+      "input": "diff(sin(x)^2+x^3+exp(x)+cos(x),x)",
+      "stack": "normal",
+      "exit": 0,
+      "result": "2*cos(x)*sin(x)+3*x^2+exp(x)-sin(x)",
+      "passed": true
+    },
+    {
+      "case": 36,
+      "input": "diff(sin(x)^2+x^3+exp(x)+cos(x),x)",
+      "stack": "64",
+      "exit": 0,
+      "result": "2*cos(x)*sin(x)+3*x^2+exp(x)-sin(x)",
+      "passed": true
+    },
+    {
+      "case": 36,
+      "input": "simplify(diff(sin(x)^2+x^3+exp(x)+cos(x),x))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "3*x^2+exp(x)+sin(2*x)-sin(x)",
+      "passed": true
+    },
+    {
+      "case": 36,
+      "input": "simplify(diff(sin(x)^2+x^3+exp(x)+cos(x),x))",
+      "stack": "64",
+      "exit": 0,
+      "result": "3*x^2+exp(x)+sin(2*x)-sin(x)",
+      "passed": true
+    },
+    {
+      "case": 37,
+      "input": "diff(1/(1+exp(sin(x))),x)",
+      "stack": "normal",
+      "exit": 0,
+      "result": "-cos(x)*exp(sin(x))/(1+exp(sin(x)))^2",
+      "passed": true
+    },
+    {
+      "case": 37,
+      "input": "diff(1/(1+exp(sin(x))),x)",
+      "stack": "64",
+      "exit": 0,
+      "result": "-cos(x)*exp(sin(x))/(1+exp(sin(x)))^2",
+      "passed": true
+    },
+    {
+      "case": 37,
+      "input": "simplify(diff(1/(1+exp(sin(x))),x))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "-cos(x)*exp(sin(x))/(exp(sin(x))^2+2*exp(sin(x))+1)",
+      "passed": true
+    },
+    {
+      "case": 37,
+      "input": "simplify(diff(1/(1+exp(sin(x))),x))",
+      "stack": "64",
+      "exit": 0,
+      "result": "-cos(x)*exp(sin(x))/(exp(sin(x))^2+2*exp(sin(x))+1)",
+      "passed": true
+    }
+  ]
+}

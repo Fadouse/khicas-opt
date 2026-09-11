@@ -1,0 +1,254 @@
+{
+  "source_sha256": {
+    "yintg.cc": "fcab4337cb546c084a4aaaf8801733a833cd02343d07963d93c6901b5f0a4d9c",
+    "zintgab.cc": "3b6fa78aba4d53b1a11479c33bacb4c85e3d6091389ef3073ec60085a7ae9448",
+    "ksubst.cc": "7a1a36d7e0362b704b953791af5ac88a789b69d104b59129b56b049a5186f02a",
+    "yderive.cc": "4626da228a96cef16118cade1017620c4265c20f7e07ba67f257d42f89ad6182",
+    "dilogarithm.h": "ca822ef4c094a4ed1f4aecf7219011668735d86d259c51ec6304515f8fa84d7a",
+    "kconvert.cc": "eed558eb2f8ff62e0cf1e94fdbf8497954a35577e283a8d07283350e65b76003",
+    "equation_normalize.h": "4bfb644f0e18bb36e280ce8886c8ac12695c9aeeaef187ea3e5f967cd1642e37",
+    "kusual.cc": "0a169f2a44b187b4310bde6f73bf03a0e593c5e00212a9d54ef6bd420420743d",
+    "zusual.cc": "89491d75065f7b0e19386226ef35ca467ae11b0a1f0948b7187a8118a5512f58",
+    "zprog.cc": "baf6570eac3b985e50bb2bbf8a3bbc47b72b34ce6835ce2f7a873185a7efe499",
+    "conditional_eval.h": "763e56cb14146b9e45728c4fa245f7fe4506a8eea4041cbaf98b927ea15e27a2",
+    "zvecteur.cc": "17c430cfed0e2fbda09813cb0d677042252a93017d740406c1e09aa42d758104",
+    "determinant_small.h": "b6ed110fa5a9155df1a821c32796db3ee73524d2df884353cf33b18dff869773",
+    "logarithmic_span.h": "b0db1ca1c38ffd51ae6fce4fd0b39fd9133ba05a2f5c7f1136ce8bace372414b"
+  },
+  "corpus_sha256": "36dfd8dd46444437ae687c383318f44bc1ac4b284ee02e97351d112843cf62f3",
+  "provenance": "polar-cycle18-fixed-acceptance-2026a.json",
+  "runs": [
+    {
+      "id": "PC18-I1",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(sqrt(x)/(x-1)^2,x)",
+      "exit": 0,
+      "result": "2*(1/4*ln(abs(sqrt(x)-1))-1/4*ln(sqrt(x)+1)-sqrt(x)/2/(x-1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00188443\nMAX_RSS_KB 67044\n",
+      "verification": {
+        "exact": true,
+        "method": "Set t=sqrt(x). Verify both t<1 and t>1 signs by exact differentiation. The complete real domain is [0,1) union (1,infinity). At zero the original primitive difference quotient is O(sqrt(h)); independent additive constants do not affect this proof. The missing point 1 is separately evaluated."
+      },
+      "pass": true,
+      "actual_domain_checks": [
+        {
+          "point": "0",
+          "expected": "finite",
+          "exit": 0,
+          "result": "0"
+        },
+        {
+          "point": "1",
+          "expected": "nonfinite",
+          "exit": 3,
+          "result": "undef"
+        }
+      ],
+      "status": "exact"
+    },
+    {
+      "id": "PC18-I1",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(sqrt(x)/(x-1)^2,x)",
+      "exit": 0,
+      "result": "2*(1/4*ln(abs(sqrt(x)-1))-1/4*ln(sqrt(x)+1)-sqrt(x)/2/(x-1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00176974\nMAX_RSS_KB 67044\n",
+      "verification": {
+        "exact": true,
+        "method": "Set t=sqrt(x). Verify both t<1 and t>1 signs by exact differentiation. The complete real domain is [0,1) union (1,infinity). At zero the original primitive difference quotient is O(sqrt(h)); independent additive constants do not affect this proof. The missing point 1 is separately evaluated."
+      },
+      "pass": true,
+      "actual_domain_checks": [
+        {
+          "point": "0",
+          "expected": "finite",
+          "exit": 0,
+          "result": "0"
+        },
+        {
+          "point": "1",
+          "expected": "nonfinite",
+          "exit": 3,
+          "result": "undef"
+        }
+      ],
+      "status": "exact"
+    },
+    {
+      "id": "PC18-I1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(sqrt(x)/(x-1)^2,x))",
+      "exit": 0,
+      "result": "2*(1/4*ln(abs(sqrt(x)-1))-1/4*ln(sqrt(x)+1)-sqrt(x)/2/(x-1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00169128\nMAX_RSS_KB 67044\n",
+      "verification": {
+        "exact": true,
+        "method": "Set t=sqrt(x). Verify both t<1 and t>1 signs by exact differentiation. The complete real domain is [0,1) union (1,infinity). At zero the original primitive difference quotient is O(sqrt(h)); independent additive constants do not affect this proof. The missing point 1 is separately evaluated."
+      },
+      "pass": true,
+      "actual_domain_checks": [
+        {
+          "point": "0",
+          "expected": "finite",
+          "exit": 0,
+          "result": "0"
+        },
+        {
+          "point": "1",
+          "expected": "nonfinite",
+          "exit": 3,
+          "result": "undef"
+        }
+      ],
+      "status": "exact"
+    },
+    {
+      "id": "PC18-I1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(sqrt(x)/(x-1)^2,x))",
+      "exit": 0,
+      "result": "2*(1/4*ln(abs(sqrt(x)-1))-1/4*ln(sqrt(x)+1)-sqrt(x)/2/(x-1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00175911\nMAX_RSS_KB 67044\n",
+      "verification": {
+        "exact": true,
+        "method": "Set t=sqrt(x). Verify both t<1 and t>1 signs by exact differentiation. The complete real domain is [0,1) union (1,infinity). At zero the original primitive difference quotient is O(sqrt(h)); independent additive constants do not affect this proof. The missing point 1 is separately evaluated."
+      },
+      "pass": true,
+      "actual_domain_checks": [
+        {
+          "point": "0",
+          "expected": "finite",
+          "exit": 0,
+          "result": "0"
+        },
+        {
+          "point": "1",
+          "expected": "nonfinite",
+          "exit": 3,
+          "result": "undef"
+        }
+      ],
+      "status": "exact"
+    },
+    {
+      "id": "PC18-I2",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(ln(abs(1-sqrt(x))),x)",
+      "exit": 0,
+      "result": "2*(-1/4*(-sqrt(x)*sign(-sqrt(x)+1)+sign(-sqrt(x)+1))^2+1/2*(-sqrt(x)*sign(-sqrt(x)+1)+sign(-sqrt(x)+1))^2*ln(-sqrt(x)*sign(-sqrt(x)+1)+sign(-sqrt(x)+1))+(-sqrt(x)*sign(-sqrt(x)+1)+sign(-sqrt(x)+1))*sign(-sqrt(x)+1)-(-sqrt(x)*sign(-sqrt(x)+1)+sign(-sqrt(x)+1))*sign(-sqrt(x)+1)*ln(-sqrt(x)*sign(-sqrt(x)+1)+sign(-sqrt(x)+1)))/sign(-sqrt(x)+1)^2",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(1-sqrt(x))]\nDiscontinuities at zeroes of 1-sqrt(x) were not checked\nPARSER_CALLS 1\nSECONDS 0.00262716\nMAX_RSS_KB 67044\n",
+      "verification": {
+        "exact": true,
+        "method": "Set t=sqrt(x). Verify both t<1 and t>1 signs by exact differentiation. The complete real domain is [0,1) union (1,infinity). At zero the original primitive difference quotient is O(sqrt(h)); independent additive constants do not affect this proof. The missing point 1 is separately evaluated."
+      },
+      "pass": true,
+      "actual_domain_checks": [
+        {
+          "point": "0",
+          "expected": "finite",
+          "exit": 0,
+          "result": "3/2"
+        },
+        {
+          "point": "1",
+          "expected": "nonfinite",
+          "exit": 3,
+          "result": "undef"
+        }
+      ],
+      "status": "exact"
+    },
+    {
+      "id": "PC18-I2",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(ln(abs(1-sqrt(x))),x)",
+      "exit": 0,
+      "result": "2*(-1/4*(-sqrt(x)*sign(-sqrt(x)+1)+sign(-sqrt(x)+1))^2+1/2*(-sqrt(x)*sign(-sqrt(x)+1)+sign(-sqrt(x)+1))^2*ln(-sqrt(x)*sign(-sqrt(x)+1)+sign(-sqrt(x)+1))+(-sqrt(x)*sign(-sqrt(x)+1)+sign(-sqrt(x)+1))*sign(-sqrt(x)+1)-(-sqrt(x)*sign(-sqrt(x)+1)+sign(-sqrt(x)+1))*sign(-sqrt(x)+1)*ln(-sqrt(x)*sign(-sqrt(x)+1)+sign(-sqrt(x)+1)))/sign(-sqrt(x)+1)^2",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(1-sqrt(x))]\nDiscontinuities at zeroes of 1-sqrt(x) were not checked\nPARSER_CALLS 1\nSECONDS 0.00290052\nMAX_RSS_KB 67044\n",
+      "verification": {
+        "exact": true,
+        "method": "Set t=sqrt(x). Verify both t<1 and t>1 signs by exact differentiation. The complete real domain is [0,1) union (1,infinity). At zero the original primitive difference quotient is O(sqrt(h)); independent additive constants do not affect this proof. The missing point 1 is separately evaluated."
+      },
+      "pass": true,
+      "actual_domain_checks": [
+        {
+          "point": "0",
+          "expected": "finite",
+          "exit": 0,
+          "result": "3/2"
+        },
+        {
+          "point": "1",
+          "expected": "nonfinite",
+          "exit": 3,
+          "result": "undef"
+        }
+      ],
+      "status": "exact"
+    },
+    {
+      "id": "PC18-I2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(ln(abs(1-sqrt(x))),x))",
+      "exit": 0,
+      "result": "2*(-1/4*(-sqrt(x)*sign(-sqrt(x)+1)+sign(-sqrt(x)+1))^2+1/2*(-sqrt(x)*sign(-sqrt(x)+1)+sign(-sqrt(x)+1))^2*ln(-sqrt(x)*sign(-sqrt(x)+1)+sign(-sqrt(x)+1))+(-sqrt(x)*sign(-sqrt(x)+1)+sign(-sqrt(x)+1))*sign(-sqrt(x)+1)-(-sqrt(x)*sign(-sqrt(x)+1)+sign(-sqrt(x)+1))*sign(-sqrt(x)+1)*ln(-sqrt(x)*sign(-sqrt(x)+1)+sign(-sqrt(x)+1)))/sign(-sqrt(x)+1)^2",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(1-sqrt(x))]\nDiscontinuities at zeroes of 1-sqrt(x) were not checked\nPARSER_CALLS 1\nSECONDS 0.00275257\nMAX_RSS_KB 67044\n",
+      "verification": {
+        "exact": true,
+        "method": "Set t=sqrt(x). Verify both t<1 and t>1 signs by exact differentiation. The complete real domain is [0,1) union (1,infinity). At zero the original primitive difference quotient is O(sqrt(h)); independent additive constants do not affect this proof. The missing point 1 is separately evaluated."
+      },
+      "pass": true,
+      "actual_domain_checks": [
+        {
+          "point": "0",
+          "expected": "finite",
+          "exit": 0,
+          "result": "3/2"
+        },
+        {
+          "point": "1",
+          "expected": "nonfinite",
+          "exit": 3,
+          "result": "undef"
+        }
+      ],
+      "status": "exact"
+    },
+    {
+      "id": "PC18-I2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(ln(abs(1-sqrt(x))),x))",
+      "exit": 0,
+      "result": "2*(-1/4*(-sqrt(x)*sign(-sqrt(x)+1)+sign(-sqrt(x)+1))^2+1/2*(-sqrt(x)*sign(-sqrt(x)+1)+sign(-sqrt(x)+1))^2*ln(-sqrt(x)*sign(-sqrt(x)+1)+sign(-sqrt(x)+1))+(-sqrt(x)*sign(-sqrt(x)+1)+sign(-sqrt(x)+1))*sign(-sqrt(x)+1)-(-sqrt(x)*sign(-sqrt(x)+1)+sign(-sqrt(x)+1))*sign(-sqrt(x)+1)*ln(-sqrt(x)*sign(-sqrt(x)+1)+sign(-sqrt(x)+1)))/sign(-sqrt(x)+1)^2",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(1-sqrt(x))]\nDiscontinuities at zeroes of 1-sqrt(x) were not checked\nPARSER_CALLS 1\nSECONDS 0.002634\nMAX_RSS_KB 67044\n",
+      "verification": {
+        "exact": true,
+        "method": "Set t=sqrt(x). Verify both t<1 and t>1 signs by exact differentiation. The complete real domain is [0,1) union (1,infinity). At zero the original primitive difference quotient is O(sqrt(h)); independent additive constants do not affect this proof. The missing point 1 is separately evaluated."
+      },
+      "pass": true,
+      "actual_domain_checks": [
+        {
+          "point": "0",
+          "expected": "finite",
+          "exit": 0,
+          "result": "3/2"
+        },
+        {
+          "point": "1",
+          "expected": "nonfinite",
+          "exit": 3,
+          "result": "undef"
+        }
+      ],
+      "status": "exact"
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 // -*- mode:C++ ; compile-command: "g++ -I. -I.. -I../include -g -c vecteur.cc -fno-strict-aliasing -DGIAC_GENERIC_CONSTANTS -DHAVE_CONFIG_H -DIN_GIAC" -*-
 #include "giacPCH.h"
+#include "determinant_small.h"
 /*
  *  Copyright (C) 2000,14 B. Parisse, Institut Fourier, 38402 St Martin d'Heres
  *
@@ -11691,6 +11692,7 @@ namespace giac {
   }
 
   gen _det(const gen & a_orig,GIAC_CONTEXT){
+    gen compact;if(determinant_small(a_orig,compact,contextptr))return compact;
     if ( a_orig.type==_STRNG && a_orig.subtype==-1) return  a_orig;
     matrice a;
     bool convert_internal,minor_det,keep_pivot;

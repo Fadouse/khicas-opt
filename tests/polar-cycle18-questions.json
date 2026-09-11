@@ -1,0 +1,126 @@
+{
+  "cases": [
+    {
+      "id": "PC18-I1",
+      "type": "integral",
+      "input": "simplify(integrate(sqrt(x)/(x-1)^2,x))",
+      "conditions": [
+        "x is finite real and sqrt is the nonnegative real square root; ln and abs have their real meanings. Determine the complete original domain, retaining every denominator exclusion.",
+        "Require an explicit exact primitive on each connected original-domain component, with independent additive constants allowed. State ordinary derivative equality on the interior and the original one-sided primitive difference quotient at any included boundary. An unevaluated integral is not acceptable.",
+        "Each invocation has a fixed 10-second external wall-clock timeout and a 65536-byte output cap. Preserve all existing finite CG50 stack, heap and simplification budgets; do not enlarge them or retry with larger limits."
+      ],
+      "expected": {
+        "expression": "piecewise(x<0,undef,x==1,undef,-sqrt(x)/(x-1)+ln(abs((sqrt(x)-1)/(sqrt(x)+1)))/2)",
+        "properties": [
+          "The exact original domain is [0,1) union (1,infinity). The displayed normalization is defined at zero with F(0)=0. The integrand there is zero.",
+          "The ordinary two-sided derivative equals sqrt(x)/(x-1)^2 on (0,1) union (1,infinity). The right derivative of the original primitive at zero is zero; no ordinary two-sided derivative at that domain boundary is asserted.",
+          "The logarithm requires its absolute value on the whole component [0,1). A real ln of the unsigned ratio would incorrectly discard that component.",
+          "The pole x=1 is excluded from both original components; its primitive divergence cannot be repaired by cancelling a denominator or selecting a constant."
+        ]
+      },
+      "reason": "The root requires x>=0, and the denominator requires x!=1, giving precisely the stated domain. Put t=sqrt(x)>=0. On x>0 away from 1, dx=2*t*dt and the transformed rational integrand is 2*t^2/(t^2-1)^2. Direct differentiation in t gives d[-t/(t^2-1)+ln(abs((t-1)/(t+1)))/2]/dt=(t^2+1)/(t^2-1)^2+1/(t^2-1)=2*t^2/(t^2-1)^2. The root t+1 is always positive, and t-1 is nonzero on the original domain, proving the displayed expression is real on both components. To verify the assigned endpoint value, substitution t=0 gives F(0)=0. For 0<=t<=1/2 the derivative in t is at most (32/9)*t^2 in absolute value. The fundamental theorem applied in the auxiliary t variable therefore yields |F(t^2)-F(0)|<=32*t^3/27. The original quotient |[F(h)-F(0)]/h| for h=t^2>0 is bounded by 32*t/27 and tends to zero. Only h>=0 is used. Finally the rational term has a simple divergence as x approaches 1 that dominates the logarithm, so no finite value is supplied at that excluded point. This is a zero-intercept affine-square-root substitution with a repeated rational pole, not a constant replacement of an earlier root example."
+    },
+    {
+      "id": "PC18-I2",
+      "type": "integral",
+      "input": "simplify(integrate(ln(abs(1-sqrt(x))),x))",
+      "conditions": [
+        "x is finite real; sqrt is nonnegative and ln is strictly real. Determine the complete original real domain, rather than assuming the sign of 1-sqrt(x).",
+        "Require an explicit exact primitive on each connected original-domain component. Additive constants may differ across the logarithmic hole. Check the primitive at the included endpoint by its actual one-sided difference quotient.",
+        "Each invocation has a fixed 10-second external wall-clock timeout and a 65536-byte output cap. Preserve all existing finite CG50 stack, heap and simplification budgets; do not enlarge them or retry with larger limits."
+      ],
+      "expected": {
+        "expression": "piecewise(x<0,undef,x==1,undef,(x-1)*ln(abs(1-sqrt(x)))-x/2-sqrt(x))",
+        "properties": [
+          "The exact original integrand domain is [0,1) union (1,infinity). In particular x=0 is included and the integrand equals zero there.",
+          "The displayed primitive satisfies F(0)=0 and has right derivative zero at zero. Its ordinary two-sided derivative domain within the original domain is (0,1) union (1,infinity).",
+          "Both components must be retained. Replacing ln(abs(1-sqrt(x))) by the ordinary real ln(1-sqrt(x)) would discard all x>1.",
+          "The displayed primitive has the finite common limit -3/2 as x tends to 1 from either original component, while the original integrand is undefined and tends to negative infinity there. The limit is not an assigned value of the original primitive or integrand."
+        ]
+      },
+      "reason": "The root is real exactly when x>=0. The absolute logarithm additionally requires 1-sqrt(x)!=0, precisely x!=1. With t=sqrt(x), integration by parts gives integrate(2*t*ln(abs(1-t)),t)=(t^2-1)*ln(abs(1-t))-t^2/2-t: differentiating this t expression gives 2*t*ln(abs(1-t)) because (t^2-1)/(t-1)-t-1=0. On x>0, dx/dt=2*t, proving the primitive on both open components. Direct substitution gives F(0)=0. Let G(t)=F(t^2). For 0<=t<=1/2, -ln(1-t)=integrate(1/(1-s),s,0,t)<=2*t, hence |G'(t)|=|2*t*ln(1-t)|<=4*t^2. Thus the actual original quotient at zero obeys |[F(h)-F(0)]/h|<=4*sqrt(h)/3 and tends to zero for h>0. Negative h is outside the original domain and is not used. At t=1 write r=t-1; the logarithmic term is r*(r+2)*ln(abs(r)), which tends to zero because r*ln(abs(r))->0 on both sides. The remaining terms tend to -3/2. This proves finite primitive limits without inserting a value at the missing point. The new mechanism is integration by parts after a square-root substitution with an absolute-logarithm singularity inside its nonnegative-root range."
+    },
+    {
+      "id": "PC18-D1",
+      "type": "derivative",
+      "input": "simplify(diff(abs(ln(x)^2*(ln(x)-1)),x))",
+      "conditions": [
+        "x is finite real and ln is strictly real. Find the exact original function domain and the ordinary two-sided derivative domain.",
+        "At every zero of the expression inside abs, prove the derivative or its failure using the difference quotient of the original function with its assigned value. piecewise selects its first true branch lazily.",
+        "Each invocation has a fixed 10-second external wall-clock timeout and a 65536-byte output cap. Preserve all existing finite CG50 stack, heap and simplification budgets; do not enlarge them or retry with larger limits."
+      ],
+      "expected": {
+        "expression": "piecewise(x<=0,undef,x==exp(1),undef,(2*ln(x)*abs(ln(x)-1)+ln(x)^2*sign(ln(x)-1))/x)",
+        "properties": [
+          "The exact original domain is (0,infinity). The exact ordinary derivative domain is (0,exp(1)) union (exp(1),infinity), including x=1.",
+          "At the double logarithmic zero x=1 the original function and its two-sided derivative are both zero; this is a flat contact.",
+          "At x=exp(1) the original function is zero, the original left derivative is -exp(-1), and the original right derivative is exp(-1). This is a genuine corner.",
+          "The boundary x=0 is not in the original domain and the function tends to positive infinity there. No finite endpoint value or endpoint derivative is assigned. There are no other exclusions."
+        ]
+      },
+      "reason": "The only domain requirement is x>0. Set u=ln(x); then the original function is u^2*abs(u-1). Away from u=1, direct product and chain rules give the displayed expression, including u=0 algebraically. The only absolute-value contacts are u=0 and u=1, corresponding to x=1 and x=exp(1). At x=1, let h tend to zero from either side while 1+h>0. The actual quotient is ln(1+h)^2*abs(ln(1+h)-1)/h=h*(ln(1+h)/h)^2*abs(ln(1+h)-1), which tends to zero by ln(1+h)/h->1. At a=exp(1), put v=ln(1+h/a), so u=1+v. The actual quotient is (1+v)^2*abs(v)/h. Since v/h->1/a and v has the sign of h, the left and right limits are -1/a and 1/a. They differ, so no two-sided derivative exists there. On all other x>0 the expression is a composition of differentiable real functions. Finally u->negative infinity at zero from the right and u^2*abs(u-1)->positive infinity, ruling out a finite endpoint extension. This combines a repeated zero and a simple zero in one logarithmic absolute-value composition, rather than merely changing coefficients of a previous periodic contact problem."
+    },
+    {
+      "id": "PC18-D2",
+      "type": "derivative",
+      "input": "simplify(diff(ln(1+sqrt(1-x^2))-sqrt(1-x^2),x))",
+      "conditions": [
+        "x is finite real; sqrt is nonnegative and ln is strictly real. Determine the exact ordinary two-sided derivative domain and separately report each original one-sided endpoint quotient.",
+        "The original function includes both endpoints of its real domain. Use its assigned values in the endpoint proof; no values outside that domain may be used. piecewise selects its first true branch lazily.",
+        "Each invocation has a fixed 10-second external wall-clock timeout and a 65536-byte output cap. Preserve all existing finite CG50 stack, heap and simplification budgets; do not enlarge them or retry with larger limits."
+      ],
+      "expected": {
+        "expression": "piecewise(x<=-1,undef,x>=1,undef,x/(1+sqrt(1-x^2)))",
+        "properties": [
+          "The complete original domain is [-1,1]. Its original values are f(-1)=f(1)=0 and f(0)=ln(2)-1.",
+          "The exact ordinary two-sided derivative domain is (-1,1). The original right derivative at -1 is -1 and the original left derivative at 1 is 1.",
+          "These are finite one-sided endpoint derivatives, not ordinary two-sided derivatives on the unextended original domain. Formal singular derivatives of the separate root terms must not obscure their cancellation.",
+          "The function is even. Its derivative is odd on (-1,1), is negative on (-1,0), is zero at zero and is positive on (0,1)."
+        ]
+      },
+      "reason": "The root condition is 1-x^2>=0, exactly [-1,1], and there 1+sqrt(1-x^2)>=1, so the logarithm introduces no further restriction. For -1<x<1 put s=sqrt(1-x^2)>0. The chain rule gives (1/(1+s)-1)*(-x/s)=x/(1+s). The endpoints require original quotients. Define H(s)=ln(1+s)-s, with H(0)=0. The identity H(s)=-integrate(t/(1+t),t,0,s) shows H(s)/s^2=-integrate(v/(1+s*v),v,0,1)->-1/2 as s tends to zero through nonnegative values; the limit follows also from bounding 1/(1+s*v) between 1/(1+s) and 1. At x=1 take h<0 with 1+h in [-1,1]; s^2=1-(1+h)^2=-h*(2+h). Hence [f(1+h)-f(1)]/h=(H(s)/s^2)*(-(2+h))->1. At x=-1 take h>0; now s^2=h*(2-h), giving [f(-1+h)-f(-1)]/h=(H(s)/s^2)*(2-h)->-1. These computations use original endpoint values and points only inside the original interval. Neither endpoint has a two-sided neighborhood in the domain. Evenness, derivative signs and the value at zero follow directly. The novelty is cancellation of two individually singular root-chain derivatives at both ends of a compact real domain."
+    },
+    {
+      "id": "PC18-S1",
+      "type": "simplify",
+      "input": "simplify(ln((sqrt(x)-1)/(x-1))+ln(sqrt(x)+1))",
+      "conditions": [
+        "x is finite real, sqrt is nonnegative, and both logarithms are strictly real. Each original quotient must be defined before logarithm identities are applied.",
+        "Return an exact value together with the complete original domain, or the equivalent guarded expression. In particular preserve exclusions whose simplified continuation would be finite.",
+        "Each invocation has a fixed 10-second external wall-clock timeout and a 65536-byte output cap. Preserve all existing finite CG50 stack, heap and simplification budgets; do not enlarge them or retry with larger limits."
+      ],
+      "expected": {
+        "expression": "piecewise(x<0,undef,x==1,undef,0)",
+        "properties": [
+          "The complete original domain is [0,1) union (1,infinity), and the exact value is zero everywhere on that domain.",
+          "Zero is an included domain endpoint, where both original logarithms equal zero. Negative x is excluded by the original square root.",
+          "The whole lower component 0<=x<1 is allowed: both numerator and denominator of the first logarithm argument are negative there.",
+          "The point x=1 remains excluded by the original 0/0 quotient, although the simplified continuation is zero. A bare unrestricted zero is unacceptable."
+        ]
+      },
+      "reason": "Real square roots force x>=0. The original denominator excludes x=1. On those points set t=sqrt(x)>=0 and t!=1. The exact factorization x-1=(t-1)*(t+1) gives (sqrt(x)-1)/(x-1)=1/(t+1)>0, so the first logarithm is real on every remaining point; the second argument t+1 is also positive. Their sum is ln(1/(t+1))+ln(t+1)=0, using only positive real logarithm arguments. At x=0, the first original ratio is (-1)/(-1)=1 and the second argument is 1, verifying the included endpoint directly. At x=1 the denominator is zero, so cancellation cannot assign an original value. This establishes both necessity and sufficiency of the whole original domain and retains the lower component despite the negative separate factors. Unlike earlier conjugate-log identities, this case combines a zero-intercept square root, a rational cancellation at an interior excluded point, and positivity of a ratio whose numerator and denominator change sign together."
+    },
+    {
+      "id": "PC18-R1",
+      "type": "resource",
+      "input": "simplify(det([[1+x^8/(x+y+z)^2,x^4*y^4/(x+y+z)^2,x^4*z^4/(x+y+z)^2],[x^4*y^4/(x+y+z)^2,1+y^8/(x+y+z)^2,y^4*z^4/(x+y+z)^2],[x^4*z^4/(x+y+z)^2,y^4*z^4/(x+y+z)^2,1+z^8/(x+y+z)^2]]))",
+      "conditions": [
+        "x, y and z are arbitrary finite real numbers. det denotes the determinant of the explicitly given 3-by-3 real matrix. Determine the complete original domain of all its entries.",
+        "Each invocation has a fixed 10-second external wall-clock timeout and a 65536-byte output cap. Preserve all existing finite CG50 stack, heap and simplification budgets; do not enlarge them or retry with larger limits.",
+        "Return a compact exact result, an equivalent compact exact representation, or retain the original compact determinant exactly. Expansion into multivariate numerator or denominator polynomials is not required."
+      ],
+      "expected": {
+        "expression": "1+(x^8+y^8+z^8)/(x+y+z)^2",
+        "properties": [
+          "The exact original domain is x+y+z!=0. The entire excluded plane, including the origin, must remain excluded even where a cancelled continuation might be finite.",
+          "The determinant equals the displayed compact expression on its entire original domain and is strictly greater than 1 there.",
+          "On the allowed axis y=z=0, x!=0, its value is 1+x^6. Analogous identities hold on the other two allowed coordinate axes.",
+          "Exact retention of the original determinant is allowed. Floating-point approximation, polynomial truncation, or an added value on the excluded plane is unacceptable.",
+          "No crash, stack overflow, timeout, output-cap overrun, runaway expansion, new domain hole or undef at an allowed point is acceptable. Existing resource budgets must not increase.",
+          "Compact retention is specific to this resource case and does not relax the explicit closed-form requirements of either integral."
+        ]
+      },
+      "reason": "Every entry has the same original denominator d^2, where d=x+y+z, so d!=0 is necessary and sufficient for the complete matrix domain. On this domain define the real vector v=(x^4,y^4,z^4)/d. The matrix is I+v*v^T. To prove the determinant without multivariate expansion, use multilinearity in its three columns. The term choosing only identity columns is 1. A term choosing exactly the rank-one contribution v_j*v in column j equals v_j^2, by expanding that column against the other identity columns. Every term choosing contributions in two or more columns vanishes because those columns are proportional to the same vector v. Therefore det(I+v*v^T)=1+v_1^2+v_2^2+v_3^2=1+(x^8+y^8+z^8)/d^2. Since d!=0 implies that at least one variable is nonzero, the sum of eighth powers is strictly positive and the answer exceeds 1. Direct substitution on the allowed axes gives the stated sixth-power values. The proof never divides by d=0 and supplies no values anywhere on that plane. This fixed 3-by-3 rank-one determinant is structurally distinct from earlier finite sums, telescoping products, nested radicals and difference-of-powers resource cases."
+    }
+  ]
+}

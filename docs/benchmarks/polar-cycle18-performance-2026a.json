@@ -1,0 +1,174 @@
+{
+  "scope": "Five fresh host processes, 64 KiB guarded main-thread stack. RSS includes host libraries; not calculator timing or peak calculator RAM.",
+  "probe_sha256": "f7d5061d71d41cdc8853c00121cee62809abcb54cbb4a7c9ebbf3cf8b7d6b480",
+  "runs": [
+    {
+      "id": "PC18-I1",
+      "input": "integrate(sqrt(x)/(x-1)^2,x)",
+      "median_seconds": 0.00214442,
+      "samples_seconds": [
+        0.00235744,
+        0.00230207,
+        0.00214442,
+        0.00211604,
+        0.00203409
+      ],
+      "max_host_rss_kib": 21016,
+      "output_characters": 60
+    },
+    {
+      "id": "PC18-I1",
+      "input": "simplify(integrate(sqrt(x)/(x-1)^2,x))",
+      "median_seconds": 0.00214018,
+      "samples_seconds": [
+        0.00210085,
+        0.00278209,
+        0.00210588,
+        0.002146,
+        0.00214018
+      ],
+      "max_host_rss_kib": 21016,
+      "output_characters": 60
+    },
+    {
+      "id": "PC18-I2",
+      "input": "integrate(ln(abs(1-sqrt(x))),x)",
+      "median_seconds": 0.00326731,
+      "samples_seconds": [
+        0.00326731,
+        0.00325073,
+        0.00338746,
+        0.00318959,
+        0.003313
+      ],
+      "max_host_rss_kib": 21016,
+      "output_characters": 343
+    },
+    {
+      "id": "PC18-I2",
+      "input": "simplify(integrate(ln(abs(1-sqrt(x))),x))",
+      "median_seconds": 0.00348987,
+      "samples_seconds": [
+        0.00348987,
+        0.00359379,
+        0.0033045,
+        0.00442583,
+        0.00324273
+      ],
+      "max_host_rss_kib": 21016,
+      "output_characters": 343
+    },
+    {
+      "id": "PC18-D1",
+      "input": "diff(abs(ln(x)^2*(ln(x)-1)),x)",
+      "median_seconds": 0.000603493,
+      "samples_seconds": [
+        0.000593233,
+        0.000603493,
+        0.000607243,
+        0.000587673,
+        0.000626952
+      ],
+      "max_host_rss_kib": 21016,
+      "output_characters": 131
+    },
+    {
+      "id": "PC18-D1",
+      "input": "simplify(diff(abs(ln(x)^2*(ln(x)-1)),x))",
+      "median_seconds": 0.000607383,
+      "samples_seconds": [
+        0.000602543,
+        0.000601412,
+        0.000629613,
+        0.000611573,
+        0.000607383
+      ],
+      "max_host_rss_kib": 21016,
+      "output_characters": 131
+    },
+    {
+      "id": "PC18-D2",
+      "input": "diff(ln(1+sqrt(1-x^2))-sqrt(1-x^2),x)",
+      "median_seconds": 0.000412895,
+      "samples_seconds": [
+        0.000412895,
+        0.000410735,
+        0.000419805,
+        0.000408586,
+        0.000414845
+      ],
+      "max_host_rss_kib": 21016,
+      "output_characters": 66
+    },
+    {
+      "id": "PC18-D2",
+      "input": "simplify(diff(ln(1+sqrt(1-x^2))-sqrt(1-x^2),x))",
+      "median_seconds": 0.000447184,
+      "samples_seconds": [
+        0.000447184,
+        0.000514873,
+        0.000439075,
+        0.000427855,
+        0.000451935
+      ],
+      "max_host_rss_kib": 21016,
+      "output_characters": 66
+    },
+    {
+      "id": "PC18-S1",
+      "input": "ln((sqrt(x)-1)/(x-1))+ln(sqrt(x)+1)",
+      "median_seconds": 0.000370255,
+      "samples_seconds": [
+        0.000370255,
+        0.000564913,
+        0.000342486,
+        0.000371516,
+        0.000331736
+      ],
+      "max_host_rss_kib": 21016,
+      "output_characters": 35
+    },
+    {
+      "id": "PC18-S1",
+      "input": "simplify(ln((sqrt(x)-1)/(x-1))+ln(sqrt(x)+1))",
+      "median_seconds": 0.000327106,
+      "samples_seconds": [
+        0.000372256,
+        0.000327106,
+        0.000328246,
+        0.000317526,
+        0.000312986
+      ],
+      "max_host_rss_kib": 21016,
+      "output_characters": 35
+    },
+    {
+      "id": "PC18-R1",
+      "input": "det([[1+x^8/(x+y+z)^2,x^4*y^4/(x+y+z)^2,x^4*z^4/(x+y+z)^2],[x^4*y^4/(x+y+z)^2,1+y^8/(x+y+z)^2,y^4*z^4/(x+y+z)^2],[x^4*z^4/(x+y+z)^2,y^4*z^4/(x+y+z)^2,1+z^8/(x+y+z)^2]])",
+      "median_seconds": 0.000487004,
+      "samples_seconds": [
+        0.000508614,
+        0.000524723,
+        0.000479215,
+        0.000467184,
+        0.000487004
+      ],
+      "max_host_rss_kib": 21016,
+      "output_characters": 50
+    },
+    {
+      "id": "PC18-R1",
+      "input": "simplify(det([[1+x^8/(x+y+z)^2,x^4*y^4/(x+y+z)^2,x^4*z^4/(x+y+z)^2],[x^4*y^4/(x+y+z)^2,1+y^8/(x+y+z)^2,y^4*z^4/(x+y+z)^2],[x^4*z^4/(x+y+z)^2,y^4*z^4/(x+y+z)^2,1+z^8/(x+y+z)^2]]))",
+      "median_seconds": 0.000484154,
+      "samples_seconds": [
+        0.000924709,
+        0.000497944,
+        0.000470184,
+        0.000473734,
+        0.000484154
+      ],
+      "max_host_rss_kib": 21016,
+      "output_characters": 50
+    }
+  ]
+}

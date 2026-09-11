@@ -5,7 +5,7 @@
 #include <cmath>
 #include <dlfcn.h>
 #include <iostream>
-#include <pthread.h>
+#include "guarded_probe_stack.h"
 #include <cstdlib>
 #include <sys/resource.h>
 static unsigned parser_calls;
@@ -98,28 +98,6 @@ static int probe_main(int argc,char **argv){
   return 0;
 }
 
-struct probe_arguments {int argc;char **argv;int result;};
-static void *run_probe(void *v){
-  probe_arguments *p=static_cast<probe_arguments *>(v);
-  p->result=probe_main(p->argc,p->argv);
-  return 0;
-}
 int main(int argc,char **argv){
-  const char *size=std::getenv("KHICAS_TEST_STACK_KIB");
-  if (!size) return probe_main(argc,argv);
-  // Limit only the computation stack, after process/library startup. Setting
-  // RLIMIT_STACK before exec can crash the loader depending on ASLR instead.
-  char *end=0;
-  unsigned long kib=std::strtoul(size,&end,10);
-  if (!end || *end || kib<16 || kib>8192) return 7;
-  pthread_attr_t attr;
-  if (pthread_attr_init(&attr)) return 7;
-  if (pthread_attr_setstacksize(&attr,kib*1024) ||
-      pthread_attr_setguardsize(&attr,4096)) {pthread_attr_destroy(&attr);return 7;}
-  probe_arguments p={argc,argv,0};
-  pthread_t thread;
-  int status=pthread_create(&thread,&attr,run_probe,&p);
-  pthread_attr_destroy(&attr);
-  if (status || pthread_join(thread,0)) return 7;
-  return p.result;
+  return guarded_probe::run(argc,argv,probe_main);
 }

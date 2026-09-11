@@ -3150,6 +3150,25 @@ namespace giac {
         for(unsigned k=0;k<f.size();++k)if(f[k]==den)return true;
       }
     }
+    // Algebraic normalization of an additive radical denominator can
+    // multiply by a vanishing conjugate, creating new holes. Preserve the
+    // original denominator through products and powers as well as 1/(a+r).
+    if(has_op(args,*at_sqrt) || has_op(args,*at_pow)){
+      vecteur quotients=mergevecteur(lop(args,at_inv),lop(args,at_division));
+      for(unsigned j=0;j<quotients.size();++j){
+        gen den=quotients[j]._SYMBptr->feuille;
+        if(quotients[j].is_symb_of_sommet(at_division)){
+          if(den.type!=_VECT || den._VECTptr->size()!=2)continue;den=gen(den[1]);
+        }
+        if(!has_op(den,*at_plus))continue;
+        if(has_op(den,*at_sqrt))return true;
+        vecteur powers=lop(den,at_pow);
+        for(unsigned k=0;k<powers.size();++k){
+          const gen &f=powers[k]._SYMBptr->feuille;
+          if(f.type==_VECT && f._VECTptr->size()==2 && f[1]==gen(1)/2)return true;
+        }
+      }
+    }
     // Principal complex roots and real logarithm magnitudes carry domain
     // information that a real algebraic surrogate cannot discard.
     if(has_i(args) || contains(args,*at_ln)){

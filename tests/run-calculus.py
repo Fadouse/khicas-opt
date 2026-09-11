@@ -5,7 +5,7 @@ An unresolved result/timeout is recorded, not counted as a correct answer.
 Use --strict to fail unless all selected problems have exact validation.
 Host RSS includes the host library and is not calculator RAM usage.
 """
-import argparse, hashlib, json, re, subprocess, tempfile, time
+import argparse, hashlib, json, os, re, subprocess, tempfile, time
 from collections import Counter
 from pathlib import Path
 from integration_build import ROOT, BASE, build, build_validation_probe
@@ -39,6 +39,8 @@ if args.only:
     cases = [c for c in cases if c['id'] in selected]
     assert len(cases) == len(selected), 'Unknown or duplicate problem ID'
 report = {'baseline': args.baseline_ref, 'timeout_seconds': args.timeout,
+          'target_stack_kib':os.environ.get('KHICAS_TEST_STACK_KIB','normal'),
+          'independent_validation_stack':'normal',
           'scope': 'actual yintg, zintgab and normalization, host Giac dependencies; not CG50 timings',
           'validation_probe_sha256':hashlib.sha256((ROOT/'tests/integration_probe.cc').read_bytes()).hexdigest(),
           'source_sha256': {name: hashlib.sha256((ROOT/name).read_bytes()).hexdigest()
@@ -85,8 +87,13 @@ with tempfile.TemporaryDirectory(prefix='khicas-calculus-') as tmp:
                 if validator and status=='computed':
                     validation_start=time.monotonic()
                     try:
+                        # The resource limit applies to the target calculation.
+                        # Independent host proof routines have a different
+                        # implementation and are not the calculator workload.
+                        proof_env=dict(os.environ)
+                        proof_env.pop('KHICAS_TEST_STACK_KIB',None)
                         validated=subprocess.run([str(validator),p.stdout.strip()]+verification,
-                                                 capture_output=True,text=True,timeout=args.timeout)
+                                                 capture_output=True,text=True,timeout=args.timeout,env=proof_env)
                         validation={'exit':validated.returncode,'status':checked_status(validated),
                                     'result':validated.stdout.strip()[:4096],
                                     'stderr':validated.stderr[-2500:]}

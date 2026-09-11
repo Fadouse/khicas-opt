@@ -249,3 +249,19 @@ SH4 ROM 2,063,336 / 2,065,152 字节，AC2 2,515,028 / 2,559,996 字节；静态
 主机测试不是 SH4/MMU 仿真，本任务未安装实机。首次存在错题，继续派发全新出题代理，不进入最终性能代理验收。
 
 [逐点审查与缺口](CALCULUS-CORE-AUDIT.md) · [首测](benchmarks/polar-cycle17-first-acceptance-2026a.json) · [修复后](benchmarks/polar-cycle17-fixed-acceptance-2026a.json) · [函数族](benchmarks/structural-calculus-guards-polar17-2026a.json) · [端点条件](benchmarks/endpoint-proof-contracts-polar17-2026a.json) · [根式条件](benchmarks/affine-radical-contracts-polar17-2026a.json) · [链接资源](benchmarks/resources-polar17-2026a.json) · [交错性能测量](benchmarks/polar17-paired-performance-2026a.json) · [回归索引](benchmarks/polar17-regression-index-2026a.json)。
+
+## Checkpoint 18：保留根式定义域、无除法小矩阵和递归求导分派
+
+标签 `checkpoint/polar-stability-cycle18-2026a`。六道新题首次只有四道完整通过；失败包括根式有理化新造零点孔洞，以及固定 3×3 符号行列式在 64 KiB 主机栈崩溃。首次输出独立保留。修复覆盖含乘幂、乘积和多个平方根的加法分母，以及 2–4 阶共享多项式分母矩阵；矩阵优先证明秩一更新，其他小矩阵用无符号主元除法的完整递推。分母零集和常数结果的原始孔洞均单独验证。
+
+扩大历史总表的小栈验收后，区分并修正了主机 NTL 工作线程退出故障、提取器丢失编译器标记，以及五道实际计算栈失败。实际求导器拆分了常用算术、链式求导和特殊函数路径；符号 `lnabs` 直接保留绝对值，避免不必要的全局取值范围搜索；新增精确有理系数匹配的对数导数线性组合规则。规则匹配成功必须证明整个形式多项式恒等式，不使用采样代替证明；自然对数端点及多个对数可能相消的孔洞分别处理。
+
+最终通过当前 24 模式、324 项小矩阵检查、19 项矩阵接收/拒绝条件、224 项根式分母检查、72 项对数导数组合检查及 8 项拒绝条件、152 项求导分派检查，以及历轮题目、旧函数族与边界集、60 项极坐标显示和 21＋7 组正式/补充回归。测试栈本身另有 6 项验证，故意溢出必须失败，正常析构必须执行。通过积分清单为 **682 条记录：677 精确、5 导数采样**；去输入空白后 659 种文本，不是数学去重。保留了未规范化为零的定义域表达式，不把“安全保留”描述为最佳显示。
+
+最终 SH4 ROM 为 **2,051,516 / 2,065,152** 字节，AC2 为 **2,535,404 / 2,559,996** 字节，分别剩余 **13,636** 和 **24,592** 字节。相较 checkpoint 17，ROM 少 11,820 字节、AC2 多 20,376 字节，二者合计增加 8,556 字节；新增能力有明确的体积成本。静态 RAM 424,620 字节、配置 CAS 堆 1,572,864 字节保持原容量。公共求导分派帧 256→72 字节，但必须结合下层帧分析；稀有特殊函数路径仍有增幅，详见逐点审查。
+
+六道新题各运行五次的最慢主机中位数约 **3.49 ms**；15 条相同输出入口的九次交错测量耗时比约 **0.98–1.09**，没有证据表明整体速度大幅提升。主机提取器修正了编译标记，因此该对比也包含构建差异，不能换算成 CG50 加速百分比。最明确的收益是消除已复现的失败、避免不必要的消元/展开，并让扩大后的历史积分小栈验收完成。
+
+本任务没有安装计算器，主机测试不是 SH4/MMU 仿真。仍不能声称所有 TLB 问题消失；超过有界矩阵/对数匹配条件的输入会走既有通用算法。本轮首次有错题，下一步只能派发全新出题代理，尚未满足最终性能代理的触发条件。
+
+[逐点分析与缺口](CALCULUS-CORE-AUDIT.md) · [通过积分清单](PASSED-INTEGRALS.md) · [首测](benchmarks/polar-cycle18-first-acceptance-2026a.json) · [修复后](benchmarks/polar-cycle18-fixed-acceptance-2026a.json) · [矩阵族](benchmarks/small-determinant-guards-polar18-2026a.json) · [根式分母](benchmarks/radical-denominator-guards-polar18-2026a.json) · [对数组合](benchmarks/logarithmic-span-guards-polar18-2026a.json) · [求导分派](benchmarks/derivative-dispatch-guards-polar18-2026a.json) · [链接资源](benchmarks/resources-polar18-2026a.json) · [交错测量](benchmarks/entry-performance-polar18-2026a.json) · [回归索引](benchmarks/polar18-regression-index-2026a.json)。

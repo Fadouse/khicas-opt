@@ -1,0 +1,24 @@
+{
+  "cases": [
+    {
+      "id": "PC18-I1",
+      "input": "simplify(integrate(sqrt(x)/(x-1)^2,x))",
+      "expected": "piecewise(x<0,undef,x==1,undef,-sqrt(x)/(x-1)+ln(abs((sqrt(x)-1)/(sqrt(x)+1)))/2)",
+      "conditions": [
+        "x is finite real and sqrt is the nonnegative real square root; ln and abs have their real meanings. Determine the complete original domain, retaining every denominator exclusion.",
+        "Require an explicit exact primitive on each connected original-domain component, with independent additive constants allowed. State ordinary derivative equality on the interior and the original one-sided primitive difference quotient at any included boundary. An unevaluated integral is not acceptable.",
+        "Each invocation has a fixed 10-second external wall-clock timeout and a 65536-byte output cap. Preserve all existing finite CG50 stack, heap and simplification budgets; do not enlarge them or retry with larger limits."
+      ]
+    },
+    {
+      "id": "PC18-I2",
+      "input": "simplify(integrate(ln(abs(1-sqrt(x))),x))",
+      "expected": "piecewise(x<0,undef,x==1,undef,(x-1)*ln(abs(1-sqrt(x)))-x/2-sqrt(x))",
+      "conditions": [
+        "x is finite real; sqrt is nonnegative and ln is strictly real. Determine the complete original real domain, rather than assuming the sign of 1-sqrt(x).",
+        "Require an explicit exact primitive on each connected original-domain component. Additive constants may differ across the logarithmic hole. Check the primitive at the included endpoint by its actual one-sided difference quotient.",
+        "Each invocation has a fixed 10-second external wall-clock timeout and a 65536-byte output cap. Preserve all existing finite CG50 stack, heap and simplification budgets; do not enlarge them or retry with larger limits."
+      ]
+    }
+  ]
+}
