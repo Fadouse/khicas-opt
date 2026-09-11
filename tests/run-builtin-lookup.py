@@ -1,13 +1,27 @@
 #!/usr/bin/env python3
 """Keep builtin lookup names, aliases, tokens and initialization behavior unchanged."""
+
+from repository import source_path
 from pathlib import Path
-import sys,re,subprocess,tempfile,json,argparse
-from integration_build import ROOT as root,function
-p=argparse.ArgumentParser(description='Compare complete lexer lookup bodies using actual registration tables and instrumented pointer/token fixtures.');p.add_argument('--helpers',type=Path,default=root/'kglobal.cc');p.add_argument('--output',type=Path);args=p.parse_args()
-baseline=function(subprocess.check_output(['git','show','dff6974:kglobal.cc'],cwd=root,text=True),'    int find_or_make_symbol(').replace('find_or_make_symbol(', 'before_find_or_make_symbol(',1)
-candidate=function(args.helpers.read_text(),'    int find_or_make_symbol(').replace('find_or_make_symbol(', 'after_find_or_make_symbol(',1)
-pointers=sorted(set(re.findall(r'^at_\w+', (root/'static_lexer_.h').read_text(),re.M)))
-text=r'''
+import sys, re, subprocess, tempfile, json, argparse
+from integration_build import ROOT as root, function
+
+p = argparse.ArgumentParser(
+    description="Compare complete lexer lookup bodies using actual registration tables and instrumented pointer/token fixtures."
+)
+p.add_argument("--output", type=Path)
+args = p.parse_args()
+baseline = function(
+    subprocess.check_output(["git", "show", "dff6974:kglobal.cc"], cwd=root, text=True),
+    "    int find_or_make_symbol(",
+).replace("find_or_make_symbol(", "before_find_or_make_symbol(", 1)
+candidate = function(
+    source_path("kglobal.cc").read_text(), "    int find_or_make_symbol("
+).replace("find_or_make_symbol(", "after_find_or_make_symbol(", 1)
+pointers = sorted(
+    set(re.findall(r"^at_\w+", (source_path("static_lexer_.h")).read_text(), re.M))
+)
+text = r"""
 #include <algorithm>
 #include <cstring>
 #include <cstdint>
@@ -51,10 +65,11 @@ const lexer_tab_int_type *const lexer_tab_int_values_end=lexer_tab_int_values+3;
 bool tri1(const lexer_tab_int_type &a,const lexer_tab_int_type &b){return strcmp(a.keyword,b.keyword)<0;}
 using sym_string_tab=map<string,gen>;sym_string_tab symbols;
 sym_string_tab &syms(){return symbols;}int lock_syms_mutex(){return 0;}void unlock_syms_mutex(){}
-'''
-for i,p in enumerate(pointers):text+=f'const unary_function_ptr object_{p}={{{i}}};const unary_function_ptr *const {p}=&object_{p};\n'
-text+=baseline+candidate
-text+=r'''
+"""
+for i, p in enumerate(pointers):
+    text += f"const unary_function_ptr object_{p}={{{i}}};const unary_function_ptr *const {p}=&object_{p};\n"
+text += baseline + candidate
+text += r"""
 const unary_function_ptr * const expected_pointers[]={
 #include "static_lexer_.h"
 };
@@ -72,11 +87,41 @@ int main(){
  if(!before||after)abort();
  cout<<"{\"builtin_count\":"<<metadata.size()<<",\"all_tokens_aliases_identical\":true,\"first_call_reentry\":true,\"keyword_symbol_cases\":12,\"long_name_allocations_before\":"<<before<<",\"long_name_allocations_after\":"<<after<<"}"<<endl;
 }
-'''
-with tempfile.TemporaryDirectory(prefix='khicas-builtin-lookup-') as tmp:
- d=Path(tmp);(d/'lookup.cc').write_text(text)
- rows=[]
- for release in [False,True]:
-  exe=d/('release' if release else 'debug');subprocess.run(['c++','-std=c++11','-O2','-fno-threadsafe-statics','-iquote',str(root),str(d/'lookup.cc'),'-o',str(exe)]+(['-DRELEASE'] if release else []),check=True)
-  out=subprocess.check_output([str(exe)],text=True);j=json.loads(out);j['release']=release;rows.append(j);print(out,end='')
- if args.output:args.output.write_text(json.dumps({'scope':'exact original/candidate lookup bodies, repository builtin tables; mocked gen/pointer objects and three keyword fixtures, independent of host Giac implementation','cases':rows},indent=2)+'\n')
+"""
+with tempfile.TemporaryDirectory(prefix="khicas-builtin-lookup-") as tmp:
+    d = Path(tmp)
+    (d / "lookup.cc").write_text(text)
+    rows = []
+    for release in [False, True]:
+        exe = d / ("release" if release else "debug")
+        subprocess.run(
+            [
+                "c++",
+                "-std=c++11",
+                "-O2",
+                "-fno-threadsafe-statics",
+                "-iquote",
+                str(source_path("static_lexer.h").parent),
+                str(d / "lookup.cc"),
+                "-o",
+                str(exe),
+            ]
+            + (["-DRELEASE"] if release else []),
+            check=True,
+        )
+        out = subprocess.check_output([str(exe)], text=True)
+        j = json.loads(out)
+        j["release"] = release
+        rows.append(j)
+        print(out, end="")
+    if args.output:
+        args.output.write_text(
+            json.dumps(
+                {
+                    "scope": "exact original/candidate lookup bodies, repository builtin tables; mocked gen/pointer objects and three keyword fixtures, independent of host Giac implementation",
+                    "cases": rows,
+                },
+                indent=2,
+            )
+            + "\n"
+        )

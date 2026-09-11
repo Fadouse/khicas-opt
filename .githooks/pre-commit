@@ -1,0 +1,11 @@
+#!/bin/sh
+set -eu
+if [ "$(git config --bool commit.gpgsign || true)" != true ]; then
+  echo 'Commit rejected: enable commit.gpgsign and use the configured OpenPGP key.' >&2
+  exit 1
+fi
+if [ "$(git config gpg.format || echo openpgp)" != openpgp ]; then
+  echo 'Commit rejected: this repository requires OpenPGP signatures.' >&2
+  exit 1
+fi
+git diff --cached --check

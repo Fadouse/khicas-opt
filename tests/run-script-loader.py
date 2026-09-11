@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 """Exercise actual CG50 file loader's allocation and Bfile error paths with stubs."""
+
+from repository import source_path
 from pathlib import Path
-import os,subprocess,tempfile
-from integration_build import ROOT,function
-source=r'''
+import os, subprocess, tempfile
+from integration_build import ROOT, function
+
+source = r"""
 #include <cassert>
 #include <cstdlib>
 #include <cstring>
@@ -22,9 +25,9 @@ void *test_malloc(size_t n){return allocation_failure?nullptr:malloc(n);}
 void test_free(void *p){if(p)++freed;free(p);}
 #define malloc test_malloc
 #define free test_free
-'''
-source+=function((ROOT/'main.cc').read_text(),'char * c_load_script(')
-source+=r'''
+"""
+source += function((source_path("main.cc")).read_text(), "char * c_load_script(")
+source += r"""
 #undef malloc
 #undef free
 void reset(){opened=closed=freed=0;allocation_failure=inexammode=false;open_result=7;file_size=read_size=4;}
@@ -42,8 +45,26 @@ int main(){
  reset();file_size=read_size=0;p=c_load_script("empty");assert(p&&!*p&&closed==1);free(p);
  puts("PASS: target loader path bounds, allocation failure, incomplete reads, handle closure and success");
 }
-'''
-with tempfile.TemporaryDirectory(prefix='khicas-loader-') as tmp:
- p=Path(tmp);(p/'test.cc').write_text(source)
- subprocess.run([os.environ.get('CXX','c++'),'-std=c++11','-O1','-g','-fsanitize=address,undefined',str(p/'test.cc'),'-o',str(p/'test')],check=True)
- subprocess.run([str(p/'test')],env=dict(os.environ,ASAN_OPTIONS='detect_leaks=0'),check=True,timeout=30)
+"""
+with tempfile.TemporaryDirectory(prefix="khicas-loader-") as tmp:
+    p = Path(tmp)
+    (p / "test.cc").write_text(source)
+    subprocess.run(
+        [
+            os.environ.get("CXX", "c++"),
+            "-std=c++11",
+            "-O1",
+            "-g",
+            "-fsanitize=address,undefined",
+            str(p / "test.cc"),
+            "-o",
+            str(p / "test"),
+        ],
+        check=True,
+    )
+    subprocess.run(
+        [str(p / "test")],
+        env=dict(os.environ, ASAN_OPTIONS="detect_leaks=0"),
+        check=True,
+        timeout=30,
+    )
