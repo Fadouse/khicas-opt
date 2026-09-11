@@ -1,0 +1,457 @@
+{
+  "scope": "Actual repository integration/yderive/FXCG simplify on host dependencies; guarded 64 KiB stack, not SH4/MMU emulation.",
+  "corpus_sha256": "0ac3f7bd929ffce0392cfecf160aada67200dcca593e3b5c467d2e1e973c480a",
+  "probe_sha256": "668246aa705c7996fe6250c78aa9d9c854d7b9b12c8bff483d54b431032bc045",
+  "runs": [
+    {
+      "id": "PC9-I1",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(ln(1+surd(x,3)^2),x)",
+      "exit": 0,
+      "result": "3*((surd(x,3))^3/3*ln(1+(surd(x,3))^2)-2*((3*(surd(x,3))^3-9*surd(x,3))/27+1/3*atan(surd(x,3))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00195236\nMAX_RSS_KB 66952\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact real cube-root substitution, logarithm positivity and global primitive identity. Original difference quotient G(u)/u\u00b3 tends to zero on both sides; all terms odd, and the derivative is positive away from zero. One global constant suffices."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0"
+      }
+    },
+    {
+      "id": "PC9-I1",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(ln(1+surd(x,3)^2),x)",
+      "exit": 0,
+      "result": "3*((surd(x,3))^3/3*ln(1+(surd(x,3))^2)-2*((3*(surd(x,3))^3-9*surd(x,3))/27+1/3*atan(surd(x,3))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00187711\nMAX_RSS_KB 66952\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact real cube-root substitution, logarithm positivity and global primitive identity. Original difference quotient G(u)/u\u00b3 tends to zero on both sides; all terms odd, and the derivative is positive away from zero. One global constant suffices."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0"
+      }
+    },
+    {
+      "id": "PC9-I1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(ln(1+surd(x,3)^2),x))",
+      "exit": 0,
+      "result": "3*((surd(x,3))^3/3*ln(1+(surd(x,3))^2)-2*((3*(surd(x,3))^3-9*surd(x,3))/27+1/3*atan(surd(x,3))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00188795\nMAX_RSS_KB 66952\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact real cube-root substitution, logarithm positivity and global primitive identity. Original difference quotient G(u)/u\u00b3 tends to zero on both sides; all terms odd, and the derivative is positive away from zero. One global constant suffices."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0"
+      }
+    },
+    {
+      "id": "PC9-I1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(ln(1+surd(x,3)^2),x))",
+      "exit": 0,
+      "result": "3*((surd(x,3))^3/3*ln(1+(surd(x,3))^2)-2*((3*(surd(x,3))^3-9*surd(x,3))/27+1/3*atan(surd(x,3))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00188521\nMAX_RSS_KB 66952\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact real cube-root substitution, logarithm positivity and global primitive identity. Original difference quotient G(u)/u\u00b3 tends to zero on both sides; all terms odd, and the derivative is positive away from zero. One global constant suffices."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0"
+      }
+    },
+    {
+      "id": "PC9-I2",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(exp(x)*ln(1+exp(x))/(1+exp(x))^2,x)",
+      "exit": 0,
+      "result": "-1/(exp(x)+1)*ln(exp(x)+1)-1/(exp(x)+1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00101576\nMAX_RSS_KB 66952\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact t=1+exp(x)>1 substitution and elementary integration by parts. Positive derivative, global positive log argument, and limits -1 and zero establish the real domain and range."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "-(ln(2)+1)/2"
+      }
+    },
+    {
+      "id": "PC9-I2",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(exp(x)*ln(1+exp(x))/(1+exp(x))^2,x)",
+      "exit": 0,
+      "result": "-1/(exp(x)+1)*ln(exp(x)+1)-1/(exp(x)+1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00103025\nMAX_RSS_KB 66952\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact t=1+exp(x)>1 substitution and elementary integration by parts. Positive derivative, global positive log argument, and limits -1 and zero establish the real domain and range."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "-(ln(2)+1)/2"
+      }
+    },
+    {
+      "id": "PC9-I2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(exp(x)*ln(1+exp(x))/(1+exp(x))^2,x))",
+      "exit": 0,
+      "result": "(-ln(exp(x)+1)-1)/(exp(x)+1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00119314\nMAX_RSS_KB 66952\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact t=1+exp(x)>1 substitution and elementary integration by parts. Positive derivative, global positive log argument, and limits -1 and zero establish the real domain and range."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "-(ln(2)+1)/2"
+      }
+    },
+    {
+      "id": "PC9-I2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(exp(x)*ln(1+exp(x))/(1+exp(x))^2,x))",
+      "exit": 0,
+      "result": "(-ln(exp(x)+1)-1)/(exp(x)+1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00120586\nMAX_RSS_KB 66952\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact t=1+exp(x)>1 substitution and elementary integration by parts. Positive derivative, global positive log argument, and limits -1 and zero establish the real domain and range."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "-(ln(2)+1)/2"
+      }
+    },
+    {
+      "id": "PC9-D1",
+      "outer": false,
+      "stack": "normal",
+      "input": "diff(surd(x^3*(x-1)^4,3)/(1+x^2)+sin(x),x)",
+      "exit": 0,
+      "result": "(((surd(x-1,3))^4+x*4/3*surd(x-1,3))*(1+x^2)-surd(x^3*(x-1)^4,3)*2*x)/(1+x^2)^2+cos(x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000378246\nMAX_RSS_KB 66952\n",
+      "verification": {
+        "exact": true,
+        "method": "Global odd-root uniqueness proves root(x\u00b3(x-1)^4)=x*root(x-1)^4. Exact rational derivative in the real bijection x=u\u00b3+1. Original difference quotients give 2 at zero and cos(1) at one; all remaining denominators are powers of 1+x\u00b2>0."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "2",
+        "1": "cos(1)"
+      }
+    },
+    {
+      "id": "PC9-D1",
+      "outer": false,
+      "stack": "64",
+      "input": "diff(surd(x^3*(x-1)^4,3)/(1+x^2)+sin(x),x)",
+      "exit": 0,
+      "result": "(((surd(x-1,3))^4+x*4/3*surd(x-1,3))*(1+x^2)-surd(x^3*(x-1)^4,3)*2*x)/(1+x^2)^2+cos(x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000374306\nMAX_RSS_KB 66952\n",
+      "verification": {
+        "exact": true,
+        "method": "Global odd-root uniqueness proves root(x\u00b3(x-1)^4)=x*root(x-1)^4. Exact rational derivative in the real bijection x=u\u00b3+1. Original difference quotients give 2 at zero and cos(1) at one; all remaining denominators are powers of 1+x\u00b2>0."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "2",
+        "1": "cos(1)"
+      }
+    },
+    {
+      "id": "PC9-D1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(diff(surd(x^3*(x-1)^4,3)/(1+x^2)+sin(x),x))",
+      "exit": 0,
+      "result": "(((surd(x-1,3))^4+x*4/3*surd(x-1,3))*(1+x^2)-surd(x^3*(x-1)^4,3)*2*x)/(1+x^2)^2+cos(x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000368235\nMAX_RSS_KB 66952\n",
+      "verification": {
+        "exact": true,
+        "method": "Global odd-root uniqueness proves root(x\u00b3(x-1)^4)=x*root(x-1)^4. Exact rational derivative in the real bijection x=u\u00b3+1. Original difference quotients give 2 at zero and cos(1) at one; all remaining denominators are powers of 1+x\u00b2>0."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "2",
+        "1": "cos(1)"
+      }
+    },
+    {
+      "id": "PC9-D1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(diff(surd(x^3*(x-1)^4,3)/(1+x^2)+sin(x),x))",
+      "exit": 0,
+      "result": "(((surd(x-1,3))^4+x*4/3*surd(x-1,3))*(1+x^2)-surd(x^3*(x-1)^4,3)*2*x)/(1+x^2)^2+cos(x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000442525\nMAX_RSS_KB 66952\n",
+      "verification": {
+        "exact": true,
+        "method": "Global odd-root uniqueness proves root(x\u00b3(x-1)^4)=x*root(x-1)^4. Exact rational derivative in the real bijection x=u\u00b3+1. Original difference quotients give 2 at zero and cos(1) at one; all remaining denominators are powers of 1+x\u00b2>0."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "2",
+        "1": "cos(1)"
+      }
+    },
+    {
+      "id": "PC9-D2",
+      "outer": false,
+      "stack": "normal",
+      "input": "diff(piecewise(x<0,exp(x)-1,x<=1,ln(1+x),ln(2)+exp((x-1)/2)),x)",
+      "exit": 0,
+      "result": "((x=1)? undef : piecewise(0>x,exp(x),x<=1,1/(1+x),1/2*exp((x-1)/2)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000439125\nMAX_RSS_KB 66952\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact branch derivatives. Original difference quotients at zero both tend to one. At one the right quotient exp(h/2)/h diverges because the function values differ by one, despite equal branch slopes; lazy undef rejects the jump."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "exp(-1)",
+        "0": "1",
+        "1": "undef",
+        "2": "exp(1/2)/2"
+      }
+    },
+    {
+      "id": "PC9-D2",
+      "outer": false,
+      "stack": "64",
+      "input": "diff(piecewise(x<0,exp(x)-1,x<=1,ln(1+x),ln(2)+exp((x-1)/2)),x)",
+      "exit": 0,
+      "result": "((x=1)? undef : piecewise(0>x,exp(x),x<=1,1/(1+x),1/2*exp((x-1)/2)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000467345\nMAX_RSS_KB 66952\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact branch derivatives. Original difference quotients at zero both tend to one. At one the right quotient exp(h/2)/h diverges because the function values differ by one, despite equal branch slopes; lazy undef rejects the jump."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "exp(-1)",
+        "0": "1",
+        "1": "undef",
+        "2": "exp(1/2)/2"
+      }
+    },
+    {
+      "id": "PC9-D2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(diff(piecewise(x<0,exp(x)-1,x<=1,ln(1+x),ln(2)+exp((x-1)/2)),x))",
+      "exit": 0,
+      "result": "((x=1)? undef : piecewise(0>x,exp(x),x<=1,1/(1+x),1/2*exp((x-1)/2)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000448845\nMAX_RSS_KB 66952\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact branch derivatives. Original difference quotients at zero both tend to one. At one the right quotient exp(h/2)/h diverges because the function values differ by one, despite equal branch slopes; lazy undef rejects the jump."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "exp(-1)",
+        "0": "1",
+        "1": "undef",
+        "2": "exp(1/2)/2"
+      }
+    },
+    {
+      "id": "PC9-D2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(diff(piecewise(x<0,exp(x)-1,x<=1,ln(1+x),ln(2)+exp((x-1)/2)),x))",
+      "exit": 0,
+      "result": "((x=1)? undef : piecewise(0>x,exp(x),x<=1,1/(1+x),1/2*exp((x-1)/2)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000445475\nMAX_RSS_KB 66952\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact branch derivatives. Original difference quotients at zero both tend to one. At one the right quotient exp(h/2)/h diverges because the function values differ by one, despite equal branch slopes; lazy undef rejects the jump."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "exp(-1)",
+        "0": "1",
+        "1": "undef",
+        "2": "exp(1/2)/2"
+      }
+    },
+    {
+      "id": "PC9-S1",
+      "outer": false,
+      "stack": "normal",
+      "input": "ln(sqrt((x+i)/(x-i)))-(ln(x+i)-ln(x-i))/2",
+      "exit": 0,
+      "result": "ln(sqrt((x+i)/(x-i)))-(ln(x+i)-ln(x-i))/2",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000313316\nMAX_RSS_KB 66952\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact principal root and log syntax retained after rational radicand identity. alpha=Arg(x+i) in (0,pi) gives root argument alpha for x>0 and alpha-pi for x<0; at zero sqrt(-1)=i and both log terms give i*pi/2. No original zero or pole for real x."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0"
+      }
+    },
+    {
+      "id": "PC9-S1",
+      "outer": false,
+      "stack": "64",
+      "input": "ln(sqrt((x+i)/(x-i)))-(ln(x+i)-ln(x-i))/2",
+      "exit": 0,
+      "result": "ln(sqrt((x+i)/(x-i)))-(ln(x+i)-ln(x-i))/2",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000306617\nMAX_RSS_KB 66952\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact principal root and log syntax retained after rational radicand identity. alpha=Arg(x+i) in (0,pi) gives root argument alpha for x>0 and alpha-pi for x<0; at zero sqrt(-1)=i and both log terms give i*pi/2. No original zero or pole for real x."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0"
+      }
+    },
+    {
+      "id": "PC9-S1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(ln(sqrt((x+i)/(x-i)))-(ln(x+i)-ln(x-i))/2)",
+      "exit": 0,
+      "result": "ln(sqrt((x+i)/(x-i)))-(ln(x+i)-ln(x-i))/2",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000307127\nMAX_RSS_KB 66952\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact principal root and log syntax retained after rational radicand identity. alpha=Arg(x+i) in (0,pi) gives root argument alpha for x>0 and alpha-pi for x<0; at zero sqrt(-1)=i and both log terms give i*pi/2. No original zero or pole for real x."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0"
+      }
+    },
+    {
+      "id": "PC9-S1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(ln(sqrt((x+i)/(x-i)))-(ln(x+i)-ln(x-i))/2)",
+      "exit": 0,
+      "result": "ln(sqrt((x+i)/(x-i)))-(ln(x+i)-ln(x-i))/2",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000318806\nMAX_RSS_KB 66952\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact principal root and log syntax retained after rational radicand identity. alpha=Arg(x+i) in (0,pi) gives root argument alpha for x>0 and alpha-pi for x<0; at zero sqrt(-1)=i and both log terms give i*pi/2. No original zero or pole for real x."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0"
+      }
+    },
+    {
+      "id": "PC9-R1",
+      "outer": false,
+      "stack": "normal",
+      "input": "sqrt(((1+(x-y)^2)^12-(1+(x+y)^2)^12)^2+4*(1+(x-y)^2)^12*(1+(x+y)^2)^12)/((1+(x-y)^2)^12+(1+(x+y)^2)^12)",
+      "exit": 0,
+      "result": "sqrt(((1+(x-y)^2)^12-(1+(x+y)^2)^12)^2+4*(1+(x-y)^2)^12*(1+(x+y)^2)^12)/((1+(x-y)^2)^12+(1+(x+y)^2)^12)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000312646\nMAX_RSS_KB 66952\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact compact retention or constant one. A,B>=1 imply A+B>=2, so sqrt((A-B)\u00b2+4AB)=sqrt((A+B)\u00b2)=A+B with the positive sign globally, including A=B."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC9-R1",
+      "outer": false,
+      "stack": "64",
+      "input": "sqrt(((1+(x-y)^2)^12-(1+(x+y)^2)^12)^2+4*(1+(x-y)^2)^12*(1+(x+y)^2)^12)/((1+(x-y)^2)^12+(1+(x+y)^2)^12)",
+      "exit": 0,
+      "result": "sqrt(((1+(x-y)^2)^12-(1+(x+y)^2)^12)^2+4*(1+(x-y)^2)^12*(1+(x+y)^2)^12)/((1+(x-y)^2)^12+(1+(x+y)^2)^12)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000303487\nMAX_RSS_KB 66952\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact compact retention or constant one. A,B>=1 imply A+B>=2, so sqrt((A-B)\u00b2+4AB)=sqrt((A+B)\u00b2)=A+B with the positive sign globally, including A=B."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC9-R1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(sqrt(((1+(x-y)^2)^12-(1+(x+y)^2)^12)^2+4*(1+(x-y)^2)^12*(1+(x+y)^2)^12)/((1+(x-y)^2)^12+(1+(x+y)^2)^12))",
+      "exit": 0,
+      "result": "sqrt(((1+(x-y)^2)^12-(1+(x+y)^2)^12)^2+4*(1+(x-y)^2)^12*(1+(x+y)^2)^12)/((1+(x-y)^2)^12+(1+(x+y)^2)^12)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000329116\nMAX_RSS_KB 66952\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact compact retention or constant one. A,B>=1 imply A+B>=2, so sqrt((A-B)\u00b2+4AB)=sqrt((A+B)\u00b2)=A+B with the positive sign globally, including A=B."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC9-R1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(sqrt(((1+(x-y)^2)^12-(1+(x+y)^2)^12)^2+4*(1+(x-y)^2)^12*(1+(x+y)^2)^12)/((1+(x-y)^2)^12+(1+(x+y)^2)^12))",
+      "exit": 0,
+      "result": "sqrt(((1+(x-y)^2)^12-(1+(x+y)^2)^12)^2+4*(1+(x-y)^2)^12*(1+(x+y)^2)^12)/((1+(x-y)^2)^12+(1+(x+y)^2)^12)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000331186\nMAX_RSS_KB 66952\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact compact retention or constant one. A,B>=1 imply A+B>=2, so sqrt((A-B)\u00b2+4AB)=sqrt((A+B)\u00b2)=A+B with the positive sign globally, including A=B."
+      },
+      "pass": true
+    }
+  ],
+  "source_sha256": {
+    "yintg.cc": "a93951c62d9ddd9605d04eea0fdb638142342e6f523b2215b9aa23d925061c88",
+    "zintgab.cc": "3b6fa78aba4d53b1a11479c33bacb4c85e3d6091389ef3073ec60085a7ae9448",
+    "ksubst.cc": "cb4105a75ae6fecc426a5bbb5a1bc3ed8c01dacd50ad5d637a79bafdb3673b3b",
+    "yderive.cc": "b1b763b13b06fb202ee07be968e2d511f0f69919162af63a4f3704bd3b154f41",
+    "dilogarithm.h": "ca822ef4c094a4ed1f4aecf7219011668735d86d259c51ec6304515f8fa84d7a",
+    "kconvert.cc": "eed558eb2f8ff62e0cf1e94fdbf8497954a35577e283a8d07283350e65b76003",
+    "equation_normalize.h": "4bfb644f0e18bb36e280ce8886c8ac12695c9aeeaef187ea3e5f967cd1642e37",
+    "kusual.cc": "fcc854a0d1f8ad6f64600674a584ed6d903d44c53fef1931b90904272df26681",
+    "zprog.cc": "baf6570eac3b985e50bb2bbf8a3bbc47b72b34ce6835ce2f7a873185a7efe499",
+    "conditional_eval.h": "763e56cb14146b9e45728c4fa245f7fe4506a8eea4041cbaf98b927ea15e27a2"
+  },
+  "cases": [
+    {
+      "id": "PC9-I1",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC9-I2",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC9-D1",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC9-D2",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC9-S1",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC9-R1",
+      "all_four_pass": true
+    }
+  ]
+}

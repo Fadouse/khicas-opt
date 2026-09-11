@@ -1,0 +1,331 @@
+{
+  "scope": "Root independently verifies whole-pipeline answers and complex condition predicates for eight agent-generated cases. A remaining unevaluated integral is not a pass.",
+  "corpus_sha256": "29883c745f73f8e87b337000da7fb6426f0aeec1bed0151fb06b1c35b0bf978c",
+  "source_sha256": {
+    "yintg.cc": "a93951c62d9ddd9605d04eea0fdb638142342e6f523b2215b9aa23d925061c88",
+    "ksubst.cc": "cb4105a75ae6fecc426a5bbb5a1bc3ed8c01dacd50ad5d637a79bafdb3673b3b",
+    "dilogarithm.h": "ca822ef4c094a4ed1f4aecf7219011668735d86d259c51ec6304515f8fa84d7a"
+  },
+  "runs": [
+    {
+      "id": "PARAM-Q1",
+      "input": "[assume(a,complex),integrate(exp(-a*x)*cos(b*x),x,0,+infinity)][1]",
+      "stack_KiB": "normal",
+      "outer_simplify": false,
+      "exit": 0,
+      "result": "(((re(a))>0)? a/(a*a+b*b) : undef)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000344776\nMAX_RSS_KB 55764\n",
+      "status": "exact-under-explicit-complex-conditions"
+    },
+    {
+      "id": "PARAM-Q1",
+      "input": "[assume(a,complex),integrate(exp(-a*x)*cos(b*x),x,0,+infinity)][1]",
+      "stack_KiB": "64",
+      "outer_simplify": false,
+      "exit": 0,
+      "result": "(((re(a))>0)? a/(a*a+b*b) : undef)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000604813\nMAX_RSS_KB 57556\n",
+      "status": "exact-under-explicit-complex-conditions"
+    },
+    {
+      "id": "PARAM-Q1",
+      "input": "[assume(a,complex),simplify(integrate(exp(-a*x)*cos(b*x),x,0,+infinity))][1]",
+      "stack_KiB": "normal",
+      "outer_simplify": true,
+      "exit": 0,
+      "result": "(((re(a))>0)? a/(a*a+b*b) : undef)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000331636\nMAX_RSS_KB 57556\n",
+      "status": "exact-under-explicit-complex-conditions"
+    },
+    {
+      "id": "PARAM-Q1",
+      "input": "[assume(a,complex),simplify(integrate(exp(-a*x)*cos(b*x),x,0,+infinity))][1]",
+      "stack_KiB": "64",
+      "outer_simplify": true,
+      "exit": 0,
+      "result": "(((re(a))>0)? a/(a*a+b*b) : undef)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000655102\nMAX_RSS_KB 57556\n",
+      "status": "exact-under-explicit-complex-conditions"
+    },
+    {
+      "id": "PARAM-Q2",
+      "input": "integrate(exp(-(1+i)*x)-exp(-(1-i)*x),x,0,+infinity)",
+      "stack_KiB": "normal",
+      "outer_simplify": false,
+      "exit": 0,
+      "result": "-i",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000366246\nMAX_RSS_KB 57556\n",
+      "status": "exact"
+    },
+    {
+      "id": "PARAM-Q2",
+      "input": "integrate(exp(-(1+i)*x)-exp(-(1-i)*x),x,0,+infinity)",
+      "stack_KiB": "64",
+      "outer_simplify": false,
+      "exit": 0,
+      "result": "-i",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000342596\nMAX_RSS_KB 57556\n",
+      "status": "exact"
+    },
+    {
+      "id": "PARAM-Q2",
+      "input": "simplify(integrate(exp(-(1+i)*x)-exp(-(1-i)*x),x,0,+infinity))",
+      "stack_KiB": "normal",
+      "outer_simplify": true,
+      "exit": 0,
+      "result": "-i",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000341196\nMAX_RSS_KB 57556\n",
+      "status": "exact"
+    },
+    {
+      "id": "PARAM-Q2",
+      "input": "simplify(integrate(exp(-(1+i)*x)-exp(-(1-i)*x),x,0,+infinity))",
+      "stack_KiB": "64",
+      "outer_simplify": true,
+      "exit": 0,
+      "result": "-i",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000342326\nMAX_RSS_KB 57556\n",
+      "status": "exact"
+    },
+    {
+      "id": "PARAM-Q3",
+      "input": "[assume(s,complex),assume(c,complex),integrate(x^(s-1)*exp(-c*x),x,0,+infinity)][2]",
+      "stack_KiB": "normal",
+      "outer_simplify": false,
+      "exit": 2,
+      "result": "(((((re(c))>0) and ((re(s))>0)))? Gamma(s)/c^s : 'integrate(x^(s-1)*exp(-c*x),x,0,+infinity)')",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000340106\nMAX_RSS_KB 57556\n",
+      "status": "exact-under-explicit-complex-conditions"
+    },
+    {
+      "id": "PARAM-Q3",
+      "input": "[assume(s,complex),assume(c,complex),integrate(x^(s-1)*exp(-c*x),x,0,+infinity)][2]",
+      "stack_KiB": "64",
+      "outer_simplify": false,
+      "exit": 2,
+      "result": "(((((re(c))>0) and ((re(s))>0)))? Gamma(s)/c^s : 'integrate(x^(s-1)*exp(-c*x),x,0,+infinity)')",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000340566\nMAX_RSS_KB 57812\n",
+      "status": "exact-under-explicit-complex-conditions"
+    },
+    {
+      "id": "PARAM-Q3",
+      "input": "[assume(s,complex),assume(c,complex),simplify(integrate(x^(s-1)*exp(-c*x),x,0,+infinity))][2]",
+      "stack_KiB": "normal",
+      "outer_simplify": true,
+      "exit": 2,
+      "result": "(((((re(c))>0) and ((re(s))>0)))? Gamma(s)/c^s : 'integrate(x^(s-1)*exp(-c*x),x,0,+infinity)')",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000337066\nMAX_RSS_KB 57812\n",
+      "status": "exact-under-explicit-complex-conditions"
+    },
+    {
+      "id": "PARAM-Q3",
+      "input": "[assume(s,complex),assume(c,complex),simplify(integrate(x^(s-1)*exp(-c*x),x,0,+infinity))][2]",
+      "stack_KiB": "64",
+      "outer_simplify": true,
+      "exit": 2,
+      "result": "(((((re(c))>0) and ((re(s))>0)))? Gamma(s)/c^s : 'integrate(x^(s-1)*exp(-c*x),x,0,+infinity)')",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000351446\nMAX_RSS_KB 57812\n",
+      "status": "exact-under-explicit-complex-conditions"
+    },
+    {
+      "id": "PARAM-Q4",
+      "input": "[assume(a,complex),assume(b,complex),integrate((1+x)^(a-1)*(1-x)^(b-1),x,-1,1)][2]",
+      "stack_KiB": "normal",
+      "outer_simplify": false,
+      "exit": 0,
+      "result": "(((((re(a))>0) and ((re(b))>0)))? 2*2^(a-1)*2^(b-1)*Gamma(a)*Gamma(b)/Gamma(a+b) : undef)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000371836\nMAX_RSS_KB 57812\n",
+      "status": "exact-under-explicit-complex-conditions"
+    },
+    {
+      "id": "PARAM-Q4",
+      "input": "[assume(a,complex),assume(b,complex),integrate((1+x)^(a-1)*(1-x)^(b-1),x,-1,1)][2]",
+      "stack_KiB": "64",
+      "outer_simplify": false,
+      "exit": 0,
+      "result": "(((((re(a))>0) and ((re(b))>0)))? 2*2^(a-1)*2^(b-1)*Gamma(a)*Gamma(b)/Gamma(a+b) : undef)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00084837\nMAX_RSS_KB 59860\n",
+      "status": "exact-under-explicit-complex-conditions"
+    },
+    {
+      "id": "PARAM-Q4",
+      "input": "[assume(a,complex),assume(b,complex),simplify(integrate((1+x)^(a-1)*(1-x)^(b-1),x,-1,1))][2]",
+      "stack_KiB": "normal",
+      "outer_simplify": true,
+      "exit": 0,
+      "result": "(((((re(a))>0) and ((re(b))>0)))? 2*2^(a-1)*2^(b-1)*Gamma(a)*Gamma(b)/Gamma(a+b) : undef)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000362056\nMAX_RSS_KB 59860\n",
+      "status": "exact-under-explicit-complex-conditions"
+    },
+    {
+      "id": "PARAM-Q4",
+      "input": "[assume(a,complex),assume(b,complex),simplify(integrate((1+x)^(a-1)*(1-x)^(b-1),x,-1,1))][2]",
+      "stack_KiB": "64",
+      "outer_simplify": true,
+      "exit": 0,
+      "result": "(((((re(a))>0) and ((re(b))>0)))? 2*2^(a-1)*2^(b-1)*Gamma(a)*Gamma(b)/Gamma(a+b) : undef)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000361336\nMAX_RSS_KB 59860\n",
+      "status": "exact-under-explicit-complex-conditions"
+    },
+    {
+      "id": "PARAM-Q5",
+      "input": "integrate(x^(2*i)/(1+x^2),x,0,+infinity)",
+      "stack_KiB": "normal",
+      "outer_simplify": false,
+      "exit": 0,
+      "result": "pi/(2*sin(pi*(1+2*i)/2))",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000349976\nMAX_RSS_KB 60116\n",
+      "status": "exact"
+    },
+    {
+      "id": "PARAM-Q5",
+      "input": "integrate(x^(2*i)/(1+x^2),x,0,+infinity)",
+      "stack_KiB": "64",
+      "outer_simplify": false,
+      "exit": 0,
+      "result": "pi/(2*sin(pi*(1+2*i)/2))",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000352506\nMAX_RSS_KB 60116\n",
+      "status": "exact"
+    },
+    {
+      "id": "PARAM-Q5",
+      "input": "simplify(integrate(x^(2*i)/(1+x^2),x,0,+infinity))",
+      "stack_KiB": "normal",
+      "outer_simplify": true,
+      "exit": 0,
+      "result": "pi/(2*sin((1+2*i)*pi/2))",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000563544\nMAX_RSS_KB 60116\n",
+      "status": "exact"
+    },
+    {
+      "id": "PARAM-Q5",
+      "input": "simplify(integrate(x^(2*i)/(1+x^2),x,0,+infinity))",
+      "stack_KiB": "64",
+      "outer_simplify": true,
+      "exit": 0,
+      "result": "pi/(2*sin((1+2*i)*pi/2))",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.00083274\nMAX_RSS_KB 60116\n",
+      "status": "exact"
+    },
+    {
+      "id": "PARAM-Q6",
+      "input": "integrate(ln(1-x^2)/x,x)",
+      "stack_KiB": "normal",
+      "outer_simplify": false,
+      "exit": 0,
+      "result": "-1/2*Li2(x^2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000338586\nMAX_RSS_KB 60116\n",
+      "status": "exact"
+    },
+    {
+      "id": "PARAM-Q6",
+      "input": "integrate(ln(1-x^2)/x,x)",
+      "stack_KiB": "64",
+      "outer_simplify": false,
+      "exit": 0,
+      "result": "-1/2*Li2(x^2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000329986\nMAX_RSS_KB 60116\n",
+      "status": "exact"
+    },
+    {
+      "id": "PARAM-Q6",
+      "input": "simplify(integrate(ln(1-x^2)/x,x))",
+      "stack_KiB": "normal",
+      "outer_simplify": true,
+      "exit": 0,
+      "result": "-Li2(x^2)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000363356\nMAX_RSS_KB 60116\n",
+      "status": "exact"
+    },
+    {
+      "id": "PARAM-Q6",
+      "input": "simplify(integrate(ln(1-x^2)/x,x))",
+      "stack_KiB": "64",
+      "outer_simplify": true,
+      "exit": 0,
+      "result": "-Li2(x^2)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000356586\nMAX_RSS_KB 60116\n",
+      "status": "exact"
+    },
+    {
+      "id": "PARAM-Q7",
+      "input": "integrate(x^(i-1)*exp(-x),x,0,+infinity)",
+      "stack_KiB": "normal",
+      "outer_simplify": false,
+      "exit": 3,
+      "result": "undef",
+      "stderr": "Divergent improper integral (parameter convergence boundary)\nPARSER_CALLS 2\nSECONDS 0.000316766\nMAX_RSS_KB 60372\n",
+      "status": "divergence-rejected"
+    },
+    {
+      "id": "PARAM-Q7",
+      "input": "integrate(x^(i-1)*exp(-x),x,0,+infinity)",
+      "stack_KiB": "64",
+      "outer_simplify": false,
+      "exit": 3,
+      "result": "undef",
+      "stderr": "Divergent improper integral (parameter convergence boundary)\nPARSER_CALLS 2\nSECONDS 0.000311636\nMAX_RSS_KB 60372\n",
+      "status": "divergence-rejected"
+    },
+    {
+      "id": "PARAM-Q7",
+      "input": "simplify(integrate(x^(i-1)*exp(-x),x,0,+infinity))",
+      "stack_KiB": "normal",
+      "outer_simplify": true,
+      "exit": 3,
+      "result": "undef",
+      "stderr": "Divergent improper integral (parameter convergence boundary)\nPARSER_CALLS 2\nSECONDS 0.000323866\nMAX_RSS_KB 60372\n",
+      "status": "divergence-rejected"
+    },
+    {
+      "id": "PARAM-Q7",
+      "input": "simplify(integrate(x^(i-1)*exp(-x),x,0,+infinity))",
+      "stack_KiB": "64",
+      "outer_simplify": true,
+      "exit": 3,
+      "result": "undef",
+      "stderr": "Divergent improper integral (parameter convergence boundary)\nPARSER_CALLS 2\nSECONDS 0.000326936\nMAX_RSS_KB 60372\n",
+      "status": "divergence-rejected"
+    },
+    {
+      "id": "PARAM-Q8",
+      "input": "integrate(x^i/(1+x),x,0,+infinity)",
+      "stack_KiB": "normal",
+      "outer_simplify": false,
+      "exit": 3,
+      "result": "undef",
+      "stderr": "Divergent improper integral (parameter convergence boundary)\nPARSER_CALLS 2\nSECONDS 0.000329356\nMAX_RSS_KB 60372\n",
+      "status": "divergence-rejected"
+    },
+    {
+      "id": "PARAM-Q8",
+      "input": "integrate(x^i/(1+x),x,0,+infinity)",
+      "stack_KiB": "64",
+      "outer_simplify": false,
+      "exit": 3,
+      "result": "undef",
+      "stderr": "Divergent improper integral (parameter convergence boundary)\nPARSER_CALLS 2\nSECONDS 0.000339416\nMAX_RSS_KB 60372\n",
+      "status": "divergence-rejected"
+    },
+    {
+      "id": "PARAM-Q8",
+      "input": "simplify(integrate(x^i/(1+x),x,0,+infinity))",
+      "stack_KiB": "normal",
+      "outer_simplify": true,
+      "exit": 3,
+      "result": "undef",
+      "stderr": "Divergent improper integral (parameter convergence boundary)\nPARSER_CALLS 2\nSECONDS 0.000335626\nMAX_RSS_KB 60372\n",
+      "status": "divergence-rejected"
+    },
+    {
+      "id": "PARAM-Q8",
+      "input": "simplify(integrate(x^i/(1+x),x,0,+infinity))",
+      "stack_KiB": "64",
+      "outer_simplify": true,
+      "exit": 3,
+      "result": "undef",
+      "stderr": "Divergent improper integral (parameter convergence boundary)\nPARSER_CALLS 2\nSECONDS 0.000682242\nMAX_RSS_KB 60372\n",
+      "status": "divergence-rejected"
+    }
+  ]
+}

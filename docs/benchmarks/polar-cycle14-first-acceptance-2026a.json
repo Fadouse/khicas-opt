@@ -1,0 +1,361 @@
+{
+  "scope": "Actual repository integration/yderive/FXCG simplify on host dependencies; guarded 64 KiB stack, not SH4/MMU emulation.",
+  "corpus_sha256": "c35e414360b08fa290c196e9055eeded89126dfeb1780e8cd3552acdc1a1e0c5",
+  "probe_sha256": "1b68313fc699560dc9971baa150c326fa0e7af4f1a0c63a168d49ce06c9fa9db",
+  "runs": [
+    {
+      "id": "PC14-I1",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(1/(x^4+4),x)",
+      "exit": 0,
+      "result": "-1/16*ln(x^2-4^(1/4)*sqrt(2)*x+4^(1/4)*4^(1/4))+1/8*atan((x-sqrt(2)/2*4^(1/4))/(sqrt(2)/2*4^(1/4)))+1/16*ln(x^2+4^(1/4)*sqrt(2)*x+4^(1/4)*4^(1/4))+1/8*atan((x-(-sqrt(2))/2*4^(1/4))/(sqrt(2)/2*4^(1/4)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00142086\nMAX_RSS_KB 20116\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact rational partial fractions; both quadratic log arguments are (x\u00b11)\u00b2+1>0, and separate real atan terms are continuous globally. Zero normalization and whole-line domain are retained."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC14-I1",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(1/(x^4+4),x)",
+      "exit": 0,
+      "result": "-1/16*ln(x^2-4^(1/4)*sqrt(2)*x+4^(1/4)*4^(1/4))+1/8*atan((x-sqrt(2)/2*4^(1/4))/(sqrt(2)/2*4^(1/4)))+1/16*ln(x^2+4^(1/4)*sqrt(2)*x+4^(1/4)*4^(1/4))+1/8*atan((x-(-sqrt(2))/2*4^(1/4))/(sqrt(2)/2*4^(1/4)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00155655\nMAX_RSS_KB 29844\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact rational partial fractions; both quadratic log arguments are (x\u00b11)\u00b2+1>0, and separate real atan terms are continuous globally. Zero normalization and whole-line domain are retained."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC14-I1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(1/(x^4+4),x))",
+      "exit": 0,
+      "result": "-1/16*ln(x^2-4^(1/4)*sqrt(2)*x+4^(1/4)*4^(1/4))+1/8*atan((x-sqrt(2)/2*4^(1/4))/(sqrt(2)/2*4^(1/4)))+1/16*ln(x^2+4^(1/4)*sqrt(2)*x+4^(1/4)*4^(1/4))+1/8*atan((x-(-sqrt(2))/2*4^(1/4))/(sqrt(2)/2*4^(1/4)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00138147\nMAX_RSS_KB 29844\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact rational partial fractions; both quadratic log arguments are (x\u00b11)\u00b2+1>0, and separate real atan terms are continuous globally. Zero normalization and whole-line domain are retained."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC14-I1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(1/(x^4+4),x))",
+      "exit": 0,
+      "result": "-1/16*ln(x^2-4^(1/4)*sqrt(2)*x+4^(1/4)*4^(1/4))+1/8*atan((x-sqrt(2)/2*4^(1/4))/(sqrt(2)/2*4^(1/4)))+1/16*ln(x^2+4^(1/4)*sqrt(2)*x+4^(1/4)*4^(1/4))+1/8*atan((x-(-sqrt(2))/2*4^(1/4))/(sqrt(2)/2*4^(1/4)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00183665\nMAX_RSS_KB 29844\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact rational partial fractions; both quadratic log arguments are (x\u00b11)\u00b2+1>0, and separate real atan terms are continuous globally. Zero normalization and whole-line domain are retained."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC14-I2",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(1/(2+sin(x))^2,x)",
+      "exit": 0,
+      "result": "2*((tan(x/2)+2)/(12*(tan(x/2)^2+tan(x/2)+1))+2/(3*sqrt(3))*(atan((-sqrt(3)*sin(x)+cos(x)+2*sin(x)+1)/(sqrt(3)*cos(x)+sqrt(3)-2*cos(x)+sin(x)+2))+x/2))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00168372\nMAX_RSS_KB 29844\n",
+      "error": "Half-angle tangent leaves finite chart holes",
+      "pass": false
+    },
+    {
+      "id": "PC14-I2",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(1/(2+sin(x))^2,x)",
+      "exit": 0,
+      "result": "2*((tan(x/2)+2)/(12*(tan(x/2)^2+tan(x/2)+1))+2/(3*sqrt(3))*(atan((-sqrt(3)*sin(x)+cos(x)+2*sin(x)+1)/(sqrt(3)*cos(x)+sqrt(3)-2*cos(x)+sin(x)+2))+x/2))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00162673\nMAX_RSS_KB 29844\n",
+      "error": "Half-angle tangent leaves finite chart holes",
+      "pass": false
+    },
+    {
+      "id": "PC14-I2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(1/(2+sin(x))^2,x))",
+      "exit": 0,
+      "result": "2*((tan(x/2)+2)/(12*(tan(x/2)^2+tan(x/2)+1))+2/(3*sqrt(3))*(atan((-sqrt(3)*sin(x)+cos(x)+2*sin(x)+1)/(sqrt(3)*cos(x)+sqrt(3)-2*cos(x)+sin(x)+2))+x/2))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00123297\nMAX_RSS_KB 29844\n",
+      "error": "Half-angle tangent leaves finite chart holes",
+      "pass": false
+    },
+    {
+      "id": "PC14-I2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(1/(2+sin(x))^2,x))",
+      "exit": 0,
+      "result": "2*((tan(x/2)+2)/(12*(tan(x/2)^2+tan(x/2)+1))+2/(3*sqrt(3))*(atan((-sqrt(3)*sin(x)+cos(x)+2*sin(x)+1)/(sqrt(3)*cos(x)+sqrt(3)-2*cos(x)+sin(x)+2))+x/2))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.0014666\nMAX_RSS_KB 29844\n",
+      "error": "Half-angle tangent leaves finite chart holes",
+      "pass": false
+    },
+    {
+      "id": "PC14-D1",
+      "outer": false,
+      "stack": "normal",
+      "input": "diff(acos(cos(x^2)),x)",
+      "exit": 0,
+      "result": "((2*x=0)? 0 : ((cos(x^2)=1)? undef : ((cos(x^2)=-1)? undef : sin(x^2)*2*x/sqrt(1-cos(x^2)*cos(x^2)))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000427205\nMAX_RSS_KB 29844\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact regular chain rule. At nonzero a\u00b2=k*pi, original increment is (-1)^k |2ah+h\u00b2| and opposite quotient limits give corners. At zero f(h)=h\u00b2, quotient h->0, proving the stationary finite derivative."
+      },
+      "pass": false,
+      "error": "('-sqrt(2*pi)', '-2*sin((-sqrt(2*pi))^2)*sqrt(2*pi)/sqrt(1-cos((-sqrt(2*pi))^2)*cos((-sqrt(2*pi))^2))\\n', 'Warning, the test a==b is performed by checking\\nthat the internal representation of regroup(a-b) is not 0.\\nTherefore a==b may return false even if a and b are mathematically equal,\\nif they have different internal representations.\\nYou can explicitly call a simplification function like simplify(a-b)==0 to avoid this.\\nPARSER_CALLS 4\\nSECONDS 0.000897719\\nMAX_RSS_KB 65860\\n')"
+    },
+    {
+      "id": "PC14-D1",
+      "outer": false,
+      "stack": "64",
+      "input": "diff(acos(cos(x^2)),x)",
+      "exit": 0,
+      "result": "((2*x=0)? 0 : ((cos(x^2)=1)? undef : ((cos(x^2)=-1)? undef : sin(x^2)*2*x/sqrt(1-cos(x^2)*cos(x^2)))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000505774\nMAX_RSS_KB 29844\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact regular chain rule. At nonzero a\u00b2=k*pi, original increment is (-1)^k |2ah+h\u00b2| and opposite quotient limits give corners. At zero f(h)=h\u00b2, quotient h->0, proving the stationary finite derivative."
+      },
+      "pass": false,
+      "error": "('-sqrt(2*pi)', '-2*sin((-sqrt(2*pi))^2)*sqrt(2*pi)/sqrt(1-cos((-sqrt(2*pi))^2)*cos((-sqrt(2*pi))^2))\\n', 'Warning, the test a==b is performed by checking\\nthat the internal representation of regroup(a-b) is not 0.\\nTherefore a==b may return false even if a and b are mathematically equal,\\nif they have different internal representations.\\nYou can explicitly call a simplification function like simplify(a-b)==0 to avoid this.\\nPARSER_CALLS 4\\nSECONDS 0.000767872\\nMAX_RSS_KB 65860\\n')"
+    },
+    {
+      "id": "PC14-D1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(diff(acos(cos(x^2)),x))",
+      "exit": 0,
+      "result": "((2*x=0)? 0 : ((cos(x^2)=1)? undef : ((cos(x^2)=-1)? undef : sin(x^2)*2*x/sqrt(1-cos(x^2)*cos(x^2)))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000415245\nMAX_RSS_KB 29844\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact regular chain rule. At nonzero a\u00b2=k*pi, original increment is (-1)^k |2ah+h\u00b2| and opposite quotient limits give corners. At zero f(h)=h\u00b2, quotient h->0, proving the stationary finite derivative."
+      },
+      "pass": false,
+      "error": "('-sqrt(2*pi)', '-2*sin((-sqrt(2*pi))^2)*sqrt(2*pi)/sqrt(1-cos((-sqrt(2*pi))^2)*cos((-sqrt(2*pi))^2))\\n', 'Warning, the test a==b is performed by checking\\nthat the internal representation of regroup(a-b) is not 0.\\nTherefore a==b may return false even if a and b are mathematically equal,\\nif they have different internal representations.\\nYou can explicitly call a simplification function like simplify(a-b)==0 to avoid this.\\nPARSER_CALLS 4\\nSECONDS 0.000729421\\nMAX_RSS_KB 65860\\n')"
+    },
+    {
+      "id": "PC14-D1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(diff(acos(cos(x^2)),x))",
+      "exit": 0,
+      "result": "((2*x=0)? 0 : ((cos(x^2)=1)? undef : ((cos(x^2)=-1)? undef : sin(x^2)*2*x/sqrt(1-cos(x^2)*cos(x^2)))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000480774\nMAX_RSS_KB 29844\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact regular chain rule. At nonzero a\u00b2=k*pi, original increment is (-1)^k |2ah+h\u00b2| and opposite quotient limits give corners. At zero f(h)=h\u00b2, quotient h->0, proving the stationary finite derivative."
+      },
+      "pass": false,
+      "error": "('-sqrt(2*pi)', '-2*sin((-sqrt(2*pi))^2)*sqrt(2*pi)/sqrt(1-cos((-sqrt(2*pi))^2)*cos((-sqrt(2*pi))^2))\\n', 'Warning, the test a==b is performed by checking\\nthat the internal representation of regroup(a-b) is not 0.\\nTherefore a==b may return false even if a and b are mathematically equal,\\nif they have different internal representations.\\nYou can explicitly call a simplification function like simplify(a-b)==0 to avoid this.\\nPARSER_CALLS 4\\nSECONDS 0.000771352\\nMAX_RSS_KB 65860\\n')"
+    },
+    {
+      "id": "PC14-D2",
+      "outer": false,
+      "stack": "normal",
+      "input": "diff(ln((exp(x)-1)/x),x)",
+      "exit": 0,
+      "result": "exp(x)/(exp(x)-1)-1/x",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000375546\nMAX_RSS_KB 29844\n",
+      "verification": {
+        "exact": true,
+        "method": "The unsplit log quotient is positive on both x!=0 components. Exact derivative preserves x=0 exclusion. Taylor of the original quotient gives 1+h/2+O(h\u00b2), and log(1+r)/r->1 proves the separately assigned extension slope 1/2."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "undef"
+      }
+    },
+    {
+      "id": "PC14-D2",
+      "outer": false,
+      "stack": "64",
+      "input": "diff(ln((exp(x)-1)/x),x)",
+      "exit": 0,
+      "result": "exp(x)/(exp(x)-1)-1/x",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000409155\nMAX_RSS_KB 29844\n",
+      "verification": {
+        "exact": true,
+        "method": "The unsplit log quotient is positive on both x!=0 components. Exact derivative preserves x=0 exclusion. Taylor of the original quotient gives 1+h/2+O(h\u00b2), and log(1+r)/r->1 proves the separately assigned extension slope 1/2."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "undef"
+      }
+    },
+    {
+      "id": "PC14-D2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(diff(ln((exp(x)-1)/x),x))",
+      "exit": 0,
+      "result": "(x*exp(x)-exp(x)+1)/(x*exp(x)-x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000870539\nMAX_RSS_KB 29844\n",
+      "verification": {
+        "exact": true,
+        "method": "The unsplit log quotient is positive on both x!=0 components. Exact derivative preserves x=0 exclusion. Taylor of the original quotient gives 1+h/2+O(h\u00b2), and log(1+r)/r->1 proves the separately assigned extension slope 1/2."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "undef"
+      }
+    },
+    {
+      "id": "PC14-D2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(diff(ln((exp(x)-1)/x),x))",
+      "exit": 0,
+      "result": "(x*exp(x)-exp(x)+1)/(x*exp(x)-x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000832041\nMAX_RSS_KB 29844\n",
+      "verification": {
+        "exact": true,
+        "method": "The unsplit log quotient is positive on both x!=0 components. Exact derivative preserves x=0 exclusion. Taylor of the original quotient gives 1+h/2+O(h\u00b2), and log(1+r)/r->1 proves the separately assigned extension slope 1/2."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "undef"
+      }
+    },
+    {
+      "id": "PC14-S1",
+      "outer": false,
+      "stack": "normal",
+      "input": "ln(sqrt((x-y)^2)/(x+y))-(ln((x-y)^2)-ln((x+y)^2))/2",
+      "exit": 0,
+      "result": "ln(abs(x-y)/(x+y))-(ln((x-y)^2)-ln((x+y)^2))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000681762\nMAX_RSS_KB 29844\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact retention with sqrt((x-y)\u00b2)=|x-y|. Square logs require x!=y and x!=-y; the positive root quotient additionally requires x+y>0. On exactly that domain positive logarithm identities cancel, retaining both signs of x-y."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC14-S1",
+      "outer": false,
+      "stack": "64",
+      "input": "ln(sqrt((x-y)^2)/(x+y))-(ln((x-y)^2)-ln((x+y)^2))/2",
+      "exit": 0,
+      "result": "ln(abs(x-y)/(x+y))-(ln((x-y)^2)-ln((x+y)^2))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000705692\nMAX_RSS_KB 29844\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact retention with sqrt((x-y)\u00b2)=|x-y|. Square logs require x!=y and x!=-y; the positive root quotient additionally requires x+y>0. On exactly that domain positive logarithm identities cancel, retaining both signs of x-y."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC14-S1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(ln(sqrt((x-y)^2)/(x+y))-(ln((x-y)^2)-ln((x+y)^2))/2)",
+      "exit": 0,
+      "result": "ln(abs(x-y)/(x+y))-(ln((x-y)^2)-ln((x+y)^2))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000706281\nMAX_RSS_KB 29844\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact retention with sqrt((x-y)\u00b2)=|x-y|. Square logs require x!=y and x!=-y; the positive root quotient additionally requires x+y>0. On exactly that domain positive logarithm identities cancel, retaining both signs of x-y."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC14-S1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(ln(sqrt((x-y)^2)/(x+y))-(ln((x-y)^2)-ln((x+y)^2))/2)",
+      "exit": 0,
+      "result": "ln(abs(x-y)/(x+y))-(ln((x-y)^2)-ln((x+y)^2))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000771841\nMAX_RSS_KB 29844\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact retention with sqrt((x-y)\u00b2)=|x-y|. Square logs require x!=y and x!=-y; the positive root quotient additionally requires x+y>0. On exactly that domain positive logarithm identities cancel, retaining both signs of x-y."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC14-R1",
+      "outer": false,
+      "stack": "normal",
+      "input": "sum(1/((x+k)*(x+k+1)),k,0,19)",
+      "exit": 0,
+      "result": "20/(x^2+20*x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00123931\nMAX_RSS_KB 29844\n",
+      "error": "Canceled interior holes lost",
+      "pass": false
+    },
+    {
+      "id": "PC14-R1",
+      "outer": false,
+      "stack": "64",
+      "input": "sum(1/((x+k)*(x+k+1)),k,0,19)",
+      "exit": 0,
+      "result": "20/(x^2+20*x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00125924\nMAX_RSS_KB 29844\n",
+      "error": "Canceled interior holes lost",
+      "pass": false
+    },
+    {
+      "id": "PC14-R1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(sum(1/((x+k)*(x+k+1)),k,0,19))",
+      "exit": 0,
+      "result": "20/(x^2+20*x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.001377\nMAX_RSS_KB 29844\n",
+      "error": "Canceled interior holes lost",
+      "pass": false
+    },
+    {
+      "id": "PC14-R1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(sum(1/((x+k)*(x+k+1)),k,0,19))",
+      "exit": 0,
+      "result": "20/(x^2+20*x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00171954\nMAX_RSS_KB 29844\n",
+      "error": "Canceled interior holes lost",
+      "pass": false
+    }
+  ],
+  "cases": [
+    {
+      "id": "PC14-I1",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC14-I2",
+      "all_four_pass": false
+    },
+    {
+      "id": "PC14-D1",
+      "all_four_pass": false
+    },
+    {
+      "id": "PC14-D2",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC14-S1",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC14-R1",
+      "all_four_pass": false
+    }
+  ]
+}

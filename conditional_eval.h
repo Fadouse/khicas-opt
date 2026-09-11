@@ -1,6 +1,34 @@
 #ifndef KHICAS_CONDITIONAL_EVAL_H
 #define KHICAS_CONDITIONAL_EVAL_H
 namespace giac {
+// Only inspect pure, small exact constants; no user calls or bindings are
+// evaluated here. This makes cos((-sqrt(2*pi))^2)=1 decidable without using
+// numerical tolerances or repeating side effects from arbitrary conditions.
+static bool conditional_pure_constant(const gen &g,unsigned &budget,unsigned depth){
+  if(!budget || depth>8)return false;
+  --budget;
+  if(g.type==_INT_ || g.type==_ZINT || g==cst_pi)return true;
+  if(g.type==_FRAC)return conditional_pure_constant(g._FRACptr->num,budget,depth+1) && conditional_pure_constant(g._FRACptr->den,budget,depth+1);
+  if(g.type!=_SYMB)return false;
+  const unary_function_ptr &op=g._SYMBptr->sommet;const gen &f=g._SYMBptr->feuille;
+  if(op!=at_plus && op!=at_prod && op!=at_neg && op!=at_inv && op!=at_division && op!=at_pow && op!=at_sqrt && op!=at_sin && op!=at_cos)return false;
+  if(f.type!=_VECT)return conditional_pure_constant(f,budget,depth+1);
+  if(f._VECTptr->size()>8)return false;
+  if(op==at_pow && (f._VECTptr->size()!=2 || (f[1]!=gen(1)/2 && (f[1].type!=_INT_ || f[1].val < -8 || f[1].val>8))))return false;
+  for(unsigned j=0;j<f._VECTptr->size();++j)if(!conditional_pure_constant(f[j],budget,depth+1))return false;
+  return true;
+}
+#if defined(__GNUC__) && !defined(__clang__)
+__attribute__((noinline,optimize("Os")))
+#endif
+static bool conditional_exact_equal(const gen &a,const gen &b,GIAC_CONTEXT){
+  unsigned budget=32;
+  if(!(has_op(a,*at_sin) || has_op(a,*at_cos) || has_op(b,*at_sin) || has_op(b,*at_cos)) ||
+     !conditional_pure_constant(a,budget,0) || !conditional_pure_constant(b,budget,0))return false;
+  gen aa=recursive_normal(a,contextptr),bb=recursive_normal(b,contextptr);
+  return !is_undef(aa) && !is_undef(bb) && !is_inf(aa) && !is_inf(bb) && aa==bb;
+}
+
 // Mathematical when/piecewise keep an equality with free identifiers
 // undecided. Structural "same" returning false is not a proof of inequality.
 // Program if/else and the standalone == operator keep their usual semantics.
@@ -21,7 +49,10 @@ inline bool conditional_symbolic_equal(const gen &test,gen &result,GIAC_CONTEXT)
     for(unsigned k=0;k<remaining.size();++k)if(remaining[k]!=cst_pi){variable=true;break;}
     if(variable)break;
   }
-  if(!variable)return false;
+  if(!variable){
+    if(conditional_exact_equal(v[0],v[1],contextptr)){result=1;return true;}
+    return false;
+  }
   result=symb_equal(v[0],v[1]);return true;
 }
 }

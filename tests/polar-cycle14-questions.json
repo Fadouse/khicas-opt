@@ -1,0 +1,133 @@
+{
+  "cases": [
+    {
+      "id": "PC14-I1",
+      "type": "integral",
+      "input": "simplify(integrate(1/(x^4+4),x))",
+      "conditions": [
+        "x is any finite real number. ln is the real logarithm and atan is the real principal inverse tangent with range (-pi/2,pi/2).",
+        "The original integrand is smooth on the entire real axis. Require an explicit exact antiderivative on that whole connected domain, up to one global additive constant.",
+        "An unevaluated integral or numerical quadrature is not an acceptable answer. Combining inverse tangents must not introduce jumps or missing finite points."
+      ],
+      "expected": {
+        "expression": "ln((x^2+2*x+2)/(x^2-2*x+2))/16+(atan(x+1)+atan(x-1))/8",
+        "properties": [
+          "Return the displayed global closed form or an equivalent exact evaluable global primitive, with one global additive constant.",
+          "Both quadratic factors and the logarithm argument are strictly positive for every real x. No finite point may be excluded.",
+          "The displayed primitive is odd, vanishes at zero, and is strictly increasing. Its derivative at zero is 1/4.",
+          "Its limits at positive and negative infinity are pi/8 and -pi/8 respectively, so the exact improper integral over the real axis is pi/4.",
+          "Replacing the sum of principal inverse tangents by a single uncorrected atan of 2*x/(2-x^2) is not globally valid."
+        ]
+      },
+      "reason": "Let A=x^2+2*x+2=(x+1)^2+1 and B=x^2-2*x+2=(x-1)^2+1. They are positive and A*B=x^4+4. The exact partial fraction identity is 1/(A*B)=(x+2)/(8*A)+(2-x)/(8*B), since (x+2)*B+(2-x)*A=8. Differentiating ln(A/B)/16 gives (x+1)/(8*A)-(x-1)/(8*B), and differentiating the two atan terms gives 1/(8*A)+1/(8*B). Their sum is precisely the partial fraction identity. Every denominator stays positive, proving the equality at all finite real points without branch patching. Under x to -x, A and B exchange and atan(x+1)+atan(x-1) changes sign, proving oddness and the zero value. Positivity of the derivative proves strict increase. At infinity A/B tends to one and the two atan terms tend to the corresponding signed pi/2 values, giving limits plus or minus pi/8 and the improper integral. The tangent addition expression has denominator 2-x^2 and loses the correct inverse-tangent branch; it cannot replace the everywhere-defined sum without explicit corrections."
+    },
+    {
+      "id": "PC14-I2",
+      "type": "integral",
+      "input": "simplify(integrate(1/(2+sin(x))^2,x))",
+      "conditions": [
+        "x is any finite real number, in radians. atan is the real principal inverse tangent with range (-pi/2,pi/2).",
+        "The original integrand is smooth and positive everywhere. Require an explicit exact primitive on the entire real axis, up to one global additive constant.",
+        "An answer confined to tangent half-angle charts is insufficient unless all joining constants and all join values are supplied. No unevaluated integral is acceptable."
+      ],
+      "expected": {
+        "expression": "2*(x+2*atan(cos(x)/(2+sqrt(3)+sin(x))))/(3*sqrt(3))+cos(x)/(3*(2+sin(x)))",
+        "properties": [
+          "Return the displayed global closed form or an equivalent exact evaluable global primitive, with one global additive constant.",
+          "The denominators 2+sin(x) and 2+sqrt(3)+sin(x) are strictly positive everywhere. No artificial poles at zeros of sine or cosine are acceptable.",
+          "The primitive is smooth and strictly increasing everywhere and satisfies F(x+2*pi)=F(x)+4*pi/(3*sqrt(3)).",
+          "Consequently the exact integral over any full period is 4*pi/(3*sqrt(3)).",
+          "For integer k, the displayed primitive takes values F(pi/2+2*k*pi)=(pi+4*k*pi)/(3*sqrt(3)) and F(3*pi/2+2*k*pi)=(3*pi+4*k*pi)/(3*sqrt(3)); its derivatives there are 1/9 and 1 respectively."
+        ]
+      },
+      "reason": "Put c=2+sqrt(3), s=sin(x), u=cos(x)/(c+s), and J=(x+2*atan(u))/sqrt(3). Since c>1, all these expressions are smooth globally. Using c^2+1=4*c, one obtains 1+u^2=2*c*(2+s)/(c+s)^2 and u'=-(c*s+1)/(c+s)^2. Thus J'=[1-(c*s+1)/(c*(2+s))]/sqrt(3)=1/(2+s), because 2-1/c=sqrt(3). Independently, d[cos(x)/(2+s)]/dx=-(2*s+1)/(2+s)^2. The displayed F is 2*J/3+cos(x)/(3*(2+s)), so F'=[2*(2+s)-(2*s+1)]/[3*(2+s)^2]=1/(2+s)^2 for every real x. This proof uses only globally positive denominators and never cancels a factor that can vanish. The non-linear terms are periodic, leaving an increment 4*pi/(3*sqrt(3)) over a period. At the two stated phase families cos(x)=0, hence the atan and rational terms vanish and the exact values follow directly from the linear term. Substitution into the global derivative gives the slopes 1/9 and 1."
+    },
+    {
+      "id": "PC14-D1",
+      "type": "derivative",
+      "input": "simplify(diff(acos(cos(x^2)),x))",
+      "conditions": [
+        "x is any finite real number, with radians. acos is the principal real inverse cosine with values in [0,pi].",
+        "The original function is defined and continuous everywhere. Determine its derivative and every exceptional point; the phase x^2 has a stationary point at zero.",
+        "At each contact use the original two-sided difference quotient with the actual function value. A limit of the formal chain-rule derivative alone does not establish differentiability.",
+        "piecewise uses first-true lazy selection; undef means that the original function has no finite two-sided derivative there. No separate extension of the original function is needed or intended."
+      ],
+      "expected": {
+        "expression": "piecewise(x==0,0,sin(x^2)==0,undef,2*x*sign(sin(x^2)))",
+        "properties": [
+          "The exact derivative domain is R excluding precisely x=+-sqrt(k*pi) for positive integers k. Zero belongs to the derivative domain and its derivative is zero.",
+          "Away from these contacts the displayed regular derivative is valid for negative as well as positive x.",
+          "At a=+-sqrt(k*pi), k>=1, the original left derivative is -2*abs(a)*(-1)^k and the original right derivative is 2*abs(a)*(-1)^k, so every such contact is a genuine corner.",
+          "The original value at a contact is zero for even k and pi for odd k. The value at zero is zero, and the derivative is continuous at zero.",
+          "It is invalid to cancel sin(x^2)/sqrt(sin(x^2)^2) to one, or to mark every zero of sin(x^2) undefined without the stationary-phase check at zero."
+        ]
+      },
+      "reason": "For sin(x^2)!=0 the ordinary real chain rule gives 2*x*sin(x^2)/sqrt(1-cos(x^2)^2)=2*x*sign(sin(x^2)). For the contact analysis let k>=0 be an integer. For sufficiently small real delta, the exact principal-branch identities give acos(cos(k*pi+delta))-acos(cos(k*pi))=(-1)^k*abs(delta). At a!=0 with a^2=k*pi, k>=1, set delta=2*a*h+h^2. The original difference quotient is exactly (-1)^k*abs(2*a*h+h^2)/h. As h approaches zero from the left it tends to -2*abs(a)*(-1)^k, and from the right it tends to 2*abs(a)*(-1)^k. These differ because a!=0. At a=0, however, for sufficiently small h the original function is exactly acos(cos(h^2))=h^2, so [f(h)-f(0)]/h=h tends to zero from both sides. In a punctured neighborhood of zero, sin(x^2)>0 and the regular derivative is 2*x, proving continuity of the derivative there. Since x^2>=0 and the zeros of sine are the integer multiples of pi, the listed contacts exhaust all possible exceptions and all domain claims follow."
+    },
+    {
+      "id": "PC14-D2",
+      "type": "derivative",
+      "input": "simplify(diff(ln((exp(x)-1)/x),x))",
+      "conditions": [
+        "x is finite real and ln is the real logarithm. The complete original domain is (-infinity,0) union (0,infinity), because the original quotient has denominator x.",
+        "Determine the derivative on exactly the original domain, keeping both components. A removable singularity of the quotient or logarithm does not assign a value to the original function at zero.",
+        "Discuss separately the continuous extension obtained by assigning value zero at x=0, and prove its derivative there from its actual difference quotient."
+      ],
+      "expected": {
+        "expression": "exp(x)/(exp(x)-1)-1/x",
+        "properties": [
+          "Return this exact derivative or an equivalent exact evaluable form on x!=0, retaining the original exclusion at zero.",
+          "The logarithm argument is strictly positive throughout both original components; negative x must not be discarded by splitting the logarithm into ln(exp(x)-1)-ln(x).",
+          "For every original-domain point, 0<f'(x)<1. The derivative obeys f'(-x)=1-f'(x).",
+          "The original function tends to zero at zero. For the separate extension with assigned value zero, the actual two-sided derivative at zero is 1/2.",
+          "There are no other real domain holes, logarithmic cuts, or finite boundaries. An unrestricted extended derivative cannot be presented as a derivative of the unextended original expression at zero."
+        ]
+      },
+      "reason": "For x>0 both exp(x)-1 and x are positive; for x<0 both are negative. Thus their ratio is positive precisely on the stated punctured real axis, and direct differentiation of ln of the ratio gives exp(x)/(exp(x)-1)-1/x without individually taking real logarithms of negative factors. For x>0, strict convexity of the exponential gives exp(x)>1+x and exp(-x)>1-x. Therefore f'=1+1/(exp(x)-1)-1/x<1, and f'=1/(1-exp(-x))-1/x>0. Algebra in the displayed formula gives f'(-x)=1-f'(x), proving the same bounds on the negative interval. For the extension, Taylor's theorem with remainder gives (exp(h)-1)/h=1+h/2+O(h^2) on both sides. Set r(h)=(exp(h)-1)/h-1. Then r(h)/h tends to 1/2 and r(h) tends to zero, proving the function limit zero. The original difference quotient of the separately assigned extension is [ln(1+r(h))-0]/h=[ln(1+r(h))/r(h)]*[r(h)/h], whose factors tend to one and 1/2. This proves the extension's derivative from its assigned value without adding zero to the original expression's domain."
+    },
+    {
+      "id": "PC14-S1",
+      "type": "simplify",
+      "input": "simplify(ln(sqrt((x-y)^2)/(x+y))-(ln((x-y)^2)-ln((x+y)^2))/2)",
+      "conditions": [
+        "x and y are finite real numbers. sqrt is the nonnegative real square root and every ln is the strictly real logarithm.",
+        "Determine and retain the complete domain of the original expression: x+y>0 and x!=y. Neither x-y nor either individual variable is required to be positive.",
+        "The simplified value must retain the original domain, through a domain-bearing result or an exact piecewise guard. piecewise selects its first true branch lazily."
+      ],
+      "expected": {
+        "expression": "piecewise(x+y>0,piecewise(x==y,undef,0),undef)",
+        "properties": [
+          "The exact value is zero on the whole domain x+y>0 and x!=y; the original real expression is undefined everywhere else.",
+          "A bare unrestricted zero is unacceptable. Exact retention of the compact original expression with its domain is acceptable.",
+          "Both sides of the removed diagonal inside the positive-sum half-plane are allowed, including (x,y)=(0,1) and (1,0). Requiring x>y would lose valid points.",
+          "The entire line x+y=0 is excluded, as is the entire diagonal x=y. The open half-plane x+y<0 is excluded even though both squared logarithm arguments may be positive there.",
+          "Exchanging x and y preserves both the original domain and the value. Simultaneous sign reversal does not preserve the domain."
+        ]
+      },
+      "reason": "The two separately present logarithms of squares require x-y!=0 and x+y!=0. With x-y!=0, the nonnegative real root sqrt((x-y)^2)=abs(x-y) is strictly positive. Its ratio with x+y is a positive logarithm argument exactly when x+y>0. These conditions are jointly necessary and sufficient for all original operations, proving the domain exactly. On that domain write a=abs(x-y)>0 and b=x+y>0. Then ln(sqrt((x-y)^2)/(x+y))=ln(a/b)=ln(a)-ln(b), while [ln((x-y)^2)-ln((x+y)^2)]/2=[ln(a^2)-ln(b^2)]/2=ln(a)-ln(b). Their difference is zero. This derivation retains abs(x-y) and hence includes both signs of x-y. Outside the domain at least one original logarithm is undefined, so cancellation cannot assign zero there. Swapping x and y leaves a and b unchanged, whereas sign reversal changes b to -b, proving the stated domain symmetries and non-symmetry."
+    },
+    {
+      "id": "PC14-R1",
+      "type": "resource",
+      "input": "simplify(sum(1/((x+k)*(x+k+1)),k,0,19))",
+      "conditions": [
+        "x is finite real. The complete original domain is R excluding the 21 points x=-j for integers j=0 through 20; each original summand must be defined.",
+        "The sum contains exactly 20 terms, k=0 through 19. This is a fixed finite workload, not a symbolic-size or infinite summation.",
+        "Each invocation has a fixed 10-second external wall-clock timeout and a 65536-byte output cap. Preserve all existing configured finite CG50 stack, heap, and simplification budgets; do not increase limits or retry with enlarged limits.",
+        "Exact retention of the compact original finite sum is acceptable. No forced polynomial expansion or enumeration of all summands is required."
+      ],
+      "expected": {
+        "expression": "piecewise(x<-20,20/(x*(x+20)),x>0,20/(x*(x+20)),x==floor(x),undef,20/(x*(x+20)))",
+        "properties": [
+          "Return 20/(x*(x+20)) with the full inherited exclusion set, an equivalent exact compact domain-bearing form such as the displayed piecewise, or retain the original finite sum exactly.",
+          "All 19 interior excluded integers -1 through -19 remain excluded even though the rational continuation has finite values there. These removable holes belong to the original finite expression's domain and may not disappear.",
+          "The excluded endpoints zero and -20 are nonremovable poles. No other real points may be excluded, including nonintegers between consecutive excluded integers.",
+          "The result satisfies F(-20-x)=F(x) throughout its original domain. Its exact value at x=1 is 20/21; it is positive for x>0 or x<-20 and negative for allowed x between -20 and zero.",
+          "No crash, stack overflow, timeout, output-cap overrun, runaway expansion, new domain hole, or undef on an allowed point is acceptable. Resource limits must not be increased.",
+          "Compact exact retention is permitted for this resource case and does not relax either integral's explicit closed-form requirement."
+        ]
+      },
+      "reason": "For every k in the fixed range and every original-domain x, the identity 1/((x+k)*(x+k+1))=1/(x+k)-1/(x+k+1) holds because both factors are nonzero. Summing this finite identity telescopes to 1/x-1/(x+20)=20/(x*(x+20)). The union of the original summands' excluded zeros is exactly {0,-1,...,-20}; this domain restriction is inherited even when equal opposite simple fractions cancel in the telescope. The displayed piecewise admits every real point outside [-20,0], and inside that interval excludes precisely integer points via x==floor(x), so its domain agrees exactly. At an interior excluded integer -j with 1<=j<=19, the rational continuation has finite value 20/[(-j)*(20-j)], but the original sum has undefined summands and no assigned value. At zero and -20 the remaining rational denominators give nonremovable simple poles. Replacing x by -20-x leaves x*(x+20) unchanged and maps the excluded set to itself. Substitution at one and the signs of the two linear factors prove the stated value and signs. This is an exact finite algebraic proof that needs no expanded common-denominator polynomial and does not numerically sample the engine."
+    }
+  ]
+}

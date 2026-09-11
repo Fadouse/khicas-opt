@@ -2129,6 +2129,7 @@ namespace giac {
     if(v.size()==3 || v.size()==4){
       gen condition;
       if(conditional_symbolic_equal(v[0],condition,contextptr)){
+        if(is_one(condition))return v[1].eval(eval_level(contextptr),contextptr);
         if(v.size()==4)return v[3];
         return symbolic(at_when,makesequence(condition,v[1],v[2]));
       }
@@ -12829,6 +12830,7 @@ namespace giac {
       test=v[2*i];
       gen condition;
       if(conditional_symbolic_equal(test,condition,contextptr)){
+        if(is_one(condition))return v[2*i+1].eval(eval_level(contextptr),contextptr);
         vecteur rest(v.begin()+2*i,v.end());rest[0]=condition;
         return symbolic(at_piecewise,gen(rest,g.subtype));
       }

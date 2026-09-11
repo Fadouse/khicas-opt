@@ -1,0 +1,24 @@
+{
+  "cases": [
+    {
+      "id": "PC14-I1",
+      "input": "simplify(integrate(1/(x^4+4),x))",
+      "expected": "ln((x^2+2*x+2)/(x^2-2*x+2))/16+(atan(x+1)+atan(x-1))/8",
+      "conditions": [
+        "x is any finite real number. ln is the real logarithm and atan is the real principal inverse tangent with range (-pi/2,pi/2).",
+        "The original integrand is smooth on the entire real axis. Require an explicit exact antiderivative on that whole connected domain, up to one global additive constant.",
+        "An unevaluated integral or numerical quadrature is not an acceptable answer. Combining inverse tangents must not introduce jumps or missing finite points."
+      ]
+    },
+    {
+      "id": "PC14-I2",
+      "input": "simplify(integrate(1/(2+sin(x))^2,x))",
+      "expected": "2*(x+2*atan(cos(x)/(2+sqrt(3)+sin(x))))/(3*sqrt(3))+cos(x)/(3*(2+sin(x)))",
+      "conditions": [
+        "x is any finite real number, in radians. atan is the real principal inverse tangent with range (-pi/2,pi/2).",
+        "The original integrand is smooth and positive everywhere. Require an explicit exact primitive on the entire real axis, up to one global additive constant.",
+        "An answer confined to tangent half-angle charts is insufficient unless all joining constants and all join values are supplied. No unevaluated integral is acceptable."
+      ]
+    }
+  ]
+}

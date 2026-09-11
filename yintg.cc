@@ -3346,10 +3346,49 @@ namespace giac {
 #if defined(__GNUC__) && !defined(__clang__)
   __attribute__((noinline,optimize("Os")))
 #endif
+  static bool integrate_global_trig_power(const gen &e,const gen &x,gen &res,GIAC_CONTEXT){
+    if(!angle_radian(contextptr) || taille(e,65)>64)return false;
+    gen den=e;int n=1;
+    if(den.is_symb_of_sommet(at_inv)){
+      den=gen(den._SYMBptr->feuille);
+      if(den.is_symb_of_sommet(at_pow) && den._SYMBptr->feuille.type==_VECT && den._SYMBptr->feuille._VECTptr->size()==2){
+        const gen &f=den._SYMBptr->feuille;if(f[1].type!=_INT_)return false;n=f[1].val;den=gen(f[0]);
+      }
+    }
+    else if(den.is_symb_of_sommet(at_pow) && den._SYMBptr->feuille.type==_VECT && den._SYMBptr->feuille._VECTptr->size()==2){
+      const gen &f=den._SYMBptr->feuille;if(f[1].type!=_INT_ || f[1].val>=0)return false;n=-f[1].val;den=gen(f[0]);
+    }
+    else return false;
+    if(n<1 || n>8)return false;
+    vecteur waves=mergevecteur(lop(den,at_sin),lop(den,at_cos));if(waves.size()!=1)return false;
+    gen wave=waves[0],phase=wave._SYMBptr->feuille,a,b,slope,shift,pa,pb;
+    if(!is_linear_wrt(den,wave,b,a,contextptr) || !integration_resource_rational(a) || !integration_resource_rational(b) || is_zero(b) ||
+       !is_strictly_positive(a,contextptr) || !is_strictly_positive(a*a-b*b,contextptr) ||
+       !is_linear_wrt(phase,x,slope,shift,contextptr) || !integration_resource_rational(slope) || is_zero(slope) ||
+       !is_linear_wrt(shift,cst_pi,pa,pb,contextptr) || !integration_resource_rational(pa) || !integration_resource_rational(pb))return false;
+    gen delta=a*a-b*b,d=sqrt(delta,contextptr);
+    gen sine=wave.is_symb_of_sommet(at_cos)?sin(phase,contextptr):-cos(phase,contextptr);
+    gen J=(phase+2*atan(-b*sine/(a+d+b*wave),contextptr))/d;
+    // Recurrence keeps one global atan chart and at most n-1 rational
+    // terms. All denominators are nonzero because a>|b|.
+    gen A0=0,A1=1,B0=0,B1=0,power=1;
+    for(int k=2;k<=n;++k){
+      power=power*den;gen divisor=gen(k-1)*delta;
+      gen A=(a*gen(2*k-3)*A1-gen(k-2)*A0)/divisor;
+      gen B=(a*gen(2*k-3)*B1-gen(k-2)*B0-b*sine/power)/divisor;
+      A0=A1;A1=A;B0=B1;B1=B;
+    }
+    res=(A1*J+B1)/slope;return true;
+  }
+
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
   static bool integrate_compact_primitive(const gen &input,const gen &x,gen &res,GIAC_CONTEXT){
     if (taille(input,129)>128 || complex_mode(contextptr) || complex_variables(contextptr)) return false;
     gen e=integration_syntax(input,contextptr),c=integration_coefficient(e,x,contextptr);
     gen p;
+    if(integration_resource_rational(c) && integrate_global_trig_power(e,x,p,contextptr)){res=c*p;return true;}
     if (!is_undef(c) && !is_inf(c) && integrate_high_frequency_trig(e,x,p,contextptr)){res=c*p;return true;}
     // Real logarithms of C*sqrt(Q)+L, with Q-(L/C)^2 a positive
     // constant, give a globally regular inverse-hyperbolic substitution.
@@ -10400,6 +10439,38 @@ namespace giac {
     return res;
   }
 
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static bool sum_affine_telescope(const vecteur &v,gen &res,GIAC_CONTEXT){
+    if(v.size()!=4 || v[1].type!=_IDNT || v[2].type!=_INT_ || v[3].type!=_INT_ ||
+       v[2].val < -1000 || v[3].val>1000 || v[3].val<v[2].val || v[3].val-v[2].val>=32 ||
+       complex_mode(contextptr) || complex_variables(contextptr) || taille(v[0],33)>32)return false;
+    gen e=integration_syntax(v[0],contextptr);
+    vecteur variables=lvar(e),powers=lop(e,at_pow);
+    if(variables.size()>2)return false;
+    for(unsigned j=0;j<variables.size();++j)if(variables[j].type!=_IDNT)return false;
+    for(unsigned j=0;j<powers.size();++j){const gen &f=powers[j]._SYMBptr->feuille;if(f.type!=_VECT || f._VECTptr->size()!=2 || f[1].type!=_INT_ || f[1].val < -2 || f[1].val>2)return false;}
+    gen nd=fxnd(e);
+    if(nd.type!=_VECT || nd._VECTptr->size()!=2 || !integration_resource_rational(nd[0]) || is_zero(nd[0]))return false;
+    if(taille(nd[1],65)>64)return false;
+    gen A,B,C;
+    if(!is_quadratic_wrt(nd[1],v[1],A,B,C,contextptr) || !integration_resource_rational(A) || is_zero(A) ||
+       !is_zero(ratnormal(B*B-A*A-4*A*C,contextptr)))return false;
+    gen z=ratnormal((B/A-1)/2,contextptr);
+    if(contains(z,v[1]) || taille(z,17)>16 || !is_zero(im(z,contextptr)))return false;
+    variables=lvar(z);gen slope,shift;
+    if(variables.size()>1 || (variables.size()==1 && (variables[0].type!=_IDNT || !is_linear_wrt(z,variables[0],slope,shift,contextptr) || !integration_resource_rational(slope) || !integration_resource_rational(shift))))return false;
+    gen t=z+v[2],N=v[3]-v[2]+1;
+    gen answer=ratnormal(nd[0]/A*(gen(1)/t-gen(1)/(t+N)),contextptr);
+    // Finite cancellation does not assign values at the original internal
+    // poles. Integer membership in [-N,0] represents all N+1 excluded
+    // affine factors without constructing an expanded degree-N polynomial.
+    res=symbolic(at_piecewise,gen(makevecteur(symbolic(at_inferieur_strict,makesequence(t,-N)),answer,
+        symbolic(at_superieur_strict,makesequence(t,0)),answer,
+        symb_equal(t,symbolic(at_floor,t)),undef,answer),_SEQ__VECT));return true;
+  }
+
   gen _sum(const gen & args,GIAC_CONTEXT) {
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (args.type==_VECT && args.subtype!=_SEQ__VECT)
@@ -10411,6 +10482,7 @@ namespace giac {
       v[1]=eval(v[1],1,contextptr);
     maple_sum_product_unquote(v,contextptr);
     int s=int(v.size());
+    gen telescope;if(sum_affine_telescope(v,telescope,contextptr))return telescope;
     if (is_zero(ratnormal(v[0],contextptr)))
       return 0;
     if (!adjust_int_sum_arg(v,s))

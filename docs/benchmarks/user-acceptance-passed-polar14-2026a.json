@@ -1,0 +1,2330 @@
+{
+  "source_sha256": {
+    "yintg.cc": "a93951c62d9ddd9605d04eea0fdb638142342e6f523b2215b9aa23d925061c88",
+    "zintgab.cc": "3b6fa78aba4d53b1a11479c33bacb4c85e3d6091389ef3073ec60085a7ae9448",
+    "ksubst.cc": "cb4105a75ae6fecc426a5bbb5a1bc3ed8c01dacd50ad5d637a79bafdb3673b3b",
+    "yderive.cc": "b1b763b13b06fb202ee07be968e2d511f0f69919162af63a4f3704bd3b154f41",
+    "dilogarithm.h": "ca822ef4c094a4ed1f4aecf7219011668735d86d259c51ec6304515f8fa84d7a",
+    "kconvert.cc": "eed558eb2f8ff62e0cf1e94fdbf8497954a35577e283a8d07283350e65b76003",
+    "equation_normalize.h": "4bfb644f0e18bb36e280ce8886c8ac12695c9aeeaef187ea3e5f967cd1642e37",
+    "kusual.cc": "fcc854a0d1f8ad6f64600674a584ed6d903d44c53fef1931b90904272df26681",
+    "zprog.cc": "baf6570eac3b985e50bb2bbf8a3bbc47b72b34ce6835ce2f7a873185a7efe499",
+    "conditional_eval.h": "763e56cb14146b9e45728c4fa245f7fe4506a8eea4041cbaf98b927ea15e27a2"
+  },
+  "corpus_sha256": "8bbcbf6a1dccd0f4777457a89441abd80ec15bce72b33bb62c93bbda13dcb12f",
+  "provenance": "user-acceptance-matrix-polar14-verification-2026a.json",
+  "runs": [
+    {
+      "id": "A1",
+      "mode": "plain",
+      "stack": "normal",
+      "input": "integrate(sqrt(x^2),x)",
+      "condition_scope": "x real",
+      "exit": 0,
+      "result": "1/2*x^2*sign(x)",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(x)]\nPARSER_CALLS 1\nSECONDS 0.000499804\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact ordinary derivatives of actual and reference on parameterized real domain intervals; actual values real at domain checkpoints"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "A1",
+      "mode": "plain",
+      "stack": "64",
+      "input": "integrate(sqrt(x^2),x)",
+      "condition_scope": "x real",
+      "exit": 0,
+      "result": "1/2*x^2*sign(x)",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(x)]\nPARSER_CALLS 1\nSECONDS 0.000547874\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact ordinary derivatives of actual and reference on parameterized real domain intervals; actual values real at domain checkpoints"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "A1",
+      "mode": "simplify",
+      "stack": "normal",
+      "input": "simplify(integrate(sqrt(x^2),x))",
+      "condition_scope": "x real",
+      "exit": 0,
+      "result": "x^2*sign(x)/2",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(x)]\nPARSER_CALLS 1\nSECONDS 0.000580944\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact ordinary derivatives of actual and reference on parameterized real domain intervals; actual values real at domain checkpoints"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "A1",
+      "mode": "simplify",
+      "stack": "64",
+      "input": "simplify(integrate(sqrt(x^2),x))",
+      "condition_scope": "x real",
+      "exit": 0,
+      "result": "x^2*sign(x)/2",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(x)]\nPARSER_CALLS 1\nSECONDS 0.00111441\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact ordinary derivatives of actual and reference on parameterized real domain intervals; actual values real at domain checkpoints"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "A2",
+      "mode": "plain",
+      "stack": "normal",
+      "input": "integrate(x/sqrt(x^2),x)",
+      "condition_scope": "x real, x != 0",
+      "exit": 0,
+      "result": "x/sign(x)",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(x)]\nPARSER_CALLS 1\nSECONDS 0.000525544\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact ordinary derivatives of actual and reference on parameterized real domain intervals; actual values real at domain checkpoints"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "A2",
+      "mode": "plain",
+      "stack": "64",
+      "input": "integrate(x/sqrt(x^2),x)",
+      "condition_scope": "x real, x != 0",
+      "exit": 0,
+      "result": "x/sign(x)",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(x)]\nPARSER_CALLS 1\nSECONDS 0.000573763\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact ordinary derivatives of actual and reference on parameterized real domain intervals; actual values real at domain checkpoints"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "A2",
+      "mode": "simplify",
+      "stack": "normal",
+      "input": "simplify(integrate(x/sqrt(x^2),x))",
+      "condition_scope": "x real, x != 0",
+      "exit": 0,
+      "result": "x/sign(x)",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(x)]\nPARSER_CALLS 1\nSECONDS 0.000608443\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact ordinary derivatives of actual and reference on parameterized real domain intervals; actual values real at domain checkpoints"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "A2",
+      "mode": "simplify",
+      "stack": "64",
+      "input": "simplify(integrate(x/sqrt(x^2),x))",
+      "condition_scope": "x real, x != 0",
+      "exit": 0,
+      "result": "x/sign(x)",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(x)]\nPARSER_CALLS 1\nSECONDS 0.000598013\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact ordinary derivatives of actual and reference on parameterized real domain intervals; actual values real at domain checkpoints"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "A3",
+      "mode": "plain",
+      "stack": "normal",
+      "input": "integrate(1/(x*ln(x)),x)",
+      "condition_scope": "x>0, x != 1",
+      "exit": 0,
+      "result": "ln(abs(ln(x)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000528264\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact ordinary derivatives of actual and reference on parameterized real domain intervals; actual values real at domain checkpoints"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "A3",
+      "mode": "plain",
+      "stack": "64",
+      "input": "integrate(1/(x*ln(x)),x)",
+      "condition_scope": "x>0, x != 1",
+      "exit": 0,
+      "result": "ln(abs(ln(x)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000520834\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact ordinary derivatives of actual and reference on parameterized real domain intervals; actual values real at domain checkpoints"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "A3",
+      "mode": "simplify",
+      "stack": "normal",
+      "input": "simplify(integrate(1/(x*ln(x)),x))",
+      "condition_scope": "x>0, x != 1",
+      "exit": 0,
+      "result": "ln(abs(ln(x)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000580213\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact ordinary derivatives of actual and reference on parameterized real domain intervals; actual values real at domain checkpoints"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "A3",
+      "mode": "simplify",
+      "stack": "64",
+      "input": "simplify(integrate(1/(x*ln(x)),x))",
+      "condition_scope": "x>0, x != 1",
+      "exit": 0,
+      "result": "ln(abs(ln(x)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000612643\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact ordinary derivatives of actual and reference on parameterized real domain intervals; actual values real at domain checkpoints"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "A4",
+      "mode": "plain",
+      "stack": "normal",
+      "input": "integrate(sqrt((x-1/2)^2),x,-1,3)",
+      "condition_scope": "x real",
+      "exit": 0,
+      "result": "17/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000326286\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "A4",
+      "mode": "plain",
+      "stack": "64",
+      "input": "integrate(sqrt((x-1/2)^2),x,-1,3)",
+      "condition_scope": "x real",
+      "exit": 0,
+      "result": "17/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000325946\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "A4",
+      "mode": "simplify",
+      "stack": "normal",
+      "input": "simplify(integrate(sqrt((x-1/2)^2),x,-1,3))",
+      "condition_scope": "x real",
+      "exit": 0,
+      "result": "17/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000341486\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "A4",
+      "mode": "simplify",
+      "stack": "64",
+      "input": "simplify(integrate(sqrt((x-1/2)^2),x,-1,3))",
+      "condition_scope": "x real",
+      "exit": 0,
+      "result": "17/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000346596\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "A5",
+      "mode": "plain",
+      "stack": "normal",
+      "input": "integrate(sqrt(sin(x)^2),x,0,2*pi)",
+      "condition_scope": "x real",
+      "exit": 0,
+      "result": "4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000447895\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "A5",
+      "mode": "plain",
+      "stack": "64",
+      "input": "integrate(sqrt(sin(x)^2),x,0,2*pi)",
+      "condition_scope": "x real",
+      "exit": 0,
+      "result": "4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000500634\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "A5",
+      "mode": "simplify",
+      "stack": "normal",
+      "input": "simplify(integrate(sqrt(sin(x)^2),x,0,2*pi))",
+      "condition_scope": "x real",
+      "exit": 0,
+      "result": "4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000319216\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "A5",
+      "mode": "simplify",
+      "stack": "64",
+      "input": "simplify(integrate(sqrt(sin(x)^2),x,0,2*pi))",
+      "condition_scope": "x real",
+      "exit": 0,
+      "result": "4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000323577\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "A6",
+      "mode": "plain",
+      "stack": "normal",
+      "input": "integrate(1/(x^2-1),x)",
+      "condition_scope": "x real, x != +/-1",
+      "exit": 0,
+      "result": "1/2*ln(abs(x-1))-1/2*ln(abs(x+1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000376106\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact ordinary derivatives of actual and reference on parameterized real domain intervals; actual values real at domain checkpoints"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "A6",
+      "mode": "plain",
+      "stack": "64",
+      "input": "integrate(1/(x^2-1),x)",
+      "condition_scope": "x real, x != +/-1",
+      "exit": 0,
+      "result": "1/2*ln(abs(x-1))-1/2*ln(abs(x+1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000363456\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact ordinary derivatives of actual and reference on parameterized real domain intervals; actual values real at domain checkpoints"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "A6",
+      "mode": "simplify",
+      "stack": "normal",
+      "input": "simplify(integrate(1/(x^2-1),x))",
+      "condition_scope": "x real, x != +/-1",
+      "exit": 0,
+      "result": "ln(abs(x-1)/abs(x+1))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000986289\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact ordinary derivatives of actual and reference on parameterized real domain intervals; actual values real at domain checkpoints"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "A6",
+      "mode": "simplify",
+      "stack": "64",
+      "input": "simplify(integrate(1/(x^2-1),x))",
+      "condition_scope": "x real, x != +/-1",
+      "exit": 0,
+      "result": "ln(abs(x-1)/abs(x+1))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00117816\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact ordinary derivatives of actual and reference on parameterized real domain intervals; actual values real at domain checkpoints"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "B1",
+      "mode": "plain",
+      "stack": "normal",
+      "input": "integrate(sin(x)^7/(sin(x)^7+cos(x)^7),x,0,pi/2)",
+      "condition_scope": "continuous on interval",
+      "exit": 0,
+      "result": "pi/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000360916\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "B1",
+      "mode": "plain",
+      "stack": "64",
+      "input": "integrate(sin(x)^7/(sin(x)^7+cos(x)^7),x,0,pi/2)",
+      "condition_scope": "continuous on interval",
+      "exit": 0,
+      "result": "pi/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000398435\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "B1",
+      "mode": "simplify",
+      "stack": "normal",
+      "input": "simplify(integrate(sin(x)^7/(sin(x)^7+cos(x)^7),x,0,pi/2))",
+      "condition_scope": "continuous on interval",
+      "exit": 0,
+      "result": "pi/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000414616\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "B1",
+      "mode": "simplify",
+      "stack": "64",
+      "input": "simplify(integrate(sin(x)^7/(sin(x)^7+cos(x)^7),x,0,pi/2))",
+      "condition_scope": "continuous on interval",
+      "exit": 0,
+      "result": "pi/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000413036\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "B2",
+      "mode": "plain",
+      "stack": "normal",
+      "input": "integrate(x^5/(x^5+(1-x)^5),x,0,1)",
+      "condition_scope": "continuous on interval",
+      "exit": 0,
+      "result": "1/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000383546\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "B2",
+      "mode": "plain",
+      "stack": "64",
+      "input": "integrate(x^5/(x^5+(1-x)^5),x,0,1)",
+      "condition_scope": "continuous on interval",
+      "exit": 0,
+      "result": "1/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000407376\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "B2",
+      "mode": "simplify",
+      "stack": "normal",
+      "input": "simplify(integrate(x^5/(x^5+(1-x)^5),x,0,1))",
+      "condition_scope": "continuous on interval",
+      "exit": 0,
+      "result": "1/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000406065\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "B2",
+      "mode": "simplify",
+      "stack": "64",
+      "input": "simplify(integrate(x^5/(x^5+(1-x)^5),x,0,1))",
+      "condition_scope": "continuous on interval",
+      "exit": 0,
+      "result": "1/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000405926\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "B3",
+      "mode": "plain",
+      "stack": "normal",
+      "input": "integrate(x/(sin(x)+cos(x)),x,0,pi/2)",
+      "condition_scope": "continuous on interval",
+      "exit": 0,
+      "result": "pi/2/2*sqrt(2)*ln(1+sqrt(2))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000419445\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "B3",
+      "mode": "plain",
+      "stack": "64",
+      "input": "integrate(x/(sin(x)+cos(x)),x,0,pi/2)",
+      "condition_scope": "continuous on interval",
+      "exit": 0,
+      "result": "pi/2/2*sqrt(2)*ln(1+sqrt(2))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000379896\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "B3",
+      "mode": "simplify",
+      "stack": "normal",
+      "input": "simplify(integrate(x/(sin(x)+cos(x)),x,0,pi/2))",
+      "condition_scope": "continuous on interval",
+      "exit": 0,
+      "result": "pi/2/2*sqrt(2)*ln(1+sqrt(2))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000403235\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "B3",
+      "mode": "simplify",
+      "stack": "64",
+      "input": "simplify(integrate(x/(sin(x)+cos(x)),x,0,pi/2))",
+      "condition_scope": "continuous on interval",
+      "exit": 0,
+      "result": "pi/2/2*sqrt(2)*ln(1+sqrt(2))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000517094\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "B4",
+      "mode": "plain",
+      "stack": "normal",
+      "input": "integrate(atan(x)/x,x,0,1)",
+      "condition_scope": "ordinary integrable endpoint",
+      "exit": 0,
+      "result": "(Psi(1/4,1)-Psi(3/4,1))/16",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000309236\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "B4",
+      "mode": "plain",
+      "stack": "64",
+      "input": "integrate(atan(x)/x,x,0,1)",
+      "condition_scope": "ordinary integrable endpoint",
+      "exit": 0,
+      "result": "(Psi(1/4,1)-Psi(3/4,1))/16",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000321726\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "B4",
+      "mode": "simplify",
+      "stack": "normal",
+      "input": "simplify(integrate(atan(x)/x,x,0,1))",
+      "condition_scope": "ordinary integrable endpoint",
+      "exit": 0,
+      "result": "(Psi(1/4,1)-Psi(3/4,1))/16",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000412185\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "B4",
+      "mode": "simplify",
+      "stack": "64",
+      "input": "simplify(integrate(atan(x)/x,x,0,1))",
+      "condition_scope": "ordinary integrable endpoint",
+      "exit": 0,
+      "result": "(Psi(1/4,1)-Psi(3/4,1))/16",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000411745\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "B5",
+      "mode": "plain",
+      "stack": "normal",
+      "input": "integrate(ln(x)/(1+x^2),x,0,1)",
+      "condition_scope": "ordinary integrable endpoint",
+      "exit": 0,
+      "result": "-(Psi(1/4,1)-Psi(3/4,1))/16",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000381776\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "B5",
+      "mode": "plain",
+      "stack": "64",
+      "input": "integrate(ln(x)/(1+x^2),x,0,1)",
+      "condition_scope": "ordinary integrable endpoint",
+      "exit": 0,
+      "result": "-(Psi(1/4,1)-Psi(3/4,1))/16",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000380205\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "B5",
+      "mode": "simplify",
+      "stack": "normal",
+      "input": "simplify(integrate(ln(x)/(1+x^2),x,0,1))",
+      "condition_scope": "ordinary integrable endpoint",
+      "exit": 0,
+      "result": "(-Psi(1/4,1)+Psi(3/4,1))/16",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000426425\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "B5",
+      "mode": "simplify",
+      "stack": "64",
+      "input": "simplify(integrate(ln(x)/(1+x^2),x,0,1))",
+      "condition_scope": "ordinary integrable endpoint",
+      "exit": 0,
+      "result": "(-Psi(1/4,1)+Psi(3/4,1))/16",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000431095\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "B6",
+      "mode": "plain",
+      "stack": "normal",
+      "input": "integrate(ln(cos(x)),x,0,pi/4)",
+      "condition_scope": "positive cosine",
+      "exit": 0,
+      "result": "-1/4*pi*ln(2)+(Psi(1/4,1)-Psi(3/4,1))/16/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000381166\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "B6",
+      "mode": "plain",
+      "stack": "64",
+      "input": "integrate(ln(cos(x)),x,0,pi/4)",
+      "condition_scope": "positive cosine",
+      "exit": 0,
+      "result": "-1/4*pi*ln(2)+(Psi(1/4,1)-Psi(3/4,1))/16/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000370786\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "B6",
+      "mode": "simplify",
+      "stack": "normal",
+      "input": "simplify(integrate(ln(cos(x)),x,0,pi/4))",
+      "condition_scope": "positive cosine",
+      "exit": 0,
+      "result": "(Psi(1/4,1)-Psi(3/4,1)-8*pi*ln(2))/32",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000524865\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "B6",
+      "mode": "simplify",
+      "stack": "64",
+      "input": "simplify(integrate(ln(cos(x)),x,0,pi/4))",
+      "condition_scope": "positive cosine",
+      "exit": 0,
+      "result": "(Psi(1/4,1)-Psi(3/4,1)-8*pi*ln(2))/32",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000531374\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "C1",
+      "mode": "plain",
+      "stack": "normal",
+      "input": "[assume(a>0),assume(b>0),integrate((exp(-a*x)-exp(-b*x))/x,x,0,+infinity)][2]",
+      "condition_scope": "a,b>0",
+      "exit": 0,
+      "result": "-ln(a)+ln(b)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000431075\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "C1",
+      "mode": "plain",
+      "stack": "64",
+      "input": "[assume(a>0),assume(b>0),integrate((exp(-a*x)-exp(-b*x))/x,x,0,+infinity)][2]",
+      "condition_scope": "a,b>0",
+      "exit": 0,
+      "result": "-ln(a)+ln(b)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000384695\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "C1",
+      "mode": "simplify",
+      "stack": "normal",
+      "input": "[assume(a>0),assume(b>0),simplify(integrate((exp(-a*x)-exp(-b*x))/x,x,0,+infinity))][2]",
+      "condition_scope": "a,b>0",
+      "exit": 0,
+      "result": "ln(b/a)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000484095\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "C1",
+      "mode": "simplify",
+      "stack": "64",
+      "input": "[assume(a>0),assume(b>0),simplify(integrate((exp(-a*x)-exp(-b*x))/x,x,0,+infinity))][2]",
+      "condition_scope": "a,b>0",
+      "exit": 0,
+      "result": "ln(b/a)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000508684\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "C2",
+      "mode": "plain",
+      "stack": "normal",
+      "input": "[assume(a>0),integrate(exp(-a*x)*sin(b*x)/x,x,0,+infinity)][1]",
+      "condition_scope": "a>0, b real",
+      "exit": 0,
+      "result": "atan(b/a)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000382956\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "C2",
+      "mode": "plain",
+      "stack": "64",
+      "input": "[assume(a>0),integrate(exp(-a*x)*sin(b*x)/x,x,0,+infinity)][1]",
+      "condition_scope": "a>0, b real",
+      "exit": 0,
+      "result": "atan(b/a)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000407265\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "C2",
+      "mode": "simplify",
+      "stack": "normal",
+      "input": "[assume(a>0),simplify(integrate(exp(-a*x)*sin(b*x)/x,x,0,+infinity))][1]",
+      "condition_scope": "a>0, b real",
+      "exit": 0,
+      "result": "atan(b/a)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000656183\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "C2",
+      "mode": "simplify",
+      "stack": "64",
+      "input": "[assume(a>0),simplify(integrate(exp(-a*x)*sin(b*x)/x,x,0,+infinity))][1]",
+      "condition_scope": "a>0, b real",
+      "exit": 0,
+      "result": "atan(b/a)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000473765\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "C3",
+      "mode": "plain",
+      "stack": "normal",
+      "input": "[assume(a>0),integrate(exp(-a*x)*(1-cos(b*x))/x,x,0,+infinity)][1]",
+      "condition_scope": "a>0, b real",
+      "exit": 0,
+      "result": "ln(1+b/a*b/a)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000403516\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "C3",
+      "mode": "plain",
+      "stack": "64",
+      "input": "[assume(a>0),integrate(exp(-a*x)*(1-cos(b*x))/x,x,0,+infinity)][1]",
+      "condition_scope": "a>0, b real",
+      "exit": 0,
+      "result": "ln(1+b/a*b/a)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000566894\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "C3",
+      "mode": "simplify",
+      "stack": "normal",
+      "input": "[assume(a>0),simplify(integrate(exp(-a*x)*(1-cos(b*x))/x,x,0,+infinity))][1]",
+      "condition_scope": "a>0, b real",
+      "exit": 0,
+      "result": "ln((a^2+b^2)/a^2)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000610683\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "C3",
+      "mode": "simplify",
+      "stack": "64",
+      "input": "[assume(a>0),simplify(integrate(exp(-a*x)*(1-cos(b*x))/x,x,0,+infinity))][1]",
+      "condition_scope": "a>0, b real",
+      "exit": 0,
+      "result": "ln((a^2+b^2)/a^2)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000603053\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "C4",
+      "mode": "plain",
+      "stack": "normal",
+      "input": "integrate(sin(x)/x,x,0,+infinity)",
+      "condition_scope": "ordinary conditionally convergent improper integral",
+      "exit": 0,
+      "result": "pi/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000354435\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "C4",
+      "mode": "plain",
+      "stack": "64",
+      "input": "integrate(sin(x)/x,x,0,+infinity)",
+      "condition_scope": "ordinary conditionally convergent improper integral",
+      "exit": 0,
+      "result": "pi/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000332376\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "C4",
+      "mode": "simplify",
+      "stack": "normal",
+      "input": "simplify(integrate(sin(x)/x,x,0,+infinity))",
+      "condition_scope": "ordinary conditionally convergent improper integral",
+      "exit": 0,
+      "result": "pi/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000602543\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "C4",
+      "mode": "simplify",
+      "stack": "64",
+      "input": "simplify(integrate(sin(x)/x,x,0,+infinity))",
+      "condition_scope": "ordinary conditionally convergent improper integral",
+      "exit": 0,
+      "result": "pi/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000399805\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "D1",
+      "mode": "plain",
+      "stack": "normal",
+      "input": "[assume(a>0),integrate(exp(-a*x),x,0,+infinity)][1]",
+      "condition_scope": "Re(a)>0",
+      "exit": 0,
+      "result": "1/a",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000340126\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "D1",
+      "mode": "plain",
+      "stack": "64",
+      "input": "[assume(a>0),integrate(exp(-a*x),x,0,+infinity)][1]",
+      "condition_scope": "Re(a)>0",
+      "exit": 0,
+      "result": "1/a",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000317867\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "D1",
+      "mode": "simplify",
+      "stack": "normal",
+      "input": "[assume(a>0),simplify(integrate(exp(-a*x),x,0,+infinity))][1]",
+      "condition_scope": "Re(a)>0",
+      "exit": 0,
+      "result": "1/a",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000359706\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "D1",
+      "mode": "simplify",
+      "stack": "64",
+      "input": "[assume(a>0),simplify(integrate(exp(-a*x),x,0,+infinity))][1]",
+      "condition_scope": "Re(a)>0",
+      "exit": 0,
+      "result": "1/a",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000361186\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "D2",
+      "mode": "plain",
+      "stack": "normal",
+      "input": "[assume(s>0),integrate(x^(s-1)*exp(-x),x,0,+infinity)][1]",
+      "condition_scope": "Re(s)>0",
+      "exit": 0,
+      "result": "Gamma(s)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000322926\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "D2",
+      "mode": "plain",
+      "stack": "64",
+      "input": "[assume(s>0),integrate(x^(s-1)*exp(-x),x,0,+infinity)][1]",
+      "condition_scope": "Re(s)>0",
+      "exit": 0,
+      "result": "Gamma(s)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000329576\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "D2",
+      "mode": "simplify",
+      "stack": "normal",
+      "input": "[assume(s>0),simplify(integrate(x^(s-1)*exp(-x),x,0,+infinity))][1]",
+      "condition_scope": "Re(s)>0",
+      "exit": 0,
+      "result": "Gamma(s)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000416345\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "D2",
+      "mode": "simplify",
+      "stack": "64",
+      "input": "[assume(s>0),simplify(integrate(x^(s-1)*exp(-x),x,0,+infinity))][1]",
+      "condition_scope": "Re(s)>0",
+      "exit": 0,
+      "result": "Gamma(s)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000361676\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "D3",
+      "mode": "plain",
+      "stack": "normal",
+      "input": "[assume(a>0),assume(b>0),integrate(x^(a-1)*(1-x)^(b-1),x,0,1)][2]",
+      "condition_scope": "Re(a),Re(b)>0",
+      "exit": 0,
+      "result": "Gamma(a)*Gamma(b)/Gamma(a+b)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000358166\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "D3",
+      "mode": "plain",
+      "stack": "64",
+      "input": "[assume(a>0),assume(b>0),integrate(x^(a-1)*(1-x)^(b-1),x,0,1)][2]",
+      "condition_scope": "Re(a),Re(b)>0",
+      "exit": 0,
+      "result": "Gamma(a)*Gamma(b)/Gamma(a+b)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000356786\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "D3",
+      "mode": "simplify",
+      "stack": "normal",
+      "input": "[assume(a>0),assume(b>0),simplify(integrate(x^(a-1)*(1-x)^(b-1),x,0,1))][2]",
+      "condition_scope": "Re(a),Re(b)>0",
+      "exit": 0,
+      "result": "(a-1)!*(b-1)!/((a+b-1)!)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000509114\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "D3",
+      "mode": "simplify",
+      "stack": "64",
+      "input": "[assume(a>0),assume(b>0),simplify(integrate(x^(a-1)*(1-x)^(b-1),x,0,1))][2]",
+      "condition_scope": "Re(a),Re(b)>0",
+      "exit": 0,
+      "result": "(a-1)!*(b-1)!/((a+b-1)!)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000566144\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "D4",
+      "mode": "plain",
+      "stack": "normal",
+      "input": "[assume(s>0 and s<1),integrate(x^(s-1)/(1+x),x,0,+infinity)][1]",
+      "condition_scope": "0<Re(s)<1",
+      "exit": 0,
+      "result": "pi/sin(pi*s)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000410825\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "D4",
+      "mode": "plain",
+      "stack": "64",
+      "input": "[assume(s>0 and s<1),integrate(x^(s-1)/(1+x),x,0,+infinity)][1]",
+      "condition_scope": "0<Re(s)<1",
+      "exit": 0,
+      "result": "pi/sin(pi*s)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000458785\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "D4",
+      "mode": "simplify",
+      "stack": "normal",
+      "input": "[assume(s>0 and s<1),simplify(integrate(x^(s-1)/(1+x),x,0,+infinity))][1]",
+      "condition_scope": "0<Re(s)<1",
+      "exit": 0,
+      "result": "pi/sin(pi*s)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000560873\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "D4",
+      "mode": "simplify",
+      "stack": "64",
+      "input": "[assume(s>0 and s<1),simplify(integrate(x^(s-1)/(1+x),x,0,+infinity))][1]",
+      "condition_scope": "0<Re(s)<1",
+      "exit": 0,
+      "result": "pi/sin(pi*s)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000581834\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "D5",
+      "mode": "plain",
+      "stack": "normal",
+      "input": "[assume(a>0),integrate(cos(b*x)/(x^2+a^2),x,0,+infinity)][1]",
+      "condition_scope": "a>0, b real",
+      "exit": 0,
+      "result": "pi*exp(-a*abs(b))/(2*a)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000423385\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "D5",
+      "mode": "plain",
+      "stack": "64",
+      "input": "[assume(a>0),integrate(cos(b*x)/(x^2+a^2),x,0,+infinity)][1]",
+      "condition_scope": "a>0, b real",
+      "exit": 0,
+      "result": "pi*exp(-a*abs(b))/(2*a)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000422155\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "D5",
+      "mode": "simplify",
+      "stack": "normal",
+      "input": "[assume(a>0),simplify(integrate(cos(b*x)/(x^2+a^2),x,0,+infinity))][1]",
+      "condition_scope": "a>0, b real",
+      "exit": 0,
+      "result": "pi*exp(-a*abs(b))/(2*a)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00086933\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "D5",
+      "mode": "simplify",
+      "stack": "64",
+      "input": "[assume(a>0),simplify(integrate(cos(b*x)/(x^2+a^2),x,0,+infinity))][1]",
+      "condition_scope": "a>0, b real",
+      "exit": 0,
+      "result": "pi*exp(-a*abs(b))/(2*a)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00088381\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "D6",
+      "mode": "plain",
+      "stack": "normal",
+      "input": "[assume(a>abs(b)),integrate(1/(a+b*cos(x)),x,0,2*pi)][1]",
+      "condition_scope": "a>|b|, a,b real",
+      "exit": 0,
+      "result": "2*pi/sqrt(a*a-b*b)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000587333\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "D6",
+      "mode": "plain",
+      "stack": "64",
+      "input": "[assume(a>abs(b)),integrate(1/(a+b*cos(x)),x,0,2*pi)][1]",
+      "condition_scope": "a>|b|, a,b real",
+      "exit": 0,
+      "result": "2*pi/sqrt(a*a-b*b)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00122126\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "D6",
+      "mode": "simplify",
+      "stack": "normal",
+      "input": "[assume(a>abs(b)),simplify(integrate(1/(a+b*cos(x)),x,0,2*pi))][1]",
+      "condition_scope": "a>|b|, a,b real",
+      "exit": 0,
+      "result": "2*pi*sqrt(a^2-b^2)/(a^2-b^2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.0012129\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "D6",
+      "mode": "simplify",
+      "stack": "64",
+      "input": "[assume(a>abs(b)),simplify(integrate(1/(a+b*cos(x)),x,0,2*pi))][1]",
+      "condition_scope": "a>|b|, a,b real",
+      "exit": 0,
+      "result": "2*pi*sqrt(a^2-b^2)/(a^2-b^2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00155976\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "E1",
+      "mode": "plain",
+      "stack": "normal",
+      "input": "[assume(r>-1 and r<1),integrate(ln(1-2*r*cos(x)+r^2),x,0,pi)][1]",
+      "condition_scope": "r real, |r|<1",
+      "exit": 0,
+      "result": "0",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000454885\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "E1",
+      "mode": "plain",
+      "stack": "64",
+      "input": "[assume(r>-1 and r<1),integrate(ln(1-2*r*cos(x)+r^2),x,0,pi)][1]",
+      "condition_scope": "r real, |r|<1",
+      "exit": 0,
+      "result": "0",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000484604\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "E1",
+      "mode": "simplify",
+      "stack": "normal",
+      "input": "[assume(r>-1 and r<1),simplify(integrate(ln(1-2*r*cos(x)+r^2),x,0,pi))][1]",
+      "condition_scope": "r real, |r|<1",
+      "exit": 0,
+      "result": "0",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000456315\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "E1",
+      "mode": "simplify",
+      "stack": "64",
+      "input": "[assume(r>-1 and r<1),simplify(integrate(ln(1-2*r*cos(x)+r^2),x,0,pi))][1]",
+      "condition_scope": "r real, |r|<1",
+      "exit": 0,
+      "result": "0",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000523904\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "E2",
+      "mode": "plain",
+      "stack": "normal",
+      "input": "[assume(a>abs(b)),integrate(ln(a+b*cos(x)),x,0,2*pi)][1]",
+      "condition_scope": "a>|b|, a,b real",
+      "exit": 0,
+      "result": "2*pi*ln((a+sqrt(a*a-b*b))/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000576933\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "E2",
+      "mode": "plain",
+      "stack": "64",
+      "input": "[assume(a>abs(b)),integrate(ln(a+b*cos(x)),x,0,2*pi)][1]",
+      "condition_scope": "a>|b|, a,b real",
+      "exit": 0,
+      "result": "2*pi*ln((a+sqrt(a*a-b*b))/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000583603\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "E2",
+      "mode": "simplify",
+      "stack": "normal",
+      "input": "[assume(a>abs(b)),simplify(integrate(ln(a+b*cos(x)),x,0,2*pi))][1]",
+      "condition_scope": "a>|b|, a,b real",
+      "exit": 0,
+      "result": "2*pi*ln((a+sqrt(a*a-b*b))/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000585084\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "E2",
+      "mode": "simplify",
+      "stack": "64",
+      "input": "[assume(a>abs(b)),simplify(integrate(ln(a+b*cos(x)),x,0,2*pi))][1]",
+      "condition_scope": "a>|b|, a,b real",
+      "exit": 0,
+      "result": "2*pi*ln((a+sqrt(a*a-b*b))/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000585513\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "E3",
+      "mode": "plain",
+      "stack": "normal",
+      "input": "integrate(cos(3*x)/(2+cos(x)),x,0,2*pi)",
+      "condition_scope": "positive denominator",
+      "exit": 0,
+      "result": "2*pi*(-1/(2+sqrt(3)))^3/sqrt(3)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000356546\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "E3",
+      "mode": "plain",
+      "stack": "64",
+      "input": "integrate(cos(3*x)/(2+cos(x)),x,0,2*pi)",
+      "condition_scope": "positive denominator",
+      "exit": 0,
+      "result": "2*pi*(-1/(2+sqrt(3)))^3/sqrt(3)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000394055\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "E3",
+      "mode": "simplify",
+      "stack": "normal",
+      "input": "simplify(integrate(cos(3*x)/(2+cos(x)),x,0,2*pi))",
+      "condition_scope": "positive denominator",
+      "exit": 0,
+      "result": "(-52*pi*sqrt(3)+90*pi)/3",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000741311\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "E3",
+      "mode": "simplify",
+      "stack": "64",
+      "input": "simplify(integrate(cos(3*x)/(2+cos(x)),x,0,2*pi))",
+      "condition_scope": "positive denominator",
+      "exit": 0,
+      "result": "(-52*pi*sqrt(3)+90*pi)/3",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000989689\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "E4",
+      "mode": "plain",
+      "stack": "normal",
+      "input": "[assume(r>-1 and r<1),integrate(1/(1-2*r*cos(x)+r^2),x,0,2*pi)][1]",
+      "condition_scope": "r real, |r|<1",
+      "exit": 0,
+      "result": "2*pi/(1-r*r)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000466095\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "E4",
+      "mode": "plain",
+      "stack": "64",
+      "input": "[assume(r>-1 and r<1),integrate(1/(1-2*r*cos(x)+r^2),x,0,2*pi)][1]",
+      "condition_scope": "r real, |r|<1",
+      "exit": 0,
+      "result": "2*pi/(1-r*r)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000468055\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "E4",
+      "mode": "simplify",
+      "stack": "normal",
+      "input": "[assume(r>-1 and r<1),simplify(integrate(1/(1-2*r*cos(x)+r^2),x,0,2*pi))][1]",
+      "condition_scope": "r real, |r|<1",
+      "exit": 0,
+      "result": "-2*pi/(r^2-1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000539484\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "E4",
+      "mode": "simplify",
+      "stack": "64",
+      "input": "[assume(r>-1 and r<1),simplify(integrate(1/(1-2*r*cos(x)+r^2),x,0,2*pi))][1]",
+      "condition_scope": "r real, |r|<1",
+      "exit": 0,
+      "result": "-2*pi/(r^2-1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000540664\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "E5",
+      "mode": "plain",
+      "stack": "normal",
+      "input": "[assume(r>-1 and r<1),assume(n,integer),additionally(n>=0),integrate(cos(n*x)/(1-2*r*cos(x)+r^2),x,0,2*pi)][3]",
+      "condition_scope": "n nonnegative integer, r real, |r|<1",
+      "exit": 0,
+      "result": "2*pi*r^n/(1-r*r)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000484385\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "E5",
+      "mode": "plain",
+      "stack": "64",
+      "input": "[assume(r>-1 and r<1),assume(n,integer),additionally(n>=0),integrate(cos(n*x)/(1-2*r*cos(x)+r^2),x,0,2*pi)][3]",
+      "condition_scope": "n nonnegative integer, r real, |r|<1",
+      "exit": 0,
+      "result": "2*pi*r^n/(1-r*r)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000489884\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "E5",
+      "mode": "simplify",
+      "stack": "normal",
+      "input": "[assume(r>-1 and r<1),assume(n,integer),additionally(n>=0),simplify(integrate(cos(n*x)/(1-2*r*cos(x)+r^2),x,0,2*pi))][3]",
+      "condition_scope": "n nonnegative integer, r real, |r|<1",
+      "exit": 0,
+      "result": "-2*pi*r^n/(r^2-1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000687622\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "E5",
+      "mode": "simplify",
+      "stack": "64",
+      "input": "[assume(r>-1 and r<1),assume(n,integer),additionally(n>=0),simplify(integrate(cos(n*x)/(1-2*r*cos(x)+r^2),x,0,2*pi))][3]",
+      "condition_scope": "n nonnegative integer, r real, |r|<1",
+      "exit": 0,
+      "result": "-2*pi*r^n/(r^2-1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000652193\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "E6",
+      "mode": "plain",
+      "stack": "normal",
+      "input": "[assume(r>-1 and r<1),assume(n,integer),additionally(n>=1),integrate(ln(1-2*r*cos(x)+r^2)*cos(n*x),x,0,2*pi)][3]",
+      "condition_scope": "n positive integer, r real, |r|<1",
+      "exit": 0,
+      "result": "-2*pi*r^n/n",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000482914\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "E6",
+      "mode": "plain",
+      "stack": "64",
+      "input": "[assume(r>-1 and r<1),assume(n,integer),additionally(n>=1),integrate(ln(1-2*r*cos(x)+r^2)*cos(n*x),x,0,2*pi)][3]",
+      "condition_scope": "n positive integer, r real, |r|<1",
+      "exit": 0,
+      "result": "-2*pi*r^n/n",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000498034\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "E6",
+      "mode": "simplify",
+      "stack": "normal",
+      "input": "[assume(r>-1 and r<1),assume(n,integer),additionally(n>=1),simplify(integrate(ln(1-2*r*cos(x)+r^2)*cos(n*x),x,0,2*pi))][3]",
+      "condition_scope": "n positive integer, r real, |r|<1",
+      "exit": 0,
+      "result": "-2*pi*r^n/n",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000568514\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "E6",
+      "mode": "simplify",
+      "stack": "64",
+      "input": "[assume(r>-1 and r<1),assume(n,integer),additionally(n>=1),simplify(integrate(ln(1-2*r*cos(x)+r^2)*cos(n*x),x,0,2*pi))][3]",
+      "condition_scope": "n positive integer, r real, |r|<1",
+      "exit": 0,
+      "result": "-2*pi*r^n/n",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000566374\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact symbolic value identity under the stated real assumptions"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "F1",
+      "mode": "plain",
+      "stack": "normal",
+      "input": "integrate(exp(-x^2),x)",
+      "condition_scope": "x real",
+      "exit": 0,
+      "result": "sqrt(pi)/2*erf(x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000574673\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact ordinary derivatives of actual and reference on parameterized real domain intervals"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "F1",
+      "mode": "plain",
+      "stack": "64",
+      "input": "integrate(exp(-x^2),x)",
+      "condition_scope": "x real",
+      "exit": 0,
+      "result": "sqrt(pi)/2*erf(x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000606183\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact ordinary derivatives of actual and reference on parameterized real domain intervals"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "F1",
+      "mode": "simplify",
+      "stack": "normal",
+      "input": "simplify(integrate(exp(-x^2),x))",
+      "condition_scope": "x real",
+      "exit": 0,
+      "result": "sqrt(pi)*erf(x)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000917299\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact ordinary derivatives of actual and reference on parameterized real domain intervals"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "F1",
+      "mode": "simplify",
+      "stack": "64",
+      "input": "simplify(integrate(exp(-x^2),x))",
+      "condition_scope": "x real",
+      "exit": 0,
+      "result": "sqrt(pi)*erf(x)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000937079\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact ordinary derivatives of actual and reference on parameterized real domain intervals"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "F2",
+      "mode": "plain",
+      "stack": "normal",
+      "input": "integrate(sin(x^2),x)",
+      "condition_scope": "FresnelS(z)=integral_0^z sin(pi*t^2/2) dt",
+      "exit": 0,
+      "result": "sqrt(pi)/((-1+i)/2*sqrt(2))/2*erf((-1+i)/2*sqrt(2)*x)/(2*i)+i*sqrt(pi)/((-1-i)/2*sqrt(2))/2*erf((-1-i)/2*sqrt(2)*x)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00088921\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact ordinary derivatives of actual and reference on parameterized real domain intervals"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "F2",
+      "mode": "plain",
+      "stack": "64",
+      "input": "integrate(sin(x^2),x)",
+      "condition_scope": "FresnelS(z)=integral_0^z sin(pi*t^2/2) dt",
+      "exit": 0,
+      "result": "sqrt(pi)/((-1+i)/2*sqrt(2))/2*erf((-1+i)/2*sqrt(2)*x)/(2*i)+i*sqrt(pi)/((-1-i)/2*sqrt(2))/2*erf((-1-i)/2*sqrt(2)*x)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000998009\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact ordinary derivatives of actual and reference on parameterized real domain intervals"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "F2",
+      "mode": "simplify",
+      "stack": "normal",
+      "input": "simplify(integrate(sin(x^2),x))",
+      "condition_scope": "FresnelS(z)=integral_0^z sin(pi*t^2/2) dt",
+      "exit": 0,
+      "result": "sqrt(pi)/((-1+i)/2*sqrt(2))/2*erf((-1+i)/2*sqrt(2)*x)/(2*i)+i*sqrt(pi)/((-1-i)/2*sqrt(2))/2*erf((-1-i)/2*sqrt(2)*x)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000928019\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact ordinary derivatives of actual and reference on parameterized real domain intervals"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "F2",
+      "mode": "simplify",
+      "stack": "64",
+      "input": "simplify(integrate(sin(x^2),x))",
+      "condition_scope": "FresnelS(z)=integral_0^z sin(pi*t^2/2) dt",
+      "exit": 0,
+      "result": "sqrt(pi)/((-1+i)/2*sqrt(2))/2*erf((-1+i)/2*sqrt(2)*x)/(2*i)+i*sqrt(pi)/((-1-i)/2*sqrt(2))/2*erf((-1-i)/2*sqrt(2)*x)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000931939\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact ordinary derivatives of actual and reference on parameterized real domain intervals"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "F3",
+      "mode": "plain",
+      "stack": "normal",
+      "input": "integrate(sin(x)/x,x)",
+      "condition_scope": "local real interval; continuous extension at zero",
+      "exit": 0,
+      "result": "Si(x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00087181\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact ordinary derivatives of actual and reference on parameterized real domain intervals"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "F3",
+      "mode": "plain",
+      "stack": "64",
+      "input": "integrate(sin(x)/x,x)",
+      "condition_scope": "local real interval; continuous extension at zero",
+      "exit": 0,
+      "result": "Si(x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00087308\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact ordinary derivatives of actual and reference on parameterized real domain intervals"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "F3",
+      "mode": "simplify",
+      "stack": "normal",
+      "input": "simplify(integrate(sin(x)/x,x))",
+      "condition_scope": "local real interval; continuous extension at zero",
+      "exit": 0,
+      "result": "Si(x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00088007\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact ordinary derivatives of actual and reference on parameterized real domain intervals"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "F3",
+      "mode": "simplify",
+      "stack": "64",
+      "input": "simplify(integrate(sin(x)/x,x))",
+      "condition_scope": "local real interval; continuous extension at zero",
+      "exit": 0,
+      "result": "Si(x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00086747\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact ordinary derivatives of actual and reference on parameterized real domain intervals"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "F4",
+      "mode": "plain",
+      "stack": "normal",
+      "input": "integrate(exp(x)/x,x)",
+      "condition_scope": "local real intervals excluding zero",
+      "exit": 0,
+      "result": "Ei(x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000611283\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact ordinary derivatives of actual and reference on parameterized real domain intervals"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "F4",
+      "mode": "plain",
+      "stack": "64",
+      "input": "integrate(exp(x)/x,x)",
+      "condition_scope": "local real intervals excluding zero",
+      "exit": 0,
+      "result": "Ei(x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000613683\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact ordinary derivatives of actual and reference on parameterized real domain intervals"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "F4",
+      "mode": "simplify",
+      "stack": "normal",
+      "input": "simplify(integrate(exp(x)/x,x))",
+      "condition_scope": "local real intervals excluding zero",
+      "exit": 0,
+      "result": "Ei(x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000615794\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact ordinary derivatives of actual and reference on parameterized real domain intervals"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "F4",
+      "mode": "simplify",
+      "stack": "64",
+      "input": "simplify(integrate(exp(x)/x,x))",
+      "condition_scope": "local real intervals excluding zero",
+      "exit": 0,
+      "result": "Ei(x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00085629\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact ordinary derivatives of actual and reference on parameterized real domain intervals"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "F5",
+      "mode": "plain",
+      "stack": "normal",
+      "input": "integrate(ln(1-x)/x,x)",
+      "condition_scope": "0<x<1",
+      "exit": 0,
+      "result": "-Li2(x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000333756\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact ordinary derivatives of actual and reference on parameterized real domain intervals"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "F5",
+      "mode": "plain",
+      "stack": "64",
+      "input": "integrate(ln(1-x)/x,x)",
+      "condition_scope": "0<x<1",
+      "exit": 0,
+      "result": "-Li2(x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000324696\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact ordinary derivatives of actual and reference on parameterized real domain intervals"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "F5",
+      "mode": "simplify",
+      "stack": "normal",
+      "input": "simplify(integrate(ln(1-x)/x,x))",
+      "condition_scope": "0<x<1",
+      "exit": 0,
+      "result": "-Li2(x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000333096\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact ordinary derivatives of actual and reference on parameterized real domain intervals"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "F5",
+      "mode": "simplify",
+      "stack": "64",
+      "input": "simplify(integrate(ln(1-x)/x,x))",
+      "condition_scope": "0<x<1",
+      "exit": 0,
+      "result": "-Li2(x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000334886\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact ordinary derivatives of actual and reference on parameterized real domain intervals"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "F6",
+      "mode": "plain",
+      "stack": "normal",
+      "input": "integrate(1/ln(x),x)",
+      "condition_scope": "local real interval, x>0, x != 1",
+      "exit": 0,
+      "result": "Ei(ln(x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000705572\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact ordinary derivatives of actual and reference on parameterized real domain intervals"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "F6",
+      "mode": "plain",
+      "stack": "64",
+      "input": "integrate(1/ln(x),x)",
+      "condition_scope": "local real interval, x>0, x != 1",
+      "exit": 0,
+      "result": "Ei(ln(x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000635533\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact ordinary derivatives of actual and reference on parameterized real domain intervals"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "F6",
+      "mode": "simplify",
+      "stack": "normal",
+      "input": "simplify(integrate(1/ln(x),x))",
+      "condition_scope": "local real interval, x>0, x != 1",
+      "exit": 0,
+      "result": "Ei(ln(x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000656662\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact ordinary derivatives of actual and reference on parameterized real domain intervals"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    },
+    {
+      "id": "F6",
+      "mode": "simplify",
+      "stack": "64",
+      "input": "simplify(integrate(1/ln(x),x))",
+      "condition_scope": "local real interval, x>0, x != 1",
+      "exit": 0,
+      "result": "Ei(ln(x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000664492\nMAX_RSS_KB 29492\n",
+      "execution_status": "returned",
+      "verification": {
+        "math_pass": true,
+        "method": "exact ordinary derivatives of actual and reference on parameterized real domain intervals"
+      },
+      "acceptance": "exact",
+      "status": "exact"
+    }
+  ]
+}

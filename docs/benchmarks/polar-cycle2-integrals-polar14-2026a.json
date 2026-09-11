@@ -1,0 +1,198 @@
+{
+  "source_sha256": {
+    "yintg.cc": "a93951c62d9ddd9605d04eea0fdb638142342e6f523b2215b9aa23d925061c88",
+    "zintgab.cc": "3b6fa78aba4d53b1a11479c33bacb4c85e3d6091389ef3073ec60085a7ae9448",
+    "ksubst.cc": "cb4105a75ae6fecc426a5bbb5a1bc3ed8c01dacd50ad5d637a79bafdb3673b3b",
+    "yderive.cc": "b1b763b13b06fb202ee07be968e2d511f0f69919162af63a4f3704bd3b154f41",
+    "dilogarithm.h": "ca822ef4c094a4ed1f4aecf7219011668735d86d259c51ec6304515f8fa84d7a",
+    "kconvert.cc": "eed558eb2f8ff62e0cf1e94fdbf8497954a35577e283a8d07283350e65b76003",
+    "equation_normalize.h": "4bfb644f0e18bb36e280ce8886c8ac12695c9aeeaef187ea3e5f967cd1642e37",
+    "kusual.cc": "fcc854a0d1f8ad6f64600674a584ed6d903d44c53fef1931b90904272df26681",
+    "zprog.cc": "baf6570eac3b985e50bb2bbf8a3bbc47b72b34ce6835ce2f7a873185a7efe499",
+    "conditional_eval.h": "763e56cb14146b9e45728c4fa245f7fe4506a8eea4041cbaf98b927ea15e27a2"
+  },
+  "corpus_sha256": "60426eda11b0935b9d0aa329c3e66644cbf6802f332ce1ade70d0a8482900328",
+  "provenance": "polar-cycle2-acceptance-polar14-2026a.json",
+  "runs": [
+    {
+      "id": "PC2-I1",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(sqrt((1-x)/(1+x))/(1-x^2),x)",
+      "exit": 0,
+      "result": "-sqrt((1-x)/(1+x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000407415\nMAX_RSS_KB 66816\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative after a bijective positive-domain substitution. Both original endpoints excluded; primitive regular at x=0."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC2-I1",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(sqrt((1-x)/(1+x))/(1-x^2),x)",
+      "exit": 0,
+      "result": "-sqrt((1-x)/(1+x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000793911\nMAX_RSS_KB 66816\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative after a bijective positive-domain substitution. Both original endpoints excluded; primitive regular at x=0."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC2-I1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(sqrt((1-x)/(1+x))/(1-x^2),x))",
+      "exit": 0,
+      "result": "-sqrt(-x^2+1)*abs(x+1)/(x^2+2*x+1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00132013\nMAX_RSS_KB 66816\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative after a bijective positive-domain substitution. Both original endpoints excluded; primitive regular at x=0."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC2-I1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(sqrt((1-x)/(1+x))/(1-x^2),x))",
+      "exit": 0,
+      "result": "-sqrt(-x^2+1)*abs(x+1)/(x^2+2*x+1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00165375\nMAX_RSS_KB 66816\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative after a bijective positive-domain substitution. Both original endpoints excluded; primitive regular at x=0."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC2-I2",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate((2*x+2*i)/(x^2+2*i*x-2),x)",
+      "exit": 0,
+      "result": "ln(x+1+i)+ln(x-1+i)",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.00128985\nMAX_RSS_KB 66816\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact sum of principal logs of two strictly upper-half-plane factors; neither crosses a cut. Global derivative and regularity at x=0, not just intervalwise derivative."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC2-I2",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate((2*x+2*i)/(x^2+2*i*x-2),x)",
+      "exit": 0,
+      "result": "ln(x+1+i)+ln(x-1+i)",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.00131004\nMAX_RSS_KB 66816\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact sum of principal logs of two strictly upper-half-plane factors; neither crosses a cut. Global derivative and regularity at x=0, not just intervalwise derivative."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC2-I2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate((2*x+2*i)/(x^2+2*i*x-2),x))",
+      "exit": 0,
+      "result": "ln(x+1+i)+ln(x-1+i)",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.00127838\nMAX_RSS_KB 66816\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact sum of principal logs of two strictly upper-half-plane factors; neither crosses a cut. Global derivative and regularity at x=0, not just intervalwise derivative."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC2-I2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate((2*x+2*i)/(x^2+2*i*x-2),x))",
+      "exit": 0,
+      "result": "ln(x+1+i)+ln(x-1+i)",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.00128882\nMAX_RSS_KB 66816\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact sum of principal logs of two strictly upper-half-plane factors; neither crosses a cut. Global derivative and regularity at x=0, not just intervalwise derivative."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC2-I3",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(x*exp(x)*cos(x),x)",
+      "exit": 0,
+      "result": "exp(x)*(x/2*cos(x)+(x-1)/2*sin(x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000577894\nMAX_RSS_KB 66816\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact ordinary derivative on the entire real axis; expression composed of entire factors."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC2-I3",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(x*exp(x)*cos(x),x)",
+      "exit": 0,
+      "result": "exp(x)*(x/2*cos(x)+(x-1)/2*sin(x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000562213\nMAX_RSS_KB 66816\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact ordinary derivative on the entire real axis; expression composed of entire factors."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC2-I3",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(x*exp(x)*cos(x),x))",
+      "exit": 0,
+      "result": "(x*cos(x)*exp(x)+x*exp(x)*sin(x)-exp(x)*sin(x))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000607833\nMAX_RSS_KB 66816\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact ordinary derivative on the entire real axis; expression composed of entire factors."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC2-I3",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(x*exp(x)*cos(x),x))",
+      "exit": 0,
+      "result": "(x*cos(x)*exp(x)+x*exp(x)*sin(x)-exp(x)*sin(x))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000606723\nMAX_RSS_KB 66816\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact ordinary derivative on the entire real axis; expression composed of entire factors."
+      },
+      "pass": true,
+      "status": "exact"
+    }
+  ]
+}

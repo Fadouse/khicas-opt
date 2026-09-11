@@ -195,3 +195,19 @@ ROM余600 B，AC2使用2,496,104 B（余63,892 B），静态RAM和CAS堆不变�
 积分清单671条：666精确、5导数采样；648种去空白文本。ROM余600 B，AC2使用2,496,324 B（余63,672 B），本轮净增220 B；静态RAM和CAS堆不变。五次主机中位数最大约3.1 ms，未将错误旧输出作为加速基线。主机64 KiB栈不是SH4/MMU模拟，未安装实机。首次有错题，继续全新出题代理，未进入最终性能代理验收。
 
 [首次](benchmarks/polar-cycle13-first-acceptance-2026a.json) · [修复后](benchmarks/polar-cycle13-fixed-acceptance-2026a.json) · [振幅](benchmarks/trig-amplitude-guards-polar13-2026a.json) · [定义域](benchmarks/log-chart-domain-guards-polar13-2026a.json) · [资源](benchmarks/resources-polar-cycle13-2026a.json) · [测量](benchmarks/polar-cycle13-performance-2026a.json) · [回归索引](benchmarks/polar-cycle13-regression-index-2026a.json)。
+
+## 第十四轮：全局三角幂递推、有限和继承定义域与精确条件
+
+标签 `checkpoint/polar-stability-cycle14-2026a`。新6题首次3题完整通过。三角分母平方的原函数残留tan(x/2)，缺少半角图边界值；有限望远镜和约分后丢掉19个内部原域缺口；非线性周期导数的符号公式正确，但实际代入x=-sqrt(2*pi)时条件比较未递归规范化根式平方，错误漏选不可导分支。这一实际代入失败单独计入首测，未因纸面公式正确而放行。
+
+新增有界全局三角幂积分规则，识别a+b*sin(phase)或a+b*cos(phase)的1至8次分母幂，要求有理a>|b|和非零有理仿射频率。以全局atan图及递推式生成原函数，所有三角分母严格不为零，不遗留tan半角。独立验收对实际输出求导，再用单位圆有理参数验证恒等式，并逐个证明所有显示分母在完整实域非零，覆盖32项幂次及正负系数变式。
+
+有限和仅匹配有界相邻仿射双因子望远镜结构，通过二次系数恒等式识别，固定最多32项。闭式附带紧凑的区间/整数成员条件，完整保留原来的N+1个缺口，避免构造高次分母或逐项约分后丢域。语法规范化不执行任意用户函数。新增精确检查穷举测试实例的所有原域缺口，并以有理数直接计算非整数允许点，含负斜率、平移、非零起始下标及32项上界。
+
+when/piecewise的纯精确常量条件在32节点、8层以内白名单检查后递归规范化；只接受精确相等，不用浮点容差。任意用户函数不进入该额外求值路径，已确定的真条件只求值选中分支，四参数when也保留其原语义。有限和与常量条件共268项新增精确检查通过。
+
+修复后本轮24项、32项三角幂及268项有限域/条件检查、此前316项变体、旧114项边界、前十三轮352项、混合96项、极坐标60项、21项正式及7项补充回归全部通过。旧全局atan原函数仅发生奇函数符号规范化，独立验证器允许atan(-u)=-atan(u)，同时继续检查完整非零分母，未将等价写法误记为算法回归。
+
+积分清单673条：668精确、5导数采样；650种去空白文本。ROM使用2,064,760 B（余392 B），AC2使用2,501,836 B（余58,160 B），静态RAM和CAS堆不变。新增积分、有限和及纯常量条件辅助函数全部核对AC2链接地址。五次主机中位数最大约1.1 ms；没有实机计时或安装，64 KiB主机栈不是SH4/MMU模拟。首次仍有错题，提交后继续全新题库，不进入最终性能代理验收。
+
+[首次](benchmarks/polar-cycle14-first-acceptance-2026a.json) · [修复后](benchmarks/polar-cycle14-fixed-acceptance-2026a.json) · [三角幂](benchmarks/global-trig-power-guards-polar14-2026a.json) · [有限域/条件](benchmarks/telescope-condition-guards-polar14-2026a.json) · [资源](benchmarks/resources-polar-cycle14-2026a.json) · [测量](benchmarks/polar-cycle14-performance-2026a.json) · [回归索引](benchmarks/polar-cycle14-regression-index-2026a.json)。

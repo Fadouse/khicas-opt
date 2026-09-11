@@ -13,8 +13,9 @@ def verify(case,printed):
   method='Exact derivative; sqrt(x²+4)±x>0 and their product is four. Printed primitive differs from the reference only by 2log2 globally, so its alternative positive log is valid also on the negative axis.'
  elif ident=='PC13-I2':
   angles=a.atoms(s.atan);assert len(angles)==1;angle=next(iter(angles));arg=angle.args[0]
-  assert s.trigsimp(s.simplify(arg+s.sin(x)/(2+s.sqrt(3)+s.cos(x))))==0
-  assert equal(a.xreplace({angle:s.Symbol('A')}),(x+2*s.Symbol('A'))/s.sqrt(3))
+  sign=1 if s.trigsimp(s.simplify(arg-s.sin(x)/(2+s.sqrt(3)+s.cos(x))))==0 else -1
+  assert s.trigsimp(s.simplify(arg-sign*s.sin(x)/(2+s.sqrt(3)+s.cos(x))))==0
+  assert equal(a.xreplace({angle:s.Symbol('A')}),(x-2*sign*s.Symbol('A'))/s.sqrt(3))
   t=s.Symbol('t',real=True);den=s.denom(arg).subs(s.sin(x)**2,1-s.cos(x)**2).subs(s.cos(x),t)
   P=s.Poly(den,t);assert P.degree()<=2
   extrema=[s.Integer(-1),s.Integer(1)]+[r for r in s.solve(s.diff(den,t),t) if r.is_real and -1<=r<=1]

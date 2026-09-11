@@ -1,0 +1,561 @@
+{
+  "scope": "Repository integration, normalization and FXCG simplification entry points; other dependencies host Giac, not a CG50 emulator or hardware timings",
+  "validation": "Printed target results independently checked in a separate host-Giac process",
+  "corpus_sha256": "2fbf0b053156b3c9fd203b9664b8a55c8ac9b0443f1a919f2ca4b95e962beb2c",
+  "validation_probe_sha256": "389931bcb1768f94a589ce5b4cdc1422b9629a9e2b5e3281dab7e775beb834a4",
+  "source_sha256": {
+    "yintg.cc": "a93951c62d9ddd9605d04eea0fdb638142342e6f523b2215b9aa23d925061c88",
+    "zintgab.cc": "3b6fa78aba4d53b1a11479c33bacb4c85e3d6091389ef3073ec60085a7ae9448",
+    "ysym2poly.cc": "ca2e4abe3652bf6314e38703100426e6996b3d272ad6f6215d469acf7ecb979c",
+    "ksubst.cc": "cb4105a75ae6fecc426a5bbb5a1bc3ed8c01dacd50ad5d637a79bafdb3673b3b",
+    "integration_guard.h": "5f4bfda11a19fdf8b4b41da6bb037f602dd741ec1f3492066abab251e85d48a9",
+    "equation_normalize.h": "4bfb644f0e18bb36e280ce8886c8ac12695c9aeeaef187ea3e5f967cd1642e37",
+    "dilogarithm.h": "ca822ef4c094a4ed1f4aecf7219011668735d86d259c51ec6304515f8fa84d7a"
+  },
+  "runs": [
+    {
+      "id": "C7-quadratic-radical-atan-parts-01",
+      "input": "integrate((2*x+1)*atan(sqrt(x^2+x+1))/sqrt(x^2+x+1),x)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "2*(sqrt(x^2+x+1)*atan(sqrt(x^2+x+1))-ln(x^2+x+2)/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00333541\nMAX_RSS_KB 23900\n",
+      "host_seconds": 0.00333541,
+      "parser_calls": 1,
+      "host_max_rss_kb": 23900,
+      "result_characters": 51,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000388666\nMAX_RSS_KB 23900\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C7-quadratic-radical-atan-parts-01",
+      "input": "integrate((2*x+1)*atan(sqrt(x^2+x+1))/sqrt(x^2+x+1),x)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "2*(sqrt(x^2+x+1)*atan(sqrt(x^2+x+1))-ln(x^2+x+2)/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00332779\nMAX_RSS_KB 23900\n",
+      "host_seconds": 0.00332779,
+      "parser_calls": 1,
+      "host_max_rss_kb": 23900,
+      "result_characters": 51,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000381776\nMAX_RSS_KB 23900\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C7-quadratic-radical-atan-parts-01",
+      "input": "simplify(integrate((2*x+1)*atan(sqrt(x^2+x+1))/sqrt(x^2+x+1),x))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "2*(sqrt(x^2+x+1)*atan(sqrt(x^2+x+1))-ln(x^2+x+2)/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00408859\nMAX_RSS_KB 23900\n",
+      "host_seconds": 0.00408859,
+      "parser_calls": 1,
+      "host_max_rss_kb": 23900,
+      "result_characters": 51,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000386065\nMAX_RSS_KB 23900\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C7-quadratic-radical-atan-parts-01",
+      "input": "simplify(integrate((2*x+1)*atan(sqrt(x^2+x+1))/sqrt(x^2+x+1),x))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "2*(sqrt(x^2+x+1)*atan(sqrt(x^2+x+1))-ln(x^2+x+2)/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00361211\nMAX_RSS_KB 23900\n",
+      "host_seconds": 0.00361211,
+      "parser_calls": 1,
+      "host_max_rss_kb": 23900,
+      "result_characters": 51,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000393226\nMAX_RSS_KB 23900\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C7-nested-root-degree-boundary-01",
+      "input": "integrate((1+x^(1/17))^(1/19)/x^(16/17),x)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "17*19*(1+x^(1/17))^(20/19)/20",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000366886\nMAX_RSS_KB 23900\n",
+      "host_seconds": 0.000366886,
+      "parser_calls": 1,
+      "host_max_rss_kb": 23900,
+      "result_characters": 29,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000279117\nMAX_RSS_KB 23900\nSimplification assuming x near 0\nSimplification assuming x near 0\nSimplification assuming x near 0\nSimplification assuming x near 0\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C7-nested-root-degree-boundary-01",
+      "input": "integrate((1+x^(1/17))^(1/19)/x^(16/17),x)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "17*19*(1+x^(1/17))^(20/19)/20",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000375775\nMAX_RSS_KB 23900\n",
+      "host_seconds": 0.000375775,
+      "parser_calls": 1,
+      "host_max_rss_kb": 23900,
+      "result_characters": 29,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000291667\nMAX_RSS_KB 23900\nSimplification assuming x near 0\nSimplification assuming x near 0\nSimplification assuming x near 0\nSimplification assuming x near 0\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C7-nested-root-degree-boundary-01",
+      "input": "simplify(integrate((1+x^(1/17))^(1/19)/x^(16/17),x))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "323*((x^(1/17)+1)^(1/19))^20/20",
+      "stderr": "Simplification assuming x near 0\nSimplification assuming x near 0\nPARSER_CALLS 1\nSECONDS 0.000843701\nMAX_RSS_KB 23900\n",
+      "host_seconds": 0.000843701,
+      "parser_calls": 1,
+      "host_max_rss_kb": 23900,
+      "result_characters": 31,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000297477\nMAX_RSS_KB 23900\nSimplification assuming x near 0\nSimplification assuming x near 0\nSimplification assuming x near 0\nSimplification assuming x near 0\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C7-nested-root-degree-boundary-01",
+      "input": "simplify(integrate((1+x^(1/17))^(1/19)/x^(16/17),x))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "323*((x^(1/17)+1)^(1/19))^20/20",
+      "stderr": "Simplification assuming x near 0\nSimplification assuming x near 0\nPARSER_CALLS 1\nSECONDS 0.00085399\nMAX_RSS_KB 23900\n",
+      "host_seconds": 0.00085399,
+      "parser_calls": 1,
+      "host_max_rss_kb": 23900,
+      "result_characters": 31,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000293976\nMAX_RSS_KB 23900\nSimplification assuming x near 0\nSimplification assuming x near 0\nSimplification assuming x near 0\nSimplification assuming x near 0\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C7-composed-high-power-beta-boundary-01",
+      "input": "integrate((2*x+1)*(x^2+x)^15*(1-(x^2+x)^16)^2048,x,0,(sqrt(5)-1)/2)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-1/32784*(1-(((sqrt(5)-1)/2)^2+(sqrt(5)-1)/2)^16)^2049+1/32784",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000677482\nMAX_RSS_KB 23900\n",
+      "host_seconds": 0.000677482,
+      "parser_calls": 1,
+      "host_max_rss_kb": 23900,
+      "result_characters": 62,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000297227\nMAX_RSS_KB 23900\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C7-composed-high-power-beta-boundary-01",
+      "input": "integrate((2*x+1)*(x^2+x)^15*(1-(x^2+x)^16)^2048,x,0,(sqrt(5)-1)/2)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-1/32784*(1-(((sqrt(5)-1)/2)^2+(sqrt(5)-1)/2)^16)^2049+1/32784",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000505745\nMAX_RSS_KB 23900\n",
+      "host_seconds": 0.000505745,
+      "parser_calls": 1,
+      "host_max_rss_kb": 23900,
+      "result_characters": 62,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000292776\nMAX_RSS_KB 23900\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C7-composed-high-power-beta-boundary-01",
+      "input": "simplify(integrate((2*x+1)*(x^2+x)^15*(1-(x^2+x)^16)^2048,x,0,(sqrt(5)-1)/2))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-1/32784*(1-(((sqrt(5)-1)/2)^2+(sqrt(5)-1)/2)^16)^2049+1/32784",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000494384\nMAX_RSS_KB 23900\n",
+      "host_seconds": 0.000494384,
+      "parser_calls": 1,
+      "host_max_rss_kb": 23900,
+      "result_characters": 62,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000303087\nMAX_RSS_KB 23900\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C7-composed-high-power-beta-boundary-01",
+      "input": "simplify(integrate((2*x+1)*(x^2+x)^15*(1-(x^2+x)^16)^2048,x,0,(sqrt(5)-1)/2))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-1/32784*(1-(((sqrt(5)-1)/2)^2+(sqrt(5)-1)/2)^16)^2049+1/32784",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000506664\nMAX_RSS_KB 23900\n",
+      "host_seconds": 0.000506664,
+      "parser_calls": 1,
+      "host_max_rss_kb": 23900,
+      "result_characters": 62,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000301597\nMAX_RSS_KB 23900\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C7-erf-erfc-product-01",
+      "input": "integrate(erf(x)*erfc(x),x,0,+infinity)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(sqrt(2)-1)/sqrt(pi)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000329816\nMAX_RSS_KB 23900\n",
+      "host_seconds": 0.000329816,
+      "parser_calls": 1,
+      "host_max_rss_kb": 23900,
+      "result_characters": 20,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000293506\nMAX_RSS_KB 23900\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C7-erf-erfc-product-01",
+      "input": "integrate(erf(x)*erfc(x),x,0,+infinity)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(sqrt(2)-1)/sqrt(pi)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000341986\nMAX_RSS_KB 23900\n",
+      "host_seconds": 0.000341986,
+      "parser_calls": 1,
+      "host_max_rss_kb": 23900,
+      "result_characters": 20,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000273497\nMAX_RSS_KB 23900\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C7-erf-erfc-product-01",
+      "input": "simplify(integrate(erf(x)*erfc(x),x,0,+infinity))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(sqrt(2)-1)/sqrt(pi)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000966169\nMAX_RSS_KB 23900\n",
+      "host_seconds": 0.000966169,
+      "parser_calls": 1,
+      "host_max_rss_kb": 23900,
+      "result_characters": 20,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000278127\nMAX_RSS_KB 23900\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C7-erf-erfc-product-01",
+      "input": "simplify(integrate(erf(x)*erfc(x),x,0,+infinity))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(sqrt(2)-1)/sqrt(pi)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000974689\nMAX_RSS_KB 23900\n",
+      "host_seconds": 0.000974689,
+      "parser_calls": 1,
+      "host_max_rss_kb": 23900,
+      "result_characters": 20,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000302687\nMAX_RSS_KB 23900\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C7-radical-cauchy-log-moment-01",
+      "input": "integrate(ln(1+x^2)/(1+x^2)^(3/2),x,0,+infinity)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-ln(4)+2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000489794\nMAX_RSS_KB 23900\n",
+      "host_seconds": 0.000489794,
+      "parser_calls": 1,
+      "host_max_rss_kb": 23900,
+      "result_characters": 8,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000257447\nMAX_RSS_KB 23900\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C7-radical-cauchy-log-moment-01",
+      "input": "integrate(ln(1+x^2)/(1+x^2)^(3/2),x,0,+infinity)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-ln(4)+2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000506214\nMAX_RSS_KB 23900\n",
+      "host_seconds": 0.000506214,
+      "parser_calls": 1,
+      "host_max_rss_kb": 23900,
+      "result_characters": 8,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000260697\nMAX_RSS_KB 23900\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C7-radical-cauchy-log-moment-01",
+      "input": "simplify(integrate(ln(1+x^2)/(1+x^2)^(3/2),x,0,+infinity))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-ln(4)+2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000504614\nMAX_RSS_KB 23900\n",
+      "host_seconds": 0.000504614,
+      "parser_calls": 1,
+      "host_max_rss_kb": 23900,
+      "result_characters": 8,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000260727\nMAX_RSS_KB 23900\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C7-radical-cauchy-log-moment-01",
+      "input": "simplify(integrate(ln(1+x^2)/(1+x^2)^(3/2),x,0,+infinity))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-ln(4)+2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000794941\nMAX_RSS_KB 23900\n",
+      "host_seconds": 0.000794941,
+      "parser_calls": 1,
+      "host_max_rss_kb": 23900,
+      "result_characters": 8,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000260917\nMAX_RSS_KB 23900\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C7-damped-sine-linear-cancellation-01",
+      "input": "integrate(exp(-x)*(sin(2*x)-2*x)/x^2,x,0,+infinity)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "2-atan(2)-2*ln(5)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000394995\nMAX_RSS_KB 23900\n",
+      "host_seconds": 0.000394995,
+      "parser_calls": 1,
+      "host_max_rss_kb": 23900,
+      "result_characters": 19,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000287327\nMAX_RSS_KB 23900\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C7-damped-sine-linear-cancellation-01",
+      "input": "integrate(exp(-x)*(sin(2*x)-2*x)/x^2,x,0,+infinity)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "2-atan(2)-2*ln(5)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000396716\nMAX_RSS_KB 23900\n",
+      "host_seconds": 0.000396716,
+      "parser_calls": 1,
+      "host_max_rss_kb": 23900,
+      "result_characters": 19,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000278007\nMAX_RSS_KB 23900\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C7-damped-sine-linear-cancellation-01",
+      "input": "simplify(integrate(exp(-x)*(sin(2*x)-2*x)/x^2,x,0,+infinity))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-atan(2)-ln(5)+2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000535674\nMAX_RSS_KB 23900\n",
+      "host_seconds": 0.000535674,
+      "parser_calls": 1,
+      "host_max_rss_kb": 23900,
+      "result_characters": 16,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000272887\nMAX_RSS_KB 23900\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C7-damped-sine-linear-cancellation-01",
+      "input": "simplify(integrate(exp(-x)*(sin(2*x)-2*x)/x^2,x,0,+infinity))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-atan(2)-ln(5)+2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000509284\nMAX_RSS_KB 23900\n",
+      "host_seconds": 0.000509284,
+      "parser_calls": 1,
+      "host_max_rss_kb": 23900,
+      "result_characters": 16,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000270516\nMAX_RSS_KB 23900\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C7-mobius-logit-cauchy-01",
+      "input": "integrate(ln((1+x)/(1-x))^2/(1+x^2),x,0,1)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "pi^3/16",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000385536\nMAX_RSS_KB 23900\n",
+      "host_seconds": 0.000385536,
+      "parser_calls": 1,
+      "host_max_rss_kb": 23900,
+      "result_characters": 7,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000250777\nMAX_RSS_KB 23900\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C7-mobius-logit-cauchy-01",
+      "input": "integrate(ln((1+x)/(1-x))^2/(1+x^2),x,0,1)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "pi^3/16",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000382986\nMAX_RSS_KB 23900\n",
+      "host_seconds": 0.000382986,
+      "parser_calls": 1,
+      "host_max_rss_kb": 23900,
+      "result_characters": 7,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000261947\nMAX_RSS_KB 23900\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C7-mobius-logit-cauchy-01",
+      "input": "simplify(integrate(ln((1+x)/(1-x))^2/(1+x^2),x,0,1))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "pi^3/16",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000458945\nMAX_RSS_KB 23900\n",
+      "host_seconds": 0.000458945,
+      "parser_calls": 1,
+      "host_max_rss_kb": 23900,
+      "result_characters": 7,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000258277\nMAX_RSS_KB 23900\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C7-mobius-logit-cauchy-01",
+      "input": "simplify(integrate(ln((1+x)/(1-x))^2/(1+x^2),x,0,1))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "pi^3/16",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000443375\nMAX_RSS_KB 23900\n",
+      "host_seconds": 0.000443375,
+      "parser_calls": 1,
+      "host_max_rss_kb": 23900,
+      "result_characters": 7,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000256108\nMAX_RSS_KB 23900\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C7-log-sine-cosine-sum-01",
+      "input": "integrate(ln(sin(x)+cos(x)),x,0,pi/2)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-pi/2*ln(2)/2+2*(Psi(1/4,1)-Psi(3/4,1))/16/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000358146\nMAX_RSS_KB 23900\n",
+      "host_seconds": 0.000358146,
+      "parser_calls": 1,
+      "host_max_rss_kb": 23900,
+      "result_characters": 44,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000287257\nMAX_RSS_KB 23900\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C7-log-sine-cosine-sum-01",
+      "input": "integrate(ln(sin(x)+cos(x)),x,0,pi/2)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-pi/2*ln(2)/2+2*(Psi(1/4,1)-Psi(3/4,1))/16/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000360116\nMAX_RSS_KB 23900\n",
+      "host_seconds": 0.000360116,
+      "parser_calls": 1,
+      "host_max_rss_kb": 23900,
+      "result_characters": 44,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000285607\nMAX_RSS_KB 23900\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C7-log-sine-cosine-sum-01",
+      "input": "simplify(integrate(ln(sin(x)+cos(x)),x,0,pi/2))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(Psi(1/4,1)-Psi(3/4,1)-4*pi*ln(2))/16",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000510284\nMAX_RSS_KB 23900\n",
+      "host_seconds": 0.000510284,
+      "parser_calls": 1,
+      "host_max_rss_kb": 23900,
+      "result_characters": 37,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000291587\nMAX_RSS_KB 23900\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C7-log-sine-cosine-sum-01",
+      "input": "simplify(integrate(ln(sin(x)+cos(x)),x,0,pi/2))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(Psi(1/4,1)-Psi(3/4,1)-4*pi*ln(2))/16",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000503484\nMAX_RSS_KB 23900\n",
+      "host_seconds": 0.000503484,
+      "parser_calls": 1,
+      "host_max_rss_kb": 23900,
+      "result_characters": 37,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000290617\nMAX_RSS_KB 23900\nCHECK exact\n"
+      },
+      "status": "exact"
+    }
+  ]
+}
