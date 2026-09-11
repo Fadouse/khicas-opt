@@ -3226,11 +3226,53 @@ namespace giac {
     return false;
   }
 
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static bool simplify_atan_addition(const gen &g,gen &result,GIAC_CONTEXT){
+    if(complex_mode(contextptr) || complex_variables(contextptr) || !angle_radian(contextptr) || taille(g,129)>128)return false;
+    vecteur angles=lop(g,at_atan);if(angles.size()!=3)return false;
+    gen remaining=g;vecteur coefficients;
+    for(unsigned j=0;j<3;++j){
+      gen c,next;
+      if(!is_linear_wrt(remaining,angles[j],c,next,contextptr) || !equation_rational(c) || is_zero(c))return false;
+      coefficients.push_back(c);remaining=next;
+    }
+    if(!equation_rational(remaining))return false;
+    for(unsigned j=0;j<3;++j){
+      unsigned k=(j+1)%3,l=(j+2)%3;
+      if(coefficients[k]!=coefficients[l] || coefficients[j]!=-coefficients[k])continue;
+      gen u=angles[k]._SYMBptr->feuille,v=angles[l]._SYMBptr->feuille;
+      unsigned budget=128;equation_polynomial_budget ub,vb,nb,db;
+      if(!equation_polynomial_bound(u,budget,0,ub) || !equation_polynomial_bound(v,budget,0,vb) ||
+         ub.degree>4 || vb.degree>4 || !is_zero(im(u,contextptr)) || !is_zero(im(v,contextptr)))continue;
+      const gen &argument=angles[j]._SYMBptr->feuille;
+      gen N=1,D=1;
+      vecteur factors=argument.is_symb_of_sommet(at_prod) && argument._SYMBptr->feuille.type==_VECT?*argument._SYMBptr->feuille._VECTptr:makevecteur(argument);
+      for(unsigned f=0;f<factors.size();++f){
+        if(factors[f].is_symb_of_sommet(at_inv))D=D*factors[f]._SYMBptr->feuille;
+        else if(factors[f].is_symb_of_sommet(at_division) && factors[f]._SYMBptr->feuille.type==_VECT && factors[f]._SYMBptr->feuille._VECTptr->size()==2){
+          N=N*factors[f]._SYMBptr->feuille[0];D=D*factors[f]._SYMBptr->feuille[1];
+        }
+        else N=N*factors[f];
+      }
+      if(!equation_polynomial_bound(N,budget,0,nb) || !equation_polynomial_bound(D,budget,0,db) || nb.degree>8 || db.degree>8)continue;
+      gen d=1-u*v,scale=ratnormal(D/d,contextptr);
+      // Proportional original denominators are essential: equality only
+      // after cancelling an extra factor would silently fill its holes.
+      if(!equation_rational(scale) || is_zero(scale) || !is_zero(ratnormal(N-scale*(u+v),contextptr)))continue;
+      gen value=symbolic(at_when,makesequence(symbolic(at_superieur_strict,makesequence(d,0)),0,cst_pi*symbolic(at_sign,u+v)));
+      result=symbolic(at_when,makesequence(symb_equal(d,0),undef,remaining+coefficients[k]*value));return true;
+    }
+    return false;
+  }
+
   gen _simplify(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     // A conditional value is a lazy branch boundary. Evaluating or
     // normalizing both branches can enter an undefined Gamma/log branch.
     if(args.is_symb_of_sommet(at_when) || args.is_symb_of_sommet(at_piecewise))return args;
+    gen atan_addition;if(simplify_atan_addition(args,atan_addition,contextptr))return atan_addition;
     if(simplify_root_domain(args))return args;
     // surd2pow's algebraic surrogate may be assumed nonnegative while a
     // real odd root changes sign. Keep real logarithm magnitudes intact.

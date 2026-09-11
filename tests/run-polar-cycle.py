@@ -8,9 +8,11 @@ p.add_argument('--probe',type=Path,required=True)
 p.add_argument('--corpus',type=Path,default=Path('tests/polar-cycle1-questions.json'))
 p.add_argument('--report',type=Path,required=True)
 p.add_argument('--saved-runs',type=Path)
+p.add_argument('--polar-probe',type=Path)
 a=p.parse_args();cases=json.loads(a.corpus.read_text())['cases'];rows=[];cache={}
 saved=json.loads(a.saved_runs.read_text())['runs'] if a.saved_runs else []
 report=dict(scope='Actual repository integration/yderive/FXCG simplify on host dependencies; guarded 64 KiB stack, not SH4/MMU emulation.',corpus_sha256=hashlib.sha256(a.corpus.read_bytes()).hexdigest(),probe_sha256=hashlib.sha256(a.probe.read_bytes()).hexdigest(),runs=rows)
+if a.polar_probe:report['polar_probe_sha256']=hashlib.sha256(a.polar_probe.read_bytes()).hexdigest()
 if not saved:report['instrumentation_sha256']={n:hashlib.sha256(Path('tests',n).read_bytes()).hexdigest() for n in ['integration_probe.cc','guarded_probe_stack.h']}
 if not saved:report['source_sha256']={n:hashlib.sha256(Path(n).read_bytes()).hexdigest() for n in ['yintg.cc','zintgab.cc','ksubst.cc','yderive.cc','dilogarithm.h','kconvert.cc','equation_normalize.h','kusual.cc','zusual.cc','zprog.cc','conditional_eval.h','zvecteur.cc','determinant_small.h','logarithmic_span.h']}
 for c in cases:
@@ -21,24 +23,34 @@ for c in cases:
    row=dict(id=c['id'],outer=outer,stack=stack,input=expression)
    env=dict(os.environ);env.pop('KHICAS_TEST_STACK_KIB',None)
    if stack=='64':env['KHICAS_TEST_STACK_KIB']='64'
+   env.pop('KHICAS_OUTER_SIMPLIFY',None)
+   command=[str(a.probe),expression]
+   if c['type']=='polar':
+    assert a.polar_probe is not None
+    command=[str(a.polar_probe),'cart',c['input'][len('cart2polar'):]]
+    if outer:env['KHICAS_OUTER_SIMPLIFY']='1'
    try:
     if saved:
      row.update(next(r for r in saved if r['id']==c['id'] and r['outer']==outer and r['stack']==stack))
     else:
-     r=subprocess.run([str(a.probe),expression],capture_output=True,text=True,env=env,timeout=10 if c['id'] in ('PC12-R1','PC13-R1','PC14-R1','PC15-R1','PC16-R1','PC17-R1','PC18-R1') or c['id'].startswith('PC18-') else 12)
+     r=subprocess.run(command,capture_output=True,text=True,env=env,timeout=10 if c['id'] in ('PC12-R1','PC13-R1','PC14-R1','PC15-R1','PC16-R1','PC17-R1','PC18-R1') or c['id'].startswith(('PC18-','PC19-')) else 12)
      row.update(exit=r.returncode,result=r.stdout.strip(),stderr=r.stderr)
     assert row['exit']==0,(row['exit'],row['result'][:400])
-    if c['id'].startswith('PC18-'):assert len(row['result'].encode())<=65536,'Output budget exceeded'
+    if c['id'].startswith(('PC18-','PC19-')):assert len(row['result'].encode())<=65536,'Output budget exceeded'
     key=(c['id'],row['result'])
     if key not in cache:cache[key]=verify(c,row['result'])
     row['verification']=cache[key];row['pass']=True
+    if c['id']=='PC19-S1' and outer:assert row['verification'].get('normalized',False),'Explicit simplify must normalize the atan branches'
     if c['id'].startswith('PC18-'):
      from polar_cycle18_reference import actual_checks
+     row['actual_domain_checks']=actual_checks(c,expression,a.probe,env)
+    if c['id'].startswith('PC19-'):
+     from polar_cycle19_reference import actual_checks
      row['actual_domain_checks']=actual_checks(c,expression,a.probe,env)
     points={'PC1-D1':[-1,1],'PC2-D1':[0],'PC2-D2':[0,1],'PC3-I1':[0],'PC3-D2':[0]}.get(c['id'],[])
     if points:
      for point in points:
-      r=subprocess.run([str(a.probe),'eval(subst('+expression+',x='+str(point)+'))'],capture_output=True,text=True,env=env,timeout=10 if c['id'] in ('PC12-R1','PC13-R1','PC14-R1','PC15-R1','PC16-R1','PC17-R1','PC18-R1') or c['id'].startswith('PC18-') else 12)
+      r=subprocess.run([str(a.probe),'eval(subst('+expression+',x='+str(point)+'))'],capture_output=True,text=True,env=env,timeout=10 if c['id'] in ('PC12-R1','PC13-R1','PC14-R1','PC15-R1','PC16-R1','PC17-R1','PC18-R1') or c['id'].startswith(('PC18-','PC19-')) else 12)
       assert r.returncode==0 and r.stdout.strip()=='0',(point,r.stdout,r.stderr)
      row['actual_endpoint_substitution']={str(point):0 for point in points}
     values={'PC4-I2':{2:'0'},'PC4-D1':{0:'0',1:'1',-1:'-1'},'PC4-D2':{-1:'-1',1:'2',2:'2'},'PC4-S1':{0:'2*i*pi'}}.get(c['id'],{})
@@ -58,7 +70,7 @@ for c in cases:
     if values:
      from mixed_reference import parse,equal
      for point,expected in values.items():
-      r=subprocess.run([str(a.probe),'eval(subst('+expression+',x='+str(point)+'))'],capture_output=True,text=True,env=env,timeout=10 if c['id'] in ('PC12-R1','PC13-R1','PC14-R1','PC15-R1','PC16-R1','PC17-R1','PC18-R1') or c['id'].startswith('PC18-') else 12)
+      r=subprocess.run([str(a.probe),'eval(subst('+expression+',x='+str(point)+'))'],capture_output=True,text=True,env=env,timeout=10 if c['id'] in ('PC12-R1','PC13-R1','PC14-R1','PC15-R1','PC16-R1','PC17-R1','PC18-R1') or c['id'].startswith(('PC18-','PC19-')) else 12)
       if expected in ('undef','infinity'):assert r.returncode==(3 if expected=='undef' else 0) and r.stdout.strip()==expected,(point,r.stdout,r.stderr)
       else:assert r.returncode==0 and equal(parse(r.stdout.strip()),parse(expected)),(point,r.stdout,r.stderr)
      row['actual_boundary_substitution']=values
@@ -69,7 +81,7 @@ for c in cases:
       assert r.returncode==(3 if expected=='undef' else 0) and r.stdout.strip()==expected,(px,py,r.returncode,r.stdout)
      row['actual_two_variable_samples']=samples
     if c['id']=='PC10-R1':
-     r=subprocess.run([str(a.probe),'eval(subst('+expression+',[x,y],[0,0]))'],capture_output=True,text=True,env=env,timeout=10 if c['id'] in ('PC12-R1','PC13-R1','PC14-R1','PC15-R1','PC16-R1','PC17-R1','PC18-R1') or c['id'].startswith('PC18-') else 12)
+     r=subprocess.run([str(a.probe),'eval(subst('+expression+',[x,y],[0,0]))'],capture_output=True,text=True,env=env,timeout=10 if c['id'] in ('PC12-R1','PC13-R1','PC14-R1','PC15-R1','PC16-R1','PC17-R1','PC18-R1') or c['id'].startswith(('PC18-','PC19-')) else 12)
      assert r.returncode==3 and r.stdout.strip()=='undef',(r.stdout,r.stderr)
      row['actual_origin_exclusion']='undef'
    except Exception as e:row.update(error=str(e),**{'pass':False})

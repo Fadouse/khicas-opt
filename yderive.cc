@@ -35,6 +35,7 @@ using namespace std;
 #include "alg_ext.h"
 #include "giacintl.h"
 #include "equation_normalize.h"
+#include "logarithmic_span.h"
 
 #ifndef NO_NAMESPACE_GIAC
 namespace giac {
@@ -594,6 +595,126 @@ namespace giac {
     return true;
   }
 
+  // Recover |Q| after ordinary evaluation distributes abs over products
+  // or powers. Every accepted constructor is an exact real identity.
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static bool derive_magnitude_polynomial(const gen &g,gen &Q,unsigned &budget,unsigned depth,GIAC_CONTEXT){
+    if(!budget || depth>8)return false;--budget;
+    if(equation_rational(g)){if(is_strictly_positive(-g,contextptr))return false;Q=g;return true;}
+    if(g.is_symb_of_sommet(at_abs)){Q=g._SYMBptr->feuille;return true;}
+    if(g.type!=_SYMB || g._SYMBptr->feuille.type!=_VECT)return false;
+    const vecteur &v=*g._SYMBptr->feuille._VECTptr;
+    if(g.is_symb_of_sommet(at_pow) && v.size()==2 && v[1].type==_INT_ && v[1].val>0 && v[1].val<=8){
+      gen base;
+      if(derive_magnitude_polynomial(v[0],base,budget,depth+1,contextptr)){Q=pow(base,v[1],contextptr);return true;}
+      if(v[1].val%2==0){equation_polynomial_budget bound;if(!equation_polynomial_bound(v[0],budget,0,bound))return false;Q=g;return true;}
+      return false;
+    }
+    if(!g.is_symb_of_sommet(at_prod) || v.size()>8)return false;
+    Q=1;
+    for(unsigned j=0;j<v.size();++j){gen factor;if(!derive_magnitude_polynomial(v[j],factor,budget,depth+1,contextptr))return false;Q=Q*factor;}
+    return true;
+  }
+
+  // At a polynomial zero of order m, |Q|^H has derivative zero if
+  // m*H>1 and H is continuous. For positive H with m*H<=1 the
+  // nonnegative function has a cusp or an infinite difference quotient.
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static bool derive_abs_power(const gen &g,const identificateur &i,gen &result,GIAC_CONTEXT){
+    if(complex_mode(contextptr) || complex_variables(contextptr) || !angle_radian(contextptr) ||
+       !g.is_symb_of_sommet(at_pow) || taille(g,97)>96)return false;
+    const gen &f=g._SYMBptr->feuille;
+    if(f.type!=_VECT || f._VECTptr->size()!=2)return false;
+    const gen &base=f[0],&H=f[1];gen x(i);
+    if(!contains(H,x))return false;
+    gen Q;unsigned budget=128;equation_polynomial_budget bound;
+    if(!derive_magnitude_polynomial(base,Q,budget,0,contextptr))return false;
+    if(!equation_polynomial_bound(Q,budget,0,bound) || !bound.degree || bound.degree>8)return false;
+    vecteur vars=lvar(Q),atoms;
+    if(vars.size()!=1 || vars[0]!=x)return false;
+    budget=128;if(!logarithmic_span_entire(H,x,atoms,budget,0))return false;
+    gen dQ=derive(Q,i,contextptr),regular=derive(H,i,contextptr)*symbolic(at_ln,base)*g+
+      H*symbolic(at_sign,Q)*dQ*pow(base,H-1,contextptr);
+    vecteur derivatives;gen d=Q;
+    for(unsigned m=1;m<=bound.degree;++m){d=derive(d,i,contextptr);derivatives.push_back(d);}
+    gen contact=undef;
+    for(unsigned m=bound.degree;m;--m){
+      gen value=symbolic(at_when,makesequence(symbolic(at_superieur_strict,makesequence(gen(int(m))*H,1)),0,undef));
+      contact=equation_rational(derivatives[m-1])?(is_zero(derivatives[m-1])?contact:value):gen(symbolic(at_when,makesequence(symb_equal(derivatives[m-1],0),contact,value)));
+    }
+    // H<=0 is outside this contact theorem (including 0^0); keep the
+    // ordinary power rule there instead of assigning a new extension.
+    contact=symbolic(at_when,makesequence(symbolic(at_superieur_strict,makesequence(H,0)),contact,regular));
+    gen A,B;
+    if(is_linear_wrt(Q,x,A,B,contextptr) && equation_rational(A) && !is_zero(A) && equation_rational(B)){
+      gen h0=eval(subst(H,x,-B/A,false,contextptr),1,contextptr);
+      if(equation_rational(h0) && is_strictly_positive(h0,contextptr))
+        contact=is_strictly_positive(h0-1,contextptr)?gen(0):undef;
+    }
+    result=symbolic(at_when,makesequence(symb_equal(Q,0),contact,regular));return true;
+  }
+
+  // A*Q+|A|*|Q| is zero on an entire open sign region. Its positive
+  // powers must differentiate that region as a constant, before applying
+  // a chain rule which would divide by the zero radicand.
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static bool derive_positive_part_power(const gen &g,const identificateur &i,gen &result,GIAC_CONTEXT){
+    if(complex_mode(contextptr) || complex_variables(contextptr) || taille(g,97)>96)return false;
+    gen power=g,coefficient=1;
+    if(g.is_symb_of_sommet(at_prod) && g._SYMBptr->feuille.type==_VECT){
+      // Evaluation expands B^(3/2) to B*sqrt(B); recover the same power
+      // before the product rule differentiates the singular root alone.
+      const vecteur &v=*g._SYMBptr->feuille._VECTptr;
+      if(v.size()!=2)return false;
+      gen root=v[0],factor=v[1];
+      if(!root.is_symb_of_sommet(at_sqrt) && !root.is_symb_of_sommet(at_pow)){root=v[1];factor=v[0];}
+      gen radicand;
+      if(root.is_symb_of_sommet(at_sqrt))radicand=root._SYMBptr->feuille;
+      else if(root.is_symb_of_sommet(at_pow) && root._SYMBptr->feuille.type==_VECT && root._SYMBptr->feuille._VECTptr->size()==2 && root._SYMBptr->feuille[1]==plus_one_half)radicand=root._SYMBptr->feuille[0];
+      else return false;
+      if(factor!=radicand)return false;
+      power=symbolic(at_pow,makesequence(radicand,gen(3)/2));
+    }
+    gen base,p;
+    if(power.is_symb_of_sommet(at_sqrt)){base=power._SYMBptr->feuille;p=plus_one_half;}
+    else if(power.is_symb_of_sommet(at_pow) && power._SYMBptr->feuille.type==_VECT && power._SYMBptr->feuille._VECTptr->size()==2){base=power._SYMBptr->feuille[0];p=power._SYMBptr->feuille[1];}
+    else return false;
+    if(!equation_rational(p) || !is_strictly_positive(p,contextptr) || is_strictly_positive(p-8,contextptr) ||
+       !base.is_symb_of_sommet(at_plus) || base._SYMBptr->feuille.type!=_VECT)return false;
+    const vecteur &terms=*base._SYMBptr->feuille._VECTptr;
+    gen Q,x(i),A;equation_polynomial_budget bound;bool found=false;
+    for(unsigned j=0;j<terms.size();++j){
+      unsigned budget=128;
+      if(!derive_magnitude_polynomial(terms[j],Q,budget,0,contextptr) ||
+         !equation_polynomial_bound(Q,budget,0,bound) || !bound.degree || bound.degree>8)continue;
+      vecteur vars=lvar(Q);if(vars.size()!=1 || vars[0]!=x)continue;
+      gen L=base-terms[j];A=1;
+      if(!is_zero(ratnormal(L-Q,contextptr))){A=-1;if(!is_zero(ratnormal(L+Q,contextptr)))continue;}
+      found=true;break;
+    }
+    if(!found)return false;
+    gen dQ=derive(Q,i,contextptr),regular=p*gen(2)*A*dQ*pow(2*A*Q,p-1,contextptr);
+    vecteur derivatives;gen d=Q;
+    for(unsigned m=1;m<=bound.degree;++m){d=derive(d,i,contextptr);derivatives.push_back(d);}
+    gen contact=0;
+    for(unsigned m=bound.degree;m;--m){
+      gen value=0;
+      if(!is_strictly_positive(gen(int(m))*p-1,contextptr)){
+        value=undef;
+        if(m%2==0)value=symbolic(at_when,makesequence(symbolic(at_superieur_strict,makesequence(-A*derivatives[m-1],0)),0,undef));
+      }
+      contact=equation_rational(derivatives[m-1])?(is_zero(derivatives[m-1])?contact:value):gen(symbolic(at_when,makesequence(symb_equal(derivatives[m-1],0),contact,value)));
+    }
+    result=symbolic(at_when,makesequence(symb_equal(Q,0),contact,
+      symbolic(at_when,makesequence(symbolic(at_superieur_strict,makesequence(A*Q,0)),regular,0))));return true;
+  }
+
   // Keep recursive arithmetic/chain rules out of the large frame holding
   // special-function, implicit-function and higher-derivative temporaries.
   static gen derive_SYMB(const gen &,const identificateur &,GIAC_CONTEXT);
@@ -636,7 +757,7 @@ namespace giac {
 #endif
   static gen derive_symbolic_prod(const gen &g_orig,const identificateur &i,GIAC_CONTEXT){
     const symbolic &s=*g_orig._SYMBptr;
-      gen composed;if(derive_real_composition(s,i,composed,contextptr) || derive_root_product(g_orig,i,composed,contextptr))return composed;
+      gen composed;if(derive_positive_part_power(g_orig,i,composed,contextptr) || derive_real_composition(s,i,composed,contextptr) || derive_root_product(g_orig,i,composed,contextptr))return composed;
       bool do_step=step_infolevel(contextptr)>1 && count_noncst(s.feuille,i)>1;
       if (s.feuille.type==_VECT && s.feuille._VECTptr->size()==2 && s.feuille._VECTptr->back().is_symb_of_sommet(at_inv) && !is_constant_wrt(s.feuille._VECTptr->back()._SYMBptr->feuille,i,contextptr)){
 	gen u=s.feuille._VECTptr->front(),v=s.feuille._VECTptr->back()._SYMBptr->feuille;
@@ -1088,6 +1209,8 @@ namespace giac {
       return derive_symbolic_prod(g_orig,i,contextptr);
     if (s.sommet==at_neg)
       return -derive(s.feuille,i,contextptr);
+    if((s.sommet==at_pow || s.sommet==at_sqrt) &&
+       (derive_positive_part_power(g_orig,i,abs_composed,contextptr) || derive_abs_power(g_orig,i,abs_composed,contextptr)))return abs_composed;
     if(s.sommet==at_pow || s.sommet==at_acos || s.sommet==at_asin || s.sommet==at_surd || s.sommet==at_NTHROOT){
       gen result;if(derive_real_composition(s,i,result,contextptr))return result;
     }

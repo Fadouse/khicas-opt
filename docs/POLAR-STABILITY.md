@@ -265,3 +265,19 @@ SH4 ROM 2,063,336 / 2,065,152 字节，AC2 2,515,028 / 2,559,996 字节；静态
 本任务没有安装计算器，主机测试不是 SH4/MMU 仿真。仍不能声称所有 TLB 问题消失；超过有界矩阵/对数匹配条件的输入会走既有通用算法。本轮首次有错题，下一步只能派发全新出题代理，尚未满足最终性能代理的触发条件。
 
 [逐点分析与缺口](CALCULUS-CORE-AUDIT.md) · [通过积分清单](PASSED-INTEGRALS.md) · [首测](benchmarks/polar-cycle18-first-acceptance-2026a.json) · [修复后](benchmarks/polar-cycle18-fixed-acceptance-2026a.json) · [矩阵族](benchmarks/small-determinant-guards-polar18-2026a.json) · [根式分母](benchmarks/radical-denominator-guards-polar18-2026a.json) · [对数组合](benchmarks/logarithmic-span-guards-polar18-2026a.json) · [求导分派](benchmarks/derivative-dispatch-guards-polar18-2026a.json) · [链接资源](benchmarks/resources-polar18-2026a.json) · [交错测量](benchmarks/entry-performance-polar18-2026a.json) · [回归索引](benchmarks/polar18-regression-index-2026a.json)。
+
+## Checkpoint 19：原函数连接、零点差商与有限积分收敛性
+
+标签 `checkpoint/polar-stability-cycle19-2026a`。六道新题首次只有两道完整通过：I1 的两个原函数分支漏了公共连接常数；D1 在原本可导的零点输出未定义；D2 在整个恒零半轴产生 0/0；S1 的显式 simplify 未给出主值分支规范式。原始输出仍对应 `7263421`，保存在独立首测文件中。直接运算保留反正切原式可以保持数学正确，但不计作已完成显式化简。
+
+修复从预处理后的结构出发：指数仿射零点识别涵盖 exp 及其倒数形式，连接原函数时检查两个单侧值；求导恢复被分配为绝对值乘积、乘幂的 |Q|，依据多项式零点阶数和原函数差商判定导数。正部幂在恒零区间直接给出零，在接触点区分角点、无穷斜率和高阶平滑接触。反正切加法残差化为带 `xy=1` 禁取条件的 0 或 `pi*sign(x+y)`；匹配要求原始分母成比例，不能约去额外因子来伪造定义域一致。
+
+扩展验收还定位到旧有限积分奇函数捷径把 `integrate(1/x,x,-1,1)` 和 `integrate(cot(x),x,-1,1)` 当成主值 0。现在仅在有界语法证明连续时使用奇函数捷径，其余交给普通积分的奇点检查。`tan(cos(x))` 使用值域远离正切极点的证明保留快速求解。对于带孤立 undef 条件的原函数，有限端点使用非恒零实解析函数的孤立零点性质处理极限；同时移除用于奇点分析的孤立赋值条件，防止 undef 被误当额外自由变量而跳过内部极点。无限端点不使用该移除规则。
+
+本轮最终 24 模式、172 项完整相关变式、54 项接收/拒绝条件全部通过，另完成全部历轮题目、旧边界和函数族、60 项极坐标显示、21＋7 组正式及补充回归。通过积分表为 **684 条记录：679 精确、5 导数采样**，661 种去空白输入文本。曲线 P1 是整条直线和偏心圆的并集，必须保留隐式极坐标方程；强行只列有限个 `r=...` 会丢掉任意半径的直线分量。
+
+SH4 ROM **2,051,756 / 2,065,152** 字节，AC2 **2,547,316 / 2,559,996** 字节，余量分别 **13,396、12,680** 字节。比 checkpoint 18 合计增加 **12,152** 字节，新增数学能力并非零体积成本。静态 RAM 424,620 字节、配置堆 1,572,864 字节未变。五道计算题在 64 KiB 主机栈各运行五次，最慢中位数约 **4.80 ms**；15 条相同输出路径九次交错测量比值 **0.959–1.035**，不足以声称整体加速。新零点分析辅助函数的单帧分别为 288 和 312 字节，公共递归分派仍为 72 字节；这些不是总栈峰值。
+
+没有进行本轮实机安装；主机受限栈不是 SH4/MMU 仿真。未知参数、含极点的指数函数、超预算零点/多项式和更复杂的正部组合仍可能退回通用算法，不声称全部积分或所有 TLB 问题解决。本轮首次有错题，下一轮仍必须是全新出题代理，不能提前派发最终性能分析代理。
+
+[逐点分析](CALCULUS-CORE-AUDIT.md) · [通过积分清单](PASSED-INTEGRALS.md) · [首测](benchmarks/polar-cycle19-first-acceptance-2026a.json) · [修复后](benchmarks/polar-cycle19-fixed-acceptance-2026a.json) · [相关变式](benchmarks/polar19-related-guards-2026a.json) · [拒绝条件](benchmarks/polar19-proof-contracts-2026a.json) · [资源](benchmarks/resources-polar19-2026a.json) · [交错测量](benchmarks/entry-performance-polar19-2026a.json) · [正式回归](benchmarks/polar19-regression-index-2026a.json)。

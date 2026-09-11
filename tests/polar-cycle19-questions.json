@@ -1,0 +1,127 @@
+{
+  "cases": [
+    {
+      "id": "PC19-I1",
+      "type": "integral",
+      "input": "simplify(integrate(exp(x)*abs(exp(x)-1)/(1+exp(2*x)),x))",
+      "conditions": [
+        "x is finite real; exp, abs and ln have their real meanings, and atan takes values in (-pi/2,pi/2). Determine the complete original domain and all denominator exclusions.",
+        "Require an explicit exact primitive on the entire connected original domain. The primitive must pass through the interior absolute-value contact with the same additive constant, and its derivative there must be proved from its original difference quotient. An unevaluated integral is not acceptable.",
+        "Run every invocation with both the normal calculation stack and a 64 KiB calculation stack. Each invocation has a fixed 10-second external wall-clock timeout and a 65536-byte output cap. Preserve existing finite CG50 stack, heap and simplification budgets; never enlarge them or retry with larger limits. No crash, stack overflow, timeout or output-cap overrun is acceptable."
+      ],
+      "expected": {
+        "expression": "piecewise(x<0,-ln((1+exp(2*x))/2)/2+atan(exp(x))-pi/4,ln((1+exp(2*x))/2)/2-atan(exp(x))+pi/4)",
+        "properties": [
+          "The complete original domain and the ordinary two-sided derivative domain of the primitive are both the whole real line. The denominator 1+exp(2*x) is strictly positive everywhere; there are no original holes or finite domain endpoints.",
+          "The displayed normalization has F(0)=0 and F'(0)=0. Both original left and right difference quotients at zero equal zero.",
+          "exp(x)-1 is negative for x<0 and positive for x>0, so both primitive branches are necessary. They join at the included interior point zero; unrelated constants on the two half-lines would not in general define a primitive on the connected domain.",
+          "F'(x)=exp(x)*abs(exp(x)-1)/(1+exp(2*x)) at every real x. Equivalent real closed forms with one common additive constant are accepted."
+        ]
+      },
+      "reason": "The exponential is finite and positive at every finite real x, and 1+exp(2*x)>0, proving the exact domain. Substitute t=exp(x)>0, so dt=exp(x)*dx. The integrand becomes abs(t-1)/(1+t^2). Set H(t)=ln(1+t^2)/2-atan(t); direct differentiation gives H'(t)=(t-1)/(1+t^2), with H(1)=ln(2)/2-pi/4. Thus F(x)=-(H(exp(x))-H(1)) for x<0 and F(x)=H(exp(x))-H(1) for x>=0 is exactly the displayed primitive. This proves ordinary derivative equality away from zero and equality of the assigned branch values at zero. For the original quotient, H'(1)=0 and H''(1)=1/2 imply H(1+v)-H(1)=v^2/4+o(v^2); also exp(h)-1=h+o(h). Consequently F(h)=sign(h)*(h^2/4+o(h^2)), and [F(h)-F(0)]/h tends to zero from both sides. This is an exponential substitution with an interior sign change and a required global primitive join. Historical GEN-exponential-substitution-01 has a smooth rational exponential integrand, while GEN-absolute-value-* and calculus 2015-Q15 use algebraic absolute-value pieces. None has this combined mechanism; this is not a constant replacement of either family."
+    },
+    {
+      "id": "PC19-I2",
+      "type": "integral",
+      "input": "simplify(integrate(ln(x+sqrt(x^2-1))/x^2,x))",
+      "conditions": [
+        "x is finite real, sqrt is the nonnegative real square root, ln is strictly real, and acos has values in [0,pi]. Determine the complete original real domain before integrating; a real square root alone is not sufficient to establish logarithm positivity.",
+        "Require an explicit exact primitive on the complete original-domain component, with its assigned value and actual right difference quotient at every included finite endpoint. An unevaluated integral is not acceptable. Do not extend the real logarithm to a complex branch.",
+        "Run every invocation with both the normal calculation stack and a 64 KiB calculation stack. Each invocation has a fixed 10-second external wall-clock timeout and a 65536-byte output cap. Preserve existing finite CG50 stack, heap and simplification budgets; never enlarge them or retry with larger limits. No crash, stack overflow, timeout or output-cap overrun is acceptable."
+      ],
+      "expected": {
+        "expression": "piecewise(x<1,undef,acos(1/x)-ln(x+sqrt(x^2-1))/x)",
+        "properties": [
+          "The exact original domain is [1,infinity), and the integrand at x=1 equals zero. The original denominator x^2 excludes zero, which already fails the square-root condition. There are no further holes in the allowed component.",
+          "The square root is real also on x<=-1, but x+sqrt(x^2-1)<0 throughout that whole component, including x=-1. That component must not be included for this strictly real logarithm.",
+          "The displayed normalization satisfies F(1)=0 and has original right derivative zero at one. Its ordinary two-sided derivative domain within the unextended original domain is (1,infinity). A two-sided endpoint derivative is not asserted.",
+          "Although the two separate derivatives of the displayed primitive contain a square-root denominator near one, their cancellation must retain the finite endpoint quotient of the complete primitive."
+        ]
+      },
+      "reason": "sqrt(x^2-1) requires x<=-1 or x>=1. For x<=-1, sqrt(x^2-1)<abs(x)=-x, so the logarithm argument is negative and the real logarithm is unavailable. For x>=1, that argument is at least one, and x^2 is nonzero. This proves necessity and sufficiency of [1,infinity). On x>1 write s=sqrt(x^2-1) and A=ln(x+s). Since s'=x/s, A'=(1+x/s)/(x+s)=1/s. Integration by parts with dv=dx/x^2 gives -A/x+integrate(1/(x*s),x). Directly, d[acos(1/x)]/dx=(1/x^2)/sqrt(1-1/x^2)=1/(x*s), because x>0, yielding the stated expression. At one both terms are zero. To verify the original endpoint quotient without separately evaluating singular derivatives, put x=cosh(u), u>=0, so s=sinh(u), A=u and acos(1/cosh(u))=atan(sinh(u)); both angles are in [0,pi/2). Let G(u)=atan(sinh(u))-u/cosh(u). Then G(0)=0 and G'(u)=u*sinh(u)/cosh(u)^2. For 0<=u<=1, sinh(u)<=u*cosh(1), giving 0<=G(u)<=cosh(1)*u^3/3. Since h=cosh(u)-1>=u^2/2, the original quotient 0<=[F(1+h)-F(1)]/h<=2*cosh(1)*u/3 tends to zero. All points used belong to the original domain. The new integration mechanism is a reciprocal-square weight multiplying an inverse-hyperbolic logarithm, handled by parts and matched to a principal inverse-trigonometric term. PC11-I2 and PC15-D2 contain an algebraic exterior-root integrand or a different root/log cancellation; PC18-I2 has a logarithmic interior hole after an affine-root substitution. None is this integrand or a coefficient variant of it."
+    },
+    {
+      "id": "PC19-D1",
+      "type": "derivative",
+      "input": "simplify(diff(abs(x)^(2+sin(x)),x))",
+      "conditions": [
+        "x is finite real. For a positive base, a^b means exp(b*ln(a)); at x=0 the original power is 0^2=0. Angles are in radians. Determine the exact original and ordinary derivative domains.",
+        "Prove both original one-sided difference quotients at the zero base using the assigned original value, not by substituting zero into a formula containing ln(abs(x)) or 1/x. piecewise selects its first true branch lazily.",
+        "Run every invocation with both the normal calculation stack and a 64 KiB calculation stack. Each invocation has a fixed 10-second external wall-clock timeout and a 65536-byte output cap. Preserve existing finite CG50 stack, heap and simplification budgets; never enlarge them or retry with larger limits. No crash, stack overflow, timeout or output-cap overrun is acceptable."
+      ],
+      "expected": {
+        "expression": "piecewise(x==0,0,abs(x)^(2+sin(x))*(cos(x)*ln(abs(x))+(2+sin(x))/x))",
+        "properties": [
+          "The complete original domain and ordinary two-sided derivative domain are both the whole real line. There are no original denominators, excluded points or finite domain endpoints.",
+          "The original value at zero is zero and the derivative there is zero. Both original left and right derivatives exist and equal zero, despite the absolute-value base and a nonconstant exponent.",
+          "The logarithm and denominator in the derivative formula are valid only for x!=0; they are artifacts of logarithmic differentiation and must not introduce an original hole at zero.",
+          "Negative x must be retained: the positive base there is abs(x), so replacing it by x in a noninteger real power is invalid."
+        ]
+      },
+      "reason": "For x!=0 the base abs(x) is strictly positive, and at zero the original value is 0^2=0. Thus the original domain is all real x, with no denominator exclusions. On each half-line, write f(x)=exp((2+sin(x))*ln(abs(x))). Product and chain rules, with d ln(abs(x))/dx=1/x, give the displayed off-zero derivative. For the actual original quotient at zero, [f(h)-f(0)]/h=sign(h)*abs(h)^(1+sin(h)). When 0<abs(h)<1/2, abs(sin(h))<=abs(h)<1/2, hence 1+sin(h)>1/2 and abs([f(h)-f(0)]/h)<=sqrt(abs(h)), which tends to zero. This proves both one-sided quotients and the ordinary derivative at zero using the assigned original value. There are no other possible singular contacts. Unlike PC3-D3, whose variable-power base 1+x^2 is strictly positive, and PC13-D2, whose original reciprocal exponent excludes zero, this variable exponent is applied to an absolute-value base that actually vanishes at an included point. The finite derivative is established without extending a logarithm to that point or freezing the exponent."
+    },
+    {
+      "id": "PC19-D2",
+      "type": "derivative",
+      "input": "simplify(diff(sqrt(x+sqrt(x^2)),x))",
+      "conditions": [
+        "x is finite real and every sqrt is the nonnegative real square root. Determine the complete original domain, including intervals on which a nested radicand vanishes identically.",
+        "State the exact ordinary two-sided derivative domain, and prove the original left and right difference quotients at every transition using the assigned original value. An infinite one-sided slope is not a finite derivative. piecewise selects its first true branch lazily.",
+        "Run every invocation with both the normal calculation stack and a 64 KiB calculation stack. Each invocation has a fixed 10-second external wall-clock timeout and a 65536-byte output cap. Preserve existing finite CG50 stack, heap and simplification budgets; never enlarge them or retry with larger limits. No crash, stack overflow, timeout or output-cap overrun is acceptable."
+      ],
+      "expected": {
+        "expression": "piecewise(x<0,0,x==0,undef,1/sqrt(2*x))",
+        "properties": [
+          "The complete original domain is the whole real line. There are no original denominators or finite domain endpoints. The exact ordinary derivative domain is (-infinity,0) union (0,infinity).",
+          "The original function is identically zero for x<=0 and equals sqrt(2*x) for x>0. In particular its derivative is zero on the entire open negative half-line, where a raw nested chain rule would contain a 0/0 form.",
+          "At zero the assigned original function value is zero, the original left derivative is zero, and the original right difference quotient tends to positive infinity. The function is continuous there but has no finite ordinary derivative.",
+          "Zero is an interior point of the original real domain, not an endpoint introduced by replacing the original expression everywhere by sqrt(2*x)."
+        ]
+      },
+      "reason": "For every real x, sqrt(x^2)=abs(x). Therefore the outer radicand is x+abs(x), which is zero for x<=0 and 2*x>0 for x>0. This establishes the entire original domain and the exact original values without invoking a chain rule at a zero radicand. At any x<0 there is a two-sided neighborhood on which the original function is the constant zero, so its derivative is zero there. For x>0 the derivative of sqrt(2*x) is 1/sqrt(2*x). At the interior transition zero, the actual quotient for h<0 is [0-0]/h=0, while for h>0 it is sqrt(2*h)/h=sqrt(2)/sqrt(h), tending to positive infinity. Continuity follows from sqrt(2*h)->0 on the right and exact zero on the left. Hence zero is precisely the failure point for an ordinary finite derivative. Earlier square-root examples have isolated contacts or compact/exterior interval boundaries; earlier piecewise derivative inputs explicitly supplied their pieces. This input instead produces a whole flat half-line and its onset from a short nested-radical identity, testing domain-wide simplification of a formal 0/0 derivative rather than a coefficient change at an isolated root."
+    },
+    {
+      "id": "PC19-S1",
+      "type": "simplify",
+      "input": "simplify(atan(x)+atan(y)-atan((x+y)/(1-x*y)))",
+      "conditions": [
+        "x and y are arbitrary finite real numbers, and every atan is the principal real inverse tangent with values in (-pi/2,pi/2). Every original quotient must be defined before inverse-trigonometric addition identities are used.",
+        "Return the exact value together with the complete original domain, or an equivalent guarded expression. Preserve the entire original denominator-hole locus and all principal-angle branches. piecewise selects its first true branch lazily.",
+        "Run every invocation with both the normal calculation stack and a 64 KiB calculation stack. Each invocation has a fixed 10-second external wall-clock timeout and a 65536-byte output cap. Preserve existing finite CG50 stack, heap and simplification budgets; never enlarge them or retry with larger limits. No crash, stack overflow, timeout or output-cap overrun is acceptable."
+      ],
+      "expected": {
+        "expression": "piecewise(x*y==1,undef,x*y<1,0,pi*sign(x+y))",
+        "properties": [
+          "The exact original domain is the real plane with x*y=1 removed. No further real restrictions arise from atan. The whole hyperbola remains excluded, even though the values on each adjacent open region are finite constants.",
+          "The exact value is zero when x*y<1, pi when x*y>1 and x+y>0, and -pi when x*y>1 and x+y<0. The case x*y>1 and x+y=0 is impossible over the reals.",
+          "At allowed checks (0,0), (1,2) and (-1,-2), the exact values are respectively 0, pi and -pi. At (1,1) and (-1,-1), the original expression is undefined.",
+          "Near a positive point of the excluded hyperbola, the limits from x*y<1 and x*y>1 are 0 and pi. Near a negative point they are 0 and -pi. No common continuous extension across either branch is available. The two-variable problem has boundary loci, not scalar included endpoints; no endpoint derivative is requested."
+        ]
+      },
+      "reason": "The only original denominator is 1-x*y, so the original domain is exactly x*y!=1. Put a=atan(x), b=atan(y), and A=a+b. Then A is in (-pi,pi), cos(a)>0 and cos(b)>0. The angle-addition identities give cos(A)=(1-x*y)/sqrt((1+x^2)*(1+y^2)) and sin(A)=(x+y)/sqrt((1+x^2)*(1+y^2)). If x*y<1 then cos(A)>0; since A lies in (-pi,pi), this forces A into (-pi/2,pi/2), so atan(tan(A))=A and the requested difference is zero. If x*y>1, cos(A)<0 and x,y are nonzero with the same sign. For x+y>0 we have A in (pi/2,pi), so the principal atan(tan(A)) is A-pi and the difference is pi. For x+y<0 we have A in (-pi,-pi/2), so the principal value is A+pi and the difference is -pi. These exhaust the domain; x+y=0 would imply x*y=-x^2<=0. The one-sided regional limits at the excluded hyperbola follow directly from these constant branch values, and cannot assign any original quotient there. PC16-S1 tested the rational tangent addition identity with several original tangent poles and a zero result. This is its inverse-function branch problem: the arguments x,y themselves have no tangent poles, the denominator-hole locus is x*y=1, and the answer requires nonzero integer multiples of pi in two full regions. It is not a replacement of constants in that identity or any previous logarithm simplification."
+    },
+    {
+      "id": "PC19-P1",
+      "type": "polar",
+      "input": "cart2polar(y*((x-2)^2+y^2-1)=0,[x,y],[r,theta])",
+      "conditions": [
+        "x and y are finite real Cartesian coordinates. Use x=r*cos(theta), y=r*sin(theta), canonical r>=0 and real theta in radians modulo 2*pi. If a returned format instead permits signed radii, explicitly justify its Cartesian coverage and its equivalence to the canonical nonnegative-radius solution set.",
+        "Accept any mathematically equivalent polar equation or complete union of guarded polar branches. A finite list containing only equations r=f(theta) is insufficient when a permitted angle has a continuum of radii. Preserve all original curve components and the origin; do not divide by a factor without separately retaining its zero set.",
+        "The actual polar_output_probe.cc invocation is mode cart with argument (y*((x-2)^2+y^2-1)=0,[x,y],[r,theta]). Check both direct output and KHICAS_OUTER_SIMPLIFY=1 output, each on the normal stack and with KHICAS_TEST_STACK_KIB=64. Each invocation has a fixed 10-second external wall-clock timeout and a 65536-byte output cap. Do not inherit the display script's longer timeout or enlarge any existing stack, heap, output or simplification budget. No crash, stack overflow, timeout or output-cap overrun is acceptable."
+      ],
+      "expected": {
+        "expression": "r*sin(theta)*(r^2-4*r*cos(theta)+3)=0",
+        "properties": [
+          "The original equation has no denominator holes and is defined on the entire real Cartesian plane. Its curve is exactly the union of the complete line y=0 and the circle (x-2)^2+y^2=1.",
+          "The displayed implicit equation, together with r>=0 and real theta modulo 2*pi, is an acceptable complete answer. An expanded or otherwise equivalent implicit equation is also acceptable; exact string or branch ordering is not required.",
+          "In canonical coordinates r=0 is a solution for every theta. At theta=k*pi, every r>=0 is a solution, giving both full Cartesian rays of the line. These angular branches cannot be replaced by a finite set of single-valued radius formulas.",
+          "Away from theta=k*pi, all nonzero solutions are the two circle branches r=2*cos(theta)+sqrt(4*cos(theta)^2-3) and r=2*cos(theta)-sqrt(4*cos(theta)^2-3), restricted to cos(theta)>=sqrt(3)/2. Equivalently theta belongs to [-pi/6+2*k*pi,pi/6+2*k*pi]. Keep the angular endpoints, where the two branches meet at r=sqrt(3).",
+          "At theta=0 modulo 2*pi the circle intersects the line at radii 1 and 3, but the same angle also permits every other r>=0 through the line component. At theta=pi modulo 2*pi every r>=0 is allowed through the line, although the quadratic circle roots are negative and are not canonical radii.",
+          "A complete explicit representation may combine r=0, the angular branches theta=k*pi with arbitrary nonnegative r, and both guarded circle-radius branches. Dropping the line by dividing by sin(theta), or dropping its origin by dividing by r without restoration, is unacceptable. A single r= formula is legal only on a sector and component where it selects one actual radius; it cannot stand for the entire curve.",
+          "For example (0,0), (-2,0), (2,0), (1,0), (3,0), and (2,1) belong to the original curve, whereas (0,1) and (2,2) do not. There are no curve endpoint deletions: the circle's angular tangencies are included. No scalar derivative is requested for this conversion case."
+        ]
+      },
+      "reason": "Because the Cartesian equation is a product of two real polynomial factors, its zero set is exactly y=0 or (x-2)^2+y^2=1, with no original denominator exclusions. Substitute x=r*c, y=r*s, c=cos(theta), s=sin(theta), and use c^2+s^2=1. The product becomes r*s*((r*c-2)^2+r^2*s^2-1)=r*s*(r^2-4*r*c+3). This establishes equivalence in both directions without cancelling any factor. For r=0 the product vanishes at every angle, and the Cartesian origin belongs to the line. If sin(theta)=0, theta=k*pi and all canonical r>=0 satisfy the equation; these yield the entire line, including points inside and outside the circle. For sin(theta)!=0 and r>0, the remaining condition is the quadratic r^2-4*c*r+3=0. Its roots are 2*c plus or minus sqrt(4*c^2-3); real roots require abs(c)>=sqrt(3)/2. Their product is 3 and their sum is 4*c, so both roots are positive precisely when c>=sqrt(3)/2; for c<=-sqrt(3)/2 both are negative and must be rejected under canonical r>=0. At c=sqrt(3)/2 the discriminant is zero, giving the included tangent radius sqrt(3), with Cartesian points (3/2,sqrt(3)/2) and (3/2,-sqrt(3)/2). At c=1 the two circle roots are 1 and 3, but the separate sin(theta)=0 factor permits the full continuum of radii. Thus a finite list of r=f(theta) values alone cannot cover the curve at theta=0 or pi, whereas the implicit equation or the stated mixed angular/radial union covers it exactly. With signed radii the same implicit substitution remains exact, and negative roots at angle theta correspond to positive radii at theta+pi; any such alternative must document this convention. The display tests contain an isolated shifted circle and an isolated origin line, while the conic corpus contains degree-two curves and line degeneracies. This fixed degree-three product combines a line with a distinct circle factor that intersects it at two points, creating both two-valued circle radii and angles with infinitely many radii in one small input. It is structurally new, not another conic with changed coefficients."
+    }
+  ]
+}

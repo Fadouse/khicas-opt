@@ -1,0 +1,444 @@
+{
+  "scope": "Actual repository integration/yderive/FXCG simplify on host dependencies; guarded 64 KiB stack, not SH4/MMU emulation.",
+  "corpus_sha256": "3c95eb2f3fce303cd0d895ca6638e262f591fa38515a2c560c8b9510474ddfab",
+  "probe_sha256": "f7d5061d71d41cdc8853c00121cee62809abcb54cbb4a7c9ebbf3cf8b7d6b480",
+  "runs": [
+    {
+      "id": "PC19-I1",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(exp(x)*abs(exp(x)-1)/(1+exp(2*x)),x)",
+      "exit": 0,
+      "result": "-sign(exp(x)-1)*atan(exp(x))+1/2*sign(exp(x)-1)*ln(exp(x)^2+1)",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(exp(x)-1)]\nDiscontinuities at zeroes of exp(x)-1 were not checked\nPARSER_CALLS 1\nSECONDS 0.00159982\nMAX_RSS_KB 20112\n",
+      "error": "Primitive branches need one common constant at the included zero",
+      "pass": false
+    },
+    {
+      "id": "PC19-I1",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(exp(x)*abs(exp(x)-1)/(1+exp(2*x)),x)",
+      "exit": 0,
+      "result": "-sign(exp(x)-1)*atan(exp(x))+1/2*sign(exp(x)-1)*ln(exp(x)^2+1)",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(exp(x)-1)]\nDiscontinuities at zeroes of exp(x)-1 were not checked\nPARSER_CALLS 1\nSECONDS 0.00148696\nMAX_RSS_KB 30096\n",
+      "error": "Primitive branches need one common constant at the included zero",
+      "pass": false
+    },
+    {
+      "id": "PC19-I1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(exp(x)*abs(exp(x)-1)/(1+exp(2*x)),x))",
+      "exit": 0,
+      "result": "(-2*atan(exp(x))*sign(exp(x)-1)+ln(exp(x)^2+1)*sign(exp(x)-1))/2",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(exp(x)-1)]\nDiscontinuities at zeroes of exp(x)-1 were not checked\nPARSER_CALLS 1\nSECONDS 0.00265156\nMAX_RSS_KB 30360\n",
+      "error": "Primitive branches need one common constant at the included zero",
+      "pass": false
+    },
+    {
+      "id": "PC19-I1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(exp(x)*abs(exp(x)-1)/(1+exp(2*x)),x))",
+      "exit": 0,
+      "result": "(-2*atan(exp(x))*sign(exp(x)-1)+ln(exp(x)^2+1)*sign(exp(x)-1))/2",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(exp(x)-1)]\nDiscontinuities at zeroes of exp(x)-1 were not checked\nPARSER_CALLS 1\nSECONDS 0.00248644\nMAX_RSS_KB 30360\n",
+      "error": "Primitive branches need one common constant at the included zero",
+      "pass": false
+    },
+    {
+      "id": "PC19-I2",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(ln(x+sqrt(x^2-1))/x^2,x)",
+      "exit": 0,
+      "result": "-1/x*ln(x+sqrt(x^2-1))+atan(sqrt(x^2-1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00427379\nMAX_RSS_KB 30360\n",
+      "verification": {
+        "exact": true,
+        "normalized": true,
+        "method": "x=cosh(u), u>=0 proves the complete real domain [1,infinity). Differentiate the transformed primitive exactly. Its slope in u is O(u\u00b2), hence its change is O(u\u00b3); x-1>=u\u00b2/2 gives right derivative zero at x=1."
+      },
+      "pass": true,
+      "actual_domain_checks": [
+        {
+          "point": "1",
+          "expected": "0",
+          "exit": 0,
+          "result": "0"
+        }
+      ]
+    },
+    {
+      "id": "PC19-I2",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(ln(x+sqrt(x^2-1))/x^2,x)",
+      "exit": 0,
+      "result": "-1/x*ln(x+sqrt(x^2-1))+atan(sqrt(x^2-1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00438268\nMAX_RSS_KB 30360\n",
+      "verification": {
+        "exact": true,
+        "normalized": true,
+        "method": "x=cosh(u), u>=0 proves the complete real domain [1,infinity). Differentiate the transformed primitive exactly. Its slope in u is O(u\u00b2), hence its change is O(u\u00b3); x-1>=u\u00b2/2 gives right derivative zero at x=1."
+      },
+      "pass": true,
+      "actual_domain_checks": [
+        {
+          "point": "1",
+          "expected": "0",
+          "exit": 0,
+          "result": "0"
+        }
+      ]
+    },
+    {
+      "id": "PC19-I2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(ln(x+sqrt(x^2-1))/x^2,x))",
+      "exit": 0,
+      "result": "-1/x*ln(x+sqrt(x^2-1))+atan(sqrt(x^2-1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00367771\nMAX_RSS_KB 30360\n",
+      "verification": {
+        "exact": true,
+        "normalized": true,
+        "method": "x=cosh(u), u>=0 proves the complete real domain [1,infinity). Differentiate the transformed primitive exactly. Its slope in u is O(u\u00b2), hence its change is O(u\u00b3); x-1>=u\u00b2/2 gives right derivative zero at x=1."
+      },
+      "pass": true,
+      "actual_domain_checks": [
+        {
+          "point": "1",
+          "expected": "0",
+          "exit": 0,
+          "result": "0"
+        }
+      ]
+    },
+    {
+      "id": "PC19-I2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(ln(x+sqrt(x^2-1))/x^2,x))",
+      "exit": 0,
+      "result": "-1/x*ln(x+sqrt(x^2-1))+atan(sqrt(x^2-1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00367965\nMAX_RSS_KB 30360\n",
+      "verification": {
+        "exact": true,
+        "normalized": true,
+        "method": "x=cosh(u), u>=0 proves the complete real domain [1,infinity). Differentiate the transformed primitive exactly. Its slope in u is O(u\u00b2), hence its change is O(u\u00b3); x-1>=u\u00b2/2 gives right derivative zero at x=1."
+      },
+      "pass": true,
+      "actual_domain_checks": [
+        {
+          "point": "1",
+          "expected": "0",
+          "exit": 0,
+          "result": "0"
+        }
+      ]
+    },
+    {
+      "id": "PC19-D1",
+      "outer": false,
+      "stack": "normal",
+      "input": "diff(abs(x)^(2+sin(x)),x)",
+      "exit": 0,
+      "result": "cos(x)*ln(abs(x))*abs(x)^(2+sin(x))+(2+sin(x))*((x=0)? undef : sign(x))*abs(x)^(2+sin(x)-1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000384946\nMAX_RSS_KB 30360\n",
+      "error": "Original function is differentiable at zero",
+      "pass": false
+    },
+    {
+      "id": "PC19-D1",
+      "outer": false,
+      "stack": "64",
+      "input": "diff(abs(x)^(2+sin(x)),x)",
+      "exit": 0,
+      "result": "cos(x)*ln(abs(x))*abs(x)^(2+sin(x))+(2+sin(x))*((x=0)? undef : sign(x))*abs(x)^(2+sin(x)-1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000380636\nMAX_RSS_KB 30360\n",
+      "error": "Original function is differentiable at zero",
+      "pass": false
+    },
+    {
+      "id": "PC19-D1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(diff(abs(x)^(2+sin(x)),x))",
+      "exit": 0,
+      "result": "abs(x)^(2+sin(x))*cos(x)*ln(abs(x))+abs(x)^(2+sin(x)-1)*sin(x)*((x=0)? undef : sign(x))+2*abs(x)^(2+sin(x)-1)*((x=0)? undef : sign(x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000413906\nMAX_RSS_KB 30360\n",
+      "error": "Original function is differentiable at zero",
+      "pass": false
+    },
+    {
+      "id": "PC19-D1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(diff(abs(x)^(2+sin(x)),x))",
+      "exit": 0,
+      "result": "abs(x)^(2+sin(x))*cos(x)*ln(abs(x))+abs(x)^(2+sin(x)-1)*sin(x)*((x=0)? undef : sign(x))+2*abs(x)^(2+sin(x)-1)*((x=0)? undef : sign(x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000447576\nMAX_RSS_KB 30360\n",
+      "error": "Original function is differentiable at zero",
+      "pass": false
+    },
+    {
+      "id": "PC19-D2",
+      "outer": false,
+      "stack": "normal",
+      "input": "diff(sqrt(x+sqrt(x^2)),x)",
+      "exit": 0,
+      "result": "1/2*((x=0)? undef : 1+sign(x))*(sqrt(x+abs(x)))^-1",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000410396\nMAX_RSS_KB 30360\n",
+      "error": "Negative half-line is a constant function",
+      "pass": false
+    },
+    {
+      "id": "PC19-D2",
+      "outer": false,
+      "stack": "64",
+      "input": "diff(sqrt(x+sqrt(x^2)),x)",
+      "exit": 0,
+      "result": "1/2*((x=0)? undef : 1+sign(x))*(sqrt(x+abs(x)))^-1",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000408336\nMAX_RSS_KB 30360\n",
+      "error": "Negative half-line is a constant function",
+      "pass": false
+    },
+    {
+      "id": "PC19-D2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(diff(sqrt(x+sqrt(x^2)),x))",
+      "exit": 0,
+      "result": "((x=0)? undef : 1+sign(x))/(2*sqrt(x+abs(x)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000407016\nMAX_RSS_KB 30360\n",
+      "error": "Negative half-line is a constant function",
+      "pass": false
+    },
+    {
+      "id": "PC19-D2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(diff(sqrt(x+sqrt(x^2)),x))",
+      "exit": 0,
+      "result": "((x=0)? undef : 1+sign(x))/(2*sqrt(x+abs(x)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000416026\nMAX_RSS_KB 30360\n",
+      "error": "Negative half-line is a constant function",
+      "pass": false
+    },
+    {
+      "id": "PC19-S1",
+      "outer": false,
+      "stack": "normal",
+      "input": "atan(x)+atan(y)-atan((x+y)/(1-x*y))",
+      "exit": 0,
+      "result": "atan(x)+atan(y)-atan((x+y)/(1-x*y))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000391107\nMAX_RSS_KB 30360\n",
+      "verification": {
+        "exact": true,
+        "normalized": false,
+        "method": "Direct arithmetic precursor retains the exact original expression and domain; explicit simplify still must normalize its branches."
+      },
+      "pass": true,
+      "actual_domain_checks": [
+        {
+          "point": "[0,0]",
+          "expected": "0",
+          "exit": 0,
+          "result": "0"
+        },
+        {
+          "point": "[1,2]",
+          "expected": "pi",
+          "exit": 0,
+          "result": "pi/4+atan(2)+atan(3)"
+        },
+        {
+          "point": "[-1,-2]",
+          "expected": "-pi",
+          "exit": 0,
+          "result": "-pi/4-atan(2)-atan(3)"
+        },
+        {
+          "point": "[1,1]",
+          "expected": "undef",
+          "exit": 3,
+          "result": "undef"
+        },
+        {
+          "point": "[-1,-1]",
+          "expected": "undef",
+          "exit": 3,
+          "result": "undef"
+        }
+      ]
+    },
+    {
+      "id": "PC19-S1",
+      "outer": false,
+      "stack": "64",
+      "input": "atan(x)+atan(y)-atan((x+y)/(1-x*y))",
+      "exit": 0,
+      "result": "atan(x)+atan(y)-atan((x+y)/(1-x*y))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000550205\nMAX_RSS_KB 30360\n",
+      "verification": {
+        "exact": true,
+        "normalized": false,
+        "method": "Direct arithmetic precursor retains the exact original expression and domain; explicit simplify still must normalize its branches."
+      },
+      "pass": true,
+      "actual_domain_checks": [
+        {
+          "point": "[0,0]",
+          "expected": "0",
+          "exit": 0,
+          "result": "0"
+        },
+        {
+          "point": "[1,2]",
+          "expected": "pi",
+          "exit": 0,
+          "result": "pi/4+atan(2)+atan(3)"
+        },
+        {
+          "point": "[-1,-2]",
+          "expected": "-pi",
+          "exit": 0,
+          "result": "-pi/4-atan(2)-atan(3)"
+        },
+        {
+          "point": "[1,1]",
+          "expected": "undef",
+          "exit": 3,
+          "result": "undef"
+        },
+        {
+          "point": "[-1,-1]",
+          "expected": "undef",
+          "exit": 3,
+          "result": "undef"
+        }
+      ]
+    },
+    {
+      "id": "PC19-S1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(atan(x)+atan(y)-atan((x+y)/(1-x*y)))",
+      "exit": 0,
+      "result": "-atan((x+y)/(1-x*y))+atan(x)+atan(y)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000435226\nMAX_RSS_KB 30360\n",
+      "verification": {
+        "exact": true,
+        "normalized": false,
+        "method": "Direct arithmetic precursor retains the exact original expression and domain; explicit simplify still must normalize its branches."
+      },
+      "pass": false,
+      "error": "Explicit simplify must normalize the atan branches"
+    },
+    {
+      "id": "PC19-S1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(atan(x)+atan(y)-atan((x+y)/(1-x*y)))",
+      "exit": 0,
+      "result": "-atan((x+y)/(1-x*y))+atan(x)+atan(y)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000418586\nMAX_RSS_KB 30360\n",
+      "verification": {
+        "exact": true,
+        "normalized": false,
+        "method": "Direct arithmetic precursor retains the exact original expression and domain; explicit simplify still must normalize its branches."
+      },
+      "pass": false,
+      "error": "Explicit simplify must normalize the atan branches"
+    },
+    {
+      "id": "PC19-P1",
+      "outer": false,
+      "stack": "normal",
+      "input": "cart2polar(y*((x-2)^2+y^2-1)=0,[x,y],[r,theta])",
+      "exit": 0,
+      "result": "RAW r^3*sin(theta)-2*r^2*sin(2*theta)+3*r*sin(theta)=0\nNODES 24",
+      "stderr": "SECONDS 0.000453115\n",
+      "verification": {
+        "exact": true,
+        "method": "Polynomial/trigonometric identity without division. The full r=0 component, arbitrary nonnegative r on sin(theta)=0, both circle branches and their tangencies are retained."
+      },
+      "pass": true,
+      "actual_domain_checks": []
+    },
+    {
+      "id": "PC19-P1",
+      "outer": false,
+      "stack": "64",
+      "input": "cart2polar(y*((x-2)^2+y^2-1)=0,[x,y],[r,theta])",
+      "exit": 0,
+      "result": "RAW r^3*sin(theta)-2*r^2*sin(2*theta)+3*r*sin(theta)=0\nNODES 24",
+      "stderr": "SECONDS 0.000449996\n",
+      "verification": {
+        "exact": true,
+        "method": "Polynomial/trigonometric identity without division. The full r=0 component, arbitrary nonnegative r on sin(theta)=0, both circle branches and their tangencies are retained."
+      },
+      "pass": true,
+      "actual_domain_checks": []
+    },
+    {
+      "id": "PC19-P1",
+      "outer": true,
+      "stack": "normal",
+      "input": "cart2polar(y*((x-2)^2+y^2-1)=0,[x,y],[r,theta])",
+      "exit": 0,
+      "result": "RAW r^3*sin(theta)-2*r^2*sin(2*theta)+3*r*sin(theta)=0\nNODES 24",
+      "stderr": "SECONDS 0.00105041\n",
+      "verification": {
+        "exact": true,
+        "method": "Polynomial/trigonometric identity without division. The full r=0 component, arbitrary nonnegative r on sin(theta)=0, both circle branches and their tangencies are retained."
+      },
+      "pass": true,
+      "actual_domain_checks": []
+    },
+    {
+      "id": "PC19-P1",
+      "outer": true,
+      "stack": "64",
+      "input": "cart2polar(y*((x-2)^2+y^2-1)=0,[x,y],[r,theta])",
+      "exit": 0,
+      "result": "RAW r^3*sin(theta)-2*r^2*sin(2*theta)+3*r*sin(theta)=0\nNODES 24",
+      "stderr": "SECONDS 0.00103907\n",
+      "verification": {
+        "exact": true,
+        "method": "Polynomial/trigonometric identity without division. The full r=0 component, arbitrary nonnegative r on sin(theta)=0, both circle branches and their tangencies are retained."
+      },
+      "pass": true,
+      "actual_domain_checks": []
+    }
+  ],
+  "polar_probe_sha256": "47e23e904c024a98f21bb788da4f3b3ff109fadeebccd5f924e616500b10d390",
+  "cases": [
+    {
+      "id": "PC19-I1",
+      "all_four_pass": false
+    },
+    {
+      "id": "PC19-I2",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC19-D1",
+      "all_four_pass": false
+    },
+    {
+      "id": "PC19-D2",
+      "all_four_pass": false
+    },
+    {
+      "id": "PC19-S1",
+      "all_four_pass": false
+    },
+    {
+      "id": "PC19-P1",
+      "all_four_pass": true
+    }
+  ]
+}

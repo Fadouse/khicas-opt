@@ -1,0 +1,288 @@
+{
+  "source_sha256": {
+    "yintg.cc": "ddff9715f95ad42095d304c796a0188edfc9bdff0c52c619f325ee6c7882ba0b",
+    "zintgab.cc": "e5b24a8161131c9e3372e65a11f6f73713dc2930964b3713ed019f9aff5b0277",
+    "ksubst.cc": "5ac65fd7200b94414bc63aacf769075f350a1660bba592ed9343c60f28e4c80c",
+    "yderive.cc": "e79e692f09ba415e6f484a87f711f378a349f2b6af318f07ad96d7c5ed725984",
+    "dilogarithm.h": "ca822ef4c094a4ed1f4aecf7219011668735d86d259c51ec6304515f8fa84d7a",
+    "kconvert.cc": "eed558eb2f8ff62e0cf1e94fdbf8497954a35577e283a8d07283350e65b76003",
+    "equation_normalize.h": "4bfb644f0e18bb36e280ce8886c8ac12695c9aeeaef187ea3e5f967cd1642e37",
+    "kusual.cc": "0a169f2a44b187b4310bde6f73bf03a0e593c5e00212a9d54ef6bd420420743d",
+    "zusual.cc": "89491d75065f7b0e19386226ef35ca467ae11b0a1f0948b7187a8118a5512f58",
+    "zprog.cc": "baf6570eac3b985e50bb2bbf8a3bbc47b72b34ce6835ce2f7a873185a7efe499",
+    "conditional_eval.h": "763e56cb14146b9e45728c4fa245f7fe4506a8eea4041cbaf98b927ea15e27a2",
+    "zvecteur.cc": "17c430cfed0e2fbda09813cb0d677042252a93017d740406c1e09aa42d758104",
+    "determinant_small.h": "b6ed110fa5a9155df1a821c32796db3ee73524d2df884353cf33b18dff869773",
+    "logarithmic_span.h": "b0db1ca1c38ffd51ae6fce4fd0b39fd9133ba05a2f5c7f1136ce8bace372414b"
+  },
+  "corpus_sha256": "36e1fb94859a815a5e2da044ac75a7334c13775f54456b688cf4c1209255e0ce",
+  "provenance": [
+    "mixed1-polar19-2026a"
+  ],
+  "runs": [
+    {
+      "id": "MR1-I1",
+      "input": "integrate(-3*ln(abs(4*sin(-2*x/3+pi/5))),x)",
+      "outer_simplify": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "-3*(x*ln(2)+3/2*im(Li2(exp(2*i*(-2*x/3+pi/5))))/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00256534\nMAX_RSS_KB 67848\n",
+      "host_seconds": 0.00256534,
+      "verification": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 3.67048376324917e-55
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "MR1-I1",
+      "input": "integrate(-3*ln(abs(4*sin(-2*x/3+pi/5))),x)",
+      "outer_simplify": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "-3*(x*ln(2)+3/2*im(Li2(exp(2*i*(-2*x/3+pi/5))))/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.0022477\nMAX_RSS_KB 67848\n",
+      "host_seconds": 0.0022477,
+      "verification": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 3.67048376324917e-55
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "MR1-I1",
+      "input": "simplify(integrate(-3*ln(abs(4*sin(-2*x/3+pi/5))),x))",
+      "outer_simplify": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(-12*x*ln(2)-9*im(Li2(exp(2*i*(-2*x/3+pi/5)))))/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00223414\nMAX_RSS_KB 67848\n",
+      "host_seconds": 0.00223414,
+      "verification": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 3.67048376324917e-55
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "MR1-I1",
+      "input": "simplify(integrate(-3*ln(abs(4*sin(-2*x/3+pi/5))),x))",
+      "outer_simplify": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "(-12*x*ln(2)-9*im(Li2(exp(2*i*(-2*x/3+pi/5)))))/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00235408\nMAX_RSS_KB 67848\n",
+      "host_seconds": 0.00235408,
+      "verification": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 3.67048376324917e-55
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "MR1-I2",
+      "input": "integrate(2*ln(-2*cos(3*x/2-pi/7)),x)",
+      "outer_simplify": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "2*(-2/3*im(Li2(exp(2*i*(3*x/2-pi/7+pi/2+pi))))/2+2*i/3*pi*(3*x/2-pi/7+pi/2+pi-pi+abs(3*x/2-pi/7+pi/2+pi-2*pi*floor((3*x/2-pi/7+pi/2+pi)/(2*pi))-pi))/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000453554\nMAX_RSS_KB 67848\n",
+      "host_seconds": 0.000453554,
+      "verification": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 1.4274103523746772e-55
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "MR1-I2",
+      "input": "integrate(2*ln(-2*cos(3*x/2-pi/7)),x)",
+      "outer_simplify": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "2*(-2/3*im(Li2(exp(2*i*(3*x/2-pi/7+pi/2+pi))))/2+2*i/3*pi*(3*x/2-pi/7+pi/2+pi-pi+abs(3*x/2-pi/7+pi/2+pi-2*pi*floor((3*x/2-pi/7+pi/2+pi)/(2*pi))-pi))/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000446044\nMAX_RSS_KB 67848\n",
+      "host_seconds": 0.000446044,
+      "verification": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 1.4274103523746772e-55
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "MR1-I2",
+      "input": "simplify(integrate(2*ln(-2*cos(3*x/2-pi/7)),x))",
+      "outer_simplify": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(5*i*pi^2+21*i*pi*x+14*i*pi*abs(3*x/2-pi/7+pi/2+pi-2*pi*floor((3*x/2-pi/7+pi/2+pi)/(2*pi))-pi)-14*im(Li2(exp(2*i*(3*x/2-pi/7+pi/2+pi)))))/21",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000483924\nMAX_RSS_KB 67848\n",
+      "host_seconds": 0.000483924,
+      "verification": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 1.4274103523746772e-55
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "MR1-I2",
+      "input": "simplify(integrate(2*ln(-2*cos(3*x/2-pi/7)),x))",
+      "outer_simplify": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "(5*i*pi^2+21*i*pi*x+14*i*pi*abs(3*x/2-pi/7+pi/2+pi-2*pi*floor((3*x/2-pi/7+pi/2+pi)/(2*pi))-pi)-14*im(Li2(exp(2*i*(3*x/2-pi/7+pi/2+pi)))))/21",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000476964\nMAX_RSS_KB 67848\n",
+      "host_seconds": 0.000476964,
+      "verification": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 1.4274103523746772e-55
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "MR1-I3",
+      "input": "integrate(ln(abs(2*sin(x/2+pi/6)))+ln(abs(2*cos(x/2+pi/6))),x)",
+      "outer_simplify": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "-2*im(Li2(exp(2*i*(x/2+pi/6))))/2-2*im(Li2(exp(2*i*(x/2+pi/6+pi/2))))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00345585\nMAX_RSS_KB 67848\n",
+      "host_seconds": 0.00345585,
+      "verification": {
+        "exact": true,
+        "method": "unit-circle Li2 duplication identity; logarithm product is positive on the stated real intervals"
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "MR1-I3",
+      "input": "integrate(ln(abs(2*sin(x/2+pi/6)))+ln(abs(2*cos(x/2+pi/6))),x)",
+      "outer_simplify": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "-2*im(Li2(exp(2*i*(x/2+pi/6))))/2-2*im(Li2(exp(2*i*(x/2+pi/6+pi/2))))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00342968\nMAX_RSS_KB 67848\n",
+      "host_seconds": 0.00342968,
+      "verification": {
+        "exact": true,
+        "method": "unit-circle Li2 duplication identity; logarithm product is positive on the stated real intervals"
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "MR1-I3",
+      "input": "simplify(integrate(ln(abs(2*sin(x/2+pi/6)))+ln(abs(2*cos(x/2+pi/6))),x))",
+      "outer_simplify": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "-im(Li2(exp(2*i*(x/2+pi/6))))-im(Li2(exp(2*i*(x/2+pi/6+pi/2))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00417798\nMAX_RSS_KB 67848\n",
+      "host_seconds": 0.00417798,
+      "verification": {
+        "exact": true,
+        "method": "unit-circle Li2 duplication identity; logarithm product is positive on the stated real intervals"
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "MR1-I3",
+      "input": "simplify(integrate(ln(abs(2*sin(x/2+pi/6)))+ln(abs(2*cos(x/2+pi/6))),x))",
+      "outer_simplify": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "-im(Li2(exp(2*i*(x/2+pi/6))))-im(Li2(exp(2*i*(x/2+pi/6+pi/2))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.0035506\nMAX_RSS_KB 67848\n",
+      "host_seconds": 0.0035506,
+      "verification": {
+        "exact": true,
+        "method": "unit-circle Li2 duplication identity; logarithm product is positive on the stated real intervals"
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "MR1-I4",
+      "input": "integrate(ln(1+x^2)/(x*(1+x^2)),x)",
+      "outer_simplify": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "-1/2*Li2(-x^2)-1/2*ln(1+x^2)*ln(1+x^2)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000355956\nMAX_RSS_KB 67848\n",
+      "host_seconds": 0.000355956,
+      "verification": {
+        "exact": true,
+        "method": "exact real-domain derivative, negative Li2 argument avoids its branch cut"
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "MR1-I4",
+      "input": "integrate(ln(1+x^2)/(x*(1+x^2)),x)",
+      "outer_simplify": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "-1/2*Li2(-x^2)-1/2*ln(1+x^2)*ln(1+x^2)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000348276\nMAX_RSS_KB 67848\n",
+      "host_seconds": 0.000348276,
+      "verification": {
+        "exact": true,
+        "method": "exact real-domain derivative, negative Li2 argument avoids its branch cut"
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "MR1-I4",
+      "input": "simplify(integrate(ln(1+x^2)/(x*(1+x^2)),x))",
+      "outer_simplify": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(-2*Li2(-x^2)-ln(1+x^2)^2)/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000422185\nMAX_RSS_KB 67848\n",
+      "host_seconds": 0.000422185,
+      "verification": {
+        "exact": true,
+        "method": "exact real-domain derivative, negative Li2 argument avoids its branch cut"
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "MR1-I4",
+      "input": "simplify(integrate(ln(1+x^2)/(x*(1+x^2)),x))",
+      "outer_simplify": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "(-2*Li2(-x^2)-ln(1+x^2)^2)/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000412655\nMAX_RSS_KB 67848\n",
+      "host_seconds": 0.000412655,
+      "verification": {
+        "exact": true,
+        "method": "exact real-domain derivative, negative Li2 argument avoids its branch cut"
+      },
+      "pass": true,
+      "status": "exact"
+    }
+  ]
+}

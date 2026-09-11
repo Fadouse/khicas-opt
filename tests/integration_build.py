@@ -73,6 +73,7 @@ def derivative_source(ref='current'):
         out='#include "giacPCH.h"\n#include "equation_normalize.h"\n#include "conditional_eval.h"\nnamespace giac {\n'
         for sig in ('  gen _when(', '  gen _piecewise('):
             out+=function(source(ref,'zprog.cc'),sig)
+    if '#include "logarithmic_span.h"' in s:out=out.replace('#include "equation_normalize.h"','#include "equation_normalize.h"\n#include "logarithmic_span.h"')
     out+='extern const unary_function_ptr * const at_Li2;\n'
     out+='gen symb_prog3(const gen &,const gen &,const gen &);\n'
     out+=function(source(ref,'zusual.cc'),'  gen _abs(')
@@ -82,7 +83,7 @@ def derivative_source(ref='current'):
     out+=function(source(ref,'zusual.cc'),'  gen acos(const gen & e0,GIAC_CONTEXT)')
     out+='static gen derive_SYMB(const gen &,const identificateur &,GIAC_CONTEXT);\n'
     out+='gen host_symb_derive(const gen &);\ngen host_symb_derive(const gen &,const gen &);\ngen host_symb_derive(const gen &,const gen &,const gen &);\n'
-    for sig in ('   gen eval_before_diff(', '  bool depend(', '  static int count_noncst(', '  static bool derive_real_composition(', '  static bool derive_piecewise_regular(', '  static bool derive_root_product(', '  static int derive_piecewise_oscillation(', '  static gen derive_piecewise_joints(', '  static gen derive_guarded_sum(', '  static bool derive_nonnegative_polynomial(', '  static bool derive_abs_analytic(', '  static bool derive_abs_composition(', '  static gen derive_symbolic_plus(', '  static gen derive_symbolic_prod(', '  static gen derive_symbolic_pow(', '  static gen derive_symbolic_inv(', '  static gen derive_symbolic_other(', '  static gen derive_symbolic_point(', '  static bool derive_symbolic_dilog(', '  static gen derive_SYMB(',
+    for sig in ('   gen eval_before_diff(', '  bool depend(', '  static int count_noncst(', '  static bool derive_real_composition(', '  static bool derive_piecewise_regular(', '  static bool derive_root_product(', '  static int derive_piecewise_oscillation(', '  static gen derive_piecewise_joints(', '  static gen derive_guarded_sum(', '  static bool derive_nonnegative_polynomial(', '  static bool derive_abs_analytic(', '  static bool derive_abs_composition(', '  static bool derive_magnitude_polynomial(', '  static bool derive_abs_power(', '  static bool derive_positive_part_power(', '  static gen derive_symbolic_plus(', '  static gen derive_symbolic_prod(', '  static gen derive_symbolic_pow(', '  static gen derive_symbolic_inv(', '  static gen derive_symbolic_other(', '  static gen derive_symbolic_point(', '  static bool derive_symbolic_dilog(', '  static gen derive_SYMB(',
                 '  static gen derive_VECT(', '  gen derive(const gen & e,const identificateur & i,GIAC_CONTEXT)',
                 '  static gen _VECTderive(', '  static gen derivesymb(',
                 '  gen derive(const gen & e,const gen & vars,GIAC_CONTEXT)',
@@ -135,6 +136,7 @@ def build(directory, ref='current', target_simplify=False, target_derive=False):
                 simplified+=function(s,'  static bool simplify_preflight(')+function(s,'  static gen simplify_shallow_leaf(')
             simplified+=function(s, '  static unsigned simplify_special_terms(')
             simplified+=function(s, '  static gen simplify_special_core(')
+        if '  static bool simplify_atan_addition(' in s:simplified+=function(s,'  static bool simplify_atan_addition(')
         if '  static bool simplify_root_domain(' in s:simplified+=function(s,'  static bool simplify_root_domain(')
         simplified+=function(source(ref,'zusual.cc'),'  gen expi(')
         simplified+='static gen cst_ipi(){return cst_pi*cst_i;}\n'  # newer constant accessor, same exact value on the older host ABI

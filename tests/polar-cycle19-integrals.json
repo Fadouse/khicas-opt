@@ -1,0 +1,24 @@
+{
+  "cases": [
+    {
+      "id": "PC19-I1",
+      "input": "simplify(integrate(exp(x)*abs(exp(x)-1)/(1+exp(2*x)),x))",
+      "expected": "piecewise(x<0,-ln((1+exp(2*x))/2)/2+atan(exp(x))-pi/4,ln((1+exp(2*x))/2)/2-atan(exp(x))+pi/4)",
+      "conditions": [
+        "x is finite real; exp, abs and ln have their real meanings, and atan takes values in (-pi/2,pi/2). Determine the complete original domain and all denominator exclusions.",
+        "Require an explicit exact primitive on the entire connected original domain. The primitive must pass through the interior absolute-value contact with the same additive constant, and its derivative there must be proved from its original difference quotient. An unevaluated integral is not acceptable.",
+        "Run every invocation with both the normal calculation stack and a 64 KiB calculation stack. Each invocation has a fixed 10-second external wall-clock timeout and a 65536-byte output cap. Preserve existing finite CG50 stack, heap and simplification budgets; never enlarge them or retry with larger limits. No crash, stack overflow, timeout or output-cap overrun is acceptable."
+      ]
+    },
+    {
+      "id": "PC19-I2",
+      "input": "simplify(integrate(ln(x+sqrt(x^2-1))/x^2,x))",
+      "expected": "piecewise(x<1,undef,acos(1/x)-ln(x+sqrt(x^2-1))/x)",
+      "conditions": [
+        "x is finite real, sqrt is the nonnegative real square root, ln is strictly real, and acos has values in [0,pi]. Determine the complete original real domain before integrating; a real square root alone is not sufficient to establish logarithm positivity.",
+        "Require an explicit exact primitive on the complete original-domain component, with its assigned value and actual right difference quotient at every included finite endpoint. An unevaluated integral is not acceptable. Do not extend the real logarithm to a complex branch.",
+        "Run every invocation with both the normal calculation stack and a 64 KiB calculation stack. Each invocation has a fixed 10-second external wall-clock timeout and a 65536-byte output cap. Preserve existing finite CG50 stack, heap and simplification budgets; never enlarge them or retry with larger limits. No crash, stack overflow, timeout or output-cap overrun is acceptable."
+      ]
+    }
+  ]
+}

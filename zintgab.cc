@@ -1,5 +1,6 @@
 // -*- mode:C++ ; compile-command: "g++-3.4 -I.. -g -c intgab.cc -DHAVE_CONFIG_H -DIN_GIAC" -*-
 #include "giacPCH.h"
+#include "logarithmic_span.h"
 /*
  *  Copyright (C) 2000,2014 B. Parisse, Institut Fourier, 38402 St Martin d'Heres
  *
@@ -908,6 +909,36 @@ namespace giac {
   // Shared bounded leading-term check implemented in the integration dispatcher.
   bool integration_rational_tail(const gen &,const gen &,int &,gen &,unsigned &,unsigned,GIAC_CONTEXT);
 
+  // Continuity proof for the finite odd-function shortcut. Tangent of
+  // an affine sine/cosine stays away from its poles if |A|+|B|<=1.
+  // No cancellation or numerical samples are used to certify the domain.
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static bool intgab_continuous_finite(const gen &g,const gen &x,unsigned &budget,unsigned depth,GIAC_CONTEXT){
+    if(!budget || depth>8)return false;--budget;
+    if(!has_op(g,*at_tan)){vecteur atoms;return logarithmic_span_entire(g,x,atoms,budget,depth);}
+    if(g.type!=_SYMB)return false;
+    const gen &f=g._SYMBptr->feuille;
+    if(g.is_symb_of_sommet(at_tan)){
+      if(!angle_radian(contextptr))return false;
+      vecteur waves=mergevecteur(lop(f,at_sin),lop(f,at_cos));
+      if(waves.size()!=1)return false;
+      gen A,B;if(!is_linear_wrt(f,waves[0],A,B,contextptr) || !equation_rational(A) || !equation_rational(B))return false;
+      gen margin=1-abs(A,contextptr)-abs(B,contextptr);
+      vecteur atoms;return (is_zero(margin) || is_strictly_positive(margin,contextptr)) &&
+        logarithmic_span_entire(waves[0]._SYMBptr->feuille,x,atoms,budget,depth+1);
+    }
+    if(g.is_symb_of_sommet(at_neg) || g.is_symb_of_sommet(at_sin) || g.is_symb_of_sommet(at_cos) || g.is_symb_of_sommet(at_exp))
+      return intgab_continuous_finite(f,x,budget,depth+1,contextptr);
+    if(f.type!=_VECT)return false;
+    if(g.is_symb_of_sommet(at_pow) && f._VECTptr->size()==2)
+      return f[1].type==_INT_ && f[1].val>0 && f[1].val<=8 && intgab_continuous_finite(f[0],x,budget,depth+1,contextptr);
+    if(!g.is_symb_of_sommet(at_plus) && !g.is_symb_of_sommet(at_prod))return false;
+    for(unsigned j=0;j<f._VECTptr->size();++j)if(!intgab_continuous_finite(f[j],x,budget,depth+1,contextptr))return false;
+    return true;
+  }
+
   static bool intgab(const gen & g0,const gen & x,const gen & a,const gen & b,gen & res,bool nonrecursive,GIAC_CONTEXT){
     if (x.type!=_IDNT)
       return false;
@@ -1323,13 +1354,12 @@ namespace giac {
       return true;
     }
     if (eo==2){
-#if 0 // set to 1 if you want to check for singularities before returning 0
-      vecteur sp=find_singularities(g,*x._IDNTptr,false,contextptr);
-      for (int i=0;i<sp.size();++i){
-	if (is_greater(sp[i],a,contextptr) && is_greater(b,sp[i],contextptr))
-	  return false;
-      }
-#endif
+      // Oddness only proves a principal-value cancellation. The ordinary
+      // finite integral needs convergence on each side of every interior
+      // point. A bounded entire-expression proof makes this shortcut safe;
+      // otherwise let the primitive/singularity path decide.
+      unsigned budget=64;
+      if(!intgab_continuous_finite(g0,x,budget,0,contextptr))return false;
       res=0;
       return true;
     }

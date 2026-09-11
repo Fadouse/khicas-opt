@@ -2422,6 +2422,37 @@ namespace giac {
     return integrate_id_rem(e_orig,x_orig,remains_to_integrate,contextptr,intmode);
   }
 
+  // A*exp(a*x+b)+B has exactly one real zero when -B/A>0.
+  // Recognize only bounded rational affine data: no root solver, no
+  // additional roots or poles hidden in a nonlinear phase.
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static bool integration_exponential_zero(const gen &g,const gen &x,gen &root,GIAC_CONTEXT){
+    if(complex_mode(contextptr) || complex_variables(contextptr) || taille(g,65)>64)return false;
+    vecteur atoms=lop(g,at_exp);if(atoms.size()!=1)return false;
+    gen A,B,a,b;
+    gen atom=atoms[0];bool reciprocal=false;
+    if(!is_linear_wrt(g,atom,A,B,contextptr) || !equation_rational(A) || !equation_rational(B)){
+      vecteur inverses=mergevecteur(lop(g,at_inv),lop(g,at_pow));bool found=false;
+      for(unsigned j=0;j<inverses.size();++j){
+        const gen &f=inverses[j]._SYMBptr->feuille;
+        if((inverses[j].is_symb_of_sommet(at_inv) && f==atoms[0]) ||
+           (inverses[j].is_symb_of_sommet(at_pow) && f.type==_VECT && f._VECTptr->size()==2 && f[0]==atoms[0] && f[1]==-1)){
+          atom=inverses[j];found=true;break;
+        }
+      }
+      if(!found || !is_linear_wrt(g,atom,A,B,contextptr))return false;
+      reciprocal=true;
+    }
+    if(!equation_rational(A) || is_zero(A) || !equation_rational(B) ||
+       !is_linear_wrt(atoms[0]._SYMBptr->feuille,x,a,b,contextptr) ||
+       !equation_rational(a) || is_zero(a) || !equation_rational(b))return false;
+    gen ratio=-B/A;
+    if(!is_strictly_positive(ratio,contextptr))return false;
+    root=((reciprocal?-ln(ratio,contextptr):ln(ratio,contextptr))-b)/a;return true;
+  }
+
   static bool integrate_step0(gen & e,const gen & gen_x,vecteur & l1,vecteur & m1,gen & res,gen & remains_to_integrate,GIAC_CONTEXT,int intmode){
     const identificateur & id_x=*gen_x._IDNTptr;
     vecteur l2,m2,l3,l4;
@@ -2456,9 +2487,10 @@ namespace giac {
 	if (val2.is_symb_of_sommet(at_sin) || val2.is_symb_of_sommet(at_tan))
 	  val2=val2._SYMBptr->feuille;
 	bool warn=true;
-	if (is_linear_wrt(val2,gen_x,a,b,contextptr) && ((has_evalf(a,r,1,contextptr) && has_evalf(b,r,1,contextptr)) || lvar(res)==lidnt(res))){
+	bool affine=is_linear_wrt(val2,gen_x,a,b,contextptr) && !is_zero(a) && ((has_evalf(a,r,1,contextptr) && has_evalf(b,r,1,contextptr)) || lvar(res)==lidnt(res));
+        if(affine)r=-b/a;
+        if (affine || integration_exponential_zero(val2,gen_x,r,contextptr)){
 	  warn=val._SYMBptr->feuille!=val2;
-	  r=-b/a;
 	  vecteur l5(l4);
 #if 1
 	  l5[j]=1;
@@ -8453,12 +8485,48 @@ namespace giac {
     return true;
   }
 
+  // A nonzero entire function has isolated zeros. Therefore excluding its
+  // zero set does not change a limit at any finite point. Prove nonidentity
+  // with an exact rational Taylor coefficient; absence of proof means defer.
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static bool integration_punctured_guard(const gen &g,const gen &x,GIAC_CONTEXT){
+    if(!g.is_symb_of_sommet(at_equal) || g._SYMBptr->feuille.type!=_VECT || g._SYMBptr->feuille._VECTptr->size()!=2)return false;
+    gen D=g._SYMBptr->feuille[0]-g._SYMBptr->feuille[1];
+    vecteur atoms;unsigned budget=192;
+    if(taille(D,129)>128 || !logarithmic_span_entire(D,x,atoms,budget,0))return false;
+    for(unsigned order=0;order<=4;++order){
+      if(taille(D,129)>128)return false;
+      gen value=eval(subst(D,x,0,false,contextptr),1,contextptr);
+      if(equation_rational(value) && !is_zero(value))return true;
+      if(is_undef(value) || is_inf(value) || order==4)return false;
+      D=derive(D,x,contextptr);
+    }
+    return false;
+  }
+
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static gen integration_punctured_primitive(const gen &g,const gen &x,GIAC_CONTEXT){
+    gen current=g;
+    for(unsigned j=0;j<4;++j){
+      if(!current.is_symb_of_sommet(at_when) || current._SYMBptr->feuille.type!=_VECT || current._SYMBptr->feuille._VECTptr->size()!=3)break;
+      const gen &f=current._SYMBptr->feuille;
+      if(f[1]!=undef || !integration_punctured_guard(f[0],x,contextptr))break;
+      current=gen(f[2]);
+    }
+    return current;
+  }
+
 #if defined(__GNUC__) && !defined(__clang__)
   __attribute__((noinline,optimize("Os")))
 #endif
   static gen integration_primitive_limit(const gen &g,const gen &x,const gen &point,int direction,GIAC_CONTEXT){
-    gen value;if(integration_log_endpoint(g,x,point,direction,value,contextptr))return value;
-    return limit(g,*x._IDNTptr,point,direction,contextptr);
+    gen current=(!is_inf(point) && !is_undef(point))?integration_punctured_primitive(g,x,contextptr):g;
+    gen value;if(integration_log_endpoint(current,x,point,direction,value,contextptr))return value;
+    return limit(current,*x._IDNTptr,point,direction,contextptr);
   }
 
   static bool integrate_affine_abs(const gen &f,const gen &x,gen lo,gen hi,gen &res,GIAC_CONTEXT){
@@ -9060,6 +9128,12 @@ namespace giac {
 	return res;
       res=subst(primitive,*x._IDNTptr,borne_sup,false,contextptr)-subst(primitive,*x._IDNTptr,borne_inf,false,contextptr);
     }
+    // Isolated assigned holes do not affect the one-sided limits used by
+    // a finite improper integral. Analyze the proved punctured primitive,
+    // so the undef sentinel is not mistaken for an extra free variable and
+    // the existing interior-singularity check still examines the logarithms.
+    if(!is_inf(borne_inf) && !is_inf(borne_sup))
+      primitive=integration_punctured_primitive(primitive,x,contextptr);
     vecteur sp;
     gen prim2(primitive);
     // remove multiplicative constants to compute sp
