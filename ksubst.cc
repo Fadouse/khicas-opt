@@ -2913,6 +2913,9 @@ namespace giac {
     bool psi=false;unsigned budget=2048;
     unsigned terms=simplify_special_terms(e_orig,psi,budget,0);
     if(!budget)return e_orig;
+    // Factored trigonometric products can create exponentially many
+    // independent polynomial terms before trig identities are applied.
+    if(terms>64 && (contains(e_orig,*at_sin) || contains(e_orig,*at_cos)))return e_orig;
     // Treat dilogarithms and lazy conditional values as algebraic atoms.
     // Expanding their phases can construct large cyclotomic extensions;
     // descending into when can evaluate an undefined unselected branch.

@@ -3223,7 +3223,9 @@ namespace giac {
     }
     gen base=u;gen uc=integration_coefficient(base,x,contextptr);
     if(base.is_symb_of_sommet(at_exp) && integration_resource_rational(uc) && !is_zero(uc) &&
-       is_linear_wrt(base._SYMBptr->feuille,x,a,b,contextptr) && integration_resource_rational(a) && !is_zero(a) && integration_resource_rational(b) &&
+       is_linear_wrt(base._SYMBptr->feuille,x,a,b,contextptr) &&
+       (integration_resource_rational(a) || (taille(a,17)<=16 && integration_resource_rational(re(a,contextptr)) && integration_resource_rational(im(a,contextptr)))) &&
+       !is_zero(a) && integration_resource_rational(b) &&
        integration_monomial(weight,x,w,n,contextptr) && is_zero(n) && integration_resource_rational(w)){
       scale=coefficient*w/a;return true;
     }
@@ -3266,8 +3268,18 @@ namespace giac {
       }
       res=total;return true;
     }
-    if(!e.is_symb_of_sommet(at_ln))return false;
-    gen f=e._SYMBptr->feuille,c=integration_coefficient(f,x,contextptr),u,a,b;
+    gen logarithm=e,weight=1;
+    if(e.is_symb_of_sommet(at_prod) && e._SYMBptr->feuille.type==_VECT){
+      const vecteur &v=*e._SYMBptr->feuille._VECTptr;
+      bool found=false;
+      for(unsigned j=0;j<v.size();++j){
+        if(v[j].is_symb_of_sommet(at_ln)){if(found)return false;logarithm=v[j];found=true;}
+        else weight=weight*v[j];
+      }
+      if(!found)return false;
+    }
+    if(!logarithm.is_symb_of_sommet(at_ln))return false;
+    gen f=logarithm._SYMBptr->feuille,c=integration_coefficient(f,x,contextptr),u,a,b;
     bool absolute=f.is_symb_of_sommet(at_abs);
     if(absolute){
       if(!is_strictly_positive(c,contextptr))return false;
@@ -3277,18 +3289,44 @@ namespace giac {
     if(!integration_resource_rational(c) || is_zero(c) ||
        (!f.is_symb_of_sommet(at_sin) && !f.is_symb_of_sommet(at_cos)))return false;
     u=f._SYMBptr->feuille;
-    if(!is_linear_wrt(u,x,a,b,contextptr) || !integration_resource_rational(a) || is_zero(a))return false;
+    bool linear=is_linear_wrt(u,x,a,b,contextptr) && integration_resource_rational(a) && !is_zero(a);
+    gen scale;
+    if(!is_one(weight)){
+      // Match coefficients of weight = scale*u', without dividing by a
+      // variable derivative and losing regular stationary points.
+      sparse_poly1 up,wp;
+      gen phase=integration_syntax(u,contextptr),phase_scale=integration_syntax(integration_coefficient(phase,x,contextptr),contextptr);
+      if(!integration_resource_rational(phase_scale) || is_zero(phase_scale) ||
+         !small_sparse_polynomial(phase,x,up,contextptr) || up.empty() || up.size()>4 ||
+         !small_sparse_polynomial(weight,x,wp,contextptr) || wp.size()>4)return false;
+      scale=undef;unsigned count=0,matches=0;
+      for(unsigned j=0;j<up.size();++j){
+        if(up[j].exponent.val>8 || !integration_resource_rational(up[j].coeff))return false;
+        if(up[j].exponent.val && !is_zero(up[j].coeff))++count;
+      }
+      for(unsigned j=0;j<wp.size();++j){
+        if(is_zero(wp[j].coeff))continue;
+        if(!integration_resource_rational(wp[j].coeff))return false;
+        unsigned k=0;for(;k<up.size();++k)if(up[k].exponent.val==wp[j].exponent.val+1 && !is_zero(up[k].coeff))break;
+        if(k==up.size())return false;
+        gen ratio=wp[j].coeff/(phase_scale*up[k].exponent*up[k].coeff);
+        if(is_undef(scale))scale=ratio;else if(scale!=ratio)return false;
+        ++matches;
+      }
+      if(!count || count!=matches || !integration_resource_rational(scale))return false;
+    }
+    else {if(!linear)return false;scale=gen(1)/a;}
     // Phase constants can be rational plus a rational multiple of pi.
     gen pa,pb;
-    if(!is_linear_wrt(b,cst_pi,pa,pb,contextptr) || !integration_resource_rational(pa) || !integration_resource_rational(pb))return false;
+    if(is_one(weight) && (!is_linear_wrt(b,cst_pi,pa,pb,contextptr) || !integration_resource_rational(pa) || !integration_resource_rational(pb)))return false;
     if(f.is_symb_of_sommet(at_cos))u+=cst_pi/2;
     if(is_strictly_positive(-c,contextptr)){c=-c;u+=cst_pi;}
     gen dilog=symbolic(at_Li2,symbolic(at_exp,2*cst_i*u));
-    res=x*ln(c/2,contextptr)-gen(symbolic(at_im,dilog))/(2*a);
+    res=(is_one(weight)?x:scale*u)*ln(c/2,contextptr)-scale*gen(symbolic(at_im,dilog))/2;
     if(!absolute){
       gen n=symbolic(at_floor,u/(2*cst_pi)),r=u-2*cst_pi*n-cst_pi;
       gen ramp=(u-cst_pi+gen(symbolic(at_abs,r)))/2;
-      res+=cst_i*cst_pi*ramp/a;
+      res+=scale*cst_i*cst_pi*ramp;
     }
     return true;
   }
@@ -6037,6 +6075,9 @@ namespace giac {
     }
     gen u,scale;bool extra;
     if(!integration_dilog_form(e,x,u,scale,extra,contextptr))return false;
+    // A complex exponential can cross a principal branch cut between real
+    // endpoints. The real definite shortcut does not prove that path safe.
+    if(!is_zero(im(scale,contextptr)))return false;
     gen c,q;
     if(integration_monomial(u,x,c,q,contextptr) && !is_strictly_positive(q,contextptr))return false;
     gen l=subst(u,x,lo,false,contextptr).eval(1,contextptr),r=subst(u,x,hi,false,contextptr).eval(1,contextptr);

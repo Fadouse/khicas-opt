@@ -1,0 +1,43 @@
+{
+  "cases": [
+    {
+      "id": "PC1-I1",
+      "input": "simplify(integrate((3*x^2-1)*ln(abs(2*sin((x^3-x)/2))),x))",
+      "expected": "-im(Li2(exp(i*(x^3-x))))",
+      "conditions": [
+        "x is real",
+        "sin((x^3-x)/2) != 0",
+        "Principal Li2; antiderivatives may differ by a constant on each connected domain interval."
+      ]
+    },
+    {
+      "id": "PC1-I2",
+      "input": "simplify(integrate(ln(1-2*exp(-3*i*x/2)),x))",
+      "expected": "-2*i*Li2(2*exp(-3*i*x/2))/3",
+      "conditions": [
+        "x is real",
+        "3*x/2 is not an integer multiple of 2*pi",
+        "ln and Li2 use their principal complex branches.",
+        "Antiderivatives are required on every connected interval between the excluded points; intervalwise constants are immaterial."
+      ]
+    },
+    {
+      "id": "PC1-I3",
+      "input": "simplify(integrate(sin(x)*cos(x)/(sin(x)^4+3*sin(x)^2*cos(x)^2+2*cos(x)^4),x))",
+      "expected": "-ln(1+cos(x)^2)/2",
+      "conditions": [
+        "x is real, including every zero of sin(x) and cos(x)."
+      ]
+    },
+    {
+      "id": "PC1-I4",
+      "input": "simplify(integrate(x/sqrt((x^2-4)^2),x))",
+      "expected": "sign(x^2-4)*ln(abs(x^2-4))/2",
+      "conditions": [
+        "x is real",
+        "x != -2 and x != 2",
+        "sqrt is the nonnegative real square root; intervalwise additive constants are allowed."
+      ]
+    }
+  ]
+}

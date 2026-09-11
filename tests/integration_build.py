@@ -60,7 +60,7 @@ def derivative_source(ref='current'):
     from kusual.cc; no mathematical derivative rules are replaced.
     """
     s=source(ref,'yderive.cc')
-    out='#include "giacPCH.h"\nnamespace giac {\n'
+    out='#include "giacPCH.h"\n#include "equation_normalize.h"\nnamespace giac {\n'
     out+='extern const unary_function_ptr * const at_Li2;\n'
     out+='gen host_symb_derive(const gen &);\ngen host_symb_derive(const gen &,const gen &);\ngen host_symb_derive(const gen &,const gen &,const gen &);\n'
     out+='gen symb_prog3(const gen &,const gen &,const gen &);\n'

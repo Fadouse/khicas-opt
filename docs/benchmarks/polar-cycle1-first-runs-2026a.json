@@ -1,0 +1,440 @@
+{
+  "scope": "First execution on unchanged e8a71ff integration/yderive/simplify probe; execution completion is not mathematical acceptance.",
+  "probe": "/tmp/khicas-final-perf2/simplify/probe",
+  "probe_sha256": "84f7594f49ba87efe80508aeb4584b6c71a48f6e682f51502d1e2fbaf5c3606f",
+  "corpus_sha256": "93c336ae7f198160832dbd7abf6af9597d806e653f3e625f6ebef70fe87e018f",
+  "runs": [
+    {
+      "id": "PC1-I1",
+      "input": "integrate((3*x^2-1)*ln(abs(2*sin((x^3-x)/2))),x)",
+      "outer": false,
+      "stack": "normal",
+      "exit": 2,
+      "result": "(x^3-x)*ln(2*sign(sin(1/2*(x^3-x)))*sin(1/2*(x^3-x)))+integrate(-1/2*(x^3-x)*(3*x^2-1)*cos(1/2*(x^3-x))/sin(1/2*(x^3-x)),x)",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(sin((x^3-x)/2))]\nDiscontinuities at zeroes of sin((x^3-x)/2) were not checked\nPARSER_CALLS 1\nSECONDS 0.0202975\nMAX_RSS_KB 22096\n"
+    },
+    {
+      "id": "PC1-I1",
+      "input": "integrate((3*x^2-1)*ln(abs(2*sin((x^3-x)/2))),x)",
+      "outer": false,
+      "stack": "64",
+      "exit": -11,
+      "result": "",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(sin((x^3-x)/2))]\n"
+    },
+    {
+      "id": "PC1-I1",
+      "input": "simplify(integrate((3*x^2-1)*ln(abs(2*sin((x^3-x)/2))),x))",
+      "outer": true,
+      "stack": "normal",
+      "exit": 2,
+      "result": "x^3*ln(2*sign(sin((x^3-x)/2))*sin((x^3-x)/2))-x*ln(2*sign(sin((x^3-x)/2))*sin((x^3-x)/2))+integrate(-1/2*4*cos((x^3-x)/2)/sin((x^3-x)/2)*(x^3-x)/2*(3*x^2-1)/2,x)",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(sin((x^3-x)/2))]\nDiscontinuities at zeroes of sin((x^3-x)/2) were not checked\nPARSER_CALLS 1\nSECONDS 0.173502\nMAX_RSS_KB 29052\n"
+    },
+    {
+      "id": "PC1-I1",
+      "input": "simplify(integrate((3*x^2-1)*ln(abs(2*sin((x^3-x)/2))),x))",
+      "outer": true,
+      "stack": "64",
+      "exit": -11,
+      "result": "",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(sin((x^3-x)/2))]\n"
+    },
+    {
+      "id": "PC1-I2",
+      "input": "integrate(ln(1-2*exp(-3*i*x/2)),x)",
+      "outer": false,
+      "stack": "normal",
+      "exit": 2,
+      "result": "x*ln(1-2*exp((-3*i)*x/2))-(-3*i)*2/2*(1/2*x)^2+integrate(-(-3*i)/2*x/(2*exp((-3*i)/2*x)-1),x)",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.00420007\nMAX_RSS_KB 29052\n"
+    },
+    {
+      "id": "PC1-I2",
+      "input": "integrate(ln(1-2*exp(-3*i*x/2)),x)",
+      "outer": false,
+      "stack": "64",
+      "exit": 2,
+      "result": "x*ln(1-2*exp((-3*i)*x/2))-(-3*i)*2/2*(1/2*x)^2+integrate(-(-3*i)/2*x/(2*exp((-3*i)/2*x)-1),x)",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.00427717\nMAX_RSS_KB 29052\n"
+    },
+    {
+      "id": "PC1-I2",
+      "input": "simplify(integrate(ln(1-2*exp(-3*i*x/2)),x))",
+      "outer": true,
+      "stack": "normal",
+      "exit": 2,
+      "result": "(3*i*x^2+4*x*ln(-2*exp((-3*i)/2*x)+1)+4*integrate(3*i*x/(4*exp((-3*i)/2*x)-2),x))/4",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.0122296\nMAX_RSS_KB 29052\n"
+    },
+    {
+      "id": "PC1-I2",
+      "input": "simplify(integrate(ln(1-2*exp(-3*i*x/2)),x))",
+      "outer": true,
+      "stack": "64",
+      "exit": 2,
+      "result": "(3*i*x^2+4*x*ln(-2*exp((-3*i)/2*x)+1)+4*integrate(3*i*x/(4*exp((-3*i)/2*x)-2),x))/4",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.0129192\nMAX_RSS_KB 29052\n"
+    },
+    {
+      "id": "PC1-I3",
+      "input": "integrate(sin(x)*cos(x)/(sin(x)^4+3*sin(x)^2*cos(x)^2+2*cos(x)^4),x)",
+      "outer": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "-1/2*ln(-sin(x)^2+2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00229614\nMAX_RSS_KB 29052\n"
+    },
+    {
+      "id": "PC1-I3",
+      "input": "integrate(sin(x)*cos(x)/(sin(x)^4+3*sin(x)^2*cos(x)^2+2*cos(x)^4),x)",
+      "outer": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "-1/2*ln(-sin(x)^2+2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00235852\nMAX_RSS_KB 29052\n"
+    },
+    {
+      "id": "PC1-I3",
+      "input": "simplify(integrate(sin(x)*cos(x)/(sin(x)^4+3*sin(x)^2*cos(x)^2+2*cos(x)^4),x))",
+      "outer": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "-ln(-sin(x)^2+2)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00226297\nMAX_RSS_KB 29052\n"
+    },
+    {
+      "id": "PC1-I3",
+      "input": "simplify(integrate(sin(x)*cos(x)/(sin(x)^4+3*sin(x)^2*cos(x)^2+2*cos(x)^4),x))",
+      "outer": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "-ln(-sin(x)^2+2)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00231923\nMAX_RSS_KB 29052\n"
+    },
+    {
+      "id": "PC1-I4",
+      "input": "integrate(x/sqrt((x^2-4)^2),x)",
+      "outer": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "1/2*ln(abs(x^2-4))/sign(x^2-4)",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(x^2-4)]\nDiscontinuities at zeroes of x^2-4 were not checked\nPARSER_CALLS 1\nSECONDS 0.000806411\nMAX_RSS_KB 29052\n"
+    },
+    {
+      "id": "PC1-I4",
+      "input": "integrate(x/sqrt((x^2-4)^2),x)",
+      "outer": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "1/2*ln(abs(x^2-4))/sign(x^2-4)",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(x^2-4)]\nDiscontinuities at zeroes of x^2-4 were not checked\nPARSER_CALLS 1\nSECONDS 0.000800701\nMAX_RSS_KB 29052\n"
+    },
+    {
+      "id": "PC1-I4",
+      "input": "simplify(integrate(x/sqrt((x^2-4)^2),x))",
+      "outer": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(x^2*ln(abs(x^2-4))-4*ln(abs(x^2-4)))/(2*abs(x^2-4))",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(x^2-4)]\nDiscontinuities at zeroes of x^2-4 were not checked\nPARSER_CALLS 1\nSECONDS 0.00160811\nMAX_RSS_KB 29052\n"
+    },
+    {
+      "id": "PC1-I4",
+      "input": "simplify(integrate(x/sqrt((x^2-4)^2),x))",
+      "outer": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "(x^2*ln(abs(x^2-4))-4*ln(abs(x^2-4)))/(2*abs(x^2-4))",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(x^2-4)]\nDiscontinuities at zeroes of x^2-4 were not checked\nPARSER_CALLS 1\nSECONDS 0.00153858\nMAX_RSS_KB 29052\n"
+    },
+    {
+      "id": "PC1-D1",
+      "input": "diff(im(Li2(exp(i*(x^2-1)^2))),x)",
+      "outer": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(-4*x^3+2*2*x)*ln(2*abs(sin((x^4-2*x^2+1)/2)))",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000386326\nMAX_RSS_KB 29052\n"
+    },
+    {
+      "id": "PC1-D1",
+      "input": "diff(im(Li2(exp(i*(x^2-1)^2))),x)",
+      "outer": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "(-4*x^3+2*2*x)*ln(2*abs(sin((x^4-2*x^2+1)/2)))",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000618373\nMAX_RSS_KB 29052\n"
+    },
+    {
+      "id": "PC1-D1",
+      "input": "simplify(diff(im(Li2(exp(i*(x^2-1)^2))),x))",
+      "outer": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "-4*x^3*ln(2)-4*x^3*ln(abs(sin((x^4-2*x^2+1)/2)))+4*x*ln(2)+4*x*ln(abs(sin((x^4-2*x^2+1)/2)))",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000442505\nMAX_RSS_KB 29052\n"
+    },
+    {
+      "id": "PC1-D1",
+      "input": "simplify(diff(im(Li2(exp(i*(x^2-1)^2))),x))",
+      "outer": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "-4*x^3*ln(2)-4*x^3*ln(abs(sin((x^4-2*x^2+1)/2)))+4*x*ln(2)+4*x*ln(abs(sin((x^4-2*x^2+1)/2)))",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000474014\nMAX_RSS_KB 29052\n"
+    },
+    {
+      "id": "PC1-D2",
+      "input": "diff(Li2(sin(x)^2/(2+sin(x)^2)),x)",
+      "outer": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(2*cos(x)*sin(x)*(2+sin(x)^2)-sin(x)^2*2*cos(x)*sin(x))/(2+sin(x)^2)^2*((sin(x)^2/(2+sin(x)^2)=0)? 1 : -ln(1-sin(x)^2/(2+sin(x)^2))/(sin(x)^2/(2+sin(x)^2)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000359256\nMAX_RSS_KB 29052\n"
+    },
+    {
+      "id": "PC1-D2",
+      "input": "diff(Li2(sin(x)^2/(2+sin(x)^2)),x)",
+      "outer": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "(2*cos(x)*sin(x)*(2+sin(x)^2)-sin(x)^2*2*cos(x)*sin(x))/(2+sin(x)^2)^2*((sin(x)^2/(2+sin(x)^2)=0)? 1 : -ln(1-sin(x)^2/(2+sin(x)^2))/(sin(x)^2/(2+sin(x)^2)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000478215\nMAX_RSS_KB 29052\n"
+    },
+    {
+      "id": "PC1-D2",
+      "input": "simplify(diff(Li2(sin(x)^2/(2+sin(x)^2)),x))",
+      "outer": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(2*cos(x)*sin(x)*(2+sin(x)^2)-sin(x)^2*2*cos(x)*sin(x))/(2+sin(x)^2)^2*((sin(x)^2/(2+sin(x)^2)=0)? 1 : -ln(1-sin(x)^2/(2+sin(x)^2))/(sin(x)^2/(2+sin(x)^2)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000339466\nMAX_RSS_KB 29052\n"
+    },
+    {
+      "id": "PC1-D2",
+      "input": "simplify(diff(Li2(sin(x)^2/(2+sin(x)^2)),x))",
+      "outer": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "(2*cos(x)*sin(x)*(2+sin(x)^2)-sin(x)^2*2*cos(x)*sin(x))/(2+sin(x)^2)^2*((sin(x)^2/(2+sin(x)^2)=0)? 1 : -ln(1-sin(x)^2/(2+sin(x)^2))/(sin(x)^2/(2+sin(x)^2)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000398565\nMAX_RSS_KB 29052\n"
+    },
+    {
+      "id": "PC1-D3",
+      "input": "diff(re(Li2(exp(i*(x^3-2*x)))),x)",
+      "outer": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(3*x^2-2)*sin(x^3-2*x)*(ln(2*abs(sin((x^3-2*x)/2)))*cos(x^3-2*x)/(cos(x^3-2*x)^2+sin(x^3-2*x)^2)+(-atan(sin(x^3-2*x)/(-cos(x^3-2*x)+1))-(1-sign(-cos(x^3-2*x)+1))*sign(sin(x^3-2*x))*pi/2)*sin(x^3-2*x)/(cos(x^3-2*x)^2+sin(x^3-2*x)^2))+(3*x^2-2)*cos(x^3-2*x)*(-ln(2*abs(sin((x^3-2*x)/2)))*sin(x^3-2*x)/(cos(x^3-2*x)^2+sin(x^3-2*x)^2)+(-atan(sin(x^3-2*x)/(-cos(x^3-2*x)+1))-(1-sign(-cos(x^3-2*x)+1))*sign(sin(x^3-2*x))*pi/2)*cos(x^3-2*x)/(cos(x^3-2*x)^2+sin(x^3-2*x)^2))",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.00558561\nMAX_RSS_KB 29052\n"
+    },
+    {
+      "id": "PC1-D3",
+      "input": "diff(re(Li2(exp(i*(x^3-2*x)))),x)",
+      "outer": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "(3*x^2-2)*sin(x^3-2*x)*(ln(2*abs(sin((x^3-2*x)/2)))*cos(x^3-2*x)/(cos(x^3-2*x)^2+sin(x^3-2*x)^2)+(-atan(sin(x^3-2*x)/(-cos(x^3-2*x)+1))-(1-sign(-cos(x^3-2*x)+1))*sign(sin(x^3-2*x))*pi/2)*sin(x^3-2*x)/(cos(x^3-2*x)^2+sin(x^3-2*x)^2))+(3*x^2-2)*cos(x^3-2*x)*(-ln(2*abs(sin((x^3-2*x)/2)))*sin(x^3-2*x)/(cos(x^3-2*x)^2+sin(x^3-2*x)^2)+(-atan(sin(x^3-2*x)/(-cos(x^3-2*x)+1))-(1-sign(-cos(x^3-2*x)+1))*sign(sin(x^3-2*x))*pi/2)*cos(x^3-2*x)/(cos(x^3-2*x)^2+sin(x^3-2*x)^2))",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.00540191\nMAX_RSS_KB 29052\n"
+    },
+    {
+      "id": "PC1-D3",
+      "input": "simplify(diff(re(Li2(exp(i*(x^3-2*x)))),x))",
+      "outer": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "3/2*pi*x^2*sign(2*cos(x)*cos(x^3)*sin(x)+2*sin(x)^2*sin(x^3)-sin(x^3))*sign(2*cos(x)*sin(x)*sin(x^3)-2*cos(x^3)*sin(x)^2+cos(x^3)-1)+3/2*pi*x^2*sign(2*cos(x)*cos(x^3)*sin(x)+2*sin(x)^2*sin(x^3)-sin(x^3))-pi*sign(2*cos(x)*cos(x^3)*sin(x)+2*sin(x)^2*sin(x^3)-sin(x^3))*sign(2*cos(x)*sin(x)*sin(x^3)-2*cos(x^3)*sin(x)^2+cos(x^3)-1)-pi*sign(2*cos(x)*cos(x^3)*sin(x)+2*sin(x)^2*sin(x^3)-sin(x^3))-3*x^2*atan((2*cos(x)*cos(x^3)*sin(x)+2*sin(x)^2*sin(x^3)-sin(x^3))/(2*cos(x)*sin(x)*sin(x^3)-2*cos(x^3)*sin(x)^2+cos(x^3)-1))+2*atan((2*cos(x)*cos(x^3)*sin(x)+2*sin(x)^2*sin(x^3)-sin(x^3))/(2*cos(x)*sin(x)*sin(x^3)-2*cos(x^3)*sin(x)^2+cos(x^3)-1))",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.224413\nMAX_RSS_KB 29052\n"
+    },
+    {
+      "id": "PC1-D3",
+      "input": "simplify(diff(re(Li2(exp(i*(x^3-2*x)))),x))",
+      "outer": true,
+      "stack": "64",
+      "exit": -11,
+      "result": "",
+      "stderr": ""
+    },
+    {
+      "id": "PC1-D4",
+      "input": "diff(sqrt((x^2-1)^2)/(x^2+1),x)",
+      "outer": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(2*x*abs(x^2-1)/(x^2-1)*(x^2+1)-abs(x^2-1)*2*x)/(x^2+1)^2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000591563\nMAX_RSS_KB 29052\n"
+    },
+    {
+      "id": "PC1-D4",
+      "input": "diff(sqrt((x^2-1)^2)/(x^2+1),x)",
+      "outer": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "(2*x*abs(x^2-1)/(x^2-1)*(x^2+1)-abs(x^2-1)*2*x)/(x^2+1)^2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000527274\nMAX_RSS_KB 29052\n"
+    },
+    {
+      "id": "PC1-D4",
+      "input": "simplify(diff(sqrt((x^2-1)^2)/(x^2+1),x))",
+      "outer": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "4*x*abs(x^2-1)/(x^6+x^4-x^2-1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00107263\nMAX_RSS_KB 29052\n"
+    },
+    {
+      "id": "PC1-D4",
+      "input": "simplify(diff(sqrt((x^2-1)^2)/(x^2+1),x))",
+      "outer": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "4*x*abs(x^2-1)/(x^6+x^4-x^2-1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000994608\nMAX_RSS_KB 29052\n"
+    },
+    {
+      "id": "PC1-S1",
+      "input": "(sin(x)^3*cos(x)+sin(x)*cos(x)^3)/(sin(x)^6+cos(x)^6)",
+      "outer": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(sin(x)^3*cos(x)+sin(x)*cos(x)^3)/(sin(x)^6+cos(x)^6)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000294017\nMAX_RSS_KB 29052\n"
+    },
+    {
+      "id": "PC1-S1",
+      "input": "(sin(x)^3*cos(x)+sin(x)*cos(x)^3)/(sin(x)^6+cos(x)^6)",
+      "outer": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "(sin(x)^3*cos(x)+sin(x)*cos(x)^3)/(sin(x)^6+cos(x)^6)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000312376\nMAX_RSS_KB 29052\n"
+    },
+    {
+      "id": "PC1-S1",
+      "input": "simplify((sin(x)^3*cos(x)+sin(x)*cos(x)^3)/(sin(x)^6+cos(x)^6))",
+      "outer": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "cos(x)*sin(x)/(cos(x)^4-cos(x)^2*sin(x)^2+sin(x)^4)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000439275\nMAX_RSS_KB 29052\n"
+    },
+    {
+      "id": "PC1-S1",
+      "input": "simplify((sin(x)^3*cos(x)+sin(x)*cos(x)^3)/(sin(x)^6+cos(x)^6))",
+      "outer": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "cos(x)*sin(x)/(cos(x)^4-cos(x)^2*sin(x)^2+sin(x)^4)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000413966\nMAX_RSS_KB 29052\n"
+    },
+    {
+      "id": "PC1-S2",
+      "input": "sqrt((x-2)^2*(x+1)^2)/sqrt((x-2)^2)",
+      "outer": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "sqrt((x-2)^2*(x+1)^2)/abs(x-2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000421905\nMAX_RSS_KB 29052\n"
+    },
+    {
+      "id": "PC1-S2",
+      "input": "sqrt((x-2)^2*(x+1)^2)/sqrt((x-2)^2)",
+      "outer": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "sqrt((x-2)^2*(x+1)^2)/abs(x-2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000525294\nMAX_RSS_KB 29052\n"
+    },
+    {
+      "id": "PC1-S2",
+      "input": "simplify(sqrt((x-2)^2*(x+1)^2)/sqrt((x-2)^2))",
+      "outer": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "abs(x^2-x-2)/abs(x-2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00116054\nMAX_RSS_KB 29052\n"
+    },
+    {
+      "id": "PC1-S2",
+      "input": "simplify(sqrt((x-2)^2*(x+1)^2)/sqrt((x-2)^2))",
+      "outer": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "abs(x^2-x-2)/abs(x-2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00153535\nMAX_RSS_KB 29052\n"
+    },
+    {
+      "id": "PC1-R1",
+      "input": "sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(x)^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2)",
+      "outer": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "sqrt(1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+x^2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000320296\nMAX_RSS_KB 29052\n"
+    },
+    {
+      "id": "PC1-R1",
+      "input": "sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(x)^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2)",
+      "outer": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "sqrt(1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+x^2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000632853\nMAX_RSS_KB 29052\n"
+    },
+    {
+      "id": "PC1-R1",
+      "input": "simplify(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(x)^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))",
+      "outer": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "sqrt(x^2+18)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000950729\nMAX_RSS_KB 29052\n"
+    },
+    {
+      "id": "PC1-R1",
+      "input": "simplify(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(x)^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))",
+      "outer": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "sqrt(x^2+18)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00122634\nMAX_RSS_KB 29052\n"
+    },
+    {
+      "id": "PC1-R2",
+      "input": "((1+sin(x+1)^6+cos(x+1)^6)/(2+sin(x+1)^6+cos(x+1)^6))*((1+sin(x+2)^6+cos(x+2)^6)/(2+sin(x+2)^6+cos(x+2)^6))*((1+sin(x+3)^6+cos(x+3)^6)/(2+sin(x+3)^6+cos(x+3)^6))*((1+sin(x+4)^6+cos(x+4)^6)/(2+sin(x+4)^6+cos(x+4)^6))*((1+sin(x+5)^6+cos(x+5)^6)/(2+sin(x+5)^6+cos(x+5)^6))*((1+sin(x+6)^6+cos(x+6)^6)/(2+sin(x+6)^6+cos(x+6)^6))*((1+sin(x+7)^6+cos(x+7)^6)/(2+sin(x+7)^6+cos(x+7)^6))*((1+sin(x+8)^6+cos(x+8)^6)/(2+sin(x+8)^6+cos(x+8)^6))*((1+sin(x+9)^6+cos(x+9)^6)/(2+sin(x+9)^6+cos(x+9)^6))*((1+sin(x+10)^6+cos(x+10)^6)/(2+sin(x+10)^6+cos(x+10)^6))",
+      "outer": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(1+sin(x+1)^6+cos(x+1)^6)/(2+sin(x+1)^6+cos(x+1)^6)*(1+sin(x+2)^6+cos(x+2)^6)/(2+sin(x+2)^6+cos(x+2)^6)*(1+sin(x+3)^6+cos(x+3)^6)/(2+sin(x+3)^6+cos(x+3)^6)*(1+sin(x+4)^6+cos(x+4)^6)/(2+sin(x+4)^6+cos(x+4)^6)*(1+sin(x+5)^6+cos(x+5)^6)/(2+sin(x+5)^6+cos(x+5)^6)*(1+sin(x+6)^6+cos(x+6)^6)/(2+sin(x+6)^6+cos(x+6)^6)*(1+sin(x+7)^6+cos(x+7)^6)/(2+sin(x+7)^6+cos(x+7)^6)*(1+sin(x+8)^6+cos(x+8)^6)/(2+sin(x+8)^6+cos(x+8)^6)*(1+sin(x+9)^6+cos(x+9)^6)/(2+sin(x+9)^6+cos(x+9)^6)*(1+sin(x+10)^6+cos(x+10)^6)/(2+sin(x+10)^6+cos(x+10)^6)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000408325\nMAX_RSS_KB 29052\n"
+    },
+    {
+      "id": "PC1-R2",
+      "input": "((1+sin(x+1)^6+cos(x+1)^6)/(2+sin(x+1)^6+cos(x+1)^6))*((1+sin(x+2)^6+cos(x+2)^6)/(2+sin(x+2)^6+cos(x+2)^6))*((1+sin(x+3)^6+cos(x+3)^6)/(2+sin(x+3)^6+cos(x+3)^6))*((1+sin(x+4)^6+cos(x+4)^6)/(2+sin(x+4)^6+cos(x+4)^6))*((1+sin(x+5)^6+cos(x+5)^6)/(2+sin(x+5)^6+cos(x+5)^6))*((1+sin(x+6)^6+cos(x+6)^6)/(2+sin(x+6)^6+cos(x+6)^6))*((1+sin(x+7)^6+cos(x+7)^6)/(2+sin(x+7)^6+cos(x+7)^6))*((1+sin(x+8)^6+cos(x+8)^6)/(2+sin(x+8)^6+cos(x+8)^6))*((1+sin(x+9)^6+cos(x+9)^6)/(2+sin(x+9)^6+cos(x+9)^6))*((1+sin(x+10)^6+cos(x+10)^6)/(2+sin(x+10)^6+cos(x+10)^6))",
+      "outer": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "(1+sin(x+1)^6+cos(x+1)^6)/(2+sin(x+1)^6+cos(x+1)^6)*(1+sin(x+2)^6+cos(x+2)^6)/(2+sin(x+2)^6+cos(x+2)^6)*(1+sin(x+3)^6+cos(x+3)^6)/(2+sin(x+3)^6+cos(x+3)^6)*(1+sin(x+4)^6+cos(x+4)^6)/(2+sin(x+4)^6+cos(x+4)^6)*(1+sin(x+5)^6+cos(x+5)^6)/(2+sin(x+5)^6+cos(x+5)^6)*(1+sin(x+6)^6+cos(x+6)^6)/(2+sin(x+6)^6+cos(x+6)^6)*(1+sin(x+7)^6+cos(x+7)^6)/(2+sin(x+7)^6+cos(x+7)^6)*(1+sin(x+8)^6+cos(x+8)^6)/(2+sin(x+8)^6+cos(x+8)^6)*(1+sin(x+9)^6+cos(x+9)^6)/(2+sin(x+9)^6+cos(x+9)^6)*(1+sin(x+10)^6+cos(x+10)^6)/(2+sin(x+10)^6+cos(x+10)^6)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000390745\nMAX_RSS_KB 29052\n"
+    },
+    {
+      "id": "PC1-R2",
+      "input": "simplify(((1+sin(x+1)^6+cos(x+1)^6)/(2+sin(x+1)^6+cos(x+1)^6))*((1+sin(x+2)^6+cos(x+2)^6)/(2+sin(x+2)^6+cos(x+2)^6))*((1+sin(x+3)^6+cos(x+3)^6)/(2+sin(x+3)^6+cos(x+3)^6))*((1+sin(x+4)^6+cos(x+4)^6)/(2+sin(x+4)^6+cos(x+4)^6))*((1+sin(x+5)^6+cos(x+5)^6)/(2+sin(x+5)^6+cos(x+5)^6))*((1+sin(x+6)^6+cos(x+6)^6)/(2+sin(x+6)^6+cos(x+6)^6))*((1+sin(x+7)^6+cos(x+7)^6)/(2+sin(x+7)^6+cos(x+7)^6))*((1+sin(x+8)^6+cos(x+8)^6)/(2+sin(x+8)^6+cos(x+8)^6))*((1+sin(x+9)^6+cos(x+9)^6)/(2+sin(x+9)^6+cos(x+9)^6))*((1+sin(x+10)^6+cos(x+10)^6)/(2+sin(x+10)^6+cos(x+10)^6)))",
+      "outer": true,
+      "stack": "normal",
+      "exit": -6,
+      "result": "",
+      "stderr": "Exchange 92758 20 Vector [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1] 59049 Vector [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1] 59049\n// GCD eval dimension 20 130685 Vector [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1] 59049 Vector [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]59049 \n// evaled GCD deg 0\nend eval 20 176833 1\nExchange 328127 20 Vector [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1] 59049 Vector [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1] 59049\n// GCD eval dimension 20 364363 Vector [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1] 59049 Vector [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]59049 \n// evaled GCD deg 0\nend eval 20 411614 1\nExchange 2331075 20 Vector [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1] 59049 Vector [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1] 59049\n// GCD eval dimension 20 2367560 Vector [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1] 59049 Vector [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]59049 \n// evaled GCD deg 0\nend eval 20 2414125 1\nterminate called after throwing an instance of 'std::bad_alloc'\n  what():  std::bad_alloc\n"
+    },
+    {
+      "id": "PC1-R2",
+      "input": "simplify(((1+sin(x+1)^6+cos(x+1)^6)/(2+sin(x+1)^6+cos(x+1)^6))*((1+sin(x+2)^6+cos(x+2)^6)/(2+sin(x+2)^6+cos(x+2)^6))*((1+sin(x+3)^6+cos(x+3)^6)/(2+sin(x+3)^6+cos(x+3)^6))*((1+sin(x+4)^6+cos(x+4)^6)/(2+sin(x+4)^6+cos(x+4)^6))*((1+sin(x+5)^6+cos(x+5)^6)/(2+sin(x+5)^6+cos(x+5)^6))*((1+sin(x+6)^6+cos(x+6)^6)/(2+sin(x+6)^6+cos(x+6)^6))*((1+sin(x+7)^6+cos(x+7)^6)/(2+sin(x+7)^6+cos(x+7)^6))*((1+sin(x+8)^6+cos(x+8)^6)/(2+sin(x+8)^6+cos(x+8)^6))*((1+sin(x+9)^6+cos(x+9)^6)/(2+sin(x+9)^6+cos(x+9)^6))*((1+sin(x+10)^6+cos(x+10)^6)/(2+sin(x+10)^6+cos(x+10)^6)))",
+      "outer": true,
+      "stack": "64",
+      "exit": -6,
+      "result": "",
+      "stderr": "Exchange 97057 20 Vector [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1] 59049 Vector [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1] 59049\n// GCD eval dimension 20 135963 Vector [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1] 59049 Vector [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]59049 \n// evaled GCD deg 0\nend eval 20 182295 1\nExchange 342529 20 Vector [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1] 59049 Vector [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1] 59049\n// GCD eval dimension 20 378652 Vector [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1] 59049 Vector [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]59049 \n// evaled GCD deg 0\nend eval 20 425527 1\nExchange 2357282 20 Vector [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1] 59049 Vector [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1] 59049\n// GCD eval dimension 20 2396648 Vector [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1] 59049 Vector [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]59049 \n// evaled GCD deg 0\nend eval 20 2443043 1\nterminate called after throwing an instance of 'St9bad_alloc'\n  what():  std::bad_alloc\n"
+    }
+  ]
+}

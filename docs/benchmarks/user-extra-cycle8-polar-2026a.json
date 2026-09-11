@@ -1,0 +1,74 @@
+{
+  "baseline": "checkpoint/equations",
+  "timeout_seconds": 10,
+  "scope": "actual yintg, zintgab, normalization and FXCG simplify entry points; other dependencies host Giac; not CG50 timings",
+  "validation_probe_sha256": "389931bcb1768f94a589ce5b4cdc1422b9629a9e2b5e3281dab7e775beb834a4",
+  "source_sha256": {
+    "yintg.cc": "5aafc1b3c6e11af9c7a9ad17b225e135c4ee20a03d3bde4cff15c49bb7690b7f",
+    "zintgab.cc": "3b6fa78aba4d53b1a11479c33bacb4c85e3d6091389ef3073ec60085a7ae9448",
+    "ysym2poly.cc": "ca2e4abe3652bf6314e38703100426e6996b3d272ad6f6215d469acf7ecb979c",
+    "integration_guard.h": "5f4bfda11a19fdf8b4b41da6bb037f602dd741ec1f3492066abab251e85d48a9",
+    "dilogarithm.h": "ca822ef4c094a4ed1f4aecf7219011668735d86d259c51ec6304515f8fa84d7a",
+    "ksubst.cc": "cf851b7945f2fee0646b9a46d56eabb543170afaf9ce42ef8ae205658c112991",
+    "equation_normalize.h": "4bfb644f0e18bb36e280ce8886c8ac12695c9aeeaef187ea3e5f967cd1642e37"
+  },
+  "corpus_file": "tests/user-extra-integrals.json",
+  "corpus_sha256": "62334f9857f556f50242e12aad967889b6209f603c2a01abbf819789ea0cc183",
+  "sources": [
+    {
+      "description": "User inputs; independent double-integral symmetry and x -> pi-x reflection proofs"
+    }
+  ],
+  "runs": {
+    "current": [
+      {
+        "id": "USER-EXTRA-01",
+        "status": "exact",
+        "exit": 0,
+        "result": "(pi*pi/6-pi/4*pi/4)/2",
+        "result_characters": 21,
+        "result_sha256": "4ca0ee0cefbbe879db9a5f6f75e51612f046d94d9d5be401f899f0869122d008",
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000472284\nMAX_RSS_KB 23800\n",
+        "integration_status": "computed",
+        "integration_wall_seconds": 0.002493217005394399,
+        "integration_seconds": 0.000472284,
+        "parser_calls": 1,
+        "host_max_rss_kb": 23800,
+        "validation": {
+          "exit": 0,
+          "status": "exact",
+          "result": "(pi*pi/6-pi/4*pi/4)/2",
+          "stderr": "PARSER_CALLS 1\nSECONDS 0.000268667\nMAX_RSS_KB 23800\nCHECK exact\n",
+          "result_parse_eval_seconds": 0.000268667,
+          "wall_seconds": 0.002359800011618063
+        },
+        "wall_seconds": 0.004877436993410811
+      },
+      {
+        "id": "USER-EXTRA-02",
+        "status": "exact",
+        "exit": 0,
+        "result": "-pi*pi*ln(2)/2",
+        "result_characters": 14,
+        "result_sha256": "a827fb246ec105093caa809a72b843d686dca1506af1f2c10eed7d4f4a526576",
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000318486\nMAX_RSS_KB 23800\n",
+        "integration_status": "computed",
+        "integration_wall_seconds": 0.002255450002849102,
+        "integration_seconds": 0.000318486,
+        "parser_calls": 1,
+        "host_max_rss_kb": 23800,
+        "validation": {
+          "exit": 0,
+          "status": "exact",
+          "result": "-pi*pi*ln(2)/2",
+          "stderr": "PARSER_CALLS 1\nSECONDS 0.000265086\nMAX_RSS_KB 23800\nCHECK exact\n",
+          "result_parse_eval_seconds": 0.000265086,
+          "wall_seconds": 0.0023331800184678286
+        },
+        "wall_seconds": 0.004602859989972785
+      }
+    ]
+  },
+  "validation_scope": "separate host Giac probe validates the printed target result; no repository integration, normalization or FXCG simplify linked",
+  "validation_timeout_seconds": 10
+}

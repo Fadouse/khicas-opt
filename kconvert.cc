@@ -422,10 +422,58 @@ static bool curve_polar_nonzero(const gen &g,GIAC_CONTEXT) {
   int s=curve_proved_sign(g,contextptr);return s==1 || s==-1;
 }
 
+// Real polar curves: prefer an explicit radius without a general solve().
+// A square root denotes its real domain; choosing the nonnegative radius
+// loses no Cartesian points for a centered quadratic (pi-periodic H).
+static gen curve_polar_sqrt(const gen &q,GIAC_CONTEXT) {
+  *logptr(contextptr)<<"Real polar radius: radicand >= 0; denominator != 0.\n";
+  gen base=q,c=equation_numeric_factor(base);
+  if(equation_rational(c) && is_strictly_positive(c,contextptr))
+    return sqrt(c,contextptr)*sqrt(base,contextptr);
+  return sqrt(q,contextptr);
+}
+
+static bool curve_conic_polar(const curve_polynomial_terms &p,const gen &r,
+                              const gen &theta,gen &result,GIAC_CONTEXT) {
+  if(p.empty() || p.size()>6)return false;
+  for(unsigned j=0;j<p.size();++j)
+    if(p[j].px+p[j].py>2 || taille(p[j].coefficient,33)>32 || !is_zero(im(p[j].coefficient,contextptr)))return false;
+  gen A=curve_coefficient(p,2,0),B=curve_coefficient(p,1,1),C=curve_coefficient(p,0,2);
+  gen D=curve_coefficient(p,1,0),E=curve_coefficient(p,0,1),F=curve_coefficient(p,0,0);
+  gen cs=cos(theta,contextptr),sn=sin(theta,contextptr);
+  gen L=D*cs+E*sn;
+  if(is_zero(A) && is_zero(B) && is_zero(C)){
+    // If F can vanish, dividing by L could discard a whole radial line.
+    if((is_zero(D) && is_zero(E)) || !curve_polar_nonzero(F,contextptr))return false;
+    result=symb_equal(r,ratnormal(-F/L,contextptr));
+    *logptr(contextptr)<<"Real polar radius: denominator != 0.\n";return true;
+  }
+  gen H=is_zero(B)?(A==C?A:A*cs*cs+C*sn*sn):A*cs*cs+B*cs*sn+C*sn*sn;
+  // Definiteness proves H never vanishes for any real angle. This proof
+  // uses the small Cartesian coefficients, not a trigonometric sign test.
+  bool definite=curve_proved_sign(ratnormal(4*A*C-B*B,contextptr),contextptr)==1 && curve_polar_nonzero(A,contextptr);
+  if(is_zero(D) && is_zero(E)){
+    if(!definite && !curve_polar_nonzero(F,contextptr))return false;
+    if(definite && curve_proved_sign(-F/A,contextptr)==-1){result=vecteur(0);return true;}
+    result=symb_equal(r,curve_polar_sqrt(ratnormal(-F/H,contextptr),contextptr));return true;
+  }
+  if(!definite)return false;
+  if(is_zero(F)){
+    // The omitted r=0 factor is still represented at an angle L=0.
+    // A real linear combination of sin/cos always has such an angle.
+    result=symb_equal(r,ratnormal(-L/H,contextptr));return true;
+  }
+  gen root=curve_polar_sqrt(ratnormal(L*L-4*H*F,contextptr),contextptr);
+  gen first=symb_equal(r,ratnormal((-L+root)/(2*H),contextptr));
+  gen second=symb_equal(r,ratnormal((-L-root)/(2*H),contextptr));
+  result=first==second?first:gen(makevecteur(first,second));return true;
+}
+
 static bool curve_compact_polar(const gen &g,const gen &x,const gen &y,
                                 const gen &r,const gen &theta,gen &result,GIAC_CONTEXT) {
   curve_polynomial_terms p;
   if(!curve_polynomial(g,x,y,p,contextptr))return false;
+  if(curve_conic_polar(p,r,theta,result,contextptr))return true;
   gen leading=curve_coefficient(p,4,0),xx=curve_coefficient(p,2,0);
   if(curve_polar_nonzero(leading,contextptr) && curve_coefficient(p,0,4)==leading &&
      curve_coefficient(p,2,2)==2*leading && curve_coefficient(p,0,2)==-xx) {
@@ -437,7 +485,7 @@ static bool curve_compact_polar(const gen &g,const gen &x,const gen &y,
     }
     if(shape){
       gen k=-xx/leading;if(is_undef(k) || is_inf(k))return false;
-      result=symb_equal(pow(r,2),k*cos(2*theta,contextptr));
+      result=symb_equal(r,curve_polar_sqrt(k*cos(2*theta,contextptr),contextptr));
       *logptr(contextptr)<<"Same Cartesian curve; origin retained. Angle labels at the origin may differ.\n";
       return true;
     }

@@ -37,9 +37,15 @@ def verify(case,printed):
     if id=='MR2-D1':
         assert sp.count_ops(actual)<128
         expected=parse(case['expected']['expression'])
+        regular=actual
+        for branch in actual.atoms(sp.Piecewise):
+            (yes,condition),(no,otherwise)=branch.args
+            assert yes==0 and otherwise==True and set(sp.solve(condition,x))=={0}
+            assert sp.simplify(expected.subs(x,0))==0
+            regular=regular.xreplace({branch:no})
         # Force only a positive magnitude's constant-factor logarithm split;
         # sin zeros are excluded in the question, so its abs is positive.
-        assert equal(sp.expand_log(actual,force=True),sp.expand_log(expected,force=True))
+        assert equal(sp.expand_log(regular,force=True),sp.expand_log(expected,force=True))
         assert sp.simplify(actual.subs(x,0))==0
         return {'exact':True,'method':'positive magnitude logarithm identity; exact nonlinear phase chain rule; regular value at zero'}
     if id in ['MR2-D2','MR2-D3']:

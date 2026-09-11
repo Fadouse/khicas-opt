@@ -1,0 +1,230 @@
+{
+  "cases": [
+    {
+      "id": "PC1-I1",
+      "type": "integral",
+      "input": "simplify(integrate((3*x^2-1)*ln(abs(2*sin((x^3-x)/2))),x))",
+      "conditions": [
+        "x is real",
+        "sin((x^3-x)/2) != 0",
+        "Principal Li2; antiderivatives may differ by a constant on each connected domain interval."
+      ],
+      "expected": {
+        "expression": "-im(Li2(exp(i*(x^3-x))))",
+        "properties": [
+          "Return an explicit exact antiderivative without unevaluated integrate.",
+          "Both signs of the sine and both signs of the phase derivative must be covered.",
+          "The stationary points x=1/sqrt(3) and x=-1/sqrt(3) are in the domain and must remain regular."
+        ]
+      },
+      "reason": "Let phi=x^3-x. For real phi away from 2*pi*Z, d Im Li2(exp(i*phi))/dx=-phi' * ln(abs(1-exp(i*phi)))=-phi' * ln(2*abs(sin(phi/2))). Negating yields the integrand. This chain rule does not divide by phi'=3*x^2-1; at either stationary point the sine is nonzero and the derivative is zero."
+    },
+    {
+      "id": "PC1-I2",
+      "type": "integral",
+      "input": "simplify(integrate(ln(1-2*exp(-3*i*x/2)),x))",
+      "conditions": [
+        "x is real",
+        "3*x/2 is not an integer multiple of 2*pi",
+        "ln and Li2 use their principal complex branches.",
+        "Antiderivatives are required on every connected interval between the excluded points; intervalwise constants are immaterial."
+      ],
+      "expected": {
+        "expression": "-2*i*Li2(2*exp(-3*i*x/2))/3",
+        "properties": [
+          "Return an explicit exact antiderivative.",
+          "Cover both upper and lower half-plane arcs of the radius-two Li2 argument.",
+          "Do not replace the complex logarithm by ln(abs(...)) or discard its imaginary part.",
+          "The excluded points are principal-branch discontinuities, not poles or a request for a principal-value integral."
+        ]
+      },
+      "reason": "Set z=2*exp(-3*i*x/2), with z'/z=-3*i/2. On each stated interval z avoids the Li2 cut [1,infinity), so d Li2(z)/dx=-(z'/z)*ln(1-z)=(3*i/2)*ln(1-z). Multiplication by -2*i/3 gives exactly the integrand. Here 1-z never vanishes; at z=2 it crosses the negative-real logarithm cut, which explains the exclusions rather than any divergence."
+    },
+    {
+      "id": "PC1-I3",
+      "type": "integral",
+      "input": "simplify(integrate(sin(x)*cos(x)/(sin(x)^4+3*sin(x)^2*cos(x)^2+2*cos(x)^4),x))",
+      "conditions": [
+        "x is real, including every zero of sin(x) and cos(x)."
+      ],
+      "expected": {
+        "expression": "-ln(1+cos(x)^2)/2",
+        "properties": [
+          "Return an explicit exact real antiderivative on the entire real axis.",
+          "No tangent substitution pole may be introduced at cos(x)=0."
+        ]
+      },
+      "reason": "Write a=sin(x)^2 and b=cos(x)^2. The denominator a^2+3*a*b+2*b^2=(a+b)*(a+2*b)=1+cos(x)^2 is at least 1. Differentiating -ln(1+cos(x)^2)/2 gives sin(x)*cos(x)/(1+cos(x)^2), proving the answer without a singular change of variable."
+    },
+    {
+      "id": "PC1-I4",
+      "type": "integral",
+      "input": "simplify(integrate(x/sqrt((x^2-4)^2),x))",
+      "conditions": [
+        "x is real",
+        "x != -2 and x != 2",
+        "sqrt is the nonnegative real square root; intervalwise additive constants are allowed."
+      ],
+      "expected": {
+        "expression": "sign(x^2-4)*ln(abs(x^2-4))/2",
+        "properties": [
+          "Return an explicit exact real antiderivative on all three domain intervals.",
+          "On -2<x<2 an equivalent answer is -ln(4-x^2)/2; on either outer interval it is ln(x^2-4)/2.",
+          "Do not replace sqrt((x^2-4)^2) by x^2-4 without its sign."
+        ]
+      },
+      "reason": "Put w=x^2-4. The denominator is abs(w). On a connected interval avoiding its zeros sign(w) is constant, and d[sign(w)*ln(abs(w))/2]/dx=sign(w)*x/w=x/abs(w). This also includes x=0, where the derivative vanishes. The singular endpoints are excluded and no definite or principal-value integral is being requested."
+    },
+    {
+      "id": "PC1-D1",
+      "type": "derivative",
+      "input": "simplify(diff(im(Li2(exp(i*(x^2-1)^2))),x))",
+      "conditions": [
+        "x is real",
+        "Either x=-1 or x=1, or sin((x^2-1)^2/2) != 0.",
+        "Li2 uses its principal branch; im is evaluated along the real x path."
+      ],
+      "expected": {
+        "expression": "piecewise(x==-1,0,piecewise(x==1,0,-4*x*(x^2-1)*ln(2*abs(sin((x^2-1)^2/2)))))",
+        "properties": [
+          "Return an explicit exact derivative with zero defined at both x=-1 and x=1.",
+          "An equivalent representation with both removable values defined is acceptable.",
+          "A bare logarithmic product that becomes 0*infinity or undef at either endpoint is insufficient.",
+          "All other phase multiples of 2*pi are excluded; do not claim these nonstationary points have finite derivatives."
+        ]
+      },
+      "reason": "Away from the sine zeros the phase identity gives -phi' *ln(2*abs(sin(phi/2))), with phi=(x^2-1)^2 and phi'=4*x*(x^2-1). At x=a=+/-1, let h=x-a; phi=4*h^2+O(h^3). For small positive t, Im Li2(exp(i*t))=-integral_0^t ln(2*sin(s/2)) ds=t*(1-ln(t))+O(t^3). Thus the composition is O(h^2*abs(ln(abs(h)))), its value at h=0 is zero, and its difference quotient tends to zero from both sides. The point x=0 has nonzero sine and phase derivative zero, so is also regular."
+    },
+    {
+      "id": "PC1-D2",
+      "type": "derivative",
+      "input": "simplify(diff(Li2(sin(x)^2/(2+sin(x)^2)),x))",
+      "conditions": [
+        "x is real, including every integer multiple of pi.",
+        "Principal Li2; its argument lies in [0,1/3]."
+      ],
+      "expected": {
+        "expression": "piecewise(sin(x)==0,0,4*cos(x)*ln(1+sin(x)^2/2)/(sin(x)*(2+sin(x)^2)))",
+        "properties": [
+          "Return the exact derivative on the entire real line, explicitly preserving zero at every sin(x)=0.",
+          "Do not leave unevaluated diff or an unqualified quotient undefined at multiples of pi.",
+          "The result is real and also vanishes at cos(x)=0."
+        ]
+      },
+      "reason": "Set s=sin(x) and z=s^2/(2+s^2). Then z'=4*s*cos(x)/(2+s^2)^2 and 1-z=2/(2+s^2)>0. For s!=0, -ln(1-z)*z'/z gives the displayed quotient. Near x=k*pi+h, s^2=h^2+O(h^4), hence Li2(z)=h^2/2+O(h^4); its derivative at h=0 is zero. This covers infinitely many removable points, with no Li2 branch crossing."
+    },
+    {
+      "id": "PC1-D3",
+      "type": "derivative",
+      "input": "simplify(diff(re(Li2(exp(i*(x^3-2*x)))),x))",
+      "conditions": [
+        "x is real",
+        "sin((x^3-2*x)/2) != 0",
+        "re and principal Li2 are evaluated along real x."
+      ],
+      "expected": {
+        "expression": "(3*x^2-2)*(x^3-2*x-2*pi*floor((x^3-2*x)/(2*pi))-pi)/2",
+        "properties": [
+          "Return an explicit exact real derivative on every stated interval.",
+          "Equivalent principal-argument or complete piecewise representations are acceptable.",
+          "Cover negative as well as positive phase, and periods outside [0,2*pi].",
+          "Do not use (3*x^2-2)*(x^3-2*x-pi)/2 globally without periodic reduction."
+        ]
+      },
+      "reason": "Set phi=x^3-2*x and r=phi-2*pi*floor(phi/(2*pi)), so 0<r<2*pi on the domain. Since 1-exp(i*r)=2*sin(r/2)*exp(i*(r-pi)/2) with sin(r/2)>0, its principal argument is (r-pi)/2. The real part of -i*phi'*ln(1-exp(i*phi)) is phi'*arg(1-exp(i*phi)), proving the formula. The phase stationary points are allowed and give zero without division by phi'."
+    },
+    {
+      "id": "PC1-D4",
+      "type": "derivative",
+      "input": "simplify(diff(sqrt((x^2-1)^2)/(x^2+1),x))",
+      "conditions": [
+        "x is real",
+        "x != -1 and x != 1",
+        "sqrt is the nonnegative real square root."
+      ],
+      "expected": {
+        "expression": "4*x*sign(x^2-1)/(x^2+1)^2",
+        "properties": [
+          "Return an explicit exact derivative on both outer intervals and the middle interval.",
+          "The original function is defined but not differentiable at x=-1 or x=1; any displayed extension of the formula there is not a derivative value.",
+          "The derivative at x=0 is zero and the denominator has no real zeros."
+        ]
+      },
+      "reason": "The original function equals abs(x^2-1)/(x^2+1). Off x=+/-1, differentiating and using abs(w)=sign(w)*w gives [2*x*sign(w)*(x^2+1)-2*x*abs(w)]/(x^2+1)^2=4*x*sign(w)/(x^2+1)^2. At either excluded point the one-sided derivatives are -1 and +1, so the derivative does not exist there."
+    },
+    {
+      "id": "PC1-S1",
+      "type": "simplify",
+      "input": "simplify((sin(x)^3*cos(x)+sin(x)*cos(x)^3)/(sin(x)^6+cos(x)^6))",
+      "conditions": [
+        "x is real, including all multiples of pi/2."
+      ],
+      "expected": {
+        "expression": "2*sin(2*x)/(4-3*sin(2*x)^2)",
+        "properties": [
+          "Return an exact compact expression; sin(x)*cos(x)/(1-3*sin(x)^2*cos(x)^2) is equally acceptable.",
+          "The simplified form must have no real poles or domain exclusions."
+        ]
+      },
+      "reason": "The numerator is sin(x)*cos(x)*(sin(x)^2+cos(x)^2)=sin(x)*cos(x). With a=sin(x)^2 and b=cos(x)^2, a^3+b^3=(a+b)^3-3*a*b*(a+b)=1-3*a*b. Since a*b=sin(2*x)^2/4 and sin(x)*cos(x)=sin(2*x)/2, the stated ratio follows. Its denominator 4-3*sin(2*x)^2 is at least 1, proving global regularity."
+    },
+    {
+      "id": "PC1-S2",
+      "type": "simplify",
+      "input": "simplify(sqrt((x-2)^2*(x+1)^2)/sqrt((x-2)^2))",
+      "conditions": [
+        "x is real",
+        "x != 2",
+        "sqrt is the nonnegative real square root; x=-1 is included."
+      ],
+      "expected": {
+        "expression": "abs(x+1)",
+        "properties": [
+          "Return an exact expression valid on the full original domain; x+1 alone is wrong for x<-1.",
+          "The inherited exclusion x=2 remains part of the problem even though the simplified expression has a removable extension there.",
+          "At x=-1 the exact value is zero."
+        ]
+      },
+      "reason": "For real factors the numerator is abs((x-2)*(x+1))=abs(x-2)*abs(x+1). The denominator is abs(x-2)>0 on the stated domain, so cancellation gives abs(x+1). The cancellation is justified only for x!=2, and does not remove the sign of x+1."
+    },
+    {
+      "id": "PC1-R1",
+      "type": "resource",
+      "input": "simplify(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(x)^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))",
+      "conditions": [
+        "x is real",
+        "There are exactly 18 nested sqrt(1+E^2) operations; sqrt is the nonnegative real square root.",
+        "Run under the existing finite stack, heap, and simplification budgets; do not increase them to pass this case."
+      ],
+      "expected": {
+        "expression": "sqrt(x^2+18)",
+        "properties": [
+          "Either return the exact compact expression sqrt(x^2+18), or preserve the original expression as a mathematically equivalent bounded fallback.",
+          "No crash, stack overflow, runaway rewrite, undef, or wrong sign is acceptable.",
+          "This is a resource-protection case: safe retention is accepted here, not scored as exact simplification."
+        ]
+      },
+      "reason": "Let E_0=x and E_(n+1)=sqrt(1+E_n^2). Every E_n is real, and E_n>=0 for n>=1. Induction gives E_n^2=x^2+n and therefore E_n=sqrt(x^2+n) for n>=1. All radicands are strictly positive. The nesting is linear in size and depth 18; preserving it is mathematically safe if a recursion guard declines simplification."
+    },
+    {
+      "id": "PC1-R2",
+      "type": "resource",
+      "input": "simplify(((1+sin(x+1)^6+cos(x+1)^6)/(2+sin(x+1)^6+cos(x+1)^6))*((1+sin(x+2)^6+cos(x+2)^6)/(2+sin(x+2)^6+cos(x+2)^6))*((1+sin(x+3)^6+cos(x+3)^6)/(2+sin(x+3)^6+cos(x+3)^6))*((1+sin(x+4)^6+cos(x+4)^6)/(2+sin(x+4)^6+cos(x+4)^6))*((1+sin(x+5)^6+cos(x+5)^6)/(2+sin(x+5)^6+cos(x+5)^6))*((1+sin(x+6)^6+cos(x+6)^6)/(2+sin(x+6)^6+cos(x+6)^6))*((1+sin(x+7)^6+cos(x+7)^6)/(2+sin(x+7)^6+cos(x+7)^6))*((1+sin(x+8)^6+cos(x+8)^6)/(2+sin(x+8)^6+cos(x+8)^6))*((1+sin(x+9)^6+cos(x+9)^6)/(2+sin(x+9)^6+cos(x+9)^6))*((1+sin(x+10)^6+cos(x+10)^6)/(2+sin(x+10)^6+cos(x+10)^6)))",
+      "conditions": [
+        "x is real",
+        "This is an explicit product of ten factors, with shifts 1 through 10 radians.",
+        "Run under the existing finite stack, heap, and simplification budgets; do not increase them to pass this case."
+      ],
+      "expected": {
+        "properties": [
+          "Preserve the original product or return an exactly equivalent expression; full expansion is not required.",
+          "For every real x the result is finite, strictly positive, and lies between (5/9)^10 and (2/3)^10 inclusive.",
+          "No new real poles, spurious complex terms, undef, crash, or runaway expansion are acceptable.",
+          "Bounds alone do not establish equivalence: retaining the exact input, or a mathematically justified exact rewrite, is required.",
+          "This is a resource-protection case; safe original-expression retention is an accepted outcome."
+        ]
+      },
+      "reason": "For each shift k, write q=sin(x+k)^2*cos(x+k)^2 in [0,1/4]. The identity sin(t)^6+cos(t)^6=1-3*q gives each factor as (2-3*q)/(3-3*q). Its original denominator is at least 9/4. Differentiating this rational function with respect to q gives -3/(3-3*q)^2<0, so its values lie in [5/9,2/3]. Multiplying ten positive factors proves the stated bounds. Keeping the product avoids distributing repeated trigonometric powers into a much larger expression."
+    }
+  ]
+}

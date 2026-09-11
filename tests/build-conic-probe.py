@@ -3,7 +3,7 @@
 import argparse,subprocess
 from pathlib import Path
 from integration_build import ROOT,compiler_options,build
-p=argparse.ArgumentParser();p.add_argument('--build-dir',type=Path,required=True);p.add_argument('--simplify-build-dir',type=Path);a=p.parse_args();d=a.build_dir;d.mkdir(parents=True,exist_ok=True)
+p=argparse.ArgumentParser();p.add_argument('--build-dir',type=Path,required=True);p.add_argument('--simplify-build-dir',type=Path);p.add_argument('--probe-source',type=Path,default=ROOT/'tests/conic_probe.cc');a=p.parse_args();d=a.build_dir;d.mkdir(parents=True,exist_ok=True)
 for name in ['equation_normalize.h','parametric_display.h']:(d/name).write_bytes((ROOT/name).read_bytes())
 # Older host usual.h lacks the new externs. The display header supplies the
 # same external pointer linkage declared in the production usual.h.
@@ -16,5 +16,5 @@ flags,libs=compiler_options();flags+=['-I'+str(d)]
 (d/'dilogarithm.h').write_bytes((ROOT/'dilogarithm.h').read_bytes())
 (d/'special.cc').write_text('#include "giacPCH.h"\n#include "dilogarithm.h"\n')
 extra=[str(simplify_dir/'derivative.cc')] if (simplify_dir/'derivative.cc').exists() else []
-subprocess.run(flags+[str(d/'kconvert.cc'),str(ROOT/'tests/conic_probe.cc'),str(simplify_dir/'simplify.cc'),str(simplify_dir/'normalize.cc'),str(d/'special.cc')]+extra+libs+['-pthread','-o',str(d/'probe')],check=True)
+subprocess.run(flags+[str(d/'kconvert.cc'),str(a.probe_source),str(simplify_dir/'simplify.cc'),str(simplify_dir/'normalize.cc'),str(d/'special.cc')]+extra+libs+['-pthread','-o',str(d/'probe')],check=True)
 print(d/'probe')

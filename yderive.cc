@@ -34,6 +34,7 @@ using namespace std;
 #include "moyal.h"
 #include "alg_ext.h"
 #include "giacintl.h"
+#include "equation_normalize.h"
 
 #ifndef NO_NAMESPACE_GIAC
 namespace giac {
@@ -98,15 +99,25 @@ namespace giac {
     // On the unit circle, differentiate the imaginary dilogarithm before
     // re/im expand the complex quotient into repeated trigonometric trees.
     // d Im Li2(exp(i*u)) = -u' log(2*abs(sin(u/2))) for real u off 2*pi*Z.
-    if (s.sommet==at_im && s.feuille.is_symb_of_sommet(at_Li2)){
+    if ((s.sommet==at_im || s.sommet==at_re) && s.feuille.is_symb_of_sommet(at_Li2)){
       const gen &z=s.feuille._SYMBptr->feuille;
       if(z.is_symb_of_sommet(at_exp) && angle_radian(contextptr) && taille(z,65)<=64){
         gen u=ratnormal(-cst_i*z._SYMBptr->feuille,contextptr);
-        if(is_zero(im(u,contextptr)))
+        if(is_zero(im(u,contextptr))){
+          gen du=derive(u,i,contextptr);
+          if(s.sommet==at_re)
+            return du*(u-2*cst_pi*symbolic(at_floor,u/(2*cst_pi))-cst_pi)/2;
           // The identity already needs the absolute value on every sign
           // interval. Keep it instead of running a global Sturm sign test
           // merely to rediscover the same symbolic abs(sin(...)).
-          return -derive(u,i,contextptr)*symbolic(at_ln,2*symbolic(at_abs,sin(u/2,contextptr)));
+          gen answer=-du*symbolic(at_ln,2*symbolic(at_abs,sin(u/2,contextptr)));
+          unsigned budget=128;equation_polynomial_budget bound;
+          // At a stationary point of a polynomial phase, delta*log(delta)
+          // has derivative zero even when exp(i*u)=1. Keep the branch lazy.
+          if(depend(du,i) && equation_polynomial_bound(u,budget,0,bound))
+            return symbolic(at_when,makesequence(symb_equal(du,0),0,answer));
+          return answer;
+        }
       }
     }
     // rational operators are treated first for efficiency

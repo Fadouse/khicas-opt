@@ -21,11 +21,11 @@ int main(){
  const int coefficients[]={4,-4,0,4,4};
  for(unsigned i=0;i<5;++i){
   gen eq=convert(lemniscates[i],contextptr);
-  expect_same(eq._SYMBptr->feuille[0],pow(r,2),contextptr);
-  expect_same(eq._SYMBptr->feuille[1],coefficients[i]*cos(2*theta,contextptr),contextptr);
+  expect_same(eq._SYMBptr->feuille[0],r,contextptr);
+  expect_same(pow(eq._SYMBptr->feuille[1],2),coefficients[i]*cos(2*theta,contextptr),contextptr);
   expect_same(subst(residual(eq),makevecteur(r,theta),makevecteur(0,cst_pi/4),false,contextptr),0,contextptr);
-  if(coefficients[i])for(int sign=-1;sign<=1;sign+=2)
-   expect_same(subst(residual(eq),makevecteur(r,theta),makevecteur(2*sign,coefficients[i]>0?gen(0):cst_pi/2),false,contextptr),0,contextptr);
+  if(coefficients[i])for(int half=0;half<=1;++half)
+   expect_same(subst(residual(eq),makevecteur(r,theta),makevecteur(2,(coefficients[i]>0?gen(0):cst_pi/2)+half*cst_pi),false,contextptr),0,contextptr);
  }
  gen positive=convert(lemniscates[0],contextptr);
  // The documented contract is Cartesian curve equivalence: at r=0 the
@@ -34,9 +34,10 @@ int main(){
  gen zero=convert(lemniscates[2],contextptr);
  expect_same(subst(residual(zero),r,0,false,contextptr),0,contextptr);
  gen symbolic=convert("((x^2+y^2)^2=b*(x^2-y^2),[x,y],[r,theta])",contextptr);
- expect_same(residual(symbolic),parse("r^2-b*cos(2*theta)",contextptr),contextptr);
+ expect_same(symbolic._SYMBptr->feuille[0],r,contextptr);
+ expect_same(pow(symbolic._SYMBptr->feuille[1],2),parse("b*cos(2*theta)",contextptr),contextptr);
  gen custom=convert("((u^2+v^2)^2=4*(u^2-v^2),[u,v],[rho,phi])",contextptr);
- expect_same(residual(custom),parse("rho^2-4*cos(2*phi)",contextptr),contextptr);
+ expect_same(residual(custom),parse("rho-2*sqrt(cos(2*phi))",contextptr),contextptr);
  const char *folia[]={"(x^3+y^3=6*x*y,[x,y],[r,theta])", "(x^3+y^3=-6*x*y,[x,y],[r,theta])",
  "(6*x*y=x^3+y^3,[x,y],[r,theta])"};
  for(unsigned i=0;i<3;++i){
