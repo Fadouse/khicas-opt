@@ -1,0 +1,133 @@
+{
+  "cases": [
+    {
+      "id": "PC8-I1",
+      "type": "integral",
+      "input": "simplify(integrate(2*x*ln(1+x^2)/((1+x^2)*(1+ln(1+x^2))),x))",
+      "conditions": [
+        "x is any finite real number, including zero; ln is the real logarithm.",
+        "An explicit exact antiderivative differentiable on the entire real axis is required, up to one global additive constant.",
+        "The logarithmic substitution ln(1+x^2) is not injective on the real axis and has a stationary point at zero; neither fact permits excluding zero or choosing unrelated constants on the two half-axes."
+      ],
+      "expected": {
+        "expression": "ln(1+x^2)-ln(1+ln(1+x^2))",
+        "properties": [
+          "Return an explicit evaluable closed-form antiderivative without unevaluated integrate; equivalent exact forms and one global additive constant are acceptable.",
+          "Every logarithm argument and denominator is strictly positive on the whole real axis; no real branch split or pole is present.",
+          "For the displayed normalization the primitive is even, nonnegative, and zero only at zero. Its derivative is negative for x<0, positive for x>0, and zero at zero.",
+          "The substitution's stationary point is a regular point of the primitive. Its derivative at zero must also follow from the original primitive's two-sided difference quotient.",
+          "Retention of the input integral or a transformed unevaluated integral does not count as a solution."
+        ]
+      },
+      "reason": "Put u=ln(1+x^2), so u>=0 and u'=2*x/(1+x^2). The integrand is u'*u/(1+u). The identity u/(1+u)=1-1/(1+u) gives the primitive G(u)=u-ln(1+u). Direct differentiation yields G'(u)*u'=u'*u/(1+u) everywhere, without inverting u. For an independent check at zero, G(0)=0 and G'(0)=0, so G(u)/u tends to zero as u tends to zero from above. For h!=0, u(h)/h=ln(1+h^2)/h tends to zero because ln(1+h^2)/h^2 tends to one. Thus [G(u(h))-G(0)]/h=[G(u(h))/u(h)]*[u(h)/h] tends to zero from both sides. Positivity of 1+x^2 and 1+u proves the domain claims. Since G'(u)>0 for u>0 and G(0)=0, G is strictly positive there. Evenness follows from u(-x)=u(x), and the sign of the displayed integrand proves the monotonicity assertions."
+    },
+    {
+      "id": "PC8-I2",
+      "type": "integral",
+      "input": "simplify(integrate(1/(x*sqrt((x-1)/(x+1))),x))",
+      "conditions": [
+        "x is real with x<-1 or x>1; these are exactly the real-domain components of the integrand. sqrt is the positive real square root on these components.",
+        "ln is the real logarithm, abs is real absolute value, and atan is the principal real inverse tangent.",
+        "An explicit exact antiderivative is required on both components, with an independent additive constant allowed on each. The points -1 and 1 are excluded; their one-sided primitive limits do not extend the original integrand's domain."
+      ],
+      "expected": {
+        "expression": "ln(abs((1+sqrt((x-1)/(x+1)))/(1-sqrt((x-1)/(x+1)))))+2*atan(sqrt((x-1)/(x+1)))",
+        "properties": [
+          "Return an explicit evaluable closed-form antiderivative without unevaluated integrate on both domain components; equivalent exact forms and componentwise constants are acceptable.",
+          "The primitive is real and smooth throughout both components. The positive root lies in (0,1) for x>1 and in (1,infinity) for x<-1; it never equals one at finite allowed x.",
+          "The absolute value in the real logarithm is essential on the negative component unless an equivalent real rewrite accounts for that sign.",
+          "For the displayed normalization, the limit as x tends to 1 from above is zero, and the limit as x tends to -1 from below is pi.",
+          "The primitive is strictly increasing on (1,infinity) and strictly decreasing on (-infinity,-1); no interior branch jump, new pole, or complex correction is allowed.",
+          "Exact retention of an unevaluated integral is not a solution."
+        ]
+      },
+      "reason": "Let u=sqrt((x-1)/(x+1))>0. Solving gives x=(1+u^2)/(1-u^2) and dx=4*u/(1-u^2)^2 du. Equality u=1 would require x-1=x+1 and is impossible. The transformed integrand is 4/((1-u^2)*(1+u^2))=2/(1-u^2)+2/(1+u^2). An exact primitive is ln(abs((1+u)/(1-u)))+2*atan(u), since the first term differentiates to 2/(1-u^2) for both u<1 and u>1. The ratio inside abs is positive for 0<u<1 and negative for u>1, never zero or undefined at an interior allowed point. The substitution is smooth with nonzero derivative on each component. As x tends to 1 from above, u tends to zero, yielding zero; as x tends to -1 from below, u tends to positive infinity, the absolute ratio tends to one and atan(u) tends to pi/2, yielding pi. The integrand's sign is the sign of x because u>0, proving the stated monotonicity. The quotient under the root is negative on (-1,1), undefined at -1, and zero at 1 where the reciprocal root is undefined, so the stated domain is exact."
+    },
+    {
+      "id": "PC8-D1",
+      "type": "derivative",
+      "input": "simplify(diff(surd(x^2*(x-1)^3,3)+x^2,x))",
+      "conditions": [
+        "x is any finite real number. surd(t,3) denotes the unique real cube root of real t, including negative t; it must not be replaced by the principal complex power t^(1/3).",
+        "The original function is defined and continuous on the entire real axis, including its root zeros at x=0 and x=1.",
+        "Its derivative domain is exactly the real axis with zero removed. The root zero at one is differentiable, while zero is a genuine cusp."
+      ],
+      "expected": {
+        "expression": "piecewise(x==0,undef,(5*x-2)/(3*surd(x,3))+2*x)",
+        "properties": [
+          "Return an explicit exact derivative for every real x!=0, including derivative value 3 at x=1; an equivalent formula with an explicit exclusion of zero is acceptable.",
+          "The real-root factorization surd(x^2*(x-1)^3,3)=(x-1)*surd(x,3)^2 is valid on the whole real axis.",
+          "Prove differentiability at one using the two-sided difference quotient of the original function, without evaluating a chain factor that divides by the vanishing original cube root.",
+          "At zero the original function's left difference quotient tends to positive infinity and its right difference quotient tends to negative infinity. Do not supply a finite derivative there.",
+          "There are no other nondifferentiable points, and no original-domain exclusions are justified by the derivative's singularity at zero."
+        ]
+      },
+      "reason": "For real cube roots, cubing (x-1)*surd(x,3)^2 gives x^2*(x-1)^3, so uniqueness of the real cube root proves the factorization globally. Hence the original function is f(x)=(x-1)*abs(x)^(2/3)+x^2, with real nonnegative abs(x)^(2/3). For x!=0 write v=surd(x,3), so v^3=x and d(v^2)/dx=2/(3*v). Differentiating the factored function gives v^2+2*(x-1)/(3*v)+2*x=(5*x-2)/(3*v)+2*x. At one, f(1)=1 and for sufficiently small nonzero h the original quotient is [f(1+h)-f(1)]/h=abs(1+h)^(2/3)+2+h, which tends to 3 from both sides. At zero f(0)=0 and its quotient is (h-1)*abs(h)^(2/3)/h+h=(h-1)*sign(h)*abs(h)^(-1/3)+h. This tends to positive infinity for h<0 and negative infinity for h>0, so no finite two-sided derivative exists. The factored formula is smooth for x!=0, proving there are no further exclusions."
+    },
+    {
+      "id": "PC8-D2",
+      "type": "derivative",
+      "input": "simplify(diff(piecewise(x<0,x*sin(1/x),x<=1,x^2,2*x-1),x))",
+      "conditions": [
+        "x is any finite real number. piecewise selects the first true condition and otherwise its final default; inactive expressions are not evaluated.",
+        "The original function is defined and continuous on the entire real axis, including both joining points zero and one. In particular sin(1/x) is evaluated only for x<0.",
+        "The derivative domain is exactly the real axis with zero removed. At zero the left difference quotient oscillates without a limit; at one the two selected branches have the same derivative."
+      ],
+      "expected": {
+        "expression": "piecewise(x<0,sin(1/x)-cos(1/x)/x,x==0,undef,x<=1,2*x,2)",
+        "properties": [
+          "Return an explicit exact derivative at every real x!=0, with value 2 at x=1; equivalent formulas with an explicit exclusion of zero are acceptable.",
+          "At zero the original function is continuous but not differentiable. The derivative must be undef or excluded even though the equality-selected polynomial branch has derivative zero there.",
+          "Establish the failure at zero from the original function's left difference quotient, with two explicit sequences having distinct limits; use the original two-sided difference quotient to justify derivative 2 at one.",
+          "The inactive expression 1/x introduces no hole in the original function at zero, and the linear branch gives derivative 2 everywhere x>1.",
+          "Branch derivative limits alone do not establish differentiability or its failure at a joining point."
+        ]
+      },
+      "reason": "Ordinary differentiation on the open branch intervals gives sin(1/x)-cos(1/x)/x for x<0, 2*x for 0<x<1, and 2 for x>1. At zero the original value is zero, and |x*sin(1/x)|<=|x| proves left continuity; the right polynomial also tends to zero. Its original left difference quotient is sin(1/h). Along h_n=-1/(pi/2+2*pi*n) it equals -1, and along k_n=-1/(3*pi/2+2*pi*n) it equals 1, with both sequences tending to zero from below as positive integers n grow. Thus the left derivative does not exist; the right quotient h tends to zero and cannot repair this failure. At one the original value is one and the branches are continuous. For small h<0 the quotient is ((1+h)^2-1)/h=2+h, while for h>0 it is (2*(1+h)-1-1)/h=2. Both tend to 2, proving differentiability at one. Every remaining point lies in a smooth selected branch, so zero is the sole nondifferentiable point."
+    },
+    {
+      "id": "PC8-S1",
+      "type": "simplify",
+      "input": "simplify(sqrt((x+i)^2)-sqrt((x-i)^2))",
+      "conditions": [
+        "x is any finite real number and i^2=-1; the exact value x=0 is included.",
+        "sqrt is the principal complex square root: for nonzero z=r*exp(i*theta) with theta in (-pi,pi], sqrt(z)=sqrt(r)*exp(i*theta/2). In particular sqrt(-1)=i.",
+        "Evaluate the branch-cut value at zero exactly; a floating-point signed imaginary zero must not alter the specified principal-root convention."
+      ],
+      "expected": {
+        "expression": "piecewise(x<0,-2*i,x>0,2*i,0)",
+        "properties": [
+          "Return an exact expression equivalent for every real x; equivalent evaluable forms, including exact retention of the compact original expression, are acceptable.",
+          "The exact value is -2*i for x<0, 2*i for x>0, and zero at x=0. Every allowed point is defined.",
+          "At zero both radicands are exactly -1, and both principal roots equal i; neither one-sided value of the difference is its value there.",
+          "The result is purely imaginary and odd as a function of real x, with a jump at zero.",
+          "Neither the unrestricted identity sqrt(z^2)=z nor conjugation of principal roots on the negative real cut may erase the branch distinction."
+        ]
+      },
+      "reason": "For x>0 the numbers x+i and x-i have strictly positive real parts, so they are the respective principal square roots of their squares: their arguments lie in (-pi/2,pi/2), and doubling those arguments stays in (-pi,pi). Their difference is 2*i. For x<0 both have negative real parts, so their negatives, -x-i and -x+i, are the respective principal roots; the difference is -2*i. At x=0 both squares are -1. The prescribed argument pi gives principal square root i for each, hence difference zero. The original radicands never vanish for real x, and the principal square root is defined even on its cut, so the whole real axis is allowed. The three exact values imply pure imaginarity, oddness, and the unequal one-sided limits."
+    },
+    {
+      "id": "PC8-R1",
+      "type": "resource",
+      "input": "simplify(((1+x^2+y^2)^32-(x^2+y^2)^32)/(1+2*x^2+2*y^2))",
+      "conditions": [
+        "x and y are arbitrary finite real numbers; integer powers and division have their exact real meanings.",
+        "Use the existing finite CG50 stack, heap, and simplification budgets without increasing them.",
+        "This is bounded simplification of a compact difference of powers. Preserve exact compact structure; expansion into a degree-60 polynomial is unnecessary, and exact retention of the original expression is acceptable."
+      ],
+      "expected": {
+        "expression": "((1+x^2+y^2)^2+(x^2+y^2)^2)*((1+x^2+y^2)^4+(x^2+y^2)^4)*((1+x^2+y^2)^8+(x^2+y^2)^8)*((1+x^2+y^2)^16+(x^2+y^2)^16)",
+        "properties": [
+          "Exact retention of the original compact expression is acceptable; every rewrite must preserve its exact value for all real x,y.",
+          "The expression is real, finite, and at least one everywhere, with equality only at x=y=0. Its original denominator is strictly positive.",
+          "The result depends only on x^2+y^2, so it is invariant under interchange of x and y, either independent sign reversal, and real rotations of the pair.",
+          "At the origin the value is one. On the unit circle x^2+y^2=1 the value is (2^32-1)/3. It increases strictly as the nonnegative radius squared increases.",
+          "No crash, stack overflow, runaway expansion, undef, or new real pole is acceptable. No increase to existing resource limits is allowed.",
+          "Point checks and symmetries are insufficient to establish equivalence; retain the exact compact input or justify the algebraic transformation.",
+          "Compact retention is a valid outcome for this resource case, while neither integral accepts unevaluated retention."
+        ]
+      },
+      "reason": "Set r=x^2+y^2>=0, A=1+r and B=r. The denominator is A+B=1+2*r>=1 and A-B=1. Repeated difference-of-squares factorization gives A^32-B^32=(A-B)*(A+B)*(A^2+B^2)*(A^4+B^4)*(A^8+B^8)*(A^16+B^16). Cancelling the nonzero A+B and substituting A-B=1 proves the displayed compact product exactly for all allowed inputs. Each factor (1+r)^m+r^m, for m in {2,4,8,16}, equals one at r=0, exceeds one for r>0, and is strictly increasing for r>=0 because its derivative m*((1+r)^(m-1)+r^(m-1)) is positive. Their positive product has the stated lower bound and strict monotonicity. Dependence only on r proves all invariances. Substituting r=1 into the original compact ratio gives (2^32-1)/3. The product's degree in x,y is 4+8+16+32=60, but this proof never requires a multivariate expansion."
+    }
+  ]
+}

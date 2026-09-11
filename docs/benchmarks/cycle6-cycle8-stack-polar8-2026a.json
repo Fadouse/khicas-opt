@@ -1,0 +1,561 @@
+{
+  "scope": "Repository integration, normalization and FXCG simplification entry points; other dependencies host Giac, not a CG50 emulator or hardware timings",
+  "validation": "Printed target results independently checked in a separate host-Giac process",
+  "corpus_sha256": "541d969e545046f4c1c1e03fa58ab749ce198c166c58615ddc68b3b73ee0f345",
+  "validation_probe_sha256": "389931bcb1768f94a589ce5b4cdc1422b9629a9e2b5e3281dab7e775beb834a4",
+  "source_sha256": {
+    "yintg.cc": "1f2dbf27fbc725ed08af29bfa12d9380e6db16e1819a4ae1b95686d805c63757",
+    "zintgab.cc": "3b6fa78aba4d53b1a11479c33bacb4c85e3d6091389ef3073ec60085a7ae9448",
+    "ysym2poly.cc": "ca2e4abe3652bf6314e38703100426e6996b3d272ad6f6215d469acf7ecb979c",
+    "ksubst.cc": "8b89f6fc879ec06d19849a4c239b19f4b71ba72049d3ac419842254ef1956c0c",
+    "integration_guard.h": "5f4bfda11a19fdf8b4b41da6bb037f602dd741ec1f3492066abab251e85d48a9",
+    "equation_normalize.h": "4bfb644f0e18bb36e280ce8886c8ac12695c9aeeaef187ea3e5f967cd1642e37",
+    "dilogarithm.h": "ca822ef4c094a4ed1f4aecf7219011668735d86d259c51ec6304515f8fa84d7a"
+  },
+  "runs": [
+    {
+      "id": "C6-gaussian-atan-parts-01",
+      "input": "integrate(x*exp(-x^2)*atan(x),x,0,+infinity)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "1/2*pi*exp(1)*(1-erf(1))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000354935\nMAX_RSS_KB 24324\n",
+      "host_seconds": 0.000354935,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24324,
+      "result_characters": 26,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000341046\nMAX_RSS_KB 24324\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C6-gaussian-atan-parts-01",
+      "input": "integrate(x*exp(-x^2)*atan(x),x,0,+infinity)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "1/2*pi*exp(1)*(1-erf(1))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000374665\nMAX_RSS_KB 24324\n",
+      "host_seconds": 0.000374665,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24324,
+      "result_characters": 26,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000309116\nMAX_RSS_KB 24324\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C6-gaussian-atan-parts-01",
+      "input": "simplify(integrate(x*exp(-x^2)*atan(x),x,0,+infinity))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(-pi*erf(1)*exp(1)+pi*exp(1))/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000557043\nMAX_RSS_KB 24324\n",
+      "host_seconds": 0.000557043,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24324,
+      "result_characters": 31,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000278826\nMAX_RSS_KB 24324\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C6-gaussian-atan-parts-01",
+      "input": "simplify(integrate(x*exp(-x^2)*atan(x),x,0,+infinity))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(-pi*erf(1)*exp(1)+pi*exp(1))/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000595233\nMAX_RSS_KB 24324\n",
+      "host_seconds": 0.000595233,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24324,
+      "result_characters": 31,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000275037\nMAX_RSS_KB 24324\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C6-half-period-log-sine-moment-01",
+      "input": "integrate(x*ln(sin(x)),x,0,pi/2)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-pi*pi*ln(2)/8+7*Zeta(3)/16",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000360976\nMAX_RSS_KB 24324\n",
+      "host_seconds": 0.000360976,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24324,
+      "result_characters": 27,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000280926\nMAX_RSS_KB 24324\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C6-half-period-log-sine-moment-01",
+      "input": "integrate(x*ln(sin(x)),x,0,pi/2)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-pi*pi*ln(2)/8+7*Zeta(3)/16",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000354856\nMAX_RSS_KB 24324\n",
+      "host_seconds": 0.000354856,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24324,
+      "result_characters": 27,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000292226\nMAX_RSS_KB 24324\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C6-half-period-log-sine-moment-01",
+      "input": "simplify(integrate(x*ln(sin(x)),x,0,pi/2))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(-2*pi^2*ln(2)+7*Zeta(3))/16",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000495354\nMAX_RSS_KB 24324\n",
+      "host_seconds": 0.000495354,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24324,
+      "result_characters": 28,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000284497\nMAX_RSS_KB 24324\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C6-half-period-log-sine-moment-01",
+      "input": "simplify(integrate(x*ln(sin(x)),x,0,pi/2))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(-2*pi^2*ln(2)+7*Zeta(3))/16",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000495053\nMAX_RSS_KB 24324\n",
+      "host_seconds": 0.000495053,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24324,
+      "result_characters": 28,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000286146\nMAX_RSS_KB 24324\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C6-opposite-logarithm-product-01",
+      "input": "integrate(ln(1-x)*ln(1+x)/x,x,0,1)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-5/8*Zeta(3)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000324626\nMAX_RSS_KB 24324\n",
+      "host_seconds": 0.000324626,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24324,
+      "result_characters": 12,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000269307\nMAX_RSS_KB 24324\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C6-opposite-logarithm-product-01",
+      "input": "integrate(ln(1-x)*ln(1+x)/x,x,0,1)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-5/8*Zeta(3)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000328146\nMAX_RSS_KB 24324\n",
+      "host_seconds": 0.000328146,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24324,
+      "result_characters": 12,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000260297\nMAX_RSS_KB 24324\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C6-opposite-logarithm-product-01",
+      "input": "simplify(integrate(ln(1-x)*ln(1+x)/x,x,0,1))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-5*Zeta(3)/8",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000402475\nMAX_RSS_KB 24324\n",
+      "host_seconds": 0.000402475,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24324,
+      "result_characters": 12,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000263297\nMAX_RSS_KB 24324\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C6-opposite-logarithm-product-01",
+      "input": "simplify(integrate(ln(1-x)*ln(1+x)/x,x,0,1))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-5*Zeta(3)/8",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000397745\nMAX_RSS_KB 24324\n",
+      "host_seconds": 0.000397745,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24324,
+      "result_characters": 12,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000273416\nMAX_RSS_KB 24324\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C6-mixed-degree-mellin-log-01",
+      "input": "integrate(ln(x)/((1+x)*(1+x^2)),x,0,+infinity)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-pi*pi/16",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000346666\nMAX_RSS_KB 24324\n",
+      "host_seconds": 0.000346666,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24324,
+      "result_characters": 9,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000285727\nMAX_RSS_KB 24324\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C6-mixed-degree-mellin-log-01",
+      "input": "integrate(ln(x)/((1+x)*(1+x^2)),x,0,+infinity)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-pi*pi/16",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000355556\nMAX_RSS_KB 24324\n",
+      "host_seconds": 0.000355556,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24324,
+      "result_characters": 9,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000261457\nMAX_RSS_KB 24324\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C6-mixed-degree-mellin-log-01",
+      "input": "simplify(integrate(ln(x)/((1+x)*(1+x^2)),x,0,+infinity))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-pi^2/16",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000420805\nMAX_RSS_KB 24324\n",
+      "host_seconds": 0.000420805,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24324,
+      "result_characters": 8,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000275806\nMAX_RSS_KB 24324\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C6-mixed-degree-mellin-log-01",
+      "input": "simplify(integrate(ln(x)/((1+x)*(1+x^2)),x,0,+infinity))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-pi^2/16",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000418335\nMAX_RSS_KB 24324\n",
+      "host_seconds": 0.000418335,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24324,
+      "result_characters": 8,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000260927\nMAX_RSS_KB 24580\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C6-trig-log-quarter-period-01",
+      "input": "integrate(ln(1+sin(x)),x,0,pi/2)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-pi/2*ln(2)+2*(Psi(1/4,1)-Psi(3/4,1))/16",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000347095\nMAX_RSS_KB 24580\n",
+      "host_seconds": 0.000347095,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24580,
+      "result_characters": 40,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000296657\nMAX_RSS_KB 24580\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C6-trig-log-quarter-period-01",
+      "input": "integrate(ln(1+sin(x)),x,0,pi/2)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-pi/2*ln(2)+2*(Psi(1/4,1)-Psi(3/4,1))/16",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000351025\nMAX_RSS_KB 24580\n",
+      "host_seconds": 0.000351025,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24580,
+      "result_characters": 40,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000286536\nMAX_RSS_KB 24580\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C6-trig-log-quarter-period-01",
+      "input": "simplify(integrate(ln(1+sin(x)),x,0,pi/2))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(Psi(1/4,1)-Psi(3/4,1)-4*pi*ln(2))/8",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000508404\nMAX_RSS_KB 24580\n",
+      "host_seconds": 0.000508404,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24580,
+      "result_characters": 36,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000280196\nMAX_RSS_KB 24580\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C6-trig-log-quarter-period-01",
+      "input": "simplify(integrate(ln(1+sin(x)),x,0,pi/2))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(Psi(1/4,1)-Psi(3/4,1)-4*pi*ln(2))/8",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000508484\nMAX_RSS_KB 24580\n",
+      "host_seconds": 0.000508484,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24580,
+      "result_characters": 36,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000288847\nMAX_RSS_KB 24580\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C6-mobius-atan-log-measure-01",
+      "input": "integrate(atan(x)/(1+x),x,0,1)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "pi*ln(2)/8",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000380775\nMAX_RSS_KB 24580\n",
+      "host_seconds": 0.000380775,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24580,
+      "result_characters": 10,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000263157\nMAX_RSS_KB 24580\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C6-mobius-atan-log-measure-01",
+      "input": "integrate(atan(x)/(1+x),x,0,1)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "pi*ln(2)/8",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000357126\nMAX_RSS_KB 24580\n",
+      "host_seconds": 0.000357126,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24580,
+      "result_characters": 10,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000262736\nMAX_RSS_KB 24580\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C6-mobius-atan-log-measure-01",
+      "input": "simplify(integrate(atan(x)/(1+x),x,0,1))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "pi*ln(2)/8",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000426894\nMAX_RSS_KB 24580\n",
+      "host_seconds": 0.000426894,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24580,
+      "result_characters": 10,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000271827\nMAX_RSS_KB 24580\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C6-mobius-atan-log-measure-01",
+      "input": "simplify(integrate(atan(x)/(1+x),x,0,1))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "pi*ln(2)/8",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000446865\nMAX_RSS_KB 24580\n",
+      "host_seconds": 0.000446865,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24580,
+      "result_characters": 10,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000269167\nMAX_RSS_KB 24580\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C6-oscillatory-third-order-cancellation-01",
+      "input": "integrate((sin(x)-x*cos(x))/x^3,x,0,+infinity)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "pi/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000431955\nMAX_RSS_KB 24580\n",
+      "host_seconds": 0.000431955,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24580,
+      "result_characters": 4,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000266717\nMAX_RSS_KB 24580\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C6-oscillatory-third-order-cancellation-01",
+      "input": "integrate((sin(x)-x*cos(x))/x^3,x,0,+infinity)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "pi/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000404305\nMAX_RSS_KB 24580\n",
+      "host_seconds": 0.000404305,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24580,
+      "result_characters": 4,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000262336\nMAX_RSS_KB 24580\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C6-oscillatory-third-order-cancellation-01",
+      "input": "simplify(integrate((sin(x)-x*cos(x))/x^3,x,0,+infinity))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "pi/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000427165\nMAX_RSS_KB 24580\n",
+      "host_seconds": 0.000427165,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24580,
+      "result_characters": 4,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000270067\nMAX_RSS_KB 24580\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C6-oscillatory-third-order-cancellation-01",
+      "input": "simplify(integrate((sin(x)-x*cos(x))/x^3,x,0,+infinity))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "pi/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000423445\nMAX_RSS_KB 24580\n",
+      "host_seconds": 0.000423445,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24580,
+      "result_characters": 4,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000253307\nMAX_RSS_KB 24580\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C6-fermi-logarithm-first-moment-01",
+      "input": "integrate(x*ln(1+exp(-x)),x,0,+infinity)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "3/4*Zeta(3)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000337156\nMAX_RSS_KB 24580\n",
+      "host_seconds": 0.000337156,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24580,
+      "result_characters": 11,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000265146\nMAX_RSS_KB 24580\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C6-fermi-logarithm-first-moment-01",
+      "input": "integrate(x*ln(1+exp(-x)),x,0,+infinity)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "3/4*Zeta(3)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000351146\nMAX_RSS_KB 24580\n",
+      "host_seconds": 0.000351146,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24580,
+      "result_characters": 11,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000261277\nMAX_RSS_KB 24580\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C6-fermi-logarithm-first-moment-01",
+      "input": "simplify(integrate(x*ln(1+exp(-x)),x,0,+infinity))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "3*Zeta(3)/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000414805\nMAX_RSS_KB 24580\n",
+      "host_seconds": 0.000414805,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24580,
+      "result_characters": 11,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000286746\nMAX_RSS_KB 24580\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C6-fermi-logarithm-first-moment-01",
+      "input": "simplify(integrate(x*ln(1+exp(-x)),x,0,+infinity))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "3*Zeta(3)/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000525724\nMAX_RSS_KB 24580\n",
+      "host_seconds": 0.000525724,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24580,
+      "result_characters": 11,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000272386\nMAX_RSS_KB 24580\nCHECK exact\n"
+      },
+      "status": "exact"
+    }
+  ]
+}

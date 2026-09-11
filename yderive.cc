@@ -86,6 +86,32 @@ namespace giac {
   __attribute__((noinline,optimize("Os")))
 #endif
   static bool derive_real_composition(const symbolic &s,const identificateur &i,gen &result,GIAC_CONTEXT){
+    // Pull exact odd powers out of a real odd root before differentiation.
+    // This removes only syntactically proved factors, never general factor().
+    if((s.sommet==at_surd || s.sommet==at_NTHROOT) && s.feuille.type==_VECT && s.feuille._VECTptr->size()==2){
+      bool nth=s.sommet==at_NTHROOT;gen u=s.feuille[nth?1:0],n=s.feuille[nth?0:1];
+      if(n.type==_INT_ && n.val>=3 && n.val<=9 && n.val%2 && taille(u,65)<=64 &&
+         !has_i(u) && !complex_mode(contextptr) && !complex_variables(contextptr) &&
+         u.is_symb_of_sommet(at_prod) && u._SYMBptr->feuille.type==_VECT){
+        vecteur variables=lvar(u);
+        if(variables.size()==1 && variables[0]==gen(i)){
+          const vecteur &v=*u._SYMBptr->feuille._VECTptr;gen outside=1,inside=1;
+          for(unsigned j=0;j<v.size();++j){
+            const gen &f=v[j];
+            if(f.is_symb_of_sommet(at_pow) && f._SYMBptr->feuille.type==_VECT && f._SYMBptr->feuille._VECTptr->size()==2 &&
+               f._SYMBptr->feuille[1].type==_INT_ && f._SYMBptr->feuille[1].val>=n.val && f._SYMBptr->feuille[1].val<=32){
+              int m=f._SYMBptr->feuille[1].val;gen base=f._SYMBptr->feuille[0];
+              outside=outside*pow(base,m/n.val);inside=inside*pow(base,m%n.val);
+            }
+            else inside=inside*f;
+          }
+          if(!is_one(outside)){
+            gen root=is_one(inside)?gen(1):gen(symbolic(at_NTHROOT,makesequence(n,inside)));
+            result=derive(outside*root,i,contextptr);return true;
+          }
+        }
+      }
+    }
     if(s.sommet==at_prod && taille(s.feuille,97)<=96 &&
        (has_op(s.feuille,*at_surd) || has_op(s.feuille,*at_NTHROOT))){
       gen f(s),coefficient=equation_numeric_factor(f);
@@ -204,6 +230,39 @@ namespace giac {
 #if defined(__GNUC__) && !defined(__clang__)
   __attribute__((noinline,optimize("Os")))
 #endif
+  static int derive_piecewise_oscillation(const gen &g,const gen &x,const gen &point,gen &value,gen &slope,GIAC_CONTEXT){
+    if(taille(g,65)>64 || (!has_op(g,*at_sin) && !has_op(g,*at_cos)) || !angle_radian(contextptr))return 0;
+    vecteur waves=mergevecteur(lop(g,at_sin),lop(g,at_cos));
+    if(waves.size()!=1)return 0;
+    gen phase=eval_before_diff(waves[0]._SYMBptr->feuille,x,contextptr);
+    if(taille(phase,33)>32)return 0;
+    vecteur variables=lvar(phase),powers=lop(phase,at_pow);
+    if(variables.size()!=1 || variables[0]!=x)return 0;
+    for(unsigned j=0;j<powers.size();++j){
+      const gen &f=powers[j]._SYMBptr->feuille;
+      if(f.type!=_VECT || f._VECTptr->size()!=2 || f[1].type!=_INT_ || f[1].val < -8 || f[1].val>8)return 0;
+    }
+    gen nd=fxnd(phase),a,b,C,L,cv,cd;unsigned budget=192;equation_polynomial_budget nb,db;
+    if(nd.type!=_VECT || nd._VECTptr->size()!=2 ||
+       !equation_polynomial_bound(nd[0],budget,0,nb) || !equation_polynomial_bound(nd[1],budget,0,db) ||
+       !derive_piecewise_regular(nd[0],x,point,a,budget,0,contextptr) ||
+       !derive_piecewise_regular(nd[1],x,point,b,budget,0,contextptr) ||
+       !equation_rational(a) || is_zero(a) || !is_zero(b) ||
+       !is_linear_wrt(g,waves[0],C,L,contextptr) ||
+       !derive_piecewise_regular(C,x,point,cv,budget,0,contextptr) ||
+       !derive_piecewise_regular(derive(C,x,contextptr),x,point,cd,budget,0,contextptr) ||
+       !derive_piecewise_regular(L,x,point,value,budget,0,contextptr) ||
+       !derive_piecewise_regular(derive(L,x,contextptr),x,point,slope,budget,0,contextptr) ||
+       !equation_rational(cv) || !equation_rational(cd))return 0;
+    // Nonzero amplitude is discontinuous; a simple amplitude zero gives
+    // an oscillating original difference quotient. A double zero is O(h²)
+    // and contributes derivative zero despite its branch derivative limit.
+    return is_zero(cv) && is_zero(cd)?1:-1;
+  }
+
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
   static gen derive_piecewise_joints(const vecteur &original,const vecteur &derivatives,const gen &x,gen result,GIAC_CONTEXT){
     if(original.size()<3 || original.size()>9 || original.size()%2==0)return result;
     vecteur points;
@@ -219,6 +278,28 @@ namespace giac {
       points.push_back(point);
     }
     for(unsigned j=0;j<points.size();++j){
+      gen boundary_value[2],boundary_slope[2];int oscillation[2];
+      for(unsigned side=0;side<2;++side)
+        oscillation[side]=derive_piecewise_oscillation(original[side?(2*j+3<original.size()?2*j+3:original.size()-1):2*j+1],x,points[j],boundary_value[side],boundary_slope[side],contextptr);
+      if(oscillation[0]<0 || oscillation[1]<0){
+        result=symbolic(at_when,makesequence(symb_equal(x,points[j]),undef,result));continue;
+      }
+      if(oscillation[0]>0 || oscillation[1]>0){
+        const unary_function_ptr &op=original[2*j]._SYMBptr->sommet;
+        unsigned selected=(op==at_inferieur_egal || op==at_superieur_egal)?0:1;
+        // A vanishing amplitude has a continuous extension, but the raw
+        // reciprocal phase is still undefined if this branch owns equality.
+        if(oscillation[selected]>0){result=symbolic(at_when,makesequence(symb_equal(x,points[j]),undef,result));continue;}
+        bool known=true;unsigned budget=192;
+        for(unsigned side=0;side<2;++side)if(!oscillation[side]){
+          unsigned index=side?(2*j+3<original.size()?2*j+3:original.size()-1):2*j+1;
+          if(!derive_piecewise_regular(original[index],x,points[j],boundary_value[side],budget,0,contextptr) ||
+             !derive_piecewise_regular(derivatives[index],x,points[j],boundary_slope[side],budget,0,contextptr))known=false;
+        }
+        if(known && equation_rational(boundary_value[0]) && equation_rational(boundary_value[1]) && equation_rational(boundary_slope[0]) && equation_rational(boundary_slope[1]))
+          result=symbolic(at_when,makesequence(symb_equal(x,points[j]),boundary_value[0]==boundary_value[1] && boundary_slope[0]==boundary_slope[1]?boundary_slope[0]:undef,result));
+        continue;
+      }
       // A nonzero constant times sqrt(Q) at a simple zero of a real
       // polynomial Q has no finite one-sided derivative. Inspect only this
       // proved case; a vanishing multiplier must use the general fallback.
@@ -366,7 +447,7 @@ namespace giac {
     }
     if (s.sommet==at_neg)
       return -derive(s.feuille,i,contextptr);
-    if(s.sommet==at_pow || s.sommet==at_acos || s.sommet==at_asin){
+    if(s.sommet==at_pow || s.sommet==at_acos || s.sommet==at_asin || s.sommet==at_surd || s.sommet==at_NTHROOT){
       gen result;if(derive_real_composition(s,i,result,contextptr))return result;
     }
     if (s.sommet==at_pow){

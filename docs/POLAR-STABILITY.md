@@ -110,3 +110,18 @@ ROM 2,064,760 / 2,065,152 B（余392 B），AC2 2,480,500 / 2,559,996 B（余79,
 ROM 2,064,760 / 2,065,152 B（余392 B），AC2 2,483,552 / 2,559,996 B（余76,444 B），静态RAM和CAS堆不变。首轮仍有错题，提交后继续全新出题代理，尚不进入最终性能分析。
 
 [首次](benchmarks/polar-cycle7-first-acceptance-2026a.json) · [修复后](benchmarks/polar-cycle7-fixed-acceptance-2026a.json) · [变体](benchmarks/log-root-guards-polar7-2026a.json) · [资源](benchmarks/resources-polar-cycle7-2026a.json) · [测量](benchmarks/polar-cycle7-performance-2026a.json) · [回归索引](benchmarks/polar-cycle7-regression-index-2026a.json)。
+
+
+## 第八轮：双域实根积分、实根因子、振荡接点与复根主支
+
+标签 `checkpoint/polar-stability-cycle8-2026a`。新6题首次2题完整通过。PC8-I2普通栈原函数已在两条实域分量上独立证明正确，但64 KiB栈崩溃；PC8-D1直接求导在可去根零点x=1残留0/0；PC8-D2在振荡不可导点x=0错误给出有限值；PC8-S1外层化简将主支分段差错误变成常量2i。修复后24项全部通过，首次报告未以复验覆盖。
+
+仿射正根分式换元扩展到倒数根式和双曲型二次分母，使用实对数绝对值，保留两条实域分量的极点。新原函数与参考式相差允许的常数-pi；独立的有理参数变换验证两侧导数，旧普通栈输出另外使用x=±(v²+1)/(2v)、v>1证明，没有把小栈崩溃错误归类为普通栈数学错误。
+
+实奇次根求导先提取语法上已有的完整奇次幂，避免对根零点先引入0/0，不调用通用因式分解。分段函数对有界实有理相位的极点与解析振幅使用原函数差商：非零振幅不连续，一阶振幅零点差商振荡，至少二阶零点贡献导数零。仅当接点原值由正常分支定义时接受连续延拓；如果等号选中仍含未定义倒数相位的分支，则不擅自填洞。复平方根及实对数根式绝对值保留紧凑主支节点，包括内部半次幂表示。
+
+新增36项接点/实根检查，包括高阶相位极点、光滑振荡拼接与原函数未定义的反例；第七轮24项变体、旧114项边界检查、前七轮208项、旧混合96项、极坐标60项、21项正式任务与7项补充任务均通过。积分清单661条：656精确、5导数采样，638种去空白文本。本轮5次主机中位数最大约1.6 ms，不是CG50实机计时；主机64 KiB栈不是SH4/MMU模拟。
+
+ROM 2,065,112 / 2,065,152 B（余40 B），AC2 2,487,388 / 2,559,996 B（余72,608 B），静态RAM和CAS堆不变。新增辅助函数明确放入AC2并验证链接地址。首次仍有错题，继续新出题代理，不进入最终性能代理验收。
+
+[首次](benchmarks/polar-cycle8-first-acceptance-2026a.json) · [修复后](benchmarks/polar-cycle8-fixed-acceptance-2026a.json) · [接点变体](benchmarks/oscillatory-root-guards-polar8-2026a.json) · [资源](benchmarks/resources-polar-cycle8-2026a.json) · [测量](benchmarks/polar-cycle8-performance-2026a.json) · [回归索引](benchmarks/polar-cycle8-regression-index-2026a.json)。

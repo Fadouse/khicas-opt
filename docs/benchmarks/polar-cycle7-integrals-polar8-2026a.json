@@ -1,0 +1,162 @@
+{
+  "source_sha256": {
+    "yintg.cc": "1f2dbf27fbc725ed08af29bfa12d9380e6db16e1819a4ae1b95686d805c63757",
+    "zintgab.cc": "3b6fa78aba4d53b1a11479c33bacb4c85e3d6091389ef3073ec60085a7ae9448",
+    "ksubst.cc": "8b89f6fc879ec06d19849a4c239b19f4b71ba72049d3ac419842254ef1956c0c",
+    "yderive.cc": "9753f9e324efb246da53e2678f9dde0666092351ec5c5db247b681e7aa1adf49",
+    "dilogarithm.h": "ca822ef4c094a4ed1f4aecf7219011668735d86d259c51ec6304515f8fa84d7a",
+    "kconvert.cc": "eed558eb2f8ff62e0cf1e94fdbf8497954a35577e283a8d07283350e65b76003",
+    "equation_normalize.h": "4bfb644f0e18bb36e280ce8886c8ac12695c9aeeaef187ea3e5f967cd1642e37",
+    "kusual.cc": "573c67c28e9d83215bd76907e84f883e4fabf10acabc5b7e3186cbf7dad83960",
+    "zprog.cc": "513111030cf5233496da8c3efff53df9391f12d185254f314608600e13e5639e",
+    "conditional_eval.h": "f602bbce59fbcfcadb85a78ca5ba6a79cd56f643067f84d02a02a73a040f40c1"
+  },
+  "corpus_sha256": "d6a19ee0044a8816bc3311e04a84b77706f778447bd86ee2cadfbd0b7ea197bc",
+  "provenance": "polar-cycle7-acceptance-polar8-2026a.json",
+  "runs": [
+    {
+      "id": "PC7-I1",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate((1-x^2)*ln((sqrt(x^4+3*x^2+1)+x)/(1+x^2))/((1+x^2)*sqrt(x^4+3*x^2+1)),x)",
+      "exit": 0,
+      "result": "ln((sqrt(x^4+3*x^2+1)+x)/(1+x^2))^2/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000936388\nMAX_RSS_KB 66068\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact logarithmic derivative, including stationary points ±1 and zero. With A=1+x²>0, sqrt(A²+x²)>|x| proves the log argument positive globally. Its reciprocal at -x proves evenness of the primitive; x/A tends to zero at both infinities."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC7-I1",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate((1-x^2)*ln((sqrt(x^4+3*x^2+1)+x)/(1+x^2))/((1+x^2)*sqrt(x^4+3*x^2+1)),x)",
+      "exit": 0,
+      "result": "ln((sqrt(x^4+3*x^2+1)+x)/(1+x^2))^2/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000920249\nMAX_RSS_KB 66068\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact logarithmic derivative, including stationary points ±1 and zero. With A=1+x²>0, sqrt(A²+x²)>|x| proves the log argument positive globally. Its reciprocal at -x proves evenness of the primitive; x/A tends to zero at both infinities."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC7-I1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate((1-x^2)*ln((sqrt(x^4+3*x^2+1)+x)/(1+x^2))/((1+x^2)*sqrt(x^4+3*x^2+1)),x))",
+      "exit": 0,
+      "result": "(ln(sqrt(x^4+3*x^2+1)+x)^2-2*ln(sqrt(x^4+3*x^2+1)+x)*ln(x^2+1)+ln(x^2+1)^2)/2",
+      "stderr": "Simplification assuming x near 0\nPARSER_CALLS 1\nSECONDS 0.00349198\nMAX_RSS_KB 66068\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact logarithmic derivative, including stationary points ±1 and zero. With A=1+x²>0, sqrt(A²+x²)>|x| proves the log argument positive globally. Its reciprocal at -x proves evenness of the primitive; x/A tends to zero at both infinities."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC7-I1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate((1-x^2)*ln((sqrt(x^4+3*x^2+1)+x)/(1+x^2))/((1+x^2)*sqrt(x^4+3*x^2+1)),x))",
+      "exit": 0,
+      "result": "(ln(sqrt(x^4+3*x^2+1)+x)^2-2*ln(sqrt(x^4+3*x^2+1)+x)*ln(x^2+1)+ln(x^2+1)^2)/2",
+      "stderr": "Simplification assuming x near 0\nPARSER_CALLS 1\nSECONDS 0.00221225\nMAX_RSS_KB 66068\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact logarithmic derivative, including stationary points ±1 and zero. With A=1+x²>0, sqrt(A²+x²)>|x| proves the log argument positive globally. Its reciprocal at -x proves evenness of the primitive; x/A tends to zero at both infinities."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC7-I2",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(sqrt(x/(1-x))/(1+x),x)",
+      "exit": 0,
+      "result": "2*(atan(sqrt(x/(1-x)))-atan(sqrt(2)*sqrt(x/(1-x)))/sqrt(2))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000446064\nMAX_RSS_KB 66068\n",
+      "verification": {
+        "exact": true,
+        "method": "Positive bijection u=sqrt(x/(1-x)) on (0,1); exact partial fractions and derivative. Both atan arguments are smooth finite inside the interval, with endpoint limits 0 and pi*(1-1/sqrt(2))."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "1/2": "pi/2-sqrt(2)*atan(sqrt(2))"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC7-I2",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(sqrt(x/(1-x))/(1+x),x)",
+      "exit": 0,
+      "result": "2*(atan(sqrt(x/(1-x)))-atan(sqrt(2)*sqrt(x/(1-x)))/sqrt(2))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000557783\nMAX_RSS_KB 66068\n",
+      "verification": {
+        "exact": true,
+        "method": "Positive bijection u=sqrt(x/(1-x)) on (0,1); exact partial fractions and derivative. Both atan arguments are smooth finite inside the interval, with endpoint limits 0 and pi*(1-1/sqrt(2))."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "1/2": "pi/2-sqrt(2)*atan(sqrt(2))"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC7-I2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(sqrt(x/(1-x))/(1+x),x))",
+      "exit": 0,
+      "result": "(2*sqrt(2)*atan(sqrt(x/(1-x)))-2*atan(sqrt(2)*sqrt(x/(1-x))))/sqrt(2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000642652\nMAX_RSS_KB 66068\n",
+      "verification": {
+        "exact": true,
+        "method": "Positive bijection u=sqrt(x/(1-x)) on (0,1); exact partial fractions and derivative. Both atan arguments are smooth finite inside the interval, with endpoint limits 0 and pi*(1-1/sqrt(2))."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "1/2": "pi/2-sqrt(2)*atan(sqrt(2))"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC7-I2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(sqrt(x/(1-x))/(1+x),x))",
+      "exit": 0,
+      "result": "(2*sqrt(2)*atan(sqrt(x/(1-x)))-2*atan(sqrt(2)*sqrt(x/(1-x))))/sqrt(2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000635072\nMAX_RSS_KB 66068\n",
+      "verification": {
+        "exact": true,
+        "method": "Positive bijection u=sqrt(x/(1-x)) on (0,1); exact partial fractions and derivative. Both atan arguments are smooth finite inside the interval, with endpoint limits 0 and pi*(1-1/sqrt(2))."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "1/2": "pi/2-sqrt(2)*atan(sqrt(2))"
+      },
+      "status": "exact"
+    }
+  ]
+}

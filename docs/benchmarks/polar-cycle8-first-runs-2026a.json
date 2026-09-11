@@ -1,0 +1,224 @@
+{
+  "scope": "First execution on unchanged 76dbd09 integration/yderive/simplify/actual-sqrt probe; execution completion is not mathematical acceptance.",
+  "probe": "/tmp/khicas-polar-cycle7-fix5/simplify/probe",
+  "probe_sha256": "5f35a94c01bad272b4173fe0bf6c7c7344f7194d1767a268c3aaa43b338dcf6e",
+  "corpus_sha256": "d87b9806f89f0e8bdf3bd98ad271166ee8a1b9bca4961e573fd79004e557c454",
+  "runs": [
+    {
+      "id": "PC8-I1",
+      "input": "integrate(2*x*ln(1+x^2)/((1+x^2)*(1+ln(1+x^2))),x)",
+      "outer": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "2*(ln(x^2+1)/2-1/4*2*ln(ln(x^2+1)+1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00185761\nMAX_RSS_KB 20152\n"
+    },
+    {
+      "id": "PC8-I1",
+      "input": "integrate(2*x*ln(1+x^2)/((1+x^2)*(1+ln(1+x^2))),x)",
+      "outer": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "2*(ln(x^2+1)/2-1/4*2*ln(ln(x^2+1)+1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00212221\nMAX_RSS_KB 29624\n"
+    },
+    {
+      "id": "PC8-I1",
+      "input": "simplify(integrate(2*x*ln(1+x^2)/((1+x^2)*(1+ln(1+x^2))),x))",
+      "outer": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "-ln(ln(x^2+1)+1)+ln(x^2+1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00193768\nMAX_RSS_KB 29828\n"
+    },
+    {
+      "id": "PC8-I1",
+      "input": "simplify(integrate(2*x*ln(1+x^2)/((1+x^2)*(1+ln(1+x^2))),x))",
+      "outer": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "-ln(ln(x^2+1)+1)+ln(x^2+1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00196954\nMAX_RSS_KB 29828\n"
+    },
+    {
+      "id": "PC8-I2",
+      "input": "integrate(1/(x*sqrt((x-1)/(x+1))),x)",
+      "outer": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "-pi/2*sign(x+1)+2*(atan(-x+sqrt(x^2-1))/sign(x+1)-1/2*ln(abs(-x+sqrt(x^2-1)))/sign(x+1))",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(x+1)]\nPARSER_CALLS 1\nSECONDS 0.00963617\nMAX_RSS_KB 29828\n"
+    },
+    {
+      "id": "PC8-I2",
+      "input": "integrate(1/(x*sqrt((x-1)/(x+1))),x)",
+      "outer": false,
+      "stack": "64",
+      "exit": -11,
+      "result": "",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(x+1)]\n"
+    },
+    {
+      "id": "PC8-I2",
+      "input": "simplify(integrate(1/(x*sqrt((x-1)/(x+1))),x))",
+      "outer": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(-pi+4*atan(sqrt(x^2-1)-x)-2*ln(sqrt(x^2-2*sqrt(abs(x^2-1))*x*cos((pi*sign(x^2-1)-pi)/4)+abs(x^2-1))))/(2*sign(x+1))",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(x+1)]\nSimplification assuming x near 0\nSimplification assuming x near 0\nSimplification assuming x near 0\nPARSER_CALLS 1\nSECONDS 0.0790319\nMAX_RSS_KB 29828\n"
+    },
+    {
+      "id": "PC8-I2",
+      "input": "simplify(integrate(1/(x*sqrt((x-1)/(x+1))),x))",
+      "outer": true,
+      "stack": "64",
+      "exit": -11,
+      "result": "",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(x+1)]\n"
+    },
+    {
+      "id": "PC8-D1",
+      "input": "diff(surd(x^2*(x-1)^3,3)+x^2,x)",
+      "outer": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "1/3*(2*x*(x-1)^3+x^2*3*(x-1)^2)*surd(x^2*(x-1)^3,3)/(x^2*(x-1)^3)+2*x",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000338636\nMAX_RSS_KB 29828\n"
+    },
+    {
+      "id": "PC8-D1",
+      "input": "diff(surd(x^2*(x-1)^3,3)+x^2,x)",
+      "outer": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "1/3*(2*x*(x-1)^3+x^2*3*(x-1)^2)*surd(x^2*(x-1)^3,3)/(x^2*(x-1)^3)+2*x",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000369225\nMAX_RSS_KB 29828\n"
+    },
+    {
+      "id": "PC8-D1",
+      "input": "simplify(diff(surd(x^2*(x-1)^3,3)+x^2,x))",
+      "outer": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(6*x^2+5*x*(abs(x)^(1/3))^2-2*(abs(x)^(1/3))^2)*1/3/x",
+      "stderr": "Temporary replacing surd/NTHROOT by fractional powers\nPARSER_CALLS 1\nSECONDS 0.00152671\nMAX_RSS_KB 29828\n"
+    },
+    {
+      "id": "PC8-D1",
+      "input": "simplify(diff(surd(x^2*(x-1)^3,3)+x^2,x))",
+      "outer": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "(6*x^2+5*x*(abs(x)^(1/3))^2-2*(abs(x)^(1/3))^2)*1/3/x",
+      "stderr": "Temporary replacing surd/NTHROOT by fractional powers\nPARSER_CALLS 1\nSECONDS 0.00159752\nMAX_RSS_KB 29828\n"
+    },
+    {
+      "id": "PC8-D2",
+      "input": "diff(piecewise(x<0,x*sin(1/x),x<=1,x^2,2*x-1),x)",
+      "outer": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "piecewise(0>x,sin(1/x)-x/x^2*cos(1/x),x<=1,2*x,2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000421375\nMAX_RSS_KB 29828\n"
+    },
+    {
+      "id": "PC8-D2",
+      "input": "diff(piecewise(x<0,x*sin(1/x),x<=1,x^2,2*x-1),x)",
+      "outer": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "piecewise(0>x,sin(1/x)-x/x^2*cos(1/x),x<=1,2*x,2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000474234\nMAX_RSS_KB 29828\n"
+    },
+    {
+      "id": "PC8-D2",
+      "input": "simplify(diff(piecewise(x<0,x*sin(1/x),x<=1,x^2,2*x-1),x))",
+      "outer": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "piecewise(0>x,sin(1/x)-x/x^2*cos(1/x),x<=1,2*x,2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000413005\nMAX_RSS_KB 29828\n"
+    },
+    {
+      "id": "PC8-D2",
+      "input": "simplify(diff(piecewise(x<0,x*sin(1/x),x<=1,x^2,2*x-1),x))",
+      "outer": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "piecewise(0>x,sin(1/x)-x/x^2*cos(1/x),x<=1,2*x,2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000446074\nMAX_RSS_KB 29828\n"
+    },
+    {
+      "id": "PC8-S1",
+      "input": "sqrt((x+i)^2)-sqrt((x-i)^2)",
+      "outer": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "sqrt((x+i)^2)-sqrt((x-i)^2)",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000371215\nMAX_RSS_KB 29828\n"
+    },
+    {
+      "id": "PC8-S1",
+      "input": "sqrt((x+i)^2)-sqrt((x-i)^2)",
+      "outer": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "sqrt((x+i)^2)-sqrt((x-i)^2)",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000415744\nMAX_RSS_KB 29828\n"
+    },
+    {
+      "id": "PC8-S1",
+      "input": "simplify(sqrt((x+i)^2)-sqrt((x-i)^2))",
+      "outer": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "2*i",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000647932\nMAX_RSS_KB 29828\n"
+    },
+    {
+      "id": "PC8-S1",
+      "input": "simplify(sqrt((x+i)^2)-sqrt((x-i)^2))",
+      "outer": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "2*i",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000666152\nMAX_RSS_KB 29828\n"
+    },
+    {
+      "id": "PC8-R1",
+      "input": "((1+x^2+y^2)^32-(x^2+y^2)^32)/(1+2*x^2+2*y^2)",
+      "outer": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "((1+x^2+y^2)^32-(x^2+y^2)^32)/(1+2*x^2+2*y^2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000286946\nMAX_RSS_KB 29828\n"
+    },
+    {
+      "id": "PC8-R1",
+      "input": "((1+x^2+y^2)^32-(x^2+y^2)^32)/(1+2*x^2+2*y^2)",
+      "outer": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "((1+x^2+y^2)^32-(x^2+y^2)^32)/(1+2*x^2+2*y^2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000291076\nMAX_RSS_KB 29828\n"
+    },
+    {
+      "id": "PC8-R1",
+      "input": "simplify(((1+x^2+y^2)^32-(x^2+y^2)^32)/(1+2*x^2+2*y^2))",
+      "outer": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "((1+x^2+y^2)^32-(x^2+y^2)^32)/(1+2*x^2+2*y^2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000313366\nMAX_RSS_KB 29828\n"
+    },
+    {
+      "id": "PC8-R1",
+      "input": "simplify(((1+x^2+y^2)^32-(x^2+y^2)^32)/(1+2*x^2+2*y^2))",
+      "outer": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "((1+x^2+y^2)^32-(x^2+y^2)^32)/(1+2*x^2+2*y^2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000338285\nMAX_RSS_KB 29828\n"
+    }
+  ]
+}

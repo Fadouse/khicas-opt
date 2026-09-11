@@ -3147,6 +3147,16 @@ namespace giac {
     // A conditional value is a lazy branch boundary. Evaluating or
     // normalizing both branches can enter an undefined Gamma/log branch.
     if(args.is_symb_of_sommet(at_when) || args.is_symb_of_sommet(at_piecewise))return args;
+    // Principal complex roots and real logarithm magnitudes carry domain
+    // information that a real algebraic surrogate cannot discard.
+    if(taille(args,257)<=256 && (has_i(args) || (contains(args,*at_ln) && contains(args,*at_abs)))){
+      if(has_op(args,*at_sqrt))return args;
+      vecteur powers=lop(args,at_pow);
+      for(unsigned j=0;j<powers.size();++j){
+        const gen &f=powers[j]._SYMBptr->feuille;
+        if(f.type==_VECT && f._VECTptr->size()==2 && f[1]==gen(1)/2)return args;
+      }
+    }
     // Rational inner arguments of real roots must not be replaced by a
     // principal complex power during algebraic normalization.
     if(taille(args,257)<=256 && (has_op(args,*at_surd) || has_op(args,*at_NTHROOT))){

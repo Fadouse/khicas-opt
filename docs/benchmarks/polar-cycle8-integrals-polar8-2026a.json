@@ -1,0 +1,150 @@
+{
+  "source_sha256": {
+    "yintg.cc": "1f2dbf27fbc725ed08af29bfa12d9380e6db16e1819a4ae1b95686d805c63757",
+    "zintgab.cc": "3b6fa78aba4d53b1a11479c33bacb4c85e3d6091389ef3073ec60085a7ae9448",
+    "ksubst.cc": "8b89f6fc879ec06d19849a4c239b19f4b71ba72049d3ac419842254ef1956c0c",
+    "yderive.cc": "9753f9e324efb246da53e2678f9dde0666092351ec5c5db247b681e7aa1adf49",
+    "dilogarithm.h": "ca822ef4c094a4ed1f4aecf7219011668735d86d259c51ec6304515f8fa84d7a",
+    "kconvert.cc": "eed558eb2f8ff62e0cf1e94fdbf8497954a35577e283a8d07283350e65b76003",
+    "equation_normalize.h": "4bfb644f0e18bb36e280ce8886c8ac12695c9aeeaef187ea3e5f967cd1642e37",
+    "kusual.cc": "573c67c28e9d83215bd76907e84f883e4fabf10acabc5b7e3186cbf7dad83960",
+    "zprog.cc": "513111030cf5233496da8c3efff53df9391f12d185254f314608600e13e5639e",
+    "conditional_eval.h": "f602bbce59fbcfcadb85a78ca5ba6a79cd56f643067f84d02a02a73a040f40c1"
+  },
+  "corpus_sha256": "a3fe9c570e6576392953f009165fa52466c76042611f3e2fad69fb73edd55fcd",
+  "provenance": "polar-cycle8-fixed-acceptance-2026a.json",
+  "runs": [
+    {
+      "id": "PC8-I1",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(2*x*ln(1+x^2)/((1+x^2)*(1+ln(1+x^2))),x)",
+      "exit": 0,
+      "result": "2*(ln(x^2+1)/2-1/4*2*ln(ln(x^2+1)+1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00137356\nMAX_RSS_KB 65844\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact global primitive G(ln(1+x²)); G′=u/(1+u), u≥0. Original difference quotient at zero is (G(u)/u)*(u/h), both tending to zero. All log arguments positive, evenness and monotonicity follow directly."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC8-I1",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(2*x*ln(1+x^2)/((1+x^2)*(1+ln(1+x^2))),x)",
+      "exit": 0,
+      "result": "2*(ln(x^2+1)/2-1/4*2*ln(ln(x^2+1)+1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00147578\nMAX_RSS_KB 65844\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact global primitive G(ln(1+x²)); G′=u/(1+u), u≥0. Original difference quotient at zero is (G(u)/u)*(u/h), both tending to zero. All log arguments positive, evenness and monotonicity follow directly."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC8-I1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(2*x*ln(1+x^2)/((1+x^2)*(1+ln(1+x^2))),x))",
+      "exit": 0,
+      "result": "-ln(ln(x^2+1)+1)+ln(x^2+1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00163847\nMAX_RSS_KB 65844\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact global primitive G(ln(1+x²)); G′=u/(1+u), u≥0. Original difference quotient at zero is (G(u)/u)*(u/h), both tending to zero. All log arguments positive, evenness and monotonicity follow directly."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC8-I1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(2*x*ln(1+x^2)/((1+x^2)*(1+ln(1+x^2))),x))",
+      "exit": 0,
+      "result": "-ln(ln(x^2+1)+1)+ln(x^2+1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00162969\nMAX_RSS_KB 65844\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact global primitive G(ln(1+x²)); G′=u/(1+u), u≥0. Original difference quotient at zero is (G(u)/u)*(u/h), both tending to zero. All log arguments positive, evenness and monotonicity follow directly."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC8-I2",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(1/(x*sqrt((x-1)/(x+1))),x)",
+      "exit": 0,
+      "result": "2*(ln(abs((1+1/sqrt((x-1)/(x+1)))/(1-1/sqrt((x-1)/(x+1)))))/2-atan(1/sqrt((x-1)/(x+1))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000455404\nMAX_RSS_KB 65844\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact positive reciprocal-root parameter. x=(1+u²)/(1-u²), dx=4u/(1-u²)²du; derivative is 4/(1-u⁴) on both intervals u<1 and u>1. Real log magnitude nonzero, only u=1 excluded. atan(u)+atan(1/u)=pi/2 proves the displayed primitive differs by -pi from the stated normalization."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC8-I2",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(1/(x*sqrt((x-1)/(x+1))),x)",
+      "exit": 0,
+      "result": "2*(ln(abs((1+1/sqrt((x-1)/(x+1)))/(1-1/sqrt((x-1)/(x+1)))))/2-atan(1/sqrt((x-1)/(x+1))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000452875\nMAX_RSS_KB 65844\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact positive reciprocal-root parameter. x=(1+u²)/(1-u²), dx=4u/(1-u²)²du; derivative is 4/(1-u⁴) on both intervals u<1 and u>1. Real log magnitude nonzero, only u=1 excluded. atan(u)+atan(1/u)=pi/2 proves the displayed primitive differs by -pi from the stated normalization."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC8-I2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(1/(x*sqrt((x-1)/(x+1))),x))",
+      "exit": 0,
+      "result": "2*(ln(abs((1+1/sqrt((x-1)/(x+1)))/(1-1/sqrt((x-1)/(x+1)))))/2-atan(1/sqrt((x-1)/(x+1))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000589413\nMAX_RSS_KB 65844\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact positive reciprocal-root parameter. x=(1+u²)/(1-u²), dx=4u/(1-u²)²du; derivative is 4/(1-u⁴) on both intervals u<1 and u>1. Real log magnitude nonzero, only u=1 excluded. atan(u)+atan(1/u)=pi/2 proves the displayed primitive differs by -pi from the stated normalization."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC8-I2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(1/(x*sqrt((x-1)/(x+1))),x))",
+      "exit": 0,
+      "result": "2*(ln(abs((1+1/sqrt((x-1)/(x+1)))/(1-1/sqrt((x-1)/(x+1)))))/2-atan(1/sqrt((x-1)/(x+1))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000512944\nMAX_RSS_KB 65844\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact positive reciprocal-root parameter. x=(1+u²)/(1-u²), dx=4u/(1-u²)²du; derivative is 4/(1-u⁴) on both intervals u<1 and u>1. Real log magnitude nonzero, only u=1 excluded. atan(u)+atan(1/u)=pi/2 proves the displayed primitive differs by -pi from the stated normalization."
+      },
+      "pass": true,
+      "status": "exact"
+    }
+  ]
+}

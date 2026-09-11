@@ -40,6 +40,7 @@ for c in cases:
     values.update({'PC5-I1':{0:'sqrt(3)*pi/6'},'PC5-I2':{-1:'-pi/4',1:'-pi/4'},'PC5-D1':{0:'0'},'PC5-D2':{-1:'-1/2',0:'-1',1:'-1/4',2:'7/4'},'PC5-S1':{1:'0'}}.get(c['id'],{}))
     values.update({'PC6-I1':{2:'0'},'PC6-I2':{0:'0'},'PC6-D1':{2:'0'},'PC6-D2':{-2:'0',0:'2/9',1:'undef',2:'4'},'PC6-S1':{1:'0'}}.get(c['id'],{}))
     values.update({'PC7-I1':{0:'0'},'PC7-I2':{'1/2':'pi/2-sqrt(2)*atan(sqrt(2))'},'PC7-D1':{-1:'cos(1)',1:'cos(1)',0:'1'},'PC7-D2':{-1:'-2',0:'0',1:'undef',2:'0'},'PC7-S1':{'-2*pi':'2*i*pi','-pi':'2*i*pi','pi':'0','2*pi':'-2*i*pi'}}.get(c['id'],{}))
+    values.update({'PC8-I1':{0:'0'},'PC8-D1':{1:'3',0:'undef'},'PC8-D2':{0:'undef',1:'2',2:'2'},'PC8-S1':{-1:'-2*i',0:'0',1:'2*i'}}.get(c['id'],{}))
     if values:
      from mixed_reference import parse,equal
      for point,expected in values.items():

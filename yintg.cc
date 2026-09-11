@@ -3331,6 +3331,18 @@ namespace giac {
     return true;
   }
 
+  // Integral of 1/(1+k*u^2), on each real interval excluding its poles.
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static gen integrate_real_quadratic(const gen &k,const gen &u,GIAC_CONTEXT){
+    if(is_zero(k))return u;
+    bool positive=is_strictly_positive(k,contextptr);
+    gen r=sqrt(positive?k:-k,contextptr);
+    if(positive)return atan(r*u,contextptr)/r;
+    return symbolic(at_ln,symbolic(at_abs,(1+r*u)/(1-r*u)))/(2*r);
+  }
+
 #if defined(__GNUC__) && !defined(__clang__)
   __attribute__((noinline,optimize("Os")))
 #endif
@@ -3401,10 +3413,13 @@ namespace giac {
     if(e.is_symb_of_sommet(at_prod) && e._SYMBptr->feuille.type==_VECT && e._SYMBptr->feuille._VECTptr->size()==2){
       const vecteur &v=*e._SYMBptr->feuille._VECTptr;
       for(unsigned j=0;j<2;++j){
-        gen R,power;
-        if(v[j].is_symb_of_sommet(at_sqrt)){R=v[j]._SYMBptr->feuille;power=gen(1)/2;}
-        else if(v[j].is_symb_of_sommet(at_pow) && v[j]._SYMBptr->feuille.type==_VECT && v[j]._SYMBptr->feuille._VECTptr->size()==2){R=v[j]._SYMBptr->feuille[0];power=v[j]._SYMBptr->feuille[1];}
+        gen R,power,root=v[j];bool reciprocal=root.is_symb_of_sommet(at_inv);
+        if(reciprocal)root=gen(root._SYMBptr->feuille);
+        if(root.is_symb_of_sommet(at_sqrt)){R=root._SYMBptr->feuille;power=gen(1)/2;}
+        else if(root.is_symb_of_sommet(at_pow) && root._SYMBptr->feuille.type==_VECT && root._SYMBptr->feuille._VECTptr->size()==2){R=root._SYMBptr->feuille[0];power=root._SYMBptr->feuille[1];}
         else continue;
+        if(reciprocal)power=-power;
+        if(power==-gen(1)/2){R=inv(R,contextptr);power=gen(1)/2;}
         // Positive square root of an affine ratio: use its own real
         // parameter, avoiding a tangent-half-angle pole inside the interval.
         if(power==gen(1)/2 && angle_radian(contextptr) && taille(R,17)<=16 && lop(R,at_pow).empty()){
@@ -3418,10 +3433,9 @@ namespace giac {
              integration_resource_rational(b) && integration_resource_rational(d) &&
              integration_resource_rational(f) && integration_resource_rational(h) && integration_resource_rational(k)){
             gen delta=a*f-b*d,E=k*a-h*b,F=h*f-k*d,J=a*F+d*E;
-            if(!is_zero(a) && !is_zero(E) && !is_zero(J) && !is_zero(delta) &&
-               is_strictly_positive(-d/a,contextptr) && is_strictly_positive(F/E,contextptr)){
-              gen u=v[j],r=sqrt(-d/a,contextptr),s=sqrt(F/E,contextptr);
-              res=2*c*delta/J*(atan(r*u,contextptr)/r-atan(s*u,contextptr)/s);return true;
+            if(!is_zero(a) && !is_zero(E) && !is_zero(J) && !is_zero(delta)){
+              gen u=v[j];
+              res=2*c*delta/J*(integrate_real_quadratic(-d/a,u,contextptr)-integrate_real_quadratic(F/E,u,contextptr));return true;
             }
           }
         }

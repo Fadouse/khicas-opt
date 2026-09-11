@@ -1,0 +1,24 @@
+{
+  "cases": [
+    {
+      "id": "PC8-I1",
+      "input": "simplify(integrate(2*x*ln(1+x^2)/((1+x^2)*(1+ln(1+x^2))),x))",
+      "expected": "ln(1+x^2)-ln(1+ln(1+x^2))",
+      "conditions": [
+        "x is any finite real number, including zero; ln is the real logarithm.",
+        "An explicit exact antiderivative differentiable on the entire real axis is required, up to one global additive constant.",
+        "The logarithmic substitution ln(1+x^2) is not injective on the real axis and has a stationary point at zero; neither fact permits excluding zero or choosing unrelated constants on the two half-axes."
+      ]
+    },
+    {
+      "id": "PC8-I2",
+      "input": "simplify(integrate(1/(x*sqrt((x-1)/(x+1))),x))",
+      "expected": "ln(abs((1+sqrt((x-1)/(x+1)))/(1-sqrt((x-1)/(x+1)))))+2*atan(sqrt((x-1)/(x+1)))",
+      "conditions": [
+        "x is real with x<-1 or x>1; these are exactly the real-domain components of the integrand. sqrt is the positive real square root on these components.",
+        "ln is the real logarithm, abs is real absolute value, and atan is the principal real inverse tangent.",
+        "An explicit exact antiderivative is required on both components, with an independent additive constant allowed on each. The points -1 and 1 are excluded; their one-sided primitive limits do not extend the original integrand's domain."
+      ]
+    }
+  ]
+}
