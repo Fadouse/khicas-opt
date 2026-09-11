@@ -95,6 +95,17 @@ namespace giac {
     // if s does not depend on i return 0
     if (!depend(g_orig,i))
       return zero;
+    // On the unit circle, differentiate the imaginary dilogarithm before
+    // re/im expand the complex quotient into repeated trigonometric trees.
+    // d Im Li2(exp(i*u)) = -u' log(2*abs(sin(u/2))) for real u off 2*pi*Z.
+    if (s.sommet==at_im && s.feuille.is_symb_of_sommet(at_Li2)){
+      const gen &z=s.feuille._SYMBptr->feuille;
+      if(z.is_symb_of_sommet(at_exp) && angle_radian(contextptr) && taille(z,65)<=64){
+        gen u=ratnormal(-cst_i*z._SYMBptr->feuille,contextptr);
+        if(is_zero(im(u,contextptr)))
+          return -derive(u,i,contextptr)*ln(2*abs(sin(u/2,contextptr),contextptr),contextptr);
+      }
+    }
     // rational operators are treated first for efficiency
     if (s.sommet==at_plus){
       bool do_step=step_infolevel(contextptr)>1 && count_noncst(s.feuille,i)>1;

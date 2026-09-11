@@ -1,0 +1,152 @@
+{
+  "scope": "Actual conversion declines whole-plane/collision inputs and unproved scalar factors; squared or summed-square factors cannot be assumed nonzero. Exceptions are caught by the host harness and reported as errors, not process crashes.",
+  "source_sha256": {
+    "kconvert.cc": "8af48b1d2ee245d13f460706fcfc01bceab9d5c01b21b998ff76e5468c89d8db"
+  },
+  "runs": [
+    {
+      "input": "(x^2+y^2=1,[x,y],x)",
+      "setup": null,
+      "stack": "normal",
+      "exit": 3,
+      "result": "RAW undef\nNODES 0 0\n",
+      "stderr": "Use distinct unassigned coordinate and parameter names Error: Bad Argument Value\n",
+      "pass": true
+    },
+    {
+      "input": "(x^2+y^2=1,[x,y],x)",
+      "setup": null,
+      "stack": "64",
+      "exit": 3,
+      "result": "RAW undef\nNODES 0 0\n",
+      "stderr": "Use distinct unassigned coordinate and parameter names Error: Bad Argument Value\n",
+      "pass": true
+    },
+    {
+      "input": "(0=0,[x,y],t)",
+      "setup": null,
+      "stack": "normal",
+      "exit": 3,
+      "result": "RAW undef\nNODES 0 0\n",
+      "stderr": "Equation does not define a curve in these coordinates Error: Bad Argument Value\n",
+      "pass": true
+    },
+    {
+      "input": "(0=0,[x,y],t)",
+      "setup": null,
+      "stack": "64",
+      "exit": 3,
+      "result": "RAW undef\nNODES 0 0\n",
+      "stderr": "Equation does not define a curve in these coordinates Error: Bad Argument Value\n",
+      "pass": true
+    },
+    {
+      "input": "(a*(x*y)=0,[x,y],t)",
+      "setup": null,
+      "stack": "normal",
+      "exit": 3,
+      "result": "RAW undef\nNODES 0 0\n",
+      "stderr": "Parameter factor may vanish; assume it is nonzero first Error: Bad Argument Value\n",
+      "pass": true
+    },
+    {
+      "input": "(a*(x*y)=0,[x,y],t)",
+      "setup": null,
+      "stack": "64",
+      "exit": 3,
+      "result": "RAW undef\nNODES 0 0\n",
+      "stderr": "Parameter factor may vanish; assume it is nonzero first Error: Bad Argument Value\n",
+      "pass": true
+    },
+    {
+      "input": "(a*(x^2+y^2-1)=0,[x,y],t)",
+      "setup": null,
+      "stack": "normal",
+      "exit": 3,
+      "result": "RAW undef\nNODES 0 0\n",
+      "stderr": "Parameter factor may vanish; assume it is nonzero first Error: Bad Argument Value\n",
+      "pass": true
+    },
+    {
+      "input": "(a*(x^2+y^2-1)=0,[x,y],t)",
+      "setup": null,
+      "stack": "64",
+      "exit": 3,
+      "result": "RAW undef\nNODES 0 0\n",
+      "stderr": "Parameter factor may vanish; assume it is nonzero first Error: Bad Argument Value\n",
+      "pass": true
+    },
+    {
+      "input": "(a^2*(x^2+y^2-1)=0,[x,y],t)",
+      "setup": null,
+      "stack": "normal",
+      "exit": 3,
+      "result": "RAW undef\nNODES 0 0\n",
+      "stderr": "Parameter factor may vanish; assume it is nonzero first Error: Bad Argument Value\n",
+      "pass": true
+    },
+    {
+      "input": "(a^2*(x^2+y^2-1)=0,[x,y],t)",
+      "setup": null,
+      "stack": "64",
+      "exit": 3,
+      "result": "RAW undef\nNODES 0 0\n",
+      "stderr": "Parameter factor may vanish; assume it is nonzero first Error: Bad Argument Value\n",
+      "pass": true
+    },
+    {
+      "input": "((a^2+b^2)*(x^2+y^2-1)=0,[x,y],t)",
+      "setup": null,
+      "stack": "normal",
+      "exit": 3,
+      "result": "RAW undef\nNODES 0 0\n",
+      "stderr": "Parameter factor may vanish; assume it is nonzero first Error: Bad Argument Value\n",
+      "pass": true
+    },
+    {
+      "input": "((a^2+b^2)*(x^2+y^2-1)=0,[x,y],t)",
+      "setup": null,
+      "stack": "64",
+      "exit": 3,
+      "result": "RAW undef\nNODES 0 0\n",
+      "stderr": "Parameter factor may vanish; assume it is nonzero first Error: Bad Argument Value\n",
+      "pass": true
+    },
+    {
+      "input": "((a-b)^2*(x^2+y^2-1)=0,[x,y],t)",
+      "setup": "[assume(a>0),assume(b>0)]",
+      "stack": "normal",
+      "exit": 3,
+      "result": "RAW undef\nNODES 0 0\n",
+      "stderr": "Parameter factor may vanish; assume it is nonzero first Error: Bad Argument Value\n",
+      "pass": true
+    },
+    {
+      "input": "((a-b)^2*(x^2+y^2-1)=0,[x,y],t)",
+      "setup": "[assume(a>0),assume(b>0)]",
+      "stack": "64",
+      "exit": 3,
+      "result": "RAW undef\nNODES 0 0\n",
+      "stderr": "Parameter factor may vanish; assume it is nonzero first Error: Bad Argument Value\n",
+      "pass": true
+    },
+    {
+      "input": "(a*(x^2+y^2-1)=0,[x,y],t)",
+      "setup": "a:=0",
+      "stack": "normal",
+      "exit": 3,
+      "result": "RAW undef\nNODES 0 0\n",
+      "stderr": "Equation does not define a curve in these coordinates Error: Bad Argument Value\n",
+      "pass": true
+    },
+    {
+      "input": "(a*(x^2+y^2-1)=0,[x,y],t)",
+      "setup": "a:=0",
+      "stack": "64",
+      "exit": 3,
+      "result": "RAW undef\nNODES 0 0\n",
+      "stderr": "Equation does not define a curve in these coordinates Error: Bad Argument Value\n",
+      "pass": true
+    }
+  ]
+}

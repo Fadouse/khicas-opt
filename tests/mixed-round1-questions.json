@@ -1,0 +1,152 @@
+{
+  "cases": [
+    {
+      "id": "MR1-I1",
+      "type": "integral",
+      "input": "simplify(integrate(-3*ln(abs(4*sin(-2*x/3+pi/5))),x))",
+      "conditions": ["x is real", "sin(-2*x/3+pi/5) != 0", "An antiderivative is required on each connected component of this domain; additive constants are immaterial."],
+      "expected": {
+        "expression": "-3*x*ln(2)-9/4*im(Li2(exp(2*i*(-2*x/3+pi/5))))",
+        "properties": ["Return an explicit antiderivative without unevaluated integrate.", "Its exact derivative equals the input integrand on every stated real interval, including negative sine half-periods."]
+      },
+      "reason": "Put u=-2*x/3+pi/5 and H(u)=Im Li2(exp(2*i*u)). Since H'(u)=-2*ln(2*abs(sin(u))), differentiating the proposed expression gives -3*ln(2)-3*ln(2*abs(sin(u)))=-3*ln(abs(4*sin(u))). The negative frequency is essential to the sign."
+    },
+    {
+      "id": "MR1-I2",
+      "type": "integral",
+      "input": "simplify(integrate(2*ln(-2*cos(3*x/2-pi/7)),x))",
+      "conditions": ["x is real", "cos(3*x/2-pi/7) != 0", "ln is the principal complex logarithm: ln(-r)=ln(r)+i*pi for r>0.", "The result must cover both signs of the cosine, rather than restricting to a positive log argument."],
+      "expected": {
+        "expression": "-2/3*im(Li2(exp(2*i*(3*x/2+19*pi/14))))+2*i*pi/3*(3*x/2+19*pi/14-pi+abs(3*x/2+19*pi/14-2*pi*floor((3*x/2+19*pi/14)/(2*pi))-pi))",
+        "properties": ["An additive constant on each connected domain interval is allowed.", "Derivative imaginary part is 2*pi when cos(3*x/2-pi/7)>0 and zero when that cosine is negative.", "A real-only antiderivative on the positive-cosine intervals is an incorrect branch."]
+      },
+      "reason": "Set v=3*x/2+19*pi/14, so 2*sin(v)=-2*cos(3*x/2-pi/7). The derivative of -(2/3)*H(v) is 2*ln(2*abs(sin(v))). For R(v)=(v-pi+abs(v-2*pi*floor(v/(2*pi))-pi))/2, R'(v) is 0 where sin(v)>0 and 1 where sin(v)<0. The remaining term is (4*i*pi/3)*R(v), with derivative 2*i*pi*R'(v), exactly the principal-log imaginary part."
+    },
+    {
+      "id": "MR1-I3",
+      "type": "integral",
+      "input": "simplify(integrate(ln(abs(2*sin(x/2+pi/6)))+ln(abs(2*cos(x/2+pi/6))),x))",
+      "conditions": ["x is real", "sin(x/2+pi/6)*cos(x/2+pi/6) != 0"],
+      "expected": {
+        "expression": "-1/2*im(Li2(exp(2*i*(x+pi/3))))",
+        "properties": ["Exact antiderivative up to intervalwise constants; a sum of equivalent Li2 terms is acceptable.", "Do not add artificial poles at tangent half-angle singularities."]
+      },
+      "reason": "Both absolute-value arguments are strictly positive on the domain, hence their logarithms combine. With u=x/2+pi/6, the integrand is ln(4*abs(sin(u)*cos(u)))=ln(2*abs(sin(2*u))). The derivative of -H(2*u)/2 is this logarithm because d(2*u)/dx=1."
+    },
+    {
+      "id": "MR1-I4",
+      "type": "integral",
+      "input": "simplify(integrate(ln(1+x^2)/(x*(1+x^2)),x))",
+      "conditions": ["x is real", "x != 0", "Li2 uses its principal branch; its argument -x^2 is nonpositive and does not cross the positive-real branch cut."],
+      "expected": {
+        "expression": "-Li2(-x^2)/2-ln(1+x^2)^2/4",
+        "properties": ["Return an explicit antiderivative, with no need for special functions beyond the existing Li2.", "Prove derivative equality on both x>0 and x<0; numerical samples alone do not establish the answer."]
+      },
+      "reason": "Let z=x^2, so dx/x=dz/(2*z). Then the integral is one half the integral of ln(1+z)*(1/z-1/(1+z)) dz. Using d Li2(-z)/dz=-ln(1+z)/z yields the stated result. Direct differentiation gives ln(1+x^2)/x-x*ln(1+x^2)/(1+x^2), equal to the original integrand."
+    },
+    {
+      "id": "MR1-C1",
+      "type": "conic",
+      "input": "simplify(cart2param((2*x+y-1)^2+3*(x-y+2)^2=12,[x,y],tau))",
+      "equation": "(2*x+y-1)^2+3*(x-y+2)^2=12",
+      "parameter": "tau",
+      "kind": "ellipse",
+      "branches": 1,
+      "conditions": ["x and y are real", "tau traverses all real numbers"],
+      "expected": {
+        "parametrizations": [["(2*sqrt(3)*cos(tau)+2*sin(tau)-1)/3", "(2*sqrt(3)*cos(tau)-4*sin(tau)+5)/3"]],
+        "properties": ["Equivalent exact parametrizations are accepted, but the complete real ellipse must be covered.", "Substitution into the equation must vanish identically.", "No omitted points at finite tau; preserve x(tau) and y(tau) labels.", "This short input must remain displayable under the existing 256-node renderer protection; do not raise heap, stack, or renderer budgets to pass it."]
+      },
+      "reason": "Use U=2*x+y-1 and V=x-y+2. The invertible transformation gives x=(U+V-1)/3 and y=(U-2*V+5)/3. U=2*sqrt(3)*cos(tau), V=2*sin(tau) covers U^2+3*V^2=12. The original quadratic matrix is [[7,-1],[-1,4]], whose eigenvalues (11 +/- sqrt(13))/2 are irrational, although this exact parametrization is compact."
+    },
+    {
+      "id": "MR1-C2",
+      "type": "conic",
+      "input": "cart2param((2*x-y-3)^2-4*(x+2*y+1)^2=16,[x,y],s)",
+      "equation": "(2*x-y-3)^2-4*(x+2*y+1)^2=16",
+      "parameter": "s",
+      "kind": "hyperbola",
+      "branches": 2,
+      "conditions": ["x and y are real", "s traverses all real numbers in each branch"],
+      "expected": {
+        "parametrizations": [["(8*cosh(s)+2*sinh(s)+5)/5", "(-4*cosh(s)+4*sinh(s)-5)/5"], ["(-8*cosh(s)+2*sinh(s)+5)/5", "(4*cosh(s)+4*sinh(s)-5)/5"]],
+        "properties": ["Return two complete real branches, with correct x(s) and y(s) labels.", "Both branches must satisfy the equation identically, and both signs of 2*x-y-3 must occur.", "The vertices (13/5,-9/5) and (-3/5,-1/5) must be included."]
+      },
+      "reason": "Put U=2*x-y-3 and V=x+2*y+1. The inverse is x=(2*U+V+5)/5, y=(-U+2*V-5)/5. U=+/-4*cosh(s), V=2*sinh(s) gives U^2-4*V^2=16. For any real point, s=asinh(V/2) and the sign of U select exactly one branch, establishing coverage."
+    },
+    {
+      "id": "MR1-C3",
+      "type": "conic",
+      "input": "simplify(cart2param((x+2*y-4)^2-9*(2*x-y+3)^2=0,[x,y],q))",
+      "equation": "(x+2*y-4)^2-9*(2*x-y+3)^2=0",
+      "parameter": "q",
+      "kind": "crossing-lines",
+      "branches": 2,
+      "conditions": ["x and y are real", "q traverses all real numbers in each line"],
+      "expected": {
+        "parametrizations": [["q-2/5", "q+11/5"], ["-q/5-2/5", "-7*q/5+11/5"]],
+        "properties": ["Return both distinct complete lines and include their intersection (-2/5,11/5).", "Do not lose either line by dividing by a vanishing linear factor.", "Equivalent affine line parameters are accepted; preserve the requested q label."]
+      },
+      "reason": "For U=x+2*y-4 and V=2*x-y+3, the equation factors as (U-3*V)*(U+3*V)=0. Take V=q and U=+/-3*q. The inverse x=(U+2*V-2)/5, y=(2*U-V+11)/5 gives the two listed lines. The transformation determinant is -5, so no additional components exist and q=0 includes their intersection."
+    },
+    {
+      "id": "MR1-C4",
+      "type": "conic",
+      "input": "cart2param((2*x-y+1)^2+2*(x+2*y-3)^2+1=0,[x,y],r)",
+      "equation": "(2*x-y+1)^2+2*(x+2*y-3)^2+1=0",
+      "parameter": "r",
+      "kind": "empty",
+      "branches": 0,
+      "conditions": ["x and y are real", "This is the explicitly marked incorrect-real-branch rejection case, not a divergent integral."],
+      "expected": {
+        "parametrizations": [],
+        "properties": ["Return the empty real curve, or an explicit no-real-solution result.", "Do not present complex coordinates or the center (1/5,7/5) as a real solution."]
+      },
+      "reason": "Both squared terms are nonnegative on the real plane, so the left side is at least 1. Its minimum occurs where 2*x-y+1=0 and x+2*y-3=0, namely (1/5,7/5); even there the equation is not satisfied. Thus no real branch or isolated real point exists."
+    },
+    {
+      "id": "MR1-D1",
+      "type": "derivative-simplify",
+      "input": "simplify(diff(-3*x*ln(2)-9/4*im(Li2(exp(2*i*(-2*x/3+pi/5)))),x))",
+      "conditions": ["x is real", "sin(-2*x/3+pi/5) != 0"],
+      "expected": {
+        "expression": "-3*ln(abs(4*sin(-2*x/3+pi/5)))",
+        "properties": ["Return an explicit expression exactly equal to this real logarithm on all stated intervals; an equivalent short sum of real logarithms is acceptable.", "No unevaluated diff, Li2 derivative, or artificial division by a tangent is acceptable.", "Exercise the existing simplify depth and size budgets without increasing the CAS heap or stack budgets."]
+      },
+      "reason": "For real u away from sine zeros, differentiating Li2(exp(2*i*u)) gives -2*i*ln(1-exp(2*i*u)); its imaginary part is -2*ln(abs(1-exp(2*i*u)))=-2*ln(2*abs(sin(u))). Apply u'=-2/3 and combine the positive real logarithm arguments. This tests the actual derivative/simplify path separately from integration."
+    },
+    {
+      "id": "MR1-D2",
+      "type": "derivative-simplify",
+      "input": "simplify(diff(Li2(-(2*x-1)^2),x))",
+      "conditions": ["x is real, including x=1/2", "Use the analytic principal Li2 at argument zero and along the negative real axis."],
+      "expected": {
+        "expression": "piecewise(x==1/2,0,-4*ln(1+(2*x-1)^2)/(2*x-1))",
+        "properties": ["For x != 1/2, the derivative must equal the stated quotient exactly.", "At x=1/2, the original analytic composition has derivative zero; preserve this value, either explicitly or through a representation with its removable value defined.", "An unqualified quotient that evaluates to undefined at x=1/2 introduces a new singularity and is not a full-domain answer."]
+      },
+      "reason": "Set w=2*x-1 and z=-w^2. For w!=0, Li2'(z)*z'=(-ln(1-z)/z)*(-4*w)=-4*ln(1+w^2)/w. Around w=0, Li2(-w^2)=-w^2+O(w^4), so its x derivative is -4*w+O(w^3) and equals zero at x=1/2."
+    },
+    {
+      "id": "MR1-D3",
+      "type": "derivative-simplify",
+      "input": "simplify(diff((x-1)*atan(2*x-2),x)-atan(2*x-2)+2*sin(x)*cos(x))",
+      "conditions": ["x is real, including x=1 and x=pi/2"],
+      "expected": {
+        "expression": "2*(x-1)/(1+4*(x-1)^2)+sin(2*x)",
+        "properties": ["An equivalent compact expression with 2*sin(x)*cos(x) retained is acceptable.", "No new singularities at x=1 or x=pi/2+k*pi for any integer k.", "At x=1 the value is sin(2)."]
+      },
+      "reason": "The product rule produces atan(2*x-2)+2*(x-1)/(1+4*(x-1)^2). The explicit atan cancels, and 2*sin(x)*cos(x)=sin(2*x). The remaining rational denominator is strictly positive for real x, so inverse-atan or tangent rewrites must not add poles."
+    },
+    {
+      "id": "MR1-D4",
+      "type": "derivative-simplify",
+      "input": "simplify(diff((x^2+1)^3*sin(x)/(x^2+1)^2,x)-sin(x)^3-sin(x)*cos(x)^2)",
+      "conditions": ["x is real", "The original denominator (x^2+1)^2 is strictly positive on this domain."],
+      "expected": {
+        "expression": "(2*x-1)*sin(x)+(x^2+1)*cos(x)",
+        "properties": ["Return a compact exact expression with the common polynomial factors and sin(x)^2+cos(x)^2 identity resolved.", "No residual denominator involving powers of x^2+1 is needed in the simplified real-domain result.", "Retain the existing resource budgets; this bounded degree-six input does not justify increasing heap, stack, or recursion limits."]
+      },
+      "reason": "Because x^2+1 never vanishes for real x, the differentiated quotient equals (x^2+1)*sin(x). Its derivative is 2*x*sin(x)+(x^2+1)*cos(x). The two subtracted terms sum to sin(x)*(sin(x)^2+cos(x)^2)=sin(x), giving the stated result without a large rational expansion."
+    }
+  ]
+}

@@ -3283,7 +3283,7 @@ namespace giac {
     if(!is_linear_wrt(b,cst_pi,pa,pb,contextptr) || !integration_resource_rational(pa) || !integration_resource_rational(pb))return false;
     if(f.is_symb_of_sommet(at_cos))u+=cst_pi/2;
     if(is_strictly_positive(-c,contextptr)){c=-c;u+=cst_pi;}
-    gen dilog=symbolic(at_Li2,exp(2*cst_i*u,contextptr));
+    gen dilog=symbolic(at_Li2,symbolic(at_exp,2*cst_i*u));
     res=x*ln(c/2,contextptr)-gen(symbolic(at_im,dilog))/(2*a);
     if(!absolute){
       gen n=symbolic(at_floor,u/(2*cst_pi)),r=u-2*cst_pi*n-cst_pi;

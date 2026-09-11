@@ -47,14 +47,30 @@ __attribute__((noinline,optimize("Os")))
 #endif
 static gen d_Li2(const gen &z,GIAC_CONTEXT){
   if(is_zero(z))return 1;
-  return -ln(1-z,contextptr)/z;
+  gen regular=-ln(1-z,contextptr)/z;
+  if(z.type<=_REAL || z.is_symb_of_sommet(at_exp))return regular;
+  // Li2 is analytic at zero. Preserve its removable derivative value in
+  // the expression itself, so substitution after a chain rule is valid.
+  return symbolic(at_when,makesequence(symbolic(at_equal,makesequence(z,0)),1,regular));
 }
 define_partial_derivative_onearg_genop(D_at_Li2,"D_at_Li2",&d_Li2);
 #if defined(__GNUC__) && !defined(__clang__)
 __attribute__((noinline,optimize("Os")))
 #endif
-gen _Li2(const gen &z,GIAC_CONTEXT){
-  if(z.type==_STRNG && z.subtype==-1)return z;
+gen _Li2(const gen &argument,GIAC_CONTEXT){
+  if(argument.type==_STRNG && argument.subtype==-1)return argument;
+  // Evaluate a symbolic unit-circle phase without expanding its exponential
+  // into cyclotomic roots. Quoting is limited to this exact bounded form;
+  // ordinary arguments (including assigned names and numeric input) evaluate
+  // normally below.
+  if(argument.is_symb_of_sommet(at_exp) && taille(argument,65)<=64){
+    gen phase=argument._SYMBptr->feuille.eval(1,contextptr);
+    vecteur names=lidnt(phase);bool variable=false;
+    for(unsigned j=0;j<names.size();++j)if(names[j]!=cst_pi){variable=true;break;}
+    if(variable && !has_num_coeff(phase) && is_zero(re(phase,contextptr)))
+      return symbolic(at_Li2,symbolic(at_exp,phase));
+  }
+  gen z=argument.eval(1,contextptr);
   if(z.type==_VECT)return apply(z,_Li2,contextptr);
   if(is_undef(z))return z;
   if(is_zero(z))return z;
@@ -79,11 +95,11 @@ gen _Li2(const gen &z,GIAC_CONTEXT){
 }
 static const char _Li2_s[]="Li2";
 #ifdef GIAC_HAS_STO_38
-static define_unary_function_eval3(__Li2,&_Li2,(size_t)&D_at_Li2unary_function_ptr,_Li2_s);
+static define_unary_function_eval3_quoted(__Li2,&_Li2,(size_t)&D_at_Li2unary_function_ptr,_Li2_s);
 #else
-static define_unary_function_eval3(__Li2,&_Li2,D_at_Li2,_Li2_s);
+static define_unary_function_eval3_quoted(__Li2,&_Li2,D_at_Li2,_Li2_s);
 #endif
-define_unary_function_ptr5(at_Li2,alias_at_Li2,&__Li2,0,true);
+define_unary_function_ptr5(at_Li2,alias_at_Li2,&__Li2,_QUOTE_ARGUMENTS,true);
 #ifndef NO_NAMESPACE_GIAC
 }
 #endif

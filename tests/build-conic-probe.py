@@ -11,5 +11,10 @@ for name in ['equation_normalize.h','parametric_display.h']:(d/name).write_bytes
 simplify_dir=a.simplify_build_dir or d/'simplify'
 if not a.simplify_build_dir:build(simplify_dir,target_simplify=True)
 flags,libs=compiler_options();flags+=['-I'+str(d)]
-subprocess.run(flags+[str(d/'kconvert.cc'),str(ROOT/'tests/conic_probe.cc'),str(simplify_dir/'simplify.cc'),str(simplify_dir/'normalize.cc')]+libs+['-pthread','-o',str(d/'probe')],check=True)
+# The current simplifier refers to the registered Li2 function as an atom.
+# Use the exact production registration rather than a dummy host placeholder.
+(d/'dilogarithm.h').write_bytes((ROOT/'dilogarithm.h').read_bytes())
+(d/'special.cc').write_text('#include "giacPCH.h"\n#include "dilogarithm.h"\n')
+extra=[str(simplify_dir/'derivative.cc')] if (simplify_dir/'derivative.cc').exists() else []
+subprocess.run(flags+[str(d/'kconvert.cc'),str(ROOT/'tests/conic_probe.cc'),str(simplify_dir/'simplify.cc'),str(simplify_dir/'normalize.cc'),str(d/'special.cc')]+extra+libs+['-pthread','-o',str(d/'probe')],check=True)
 print(d/'probe')

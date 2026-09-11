@@ -2434,6 +2434,39 @@ namespace giac {
       return e_orig;
     if (e_orig.type<=_POLY || is_inf(e_orig) || has_num_coeff(e_orig))
       return e_orig;
+    // Short logarithmic arithmetic needs no expansion of the phase inside
+    // abs(sin(u))/abs(cos(u)). Such expansion can construct a cyclotomic
+    // extension even though the existing real logarithms are already short.
+    if(taille(e_orig,129)<=128){
+      vecteur atoms=lvar(e_orig);bool logarithmic=true,trig_abs=false;
+      for(unsigned j=0;j<atoms.size();++j){
+        const gen &atom=atoms[j];
+        if(atom.type==_IDNT)continue;
+        if(!atom.is_symb_of_sommet(at_ln)){logarithmic=false;break;}
+        const gen &arg=atom._SYMBptr->feuille;
+        trig_abs=trig_abs || (contains(arg,*at_abs) && (contains(arg,*at_sin) || contains(arg,*at_cos)));
+      }
+      if(logarithmic && trig_abs){
+        vecteur from,to;
+        for(unsigned j=0;j<atoms.size();++j){
+          const gen &atom=atoms[j];
+          if(!atom.is_symb_of_sommet(at_ln))continue;
+          const gen &arg=atom._SYMBptr->feuille;
+          vecteur absolute=lop(arg,at_abs);gen a,b;
+          if(absolute.size()!=1 || !is_linear_wrt(arg,absolute[0],a,b,contextptr) || !is_zero(b))continue;
+          bool rational=a.type==_INT_ || a.type==_ZINT ||
+            (a.type==_FRAC && (a._FRACptr->num.type==_INT_ || a._FRACptr->num.type==_ZINT) &&
+             (a._FRACptr->den.type==_INT_ || a._FRACptr->den.type==_ZINT));
+          const gen &trig=absolute[0]._SYMBptr->feuille;
+          if(!rational || !is_strictly_positive(a,contextptr) ||
+             (!trig.is_symb_of_sommet(at_sin) && !trig.is_symb_of_sommet(at_cos)))continue;
+          gen reduced=symbolic(trig._SYMBptr->sommet,ratnormal(trig._SYMBptr->feuille,contextptr));
+          from.push_back(atom);
+          to.push_back(ln(a,contextptr)+symbolic(at_ln,symbolic(at_abs,reduced)));
+        }
+        return ratnormal(quotesubst(e_orig,from,to,contextptr),contextptr);
+      }
+    }
     // A single logarithm of a multivariate radical already is a compact
     // atom. Rational arithmetic outside it can cancel coefficients without
     // constructing the multivariate algebraic extension or expanding logs.
@@ -2859,6 +2892,10 @@ namespace giac {
     bool psi=false;unsigned budget=2048;
     unsigned terms=simplify_special_terms(e_orig,psi,budget,0);
     if(!budget)return e_orig;
+    // Treat dilogarithms and lazy conditional values as algebraic atoms.
+    // Expanding their phases can construct large cyclotomic extensions;
+    // descending into when can evaluate an undefined unselected branch.
+    if(contains(e_orig,*at_Li2) || contains(e_orig,*at_when))return terms>64?e_orig:ratnormal(e_orig,contextptr);
     // Keep large closed trig constants out of algebraic-extension/trig
     // rewriting. Only explicit rational multiples of pi are masked: these
     // sin/cos values are real, even when other constants in the expression

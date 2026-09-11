@@ -45,9 +45,10 @@ report={'scope':'SH4 linker/binary capacity and single compiler stack frames; no
         'moved_conversion_entries':{name:moved[name] for name in conversion_names},
         'moved_conversion_helpers':{name:moved[name] for name in conversion_helpers},
         'conversion_helper_frames':[r for r in frames if any(name+'(' in r['function'] for name in conversion_helpers)],
+        'derivative_frames':[r for r in frames if 'derive' in r['function']],
         'largest_single_frames':sorted(frames,key=lambda v:v['bytes'],reverse=True)[:30],
         'integration_helper_frames':[r for r in frames if any(name+'(' in r['function'] for name in selectors)],
-        'sha256':{name:hashlib.sha256((d/name).read_bytes()).hexdigest() for name in ('khicas50.g3a','khicas50.ac2','khicasen.elf','prizm.ld','main.cc','kglobal.cc','static_lexer_.h','static_lexer.h','static_extern.h','usual.h','dilogarithm.h','zmaple.cc','yintg.cc','ksubst.cc','equation_normalize.h','parametric_display.h','kconvert.cc','zprog.cc','input_lexer.cc','input_lexer.ll')}}
+        'sha256':{name:hashlib.sha256((d/name).read_bytes()).hexdigest() for name in ('khicas50.g3a','khicas50.ac2','khicasen.elf','prizm.ld','main.cc','kglobal.cc','static_lexer_.h','static_lexer.h','static_extern.h','usual.h','dilogarithm.h','yderive.cc','zmaple.cc','yintg.cc','ksubst.cc','equation_normalize.h','parametric_display.h','kconvert.cc','zprog.cc','input_lexer.cc','input_lexer.ll')}}
 a.report.write_text(json.dumps(report,indent=2,ensure_ascii=False)+'\n')
 for name,row in report['regions'].items():
     print(f"{name}: {row['used_bytes']} / {row['capacity_bytes']} bytes; {row['remaining_bytes']} free")

@@ -29,6 +29,14 @@ def compiler_options():
     libs += shlex.split(os.environ.get('GIAC_NUMERIC_LIBS', '-lgmp -lmpfr'))
     return flags, libs
 
+def special_source(directory):
+    """Link real Li2 registration into isolated simplifier/converter tests."""
+    directory.mkdir(parents=True,exist_ok=True)
+    (directory/'dilogarithm.h').write_bytes((ROOT/'dilogarithm.h').read_bytes())
+    path=directory/'special.cc'
+    path.write_text('#include "giacPCH.h"\n#include "dilogarithm.h"\n')
+    return path
+
 def build_validation_probe(directory):
     """Validate a printed result using only host Giac mathematical routines.
 
@@ -43,7 +51,30 @@ def build_validation_probe(directory):
                    + ['-pthread', '-o', str(exe)], check=True, timeout=60)
     return exe
 
-def build(directory, ref='current', target_simplify=False):
+def derivative_source(ref='current'):
+    """Compile the repository derivative engine, with only old-host ABI glue.
+
+    The older host declares a different symb_derive return type. Give the
+    repository's syntax constructors private names, preserving their bodies.
+    Its missing vector symb_plus overload is the exact symbolic constructor
+    from kusual.cc; no mathematical derivative rules are replaced.
+    """
+    s=source(ref,'yderive.cc')
+    out='#include "giacPCH.h"\nnamespace giac {\n'
+    out+='extern const unary_function_ptr * const at_Li2;\n'
+    out+='gen host_symb_derive(const gen &);\ngen host_symb_derive(const gen &,const gen &);\ngen host_symb_derive(const gen &,const gen &,const gen &);\n'
+    out+='gen symb_prog3(const gen &,const gen &,const gen &);\n'
+    for sig in ('   gen eval_before_diff(', '  bool depend(', '  static int count_noncst(', '  static gen derive_SYMB(',
+                '  static gen derive_VECT(', '  gen derive(const gen & e,const identificateur & i,GIAC_CONTEXT)',
+                '  static gen _VECTderive(', '  static gen derivesymb(',
+                '  gen derive(const gen & e,const gen & vars,GIAC_CONTEXT)',
+                '  gen derive(const gen & e,const gen & vars,const gen & nderiv,GIAC_CONTEXT)',
+                '  gen symb_derive(const gen & a)', '  gen symb_derive(const gen & a,const gen & b)',
+                '  gen symb_derive(const gen & a,const gen & b,const gen &c)', '  gen _derive(', '  gen _diff('):
+        out+=function(s,sig).replace('symb_derive(', 'host_symb_derive(').replace('symb_plus(v)', 'symbolic(at_plus,gen(v,_SEQ__VECT))')
+    return out+'}\n'
+
+def build(directory, ref='current', target_simplify=False, target_derive=False):
     directory.mkdir(parents=True, exist_ok=True)
     text = source(ref, 'yintg.cc').replace(
         '  // Left redimension p to degree n, i.e. size n+1',
@@ -72,6 +103,7 @@ def build(directory, ref='current', target_simplify=False):
             (directory/'equation_normalize.h').write_text(source(ref,'equation_normalize.h'))
             header='#include "equation_normalize.h"\n'
         simplified='#include "giacPCH.h"\n'+header+'#define FXCG\n#define NO_STDEXCEPT\nnamespace giac {\n'
+        simplified+='extern const unary_function_ptr * const at_Li2;\n'
         simplified+='gen ataninv2atan(const gen &,GIAC_CONTEXT);\ngen cklin(const gen &,GIAC_CONTEXT);\n'
         simplified+=function(source(ref, 'zprog.cc'), '  gen symb_prog3(')
         if '  static unsigned simplify_special_terms(' in s:
@@ -88,6 +120,9 @@ def build(directory, ref='current', target_simplify=False):
             simplified+=function(s, sig)
         (directory / 'simplify.cc').write_text(simplified+'}\n')
         extra=[str(directory / 'simplify.cc')]
+    if target_derive:
+        (directory/'derivative.cc').write_text(derivative_source(ref))
+        extra.append(str(directory/'derivative.cc'))
     flags, libs = compiler_options()
     exe = directory / 'probe'
     subprocess.run(flags + ['-DKHICAS_TEST_INTEGRATION_LIMITS', str(directory / 'yintg.cc'),

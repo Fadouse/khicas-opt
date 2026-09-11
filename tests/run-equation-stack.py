@@ -2,7 +2,7 @@
 """Run new conversion paths on a guarded 64KiB host computation stack."""
 from pathlib import Path
 import argparse,hashlib,json,os,shlex,subprocess,tempfile
-from integration_build import function
+from integration_build import function,special_source
 ROOT=Path(__file__).resolve().parents[1]
 p=argparse.ArgumentParser();p.add_argument('--report',type=Path)
 p.add_argument('--target-simplify',action='store_true',help='Compile actual FXCG simplification and test conversion both directly and with outer simplify')
@@ -38,7 +38,7 @@ with tempfile.TemporaryDirectory(prefix='khicas-equation-stack-') as tmp:
  sources=[str(d/'kconvert.cc'),str(ROOT/'tests/equation_conversion_stack.cc')]
  if args.target_simplify:
   s=(args.simplify_candidate or ROOT/'ksubst.cc').read_text()
-  text='#include "giacPCH.h"\n#include "equation_normalize.h"\n#define FXCG\n#define NO_STDEXCEPT\nnamespace giac {\n'
+  text='#include "giacPCH.h"\n#include "equation_normalize.h"\n#define FXCG\n#define NO_STDEXCEPT\nnamespace giac {\nextern const unary_function_ptr * const at_Li2;\n'
   text+='gen ataninv2atan(const gen &,GIAC_CONTEXT);\ngen cklin(const gen &,GIAC_CONTEXT);\n'
   text+=function((ROOT/'zprog.cc').read_text(),'  gen symb_prog3(')
   text+=function(s,'  gen tsimplify_noexpln(')
@@ -47,13 +47,13 @@ with tempfile.TemporaryDirectory(prefix='khicas-equation-stack-') as tmp:
    text+=function(s,'  static gen simplify_special_core(')
   text+=function(s,'  gen simplify(const gen & e_orig,GIAC_CONTEXT)')
   text+=function(s,'  gen _simplify(')+'}\n'
-  norm='#include "giacPCH.h"\nnamespace giac {\n'
+  norm='#include "giacPCH.h"\nnamespace giac {\nextern const unary_function_ptr * const at_Li2;\n'
   s=(ROOT/'ysym2poly.cc').read_text()
   for sig in ('  static bool sort_func(', '  static vecteur sort1(', '  gen ratnormal(const gen & e,GIAC_CONTEXT)', '  gen recursive_ratnormal(const gen & e,GIAC_CONTEXT)'):
    norm+=function(s,sig)
   norm+='}\n'
   (d/'simplify.cc').write_text(text);(d/'normalize.cc').write_text(norm)
-  sources += [str(d/'simplify.cc'),str(d/'normalize.cc')]
+  sources += [str(d/'simplify.cc'),str(d/'normalize.cc'),str(special_source(d))]
  subprocess.run(flags+sources+libs+['-o',str(d/'probe')],check=True)
  for outer,case in [(outer,case) for outer in ([False,True] if args.target_simplify else [False]) for case in cases]:
   env=os.environ.copy();env.pop('KHICAS_OUTER_SIMPLIFY',None)

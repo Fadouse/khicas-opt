@@ -1,0 +1,44 @@
+{
+  "cases": [
+    {
+      "id": "MR1-I1",
+      "input": "simplify(integrate(-3*ln(abs(4*sin(-2*x/3+pi/5))),x))",
+      "expected": "-3*x*ln(2)-9/4*im(Li2(exp(2*i*(-2*x/3+pi/5))))",
+      "conditions": [
+        "x is real",
+        "sin(-2*x/3+pi/5) != 0",
+        "An antiderivative is required on each connected component of this domain; additive constants are immaterial."
+      ]
+    },
+    {
+      "id": "MR1-I2",
+      "input": "simplify(integrate(2*ln(-2*cos(3*x/2-pi/7)),x))",
+      "expected": "-2/3*im(Li2(exp(2*i*(3*x/2+19*pi/14))))+2*i*pi/3*(3*x/2+19*pi/14-pi+abs(3*x/2+19*pi/14-2*pi*floor((3*x/2+19*pi/14)/(2*pi))-pi))",
+      "conditions": [
+        "x is real",
+        "cos(3*x/2-pi/7) != 0",
+        "ln is the principal complex logarithm: ln(-r)=ln(r)+i*pi for r>0.",
+        "The result must cover both signs of the cosine, rather than restricting to a positive log argument."
+      ]
+    },
+    {
+      "id": "MR1-I3",
+      "input": "simplify(integrate(ln(abs(2*sin(x/2+pi/6)))+ln(abs(2*cos(x/2+pi/6))),x))",
+      "expected": "-1/2*im(Li2(exp(2*i*(x+pi/3))))",
+      "conditions": [
+        "x is real",
+        "sin(x/2+pi/6)*cos(x/2+pi/6) != 0"
+      ]
+    },
+    {
+      "id": "MR1-I4",
+      "input": "simplify(integrate(ln(1+x^2)/(x*(1+x^2)),x))",
+      "expected": "-Li2(-x^2)/2-ln(1+x^2)^2/4",
+      "conditions": [
+        "x is real",
+        "x != 0",
+        "Li2 uses its principal branch; its argument -x^2 is nonpositive and does not cross the positive-real branch cut."
+      ]
+    }
+  ]
+}

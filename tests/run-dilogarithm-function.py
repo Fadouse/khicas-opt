@@ -7,10 +7,9 @@ import sympy as sp
 ROOT=Path(__file__).resolve().parents[1]
 p=argparse.ArgumentParser();p.add_argument('--probe',type=Path,required=True);p.add_argument('--report',type=Path,required=True);a=p.parse_args()
 rows=[];mp.mp.dps=60
-checks=[('registration','type(Li2)','func'),('zero','Li2(0)','0'),('exact-one','simplify(Li2(1)-pi^2/6)','0'),('exact-minus-one','simplify(Li2(-1)+pi^2/12)','0'),('exact-half','simplify(Li2(1/2)-pi^2/12+ln(2)^2/2)','0'),('derivative','simplify(diff(Li2(x),x)+ln(1-x)/x)','0'),('chain-derivative','simplify(diff(Li2(x^3),x)+3*ln(1-x^3)/x)','0'),('derivative-zero','subst(diff(Li2(x),x),x=0)','undef'),('vector','Li2([0,1,-1])','[0,pi*pi/6,-pi*pi/12]')]
-# The printed generic derivative has a removable 0/0 at zero. The derivative
-# callback knows Li2'(0)=1, but substituting into the printed formula is not
-# a limit operation. Check its limit independently in the CAS too.
+checks=[('registration','type(Li2)','func'),('zero','Li2(0)','0'),('exact-one','simplify(Li2(1)-pi^2/6)','0'),('exact-minus-one','simplify(Li2(-1)+pi^2/12)','0'),('exact-half','simplify(Li2(1/2)-pi^2/12+ln(2)^2/2)','0'),('derivative','simplify(diff(Li2(x),x)+ln(1-x)/x)','zero-off-origin'),('chain-derivative','simplify(diff(Li2(x^3),x)+3*ln(1-x^3)/x)','zero-off-origin'),('derivative-zero','eval(subst(diff(Li2(x),x),x=0))','1'),('vector','Li2([0,1,-1])','[0,pi*pi/6,-pi*pi/12]')]
+# The printed derivative now carries its removable value. Verify both its
+# value and limit at zero; quotient identities above apply only off zero.
 checks.append(('derivative-zero-limit','limit(diff(Li2(x),x),x=0)','1'))
 for f,sign in [('ln(1+x)/x^2','+'),('ln(1-x)/x^2','-'),('ln(1+x^2)/x^3','+'),('ln(1-x^3)/x^5','-'),('ln(1+2*x^7)/x^8','+')]:
  checks.append(('endpoint-pole-'+f,'simplify(integrate('+f+',x,0,1))',sign+'infinity'))
@@ -22,6 +21,17 @@ for id,expression,expected in checks:
   r=subprocess.run([str(a.probe),expression],capture_output=True,text=True,env=env,timeout=5)
   row=dict(id=id,input=expression,stack=stack,exit=r.returncode,result=r.stdout.strip(),expected=expected,stderr=r.stderr)
   row['pass']=r.returncode==(3 if expected=='undef' else 0) and row['result']==expected
+  if expected=='zero-off-origin':
+   from mixed_reference import parse,x
+   try:
+    value=parse(row['result']);regular=value
+    for piece in value.atoms(sp.Piecewise):
+     (yes,condition),(no,otherwise)=piece.args
+     assert isinstance(condition,sp.Equality) and sp.solve(condition,x)==[0] and otherwise==True
+     regular=regular.xreplace({piece:no})
+    row['pass']=r.returncode==0 and sp.simplify(regular)==0
+    row['proof']='exact quotient identity on x!=0; zero branch independently checked'
+   except Exception as error:row.update(error=repr(error),**{'pass':False})
   rows.append(row)
 points=[complex(x,y) for x in [-10,-1,-.5,0,.25,.5,.75,1,2,100] for y in [0,-1,1,-1e-10,1e-10]]+[complex(1e-300),complex(-1e-300),complex(1e300),complex(-1e300)]
 for z in points:

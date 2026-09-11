@@ -3,28 +3,29 @@
 import argparse,collections,hashlib,json
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
-SNAPSHOT='checkpoint/conic-coverage-2026a'
+SNAPSHOT='checkpoint/mixed-correctness-2026a'
 GROUPS=[
- ('用户原始 8 题', 'user-integrals', 'user-eight-cycle8-conic-2026a', 'user'),
- ('用户追加 2 题', 'user-extra-integrals', 'user-extra-cycle8-conic-2026a', 'corpus'),
- ('用户追加 5 题', 'user-challenge-integrals', 'user-challenge-cycle8-conic-2026a', 'stack'),
- ('MIT / Princeton 题库', 'calculus-corpus', 'calculus-cycle8-conic-2026a', 'corpus'),
- ('独立泛化题库', 'generalization-corpus', 'generalization-cycle8-conic-2026a', 'corpus'),
- ('第二轮泛化题库', 'generalization-cycle2', 'cycle2-cycle8-conic-2026a', 'corpus'),
- ('第三轮泛化题库', 'generalization-cycle3', 'cycle3-cycle8-conic-2026a', 'corpus'),
- ('第四轮泛化题库', 'generalization-cycle4', 'cycle4-cycle8-conic-2026a', 'corpus'),
- ('第五轮泛化题库', 'generalization-cycle5', 'cycle5-cycle8-stack-conic-2026a', 'stack'),
- ('第六轮泛化题库', 'generalization-cycle6', 'cycle6-cycle8-stack-conic-2026a', 'stack'),
- ('第七轮泛化题库', 'generalization-cycle7', 'cycle7-cycle8-stack-conic-2026a', 'stack'),
- ('第八轮泛化题库', 'generalization-cycle8', 'cycle8-stack-conic-2026a', 'stack'),
- ('基础有限区间积分', 'basic-finite-integrals', 'basic-finite-cycle8-conic-2026a', 'stack'),
- ('误差函数与分母对数变体', 'cycle7-tail-mellin', 'cycle7-tail-mellin-cycle8-stack-conic-2026a', 'stack'),
- ('Gamma 对数矩变体', 'cycle8-gamma-log', 'cycle8-gamma-log-stack-conic-2026a', 'stack'),
- ('用户 A1–F6 全模式通过项', 'user-acceptance-passed-dilog', 'user-acceptance-passed-conic-2026a', 'stack'),
- ('用户前五道未解题', 'user-reported-five-gaps', 'user-reported-five-gaps-conic-2026a', 'stack'),
- ('验收错题结构变体', 'user-matrix-next', 'user-matrix-next-conic-2026a', 'stack'),
- ('Li2 换元与端点变体', 'dilogarithm-corpus', 'dilogarithm-corpus-conic-2026a', 'stack'),
- ('三角对数与主值分支', 'trig-log-corpus', 'trig-log-corpus-conic-2026a', 'stack'),
+ ('用户原始 8 题', 'user-integrals', 'user-eight-cycle8-mixed1-2026a', 'user'),
+ ('用户追加 2 题', 'user-extra-integrals', 'user-extra-cycle8-mixed1-2026a', 'corpus'),
+ ('用户追加 5 题', 'user-challenge-integrals', 'user-challenge-cycle8-mixed1-2026a', 'stack'),
+ ('MIT / Princeton 题库', 'calculus-corpus', 'calculus-cycle8-mixed1-2026a', 'corpus'),
+ ('独立泛化题库', 'generalization-corpus', 'generalization-cycle8-mixed1-2026a', 'corpus'),
+ ('第二轮泛化题库', 'generalization-cycle2', 'cycle2-cycle8-mixed1-2026a', 'corpus'),
+ ('第三轮泛化题库', 'generalization-cycle3', 'cycle3-cycle8-mixed1-2026a', 'corpus'),
+ ('第四轮泛化题库', 'generalization-cycle4', 'cycle4-cycle8-mixed1-2026a', 'corpus'),
+ ('第五轮泛化题库', 'generalization-cycle5', 'cycle5-cycle8-stack-mixed1-2026a', 'stack'),
+ ('第六轮泛化题库', 'generalization-cycle6', 'cycle6-cycle8-stack-mixed1-2026a', 'stack'),
+ ('第七轮泛化题库', 'generalization-cycle7', 'cycle7-cycle8-stack-mixed1-2026a', 'stack'),
+ ('第八轮泛化题库', 'generalization-cycle8', 'cycle8-stack-mixed1-2026a', 'stack'),
+ ('基础有限区间积分', 'basic-finite-integrals', 'basic-finite-cycle8-mixed1-2026a', 'stack'),
+ ('误差函数与分母对数变体', 'cycle7-tail-mellin', 'cycle7-tail-mellin-cycle8-stack-mixed1-2026a', 'stack'),
+ ('Gamma 对数矩变体', 'cycle8-gamma-log', 'cycle8-gamma-log-stack-mixed1-2026a', 'stack'),
+ ('用户 A1–F6 全模式通过项', 'user-acceptance-passed-dilog', 'user-acceptance-passed-mixed1-2026a', 'stack'),
+ ('用户前五道未解题', 'user-reported-five-gaps', 'user-reported-five-gaps-mixed1-2026a', 'stack'),
+ ('验收错题结构变体', 'user-matrix-next', 'user-matrix-next-mixed1-2026a', 'stack'),
+ ('Li2 换元与端点变体', 'dilogarithm-corpus', 'dilogarithm-corpus-mixed1-2026a', 'stack'),
+ ('三角对数与主值分支', 'trig-log-corpus', 'trig-log-corpus-mixed1-2026a', 'stack'),
+ ('混合首轮新增积分', 'mixed-round1-integrals', 'mixed1-integrals-2026a', 'stack'),
 ]
 
 LABELS={'exact':'精确验证','sampled':'导数采样通过','numeric_constant':'数值常量检查通过'}

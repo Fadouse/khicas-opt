@@ -1,0 +1,799 @@
+{
+  "scope": "Repository integration, derivative engine and FXCG simplify; host dependencies remain, not CG50 hardware/MMU emulation. Independent exact proofs and explicit domain/display checks.",
+  "ref": "284c8bd",
+  "corpus_sha256": "922fa0bd2dec536d65d47255f943cb3d956deffaf20e75123c64720fb3e1abfe",
+  "source_sha256": {
+    "yintg.cc": "a48dbadb20258e41728503786ae5bf3360459b1f69f23f918d7e3d06dbb43807",
+    "zintgab.cc": "3b6fa78aba4d53b1a11479c33bacb4c85e3d6091389ef3073ec60085a7ae9448",
+    "ksubst.cc": "ea05ab78eda46e9882c4b558a076b218a792ccc8c61e9fa6d549eacd7f5242ad",
+    "yderive.cc": "e2df459189edfe95f360013fa38ecf6bfc26fd8e6d15980269e92a90127d3068",
+    "dilogarithm.h": "9f43a9c61b8d6ee26fc344dc11fe6b14b11a14e0fd3f13c7d7e83720f1170dd2",
+    "kconvert.cc": "8af48b1d2ee245d13f460706fcfc01bceab9d5c01b21b998ff76e5468c89d8db",
+    "parametric_display.h": "50628670114a8a80b7db709e9f1d8f367011a9bf8084b3d5f65d4fe494047a8c"
+  },
+  "probe_sha256": {
+    "/tmp/khicas-mixed-baseline-yderive/probe": "b35760b2cce2c258b263b991e337489fdd1e55428d7bed3a66e958c981df69f6",
+    "/tmp/khicas-conic-release/probe": "946d86a1591b2e48d241d15ebef052333f7566625d5abfa0ebbf3d09803cde9f"
+  },
+  "runs": [
+    {
+      "id": "MR1-I1",
+      "input": "integrate(-3*ln(abs(4*sin(-2*x/3+pi/5))),x)",
+      "outer_simplify": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "-3*(x*ln(2)+3*im(Li2(rootof([[1,0,0],[1,-1,1,-1,1]])*exp((-4*i)*x/3)))/4)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.0025547\nMAX_RSS_KB 66180\n",
+      "host_seconds": 0.0025547,
+      "error": "-3*(x*ln(2)+3*im(Li2(rootof([[1,0,0],[1,-1,1,-1,1]])*exp((-4*i)*x/3)))/4)",
+      "pass": false
+    },
+    {
+      "id": "MR1-I1",
+      "input": "integrate(-3*ln(abs(4*sin(-2*x/3+pi/5))),x)",
+      "outer_simplify": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "-3*(x*ln(2)+3*im(Li2(rootof([[1,0,0],[1,-1,1,-1,1]])*exp((-4*i)*x/3)))/4)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00222854\nMAX_RSS_KB 66180\n",
+      "host_seconds": 0.00222854,
+      "error": "-3*(x*ln(2)+3*im(Li2(rootof([[1,0,0],[1,-1,1,-1,1]])*exp((-4*i)*x/3)))/4)",
+      "pass": false
+    },
+    {
+      "id": "MR1-I1",
+      "input": "simplify(integrate(-3*ln(abs(4*sin(-2*x/3+pi/5))),x))",
+      "outer_simplify": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(-12*x*ln(2)-9*im(Li2(rootof([[1,0,0],[1,-1,1,-1,1]])*exp((-4*i)/3*x))))/4",
+      "stderr": "  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\nPARSER_CALLS 233\nSECONDS 0.0425479\nMAX_RSS_KB 66180\n",
+      "host_seconds": 0.0425479,
+      "error": "(-12*x*ln(2)-9*im(Li2(rootof([[1,0,0],[1,-1,1,-1,1]])*exp((-4*i)/3*x))))/4",
+      "pass": false
+    },
+    {
+      "id": "MR1-I1",
+      "input": "simplify(integrate(-3*ln(abs(4*sin(-2*x/3+pi/5))),x))",
+      "outer_simplify": true,
+      "stack": "64",
+      "exit": -11,
+      "result": "",
+      "stderr": "  ***   Warning: not enough memory, new PARI stack 536870912\n",
+      "error": "{'id': 'MR1-I1', 'input': 'simplify(integrate(-3*ln(abs(4*sin(-2*x/3+pi/5))),x))', 'outer_simplify': True, 'stack': '64', 'exit': -11, 'result': '', 'stderr': '  ***   Warning: not enough memory, new PARI stack 536870912\\n'}",
+      "pass": false
+    },
+    {
+      "id": "MR1-I2",
+      "input": "integrate(2*ln(-2*cos(3*x/2-pi/7)),x)",
+      "outer_simplify": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "2*(-im(Li2(exp(2*i*(3*x/2-pi/7+pi/2+pi))))/3+2*i*pi*(3*x/2-pi/7+pi/2+pi-pi+abs(3*x/2-pi/7+pi/2+pi-2*pi*floor((3*x/2-pi/7+pi/2+pi)/(2*pi))-pi))/2/3)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000486995\nMAX_RSS_KB 66180\n",
+      "host_seconds": 0.000486995,
+      "verification": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 1.4274103523746772e-55
+      },
+      "pass": true
+    },
+    {
+      "id": "MR1-I2",
+      "input": "integrate(2*ln(-2*cos(3*x/2-pi/7)),x)",
+      "outer_simplify": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "2*(-im(Li2(exp(2*i*(3*x/2-pi/7+pi/2+pi))))/3+2*i*pi*(3*x/2-pi/7+pi/2+pi-pi+abs(3*x/2-pi/7+pi/2+pi-2*pi*floor((3*x/2-pi/7+pi/2+pi)/(2*pi))-pi))/2/3)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000482585\nMAX_RSS_KB 66180\n",
+      "host_seconds": 0.000482585,
+      "verification": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 1.4274103523746772e-55
+      },
+      "pass": true
+    },
+    {
+      "id": "MR1-I2",
+      "input": "simplify(integrate(2*ln(-2*cos(3*x/2-pi/7)),x))",
+      "outer_simplify": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(5*i*pi^2+21*i*pi*x+i*pi*abs(28*pi*floor((19*pi+21*x)/(28*pi))-5*pi-21*x)-14*im(Li2(exp(i*pi*19/7)*exp(3*i*x))))/21",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.0122315\nMAX_RSS_KB 66180\n",
+      "host_seconds": 0.0122315,
+      "verification": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 1.4274103523746772e-55
+      },
+      "pass": true
+    },
+    {
+      "id": "MR1-I2",
+      "input": "simplify(integrate(2*ln(-2*cos(3*x/2-pi/7)),x))",
+      "outer_simplify": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "(5*i*pi^2+21*i*pi*x+i*pi*abs(28*pi*floor((19*pi+21*x)/(28*pi))-5*pi-21*x)-14*im(Li2(exp(i*pi*19/7)*exp(3*i*x))))/21",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.0123321\nMAX_RSS_KB 66180\n",
+      "host_seconds": 0.0123321,
+      "verification": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 1.4274103523746772e-55
+      },
+      "pass": true
+    },
+    {
+      "id": "MR1-I3",
+      "input": "integrate(ln(abs(2*sin(x/2+pi/6)))+ln(abs(2*cos(x/2+pi/6))),x)",
+      "outer_simplify": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "-im(Li2((1/2+i*sqrt(3)/2)*exp(i*x)))-im(Li2((-1/2+i*(-sqrt(3))/2)*exp(i*x)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00359589\nMAX_RSS_KB 66180\n",
+      "host_seconds": 0.00359589,
+      "verification": {
+        "exact": true,
+        "method": "unit-circle Li2 duplication identity; logarithm product is positive on the stated real intervals"
+      },
+      "pass": true
+    },
+    {
+      "id": "MR1-I3",
+      "input": "integrate(ln(abs(2*sin(x/2+pi/6)))+ln(abs(2*cos(x/2+pi/6))),x)",
+      "outer_simplify": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "-im(Li2((1/2+i*sqrt(3)/2)*exp(i*x)))-im(Li2((-1/2+i*(-sqrt(3))/2)*exp(i*x)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00399893\nMAX_RSS_KB 66180\n",
+      "host_seconds": 0.00399893,
+      "verification": {
+        "exact": true,
+        "method": "unit-circle Li2 duplication identity; logarithm product is positive on the stated real intervals"
+      },
+      "pass": true
+    },
+    {
+      "id": "MR1-I3",
+      "input": "simplify(integrate(ln(abs(2*sin(x/2+pi/6)))+ln(abs(2*cos(x/2+pi/6))),x))",
+      "outer_simplify": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "-im(Li2(((-i)*sqrt(3)*exp(i*x)-exp(i*x))/2))-im(Li2((i*sqrt(3)*exp(i*x)+exp(i*x))/2))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00526262\nMAX_RSS_KB 66180\n",
+      "host_seconds": 0.00526262,
+      "verification": {
+        "exact": true,
+        "method": "unit-circle Li2 duplication identity; logarithm product is positive on the stated real intervals"
+      },
+      "pass": true
+    },
+    {
+      "id": "MR1-I3",
+      "input": "simplify(integrate(ln(abs(2*sin(x/2+pi/6)))+ln(abs(2*cos(x/2+pi/6))),x))",
+      "outer_simplify": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "-im(Li2(((-i)*sqrt(3)*exp(i*x)-exp(i*x))/2))-im(Li2((i*sqrt(3)*exp(i*x)+exp(i*x))/2))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00504465\nMAX_RSS_KB 66524\n",
+      "host_seconds": 0.00504465,
+      "verification": {
+        "exact": true,
+        "method": "unit-circle Li2 duplication identity; logarithm product is positive on the stated real intervals"
+      },
+      "pass": true
+    },
+    {
+      "id": "MR1-I4",
+      "input": "integrate(ln(1+x^2)/(x*(1+x^2)),x)",
+      "outer_simplify": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "-1/2*Li2(-x^2)-1/2*ln(1+x^2)*ln(1+x^2)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000338806\nMAX_RSS_KB 66524\n",
+      "host_seconds": 0.000338806,
+      "verification": {
+        "exact": true,
+        "method": "exact real-domain derivative, negative Li2 argument avoids its branch cut"
+      },
+      "pass": true
+    },
+    {
+      "id": "MR1-I4",
+      "input": "integrate(ln(1+x^2)/(x*(1+x^2)),x)",
+      "outer_simplify": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "-1/2*Li2(-x^2)-1/2*ln(1+x^2)*ln(1+x^2)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000691183\nMAX_RSS_KB 66524\n",
+      "host_seconds": 0.000691183,
+      "verification": {
+        "exact": true,
+        "method": "exact real-domain derivative, negative Li2 argument avoids its branch cut"
+      },
+      "pass": true
+    },
+    {
+      "id": "MR1-I4",
+      "input": "simplify(integrate(ln(1+x^2)/(x*(1+x^2)),x))",
+      "outer_simplify": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(-2*Li2(-x^2)-ln(x^2+1)^2)/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000597593\nMAX_RSS_KB 66524\n",
+      "host_seconds": 0.000597593,
+      "verification": {
+        "exact": true,
+        "method": "exact real-domain derivative, negative Li2 argument avoids its branch cut"
+      },
+      "pass": true
+    },
+    {
+      "id": "MR1-I4",
+      "input": "simplify(integrate(ln(1+x^2)/(x*(1+x^2)),x))",
+      "outer_simplify": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "(-2*Li2(-x^2)-ln(x^2+1)^2)/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000852751\nMAX_RSS_KB 66524\n",
+      "host_seconds": 0.000852751,
+      "verification": {
+        "exact": true,
+        "method": "exact real-domain derivative, negative Li2 argument avoids its branch cut"
+      },
+      "pass": true
+    },
+    {
+      "id": "MR1-C1",
+      "input": "((2*x+y-1)^2+3*(x-y+2)^2=12,[x,y],tau)",
+      "outer_simplify": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "RAW [[(3*sqrt((1+3/sqrt(13))/2)*sqrt(24/(sqrt(13)+11))*cos(tau)+3*sqrt((1-3/sqrt(13))/2)*sqrt(-24/(sqrt(13)-11))*sin(tau)-1)/3,(3*sqrt((1+3/sqrt(13))/2)*sqrt(-24/(sqrt(13)-11))*sin(tau)-3*sqrt((1-3/sqrt(13))/2)*sqrt(24/(sqrt(13)+11))*cos(tau)+5)/3]]\nVIEW [[x(tau)=((3*sqrt((1+3/sqrt(13))/2)*sqrt(24/(sqrt(13)+11))*cos(tau)+3*sqrt((1-3/sqrt(13))/2)*sqrt(-24/(sqrt(13)-11))*sin(tau)-1)/3),y(tau)=((3*sqrt((1+3/sqrt(13))/2)*sqrt(-24/(sqrt(13)-11))*sin(tau)-3*sqrt((1-3/sqrt(13))/2)*sqrt(24/(sqrt(13)+11))*cos(tau)+5)/3)]]\nNODES 155 163",
+      "stderr": "SECONDS 0.000580204\n",
+      "host_seconds": 0.000580204,
+      "coordinates": "[[(3*sqrt((1+3/sqrt(13))/2)*sqrt(24/(sqrt(13)+11))*cos(tau)+3*sqrt((1-3/sqrt(13))/2)*sqrt(-24/(sqrt(13)-11))*sin(tau)-1)/3,(3*sqrt((1+3/sqrt(13))/2)*sqrt(-24/(sqrt(13)-11))*sin(tau)-3*sqrt((1-3/sqrt(13))/2)*sqrt(24/(sqrt(13)+11))*cos(tau)+5)/3]]",
+      "label_nodes": 163,
+      "verification": {
+        "exact": true,
+        "coverage": "invertible affine image of the entire unit circle, t real; inverse angle exists for every point",
+        "branch_count": 1
+      },
+      "pass": true
+    },
+    {
+      "id": "MR1-C1",
+      "input": "((2*x+y-1)^2+3*(x-y+2)^2=12,[x,y],tau)",
+      "outer_simplify": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "RAW [[(3*sqrt((1+3/sqrt(13))/2)*sqrt(24/(sqrt(13)+11))*cos(tau)+3*sqrt((1-3/sqrt(13))/2)*sqrt(-24/(sqrt(13)-11))*sin(tau)-1)/3,(3*sqrt((1+3/sqrt(13))/2)*sqrt(-24/(sqrt(13)-11))*sin(tau)-3*sqrt((1-3/sqrt(13))/2)*sqrt(24/(sqrt(13)+11))*cos(tau)+5)/3]]\nVIEW [[x(tau)=((3*sqrt((1+3/sqrt(13))/2)*sqrt(24/(sqrt(13)+11))*cos(tau)+3*sqrt((1-3/sqrt(13))/2)*sqrt(-24/(sqrt(13)-11))*sin(tau)-1)/3),y(tau)=((3*sqrt((1+3/sqrt(13))/2)*sqrt(-24/(sqrt(13)-11))*sin(tau)-3*sqrt((1-3/sqrt(13))/2)*sqrt(24/(sqrt(13)+11))*cos(tau)+5)/3)]]\nNODES 155 163",
+      "stderr": "SECONDS 0.0010778\n",
+      "host_seconds": 0.0010778,
+      "coordinates": "[[(3*sqrt((1+3/sqrt(13))/2)*sqrt(24/(sqrt(13)+11))*cos(tau)+3*sqrt((1-3/sqrt(13))/2)*sqrt(-24/(sqrt(13)-11))*sin(tau)-1)/3,(3*sqrt((1+3/sqrt(13))/2)*sqrt(-24/(sqrt(13)-11))*sin(tau)-3*sqrt((1-3/sqrt(13))/2)*sqrt(24/(sqrt(13)+11))*cos(tau)+5)/3]]",
+      "label_nodes": 163,
+      "verification": {
+        "exact": true,
+        "coverage": "invertible affine image of the entire unit circle, t real; inverse angle exists for every point",
+        "branch_count": 1
+      },
+      "pass": true
+    },
+    {
+      "id": "MR1-C1",
+      "input": "((2*x+y-1)^2+3*(x-y+2)^2=12,[x,y],tau)",
+      "outer_simplify": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "RAW [[(3*sqrt((1+3/sqrt(13))/2)*sqrt(24/(sqrt(13)+11))*cos(tau)+3*sqrt((1-3/sqrt(13))/2)*sqrt(-24/(sqrt(13)-11))*sin(tau)-1)/3,(3*sqrt((1+3/sqrt(13))/2)*sqrt(-24/(sqrt(13)-11))*sin(tau)-3*sqrt((1-3/sqrt(13))/2)*sqrt(24/(sqrt(13)+11))*cos(tau)+5)/3]]\nVIEW [[x(tau)=((3*sqrt((1+3/sqrt(13))/2)*sqrt(24/(sqrt(13)+11))*cos(tau)+3*sqrt((1-3/sqrt(13))/2)*sqrt(-24/(sqrt(13)-11))*sin(tau)-1)/3),y(tau)=((3*sqrt((1+3/sqrt(13))/2)*sqrt(-24/(sqrt(13)-11))*sin(tau)-3*sqrt((1-3/sqrt(13))/2)*sqrt(24/(sqrt(13)+11))*cos(tau)+5)/3)]]\nNODES 155 163",
+      "stderr": "SECONDS 0.0010815\n",
+      "host_seconds": 0.0010815,
+      "coordinates": "[[(3*sqrt((1+3/sqrt(13))/2)*sqrt(24/(sqrt(13)+11))*cos(tau)+3*sqrt((1-3/sqrt(13))/2)*sqrt(-24/(sqrt(13)-11))*sin(tau)-1)/3,(3*sqrt((1+3/sqrt(13))/2)*sqrt(-24/(sqrt(13)-11))*sin(tau)-3*sqrt((1-3/sqrt(13))/2)*sqrt(24/(sqrt(13)+11))*cos(tau)+5)/3]]",
+      "label_nodes": 163,
+      "verification": {
+        "exact": true,
+        "coverage": "invertible affine image of the entire unit circle, t real; inverse angle exists for every point",
+        "branch_count": 1
+      },
+      "pass": true
+    },
+    {
+      "id": "MR1-C1",
+      "input": "((2*x+y-1)^2+3*(x-y+2)^2=12,[x,y],tau)",
+      "outer_simplify": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "RAW [[(3*sqrt((1+3/sqrt(13))/2)*sqrt(24/(sqrt(13)+11))*cos(tau)+3*sqrt((1-3/sqrt(13))/2)*sqrt(-24/(sqrt(13)-11))*sin(tau)-1)/3,(3*sqrt((1+3/sqrt(13))/2)*sqrt(-24/(sqrt(13)-11))*sin(tau)-3*sqrt((1-3/sqrt(13))/2)*sqrt(24/(sqrt(13)+11))*cos(tau)+5)/3]]\nVIEW [[x(tau)=((3*sqrt((1+3/sqrt(13))/2)*sqrt(24/(sqrt(13)+11))*cos(tau)+3*sqrt((1-3/sqrt(13))/2)*sqrt(-24/(sqrt(13)-11))*sin(tau)-1)/3),y(tau)=((3*sqrt((1+3/sqrt(13))/2)*sqrt(-24/(sqrt(13)-11))*sin(tau)-3*sqrt((1-3/sqrt(13))/2)*sqrt(24/(sqrt(13)+11))*cos(tau)+5)/3)]]\nNODES 155 163",
+      "stderr": "SECONDS 0.00096215\n",
+      "host_seconds": 0.00096215,
+      "coordinates": "[[(3*sqrt((1+3/sqrt(13))/2)*sqrt(24/(sqrt(13)+11))*cos(tau)+3*sqrt((1-3/sqrt(13))/2)*sqrt(-24/(sqrt(13)-11))*sin(tau)-1)/3,(3*sqrt((1+3/sqrt(13))/2)*sqrt(-24/(sqrt(13)-11))*sin(tau)-3*sqrt((1-3/sqrt(13))/2)*sqrt(24/(sqrt(13)+11))*cos(tau)+5)/3]]",
+      "label_nodes": 163,
+      "verification": {
+        "exact": true,
+        "coverage": "invertible affine image of the entire unit circle, t real; inverse angle exists for every point",
+        "branch_count": 1
+      },
+      "pass": true
+    },
+    {
+      "id": "MR1-C2",
+      "input": "((2*x-y-3)^2-4*(x+2*y+1)^2=16,[x,y],s)",
+      "outer_simplify": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "RAW [[(8*5*cosh(s)+2*5*sinh(s)+25)/25,(-4*5*cosh(s)+4*5*sinh(s)-25)/25],[(-8*5*cosh(s)+2*5*sinh(s)+25)/25,(4*5*cosh(s)+4*5*sinh(s)-25)/25]]\nVIEW [[x(s)=((8*5*cosh(s)+2*5*sinh(s)+25)/25),y(s)=((-4*5*cosh(s)+4*5*sinh(s)-25)/25)],[x(s)=((-8*5*cosh(s)+2*5*sinh(s)+25)/25),y(s)=((4*5*cosh(s)+4*5*sinh(s)-25)/25)]]\nNODES 62 78",
+      "stderr": "SECONDS 0.000438205\n",
+      "host_seconds": 0.000438205,
+      "coordinates": "[[(8*5*cosh(s)+2*5*sinh(s)+25)/25,(-4*5*cosh(s)+4*5*sinh(s)-25)/25],[(-8*5*cosh(s)+2*5*sinh(s)+25)/25,(4*5*cosh(s)+4*5*sinh(s)-25)/25]]",
+      "label_nodes": 78,
+      "verification": {
+        "exact": true,
+        "coverage": "invertible affine image of both hyperbola sheets: cosh(t)>=1, sinh(t) surjective, and the second chart reverses cosh direction",
+        "branch_count": 2
+      },
+      "pass": true
+    },
+    {
+      "id": "MR1-C2",
+      "input": "((2*x-y-3)^2-4*(x+2*y+1)^2=16,[x,y],s)",
+      "outer_simplify": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "RAW [[(8*5*cosh(s)+2*5*sinh(s)+25)/25,(-4*5*cosh(s)+4*5*sinh(s)-25)/25],[(-8*5*cosh(s)+2*5*sinh(s)+25)/25,(4*5*cosh(s)+4*5*sinh(s)-25)/25]]\nVIEW [[x(s)=((8*5*cosh(s)+2*5*sinh(s)+25)/25),y(s)=((-4*5*cosh(s)+4*5*sinh(s)-25)/25)],[x(s)=((-8*5*cosh(s)+2*5*sinh(s)+25)/25),y(s)=((4*5*cosh(s)+4*5*sinh(s)-25)/25)]]\nNODES 62 78",
+      "stderr": "SECONDS 0.000719102\n",
+      "host_seconds": 0.000719102,
+      "coordinates": "[[(8*5*cosh(s)+2*5*sinh(s)+25)/25,(-4*5*cosh(s)+4*5*sinh(s)-25)/25],[(-8*5*cosh(s)+2*5*sinh(s)+25)/25,(4*5*cosh(s)+4*5*sinh(s)-25)/25]]",
+      "label_nodes": 78,
+      "verification": {
+        "exact": true,
+        "coverage": "invertible affine image of both hyperbola sheets: cosh(t)>=1, sinh(t) surjective, and the second chart reverses cosh direction",
+        "branch_count": 2
+      },
+      "pass": true
+    },
+    {
+      "id": "MR1-C2",
+      "input": "((2*x-y-3)^2-4*(x+2*y+1)^2=16,[x,y],s)",
+      "outer_simplify": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "RAW [[(8*cosh(s)+2*sinh(s)+5)/5,(-4*cosh(s)+4*sinh(s)-5)/5],[(-8*cosh(s)+2*sinh(s)+5)/5,(4*cosh(s)+4*sinh(s)-5)/5]]\nVIEW [[x(s)=((8*cosh(s)+2*sinh(s)+5)/5),y(s)=((-4*cosh(s)+4*sinh(s)-5)/5)],[x(s)=((-8*cosh(s)+2*sinh(s)+5)/5),y(s)=((4*cosh(s)+4*sinh(s)-5)/5)]]\nNODES 54 70",
+      "stderr": "SECONDS 0.000595134\n",
+      "host_seconds": 0.000595134,
+      "coordinates": "[[(8*cosh(s)+2*sinh(s)+5)/5,(-4*cosh(s)+4*sinh(s)-5)/5],[(-8*cosh(s)+2*sinh(s)+5)/5,(4*cosh(s)+4*sinh(s)-5)/5]]",
+      "label_nodes": 70,
+      "verification": {
+        "exact": true,
+        "coverage": "invertible affine image of both hyperbola sheets: cosh(t)>=1, sinh(t) surjective, and the second chart reverses cosh direction",
+        "branch_count": 2
+      },
+      "pass": true
+    },
+    {
+      "id": "MR1-C2",
+      "input": "((2*x-y-3)^2-4*(x+2*y+1)^2=16,[x,y],s)",
+      "outer_simplify": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "RAW [[(8*cosh(s)+2*sinh(s)+5)/5,(-4*cosh(s)+4*sinh(s)-5)/5],[(-8*cosh(s)+2*sinh(s)+5)/5,(4*cosh(s)+4*sinh(s)-5)/5]]\nVIEW [[x(s)=((8*cosh(s)+2*sinh(s)+5)/5),y(s)=((-4*cosh(s)+4*sinh(s)-5)/5)],[x(s)=((-8*cosh(s)+2*sinh(s)+5)/5),y(s)=((4*cosh(s)+4*sinh(s)-5)/5)]]\nNODES 54 70",
+      "stderr": "SECONDS 0.000622554\n",
+      "host_seconds": 0.000622554,
+      "coordinates": "[[(8*cosh(s)+2*sinh(s)+5)/5,(-4*cosh(s)+4*sinh(s)-5)/5],[(-8*cosh(s)+2*sinh(s)+5)/5,(4*cosh(s)+4*sinh(s)-5)/5]]",
+      "label_nodes": 70,
+      "verification": {
+        "exact": true,
+        "coverage": "invertible affine image of both hyperbola sheets: cosh(t)>=1, sinh(t) surjective, and the second chart reverses cosh direction",
+        "branch_count": 2
+      },
+      "pass": true
+    },
+    {
+      "id": "MR1-C3",
+      "input": "((x+2*y-4)^2-9*(2*x-y+3)^2=0,[x,y],q)",
+      "outer_simplify": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "RAW [[(q*sqrt(5)-6)/15,(7*q*sqrt(5)+33)/15],[(5*q*sqrt(5)-6)/15,(5*q*sqrt(5)+33)/15]]\nVIEW [[x(q)=((q*sqrt(5)-6)/15),y(q)=((7*q*sqrt(5)+33)/15)],[x(q)=((5*q*sqrt(5)-6)/15),y(q)=((5*q*sqrt(5)+33)/15)]]\nNODES 51 67",
+      "stderr": "SECONDS 0.000436565\n",
+      "host_seconds": 0.000436565,
+      "coordinates": "[[(q*sqrt(5)-6)/15,(7*q*sqrt(5)+33)/15],[(5*q*sqrt(5)-6)/15,(5*q*sqrt(5)+33)/15]]",
+      "label_nodes": 67,
+      "verification": {
+        "exact": true,
+        "coverage": "two distinct complete lines contained in a nonzero quadratic exhaust its real zero set",
+        "branch_count": 2
+      },
+      "pass": true
+    },
+    {
+      "id": "MR1-C3",
+      "input": "((x+2*y-4)^2-9*(2*x-y+3)^2=0,[x,y],q)",
+      "outer_simplify": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "RAW [[(q*sqrt(5)-6)/15,(7*q*sqrt(5)+33)/15],[(5*q*sqrt(5)-6)/15,(5*q*sqrt(5)+33)/15]]\nVIEW [[x(q)=((q*sqrt(5)-6)/15),y(q)=((7*q*sqrt(5)+33)/15)],[x(q)=((5*q*sqrt(5)-6)/15),y(q)=((5*q*sqrt(5)+33)/15)]]\nNODES 51 67",
+      "stderr": "SECONDS 0.000435875\n",
+      "host_seconds": 0.000435875,
+      "coordinates": "[[(q*sqrt(5)-6)/15,(7*q*sqrt(5)+33)/15],[(5*q*sqrt(5)-6)/15,(5*q*sqrt(5)+33)/15]]",
+      "label_nodes": 67,
+      "verification": {
+        "exact": true,
+        "coverage": "two distinct complete lines contained in a nonzero quadratic exhaust its real zero set",
+        "branch_count": 2
+      },
+      "pass": true
+    },
+    {
+      "id": "MR1-C3",
+      "input": "((x+2*y-4)^2-9*(2*x-y+3)^2=0,[x,y],q)",
+      "outer_simplify": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "RAW [[(q*sqrt(5)-6)/15,(7*q*sqrt(5)+33)/15],[(5*q*sqrt(5)-6)/15,(5*q*sqrt(5)+33)/15]]\nVIEW [[x(q)=((q*sqrt(5)-6)/15),y(q)=((7*q*sqrt(5)+33)/15)],[x(q)=((5*q*sqrt(5)-6)/15),y(q)=((5*q*sqrt(5)+33)/15)]]\nNODES 51 67",
+      "stderr": "SECONDS 0.000993899\n",
+      "host_seconds": 0.000993899,
+      "coordinates": "[[(q*sqrt(5)-6)/15,(7*q*sqrt(5)+33)/15],[(5*q*sqrt(5)-6)/15,(5*q*sqrt(5)+33)/15]]",
+      "label_nodes": 67,
+      "verification": {
+        "exact": true,
+        "coverage": "two distinct complete lines contained in a nonzero quadratic exhaust its real zero set",
+        "branch_count": 2
+      },
+      "pass": true
+    },
+    {
+      "id": "MR1-C3",
+      "input": "((x+2*y-4)^2-9*(2*x-y+3)^2=0,[x,y],q)",
+      "outer_simplify": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "RAW [[(q*sqrt(5)-6)/15,(7*q*sqrt(5)+33)/15],[(5*q*sqrt(5)-6)/15,(5*q*sqrt(5)+33)/15]]\nVIEW [[x(q)=((q*sqrt(5)-6)/15),y(q)=((7*q*sqrt(5)+33)/15)],[x(q)=((5*q*sqrt(5)-6)/15),y(q)=((5*q*sqrt(5)+33)/15)]]\nNODES 51 67",
+      "stderr": "SECONDS 0.00100638\n",
+      "host_seconds": 0.00100638,
+      "coordinates": "[[(q*sqrt(5)-6)/15,(7*q*sqrt(5)+33)/15],[(5*q*sqrt(5)-6)/15,(5*q*sqrt(5)+33)/15]]",
+      "label_nodes": 67,
+      "verification": {
+        "exact": true,
+        "coverage": "two distinct complete lines contained in a nonzero quadratic exhaust its real zero set",
+        "branch_count": 2
+      },
+      "pass": true
+    },
+    {
+      "id": "MR1-C4",
+      "input": "((2*x-y+1)^2+2*(x+2*y-3)^2+1=0,[x,y],r)",
+      "outer_simplify": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "RAW []\nNODES 0 0",
+      "stderr": "SECONDS 0.000329017\n",
+      "host_seconds": 0.000329017,
+      "coordinates": "[]",
+      "verification": {
+        "exact": true,
+        "coverage": "definite shifted quadratic of the wrong sign, or rank-one quadratic with negative discriminant: empty real zero set",
+        "branch_count": 0
+      },
+      "pass": true
+    },
+    {
+      "id": "MR1-C4",
+      "input": "((2*x-y+1)^2+2*(x+2*y-3)^2+1=0,[x,y],r)",
+      "outer_simplify": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "RAW []\nNODES 0 0",
+      "stderr": "SECONDS 0.000361327\n",
+      "host_seconds": 0.000361327,
+      "coordinates": "[]",
+      "verification": {
+        "exact": true,
+        "coverage": "definite shifted quadratic of the wrong sign, or rank-one quadratic with negative discriminant: empty real zero set",
+        "branch_count": 0
+      },
+      "pass": true
+    },
+    {
+      "id": "MR1-C4",
+      "input": "((2*x-y+1)^2+2*(x+2*y-3)^2+1=0,[x,y],r)",
+      "outer_simplify": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "RAW []\nNODES 0 0",
+      "stderr": "SECONDS 0.000315787\n",
+      "host_seconds": 0.000315787,
+      "coordinates": "[]",
+      "verification": {
+        "exact": true,
+        "coverage": "definite shifted quadratic of the wrong sign, or rank-one quadratic with negative discriminant: empty real zero set",
+        "branch_count": 0
+      },
+      "pass": true
+    },
+    {
+      "id": "MR1-C4",
+      "input": "((2*x-y+1)^2+2*(x+2*y-3)^2+1=0,[x,y],r)",
+      "outer_simplify": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "RAW []\nNODES 0 0",
+      "stderr": "SECONDS 0.000355346\n",
+      "host_seconds": 0.000355346,
+      "coordinates": "[]",
+      "verification": {
+        "exact": true,
+        "coverage": "definite shifted quadratic of the wrong sign, or rank-one quadratic with negative discriminant: empty real zero set",
+        "branch_count": 0
+      },
+      "pass": true
+    },
+    {
+      "id": "MR1-D1",
+      "input": "diff(-3*x*ln(2)-9/4*im(Li2(exp(2*i*(-2*x/3+pi/5)))),x)",
+      "outer_simplify": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "-3*ln(2)-9/4*(-sqrt(2*(sqrt(5)+5))/4*4/3*((cos(4*x/3)*ln(2*abs(cos((4*x/3+3/5*pi)/2)))+sin(4*x/3)*(atan(((-sqrt(2*(sqrt(5)+5))/4)*cos(4*x/3)+(sqrt(5)-1)/4*sin(4*x/3))/((-sqrt(5)+1)/4*cos(4*x/3)+(-sqrt(2*(sqrt(5)+5))/4)*sin(4*x/3)+1))+(1-sign((-sqrt(5)+1)/4*cos(4*x/3)+(-sqrt(2*(sqrt(5)+5))/4)*sin(4*x/3)+1))*sign((-sqrt(2*(sqrt(5)+5))/4)*cos(4*x/3)+(sqrt(5)-1)/4*sin(4*x/3))*pi/2))*((sqrt(5)-1)/4*sin(4*x/3)-sqrt(2*(sqrt(5)+5))/4*cos(4*x/3))/(((sqrt(5)-1)/4*cos(4*x/3)+sqrt(2*(sqrt(5)+5))/4*sin(4*x/3))^2+(-(sqrt(5)-1)/4*sin(4*x/3)+sqrt(2*(sqrt(5)+5))/4*cos(4*x/3))^2)+(cos(4*x/3)*(atan(((-sqrt(2*(sqrt(5)+5))/4)*cos(4*x/3)+(sqrt(5)-1)/4*sin(4*x/3))/((-sqrt(5)+1)/4*cos(4*x/3)+(-sqrt(2*(sqrt(5)+5))/4)*sin(4*x/3)+1))+(1-sign((-sqrt(5)+1)/4*cos(4*x/3)+(-sqrt(2*(sqrt(5)+5))/4)*sin(4*x/3)+1))*sign((-sqrt(2*(sqrt(5)+5))/4)*cos(4*x/3)+(sqrt(5)-1)/4*sin(4*x/3))*pi/2)-sin(4*x/3)*ln(2*abs(cos((4*x/3+3/5*pi)/2))))*((sqrt(5)-1)/4*cos(4*x/3)+sqrt(2*(sqrt(5)+5))/4*sin(4*x/3))/(((sqrt(5)-1)/4*cos(4*x/3)+sqrt(2*(sqrt(5)+5))/4*sin(4*x/3))^2+(-(sqrt(5)-1)/4*sin(4*x/3)+sqrt(2*(sqrt(5)+5))/4*cos(4*x/3))^2))+(sqrt(5)-1)/4*4/3*((cos(4*x/3)*ln(2*abs(cos((4*x/3+3/5*pi)/2)))+sin(4*x/3)*(atan(((-sqrt(2*(sqrt(5)+5))/4)*cos(4*x/3)+(sqrt(5)-1)/4*sin(4*x/3))/((-sqrt(5)+1)/4*cos(4*x/3)+(-sqrt(2*(sqrt(5)+5))/4)*sin(4*x/3)+1))+(1-sign((-sqrt(5)+1)/4*cos(4*x/3)+(-sqrt(2*(sqrt(5)+5))/4)*sin(4*x/3)+1))*sign((-sqrt(2*(sqrt(5)+5))/4)*cos(4*x/3)+(sqrt(5)-1)/4*sin(4*x/3))*pi/2))*((sqrt(5)-1)/4*cos(4*x/3)+sqrt(2*(sqrt(5)+5))/4*sin(4*x/3))/(((sqrt(5)-1)/4*cos(4*x/3)+sqrt(2*(sqrt(5)+5))/4*sin(4*x/3))^2+(-(sqrt(5)-1)/4*sin(4*x/3)+sqrt(2*(sqrt(5)+5))/4*cos(4*x/3))^2)-(cos(4*x/3)*(atan(((-sqrt(2*(sqrt(5)+5))/4)*cos(4*x/3)+(sqrt(5)-1)/4*sin(4*x/3))/((-sqrt(5)+1)/4*cos(4*x/3)+(-sqrt(2*(sqrt(5)+5))/4)*sin(4*x/3)+1))+(1-sign((-sqrt(5)+1)/4*cos(4*x/3)+(-sqrt(2*(sqrt(5)+5))/4)*sin(4*x/3)+1))*sign((-sqrt(2*(sqrt(5)+5))/4)*cos(4*x/3)+(sqrt(5)-1)/4*sin(4*x/3))*pi/2)-sin(4*x/3)*ln(2*abs(cos((4*x/3+3/5*pi)/2))))*((sqrt(5)-1)/4*sin(4*x/3)-sqrt(2*(sqrt(5)+5))/4*cos(4*x/3))/(((sqrt(5)-1)/4*cos(4*x/3)+sqrt(2*(sqrt(5)+5))/4*sin(4*x/3))^2+(-(sqrt(5)-1)/4*sin(4*x/3)+sqrt(2*(sqrt(5)+5))/4*cos(4*x/3))^2)))",
+      "stderr": "  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 268435456\nPARSER_CALLS 58\nSECONDS 0.0470244\nMAX_RSS_KB 67036\n",
+      "host_seconds": 0.0470244,
+      "error": "('unresolved derivative expansion', 747)",
+      "pass": false
+    },
+    {
+      "id": "MR1-D1",
+      "input": "diff(-3*x*ln(2)-9/4*im(Li2(exp(2*i*(-2*x/3+pi/5)))),x)",
+      "outer_simplify": false,
+      "stack": "64",
+      "exit": -11,
+      "result": "",
+      "stderr": "  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n",
+      "error": "{'id': 'MR1-D1', 'input': 'diff(-3*x*ln(2)-9/4*im(Li2(exp(2*i*(-2*x/3+pi/5)))),x)', 'outer_simplify': False, 'stack': '64', 'exit': -11, 'result': '', 'stderr': '  ***   Warning: not enough memory, new PARI stack 536870912\\n  ***   Warning: not enough memory, new PARI stack 536870912\\n'}",
+      "pass": false
+    },
+    {
+      "id": "MR1-D1",
+      "input": "simplify(diff(-3*x*ln(2)-9/4*im(Li2(exp(2*i*(-2*x/3+pi/5)))),x))",
+      "outer_simplify": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "-3*ln(2)-9/4*(-sqrt(2*(sqrt(5)+5))/4*4/3*((cos(4*x/3)*ln(2*abs(cos((4*x/3+3/5*pi)/2)))+sin(4*x/3)*(atan(((-sqrt(2*(sqrt(5)+5))/4)*cos(4*x/3)+(sqrt(5)-1)/4*sin(4*x/3))/((-sqrt(5)+1)/4*cos(4*x/3)+(-sqrt(2*(sqrt(5)+5))/4)*sin(4*x/3)+1))+(1-sign((-sqrt(5)+1)/4*cos(4*x/3)+(-sqrt(2*(sqrt(5)+5))/4)*sin(4*x/3)+1))*sign((-sqrt(2*(sqrt(5)+5))/4)*cos(4*x/3)+(sqrt(5)-1)/4*sin(4*x/3))*pi/2))*((sqrt(5)-1)/4*sin(4*x/3)-sqrt(2*(sqrt(5)+5))/4*cos(4*x/3))/(((sqrt(5)-1)/4*cos(4*x/3)+sqrt(2*(sqrt(5)+5))/4*sin(4*x/3))^2+(-(sqrt(5)-1)/4*sin(4*x/3)+sqrt(2*(sqrt(5)+5))/4*cos(4*x/3))^2)+(cos(4*x/3)*(atan(((-sqrt(2*(sqrt(5)+5))/4)*cos(4*x/3)+(sqrt(5)-1)/4*sin(4*x/3))/((-sqrt(5)+1)/4*cos(4*x/3)+(-sqrt(2*(sqrt(5)+5))/4)*sin(4*x/3)+1))+(1-sign((-sqrt(5)+1)/4*cos(4*x/3)+(-sqrt(2*(sqrt(5)+5))/4)*sin(4*x/3)+1))*sign((-sqrt(2*(sqrt(5)+5))/4)*cos(4*x/3)+(sqrt(5)-1)/4*sin(4*x/3))*pi/2)-sin(4*x/3)*ln(2*abs(cos((4*x/3+3/5*pi)/2))))*((sqrt(5)-1)/4*cos(4*x/3)+sqrt(2*(sqrt(5)+5))/4*sin(4*x/3))/(((sqrt(5)-1)/4*cos(4*x/3)+sqrt(2*(sqrt(5)+5))/4*sin(4*x/3))^2+(-(sqrt(5)-1)/4*sin(4*x/3)+sqrt(2*(sqrt(5)+5))/4*cos(4*x/3))^2))+(sqrt(5)-1)/4*4/3*((cos(4*x/3)*ln(2*abs(cos((4*x/3+3/5*pi)/2)))+sin(4*x/3)*(atan(((-sqrt(2*(sqrt(5)+5))/4)*cos(4*x/3)+(sqrt(5)-1)/4*sin(4*x/3))/((-sqrt(5)+1)/4*cos(4*x/3)+(-sqrt(2*(sqrt(5)+5))/4)*sin(4*x/3)+1))+(1-sign((-sqrt(5)+1)/4*cos(4*x/3)+(-sqrt(2*(sqrt(5)+5))/4)*sin(4*x/3)+1))*sign((-sqrt(2*(sqrt(5)+5))/4)*cos(4*x/3)+(sqrt(5)-1)/4*sin(4*x/3))*pi/2))*((sqrt(5)-1)/4*cos(4*x/3)+sqrt(2*(sqrt(5)+5))/4*sin(4*x/3))/(((sqrt(5)-1)/4*cos(4*x/3)+sqrt(2*(sqrt(5)+5))/4*sin(4*x/3))^2+(-(sqrt(5)-1)/4*sin(4*x/3)+sqrt(2*(sqrt(5)+5))/4*cos(4*x/3))^2)-(cos(4*x/3)*(atan(((-sqrt(2*(sqrt(5)+5))/4)*cos(4*x/3)+(sqrt(5)-1)/4*sin(4*x/3))/((-sqrt(5)+1)/4*cos(4*x/3)+(-sqrt(2*(sqrt(5)+5))/4)*sin(4*x/3)+1))+(1-sign((-sqrt(5)+1)/4*cos(4*x/3)+(-sqrt(2*(sqrt(5)+5))/4)*sin(4*x/3)+1))*sign((-sqrt(2*(sqrt(5)+5))/4)*cos(4*x/3)+(sqrt(5)-1)/4*sin(4*x/3))*pi/2)-sin(4*x/3)*ln(2*abs(cos((4*x/3+3/5*pi)/2))))*((sqrt(5)-1)/4*sin(4*x/3)-sqrt(2*(sqrt(5)+5))/4*cos(4*x/3))/(((sqrt(5)-1)/4*cos(4*x/3)+sqrt(2*(sqrt(5)+5))/4*sin(4*x/3))^2+(-(sqrt(5)-1)/4*sin(4*x/3)+sqrt(2*(sqrt(5)+5))/4*cos(4*x/3))^2)))",
+      "stderr": "  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 268435456\nPARSER_CALLS 58\nSECONDS 0.047629\nMAX_RSS_KB 68316\n",
+      "host_seconds": 0.047629,
+      "error": "('unresolved derivative expansion', 747)",
+      "pass": false
+    },
+    {
+      "id": "MR1-D1",
+      "input": "simplify(diff(-3*x*ln(2)-9/4*im(Li2(exp(2*i*(-2*x/3+pi/5)))),x))",
+      "outer_simplify": true,
+      "stack": "64",
+      "exit": -11,
+      "result": "",
+      "stderr": "  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n",
+      "error": "{'id': 'MR1-D1', 'input': 'simplify(diff(-3*x*ln(2)-9/4*im(Li2(exp(2*i*(-2*x/3+pi/5)))),x))', 'outer_simplify': True, 'stack': '64', 'exit': -11, 'result': '', 'stderr': '  ***   Warning: not enough memory, new PARI stack 536870912\\n  ***   Warning: not enough memory, new PARI stack 536870912\\n'}",
+      "pass": false
+    },
+    {
+      "id": "MR1-D2",
+      "input": "diff(Li2(-(2*x-1)^2),x)",
+      "outer_simplify": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "-4*(2*x-1)*ln(1+(2*x-1)^2)/(2*x-1)^2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000299616\nMAX_RSS_KB 68572\n",
+      "host_seconds": 0.000299616,
+      "error": "missing removable derivative value",
+      "pass": false
+    },
+    {
+      "id": "MR1-D2",
+      "input": "diff(Li2(-(2*x-1)^2),x)",
+      "outer_simplify": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "-4*(2*x-1)*ln(1+(2*x-1)^2)/(2*x-1)^2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000336366\nMAX_RSS_KB 68572\n",
+      "host_seconds": 0.000336366,
+      "error": "missing removable derivative value",
+      "pass": false
+    },
+    {
+      "id": "MR1-D2",
+      "input": "simplify(diff(Li2(-(2*x-1)^2),x))",
+      "outer_simplify": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "-4*ln(4*x^2-4*x+2)/(2*x-1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000661633\nMAX_RSS_KB 68572\n",
+      "host_seconds": 0.000661633,
+      "error": "missing removable derivative value",
+      "pass": false
+    },
+    {
+      "id": "MR1-D2",
+      "input": "simplify(diff(Li2(-(2*x-1)^2),x))",
+      "outer_simplify": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "-4*ln(4*x^2-4*x+2)/(2*x-1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000646993\nMAX_RSS_KB 68572\n",
+      "host_seconds": 0.000646993,
+      "error": "missing removable derivative value",
+      "pass": false
+    },
+    {
+      "id": "MR1-D3",
+      "input": "diff((x-1)*atan(2*x-2),x)-atan(2*x-2)+2*sin(x)*cos(x)",
+      "outer_simplify": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "atan(2*x-2)+(x-1)*2/(1+(2*x-2)^2)-atan(2*x-2)+2*sin(x)*cos(x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000421465\nMAX_RSS_KB 68572\n",
+      "host_seconds": 0.000421465,
+      "verification": {
+        "exact": true,
+        "method": "exact rational/trig identity and real denominator/domain check"
+      },
+      "pass": true
+    },
+    {
+      "id": "MR1-D3",
+      "input": "diff((x-1)*atan(2*x-2),x)-atan(2*x-2)+2*sin(x)*cos(x)",
+      "outer_simplify": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "atan(2*x-2)+(x-1)*2/(1+(2*x-2)^2)-atan(2*x-2)+2*sin(x)*cos(x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000460375\nMAX_RSS_KB 68572\n",
+      "host_seconds": 0.000460375,
+      "verification": {
+        "exact": true,
+        "method": "exact rational/trig identity and real denominator/domain check"
+      },
+      "pass": true
+    },
+    {
+      "id": "MR1-D3",
+      "input": "simplify(diff((x-1)*atan(2*x-2),x)-atan(2*x-2)+2*sin(x)*cos(x))",
+      "outer_simplify": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(8*x^2*cos(x)*sin(x)-16*x*cos(x)*sin(x)+2*x+10*cos(x)*sin(x)-2)/(4*x^2-8*x+5)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00266854\nMAX_RSS_KB 68572\n",
+      "host_seconds": 0.00266854,
+      "verification": {
+        "exact": true,
+        "method": "exact rational/trig identity and real denominator/domain check"
+      },
+      "pass": true
+    },
+    {
+      "id": "MR1-D3",
+      "input": "simplify(diff((x-1)*atan(2*x-2),x)-atan(2*x-2)+2*sin(x)*cos(x))",
+      "outer_simplify": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "(8*x^2*cos(x)*sin(x)-16*x*cos(x)*sin(x)+2*x+10*cos(x)*sin(x)-2)/(4*x^2-8*x+5)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.0030137\nMAX_RSS_KB 68572\n",
+      "host_seconds": 0.0030137,
+      "verification": {
+        "exact": true,
+        "method": "exact rational/trig identity and real denominator/domain check"
+      },
+      "pass": true
+    },
+    {
+      "id": "MR1-D4",
+      "input": "diff((x^2+1)^3*sin(x)/(x^2+1)^2,x)-sin(x)^3-sin(x)*cos(x)^2",
+      "outer_simplify": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "3*2*x*(x^2+1)^2*sin(x)/(x^2+1)^2+(x^2+1)^3*cos(x)/(x^2+1)^2-(x^2+1)^3*sin(x)*2*2*x*(x^2+1)^-3-sin(x)^3-sin(x)*cos(x)^2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000316427\nMAX_RSS_KB 68572\n",
+      "host_seconds": 0.000316427,
+      "verification": {
+        "exact": true,
+        "method": "exact rational/trig identity and real denominator/domain check"
+      },
+      "pass": true
+    },
+    {
+      "id": "MR1-D4",
+      "input": "diff((x^2+1)^3*sin(x)/(x^2+1)^2,x)-sin(x)^3-sin(x)*cos(x)^2",
+      "outer_simplify": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "3*2*x*(x^2+1)^2*sin(x)/(x^2+1)^2+(x^2+1)^3*cos(x)/(x^2+1)^2-(x^2+1)^3*sin(x)*2*2*x*(x^2+1)^-3-sin(x)^3-sin(x)*cos(x)^2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000652423\nMAX_RSS_KB 68572\n",
+      "host_seconds": 0.000652423,
+      "verification": {
+        "exact": true,
+        "method": "exact rational/trig identity and real denominator/domain check"
+      },
+      "pass": true
+    },
+    {
+      "id": "MR1-D4",
+      "input": "simplify(diff((x^2+1)^3*sin(x)/(x^2+1)^2,x)-sin(x)^3-sin(x)*cos(x)^2)",
+      "outer_simplify": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "x^2*cos(x)+2*x*sin(x)+cos(x)-sin(x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00099382\nMAX_RSS_KB 68572\n",
+      "host_seconds": 0.00099382,
+      "verification": {
+        "exact": true,
+        "method": "exact rational/trig identity and real denominator/domain check"
+      },
+      "pass": true
+    },
+    {
+      "id": "MR1-D4",
+      "input": "simplify(diff((x^2+1)^3*sin(x)/(x^2+1)^2,x)-sin(x)^3-sin(x)*cos(x)^2)",
+      "outer_simplify": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "x^2*cos(x)+2*x*sin(x)+cos(x)-sin(x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00127891\nMAX_RSS_KB 68572\n",
+      "host_seconds": 0.00127891,
+      "verification": {
+        "exact": true,
+        "method": "exact rational/trig identity and real denominator/domain check"
+      },
+      "pass": true
+    }
+  ],
+  "cases": [
+    {
+      "id": "MR1-I1",
+      "all_four_pass": false
+    },
+    {
+      "id": "MR1-I2",
+      "all_four_pass": true
+    },
+    {
+      "id": "MR1-I3",
+      "all_four_pass": true
+    },
+    {
+      "id": "MR1-I4",
+      "all_four_pass": true
+    },
+    {
+      "id": "MR1-C1",
+      "all_four_pass": true
+    },
+    {
+      "id": "MR1-C2",
+      "all_four_pass": true
+    },
+    {
+      "id": "MR1-C3",
+      "all_four_pass": true
+    },
+    {
+      "id": "MR1-C4",
+      "all_four_pass": true
+    },
+    {
+      "id": "MR1-D1",
+      "all_four_pass": false
+    },
+    {
+      "id": "MR1-D2",
+      "all_four_pass": false
+    },
+    {
+      "id": "MR1-D3",
+      "all_four_pass": true
+    },
+    {
+      "id": "MR1-D4",
+      "all_four_pass": true
+    }
+  ]
+}
