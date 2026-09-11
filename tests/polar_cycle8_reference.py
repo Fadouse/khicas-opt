@@ -47,7 +47,7 @@ def verify(case,printed):
   method='Exact positive reciprocal-root parameter. x=(1+u²)/(1-u²), dx=4u/(1-u²)²du; derivative is 4/(1-u⁴) on both intervals u<1 and u>1. Real log magnitude nonzero, only u=1 excluded. atan(u)+atan(1/u)=pi/2 proves the displayed primitive differs by -pi from the stated normalization.'
  elif ident=='PC8-D1':
   v=s.Symbol('v',real=True,nonzero=True)
-  f=a.subs(x,v**3)
+  f=a.subs(x,v**3).subs(Root(v**3,3),v)
   f=f.replace(lambda z:z.func==Root and z.args[1]==3 and equal(z.args[0],v**6),lambda z:v*v)
   f=f.replace(lambda z:z.func==s.Pow and z.exp==s.Rational(2,3) and z.base==s.Abs(v**3),lambda z:v*v)
   assert equal(f,(5*v**3-2)/(3*v)+2*v**3),f

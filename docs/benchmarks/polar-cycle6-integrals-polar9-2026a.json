@@ -1,0 +1,162 @@
+{
+  "source_sha256": {
+    "yintg.cc": "1f2dbf27fbc725ed08af29bfa12d9380e6db16e1819a4ae1b95686d805c63757",
+    "zintgab.cc": "3b6fa78aba4d53b1a11479c33bacb4c85e3d6091389ef3073ec60085a7ae9448",
+    "ksubst.cc": "8b89f6fc879ec06d19849a4c239b19f4b71ba72049d3ac419842254ef1956c0c",
+    "yderive.cc": "337c3d0bedeb181820c4bf1eee780bdf70aaff1fec4b5d4cac6c51bb63ee8c18",
+    "dilogarithm.h": "ca822ef4c094a4ed1f4aecf7219011668735d86d259c51ec6304515f8fa84d7a",
+    "kconvert.cc": "eed558eb2f8ff62e0cf1e94fdbf8497954a35577e283a8d07283350e65b76003",
+    "equation_normalize.h": "4bfb644f0e18bb36e280ce8886c8ac12695c9aeeaef187ea3e5f967cd1642e37",
+    "kusual.cc": "88020df204d4e478fed95d42aa5d79cf93768a4d7143b1aee5301d1f8cd8a865",
+    "zprog.cc": "513111030cf5233496da8c3efff53df9391f12d185254f314608600e13e5639e",
+    "conditional_eval.h": "f602bbce59fbcfcadb85a78ca5ba6a79cd56f643067f84d02a02a73a040f40c1"
+  },
+  "corpus_sha256": "e8b7134e2698c35189e837dc91a438e3768bb2b15be662cfb0b23b441d05916b",
+  "provenance": "polar-cycle6-acceptance-polar9-2026a.json",
+  "runs": [
+    {
+      "id": "PC6-I1",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(surd(x-2,3)^2/(1+surd(x-2,3)^2)^2,x)",
+      "exit": 0,
+      "result": "3*(surd(x-2,3)+surd(x-2,3)*1/2/((surd(x-2,3))^2+1)-3/2*atan(surd(x-2,3)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.0013734\nMAX_RSS_KB 66088\n",
+      "verification": {
+        "exact": true,
+        "method": "Real cube-root substitution on both signs; exact rational derivative and difference quotient zero at the moving root. All denominators positive, global real atan."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "2": "0"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC6-I1",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(surd(x-2,3)^2/(1+surd(x-2,3)^2)^2,x)",
+      "exit": 0,
+      "result": "3*(surd(x-2,3)+surd(x-2,3)*1/2/((surd(x-2,3))^2+1)-3/2*atan(surd(x-2,3)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00158742\nMAX_RSS_KB 66088\n",
+      "verification": {
+        "exact": true,
+        "method": "Real cube-root substitution on both signs; exact rational derivative and difference quotient zero at the moving root. All denominators positive, global real atan."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "2": "0"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC6-I1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(surd(x-2,3)^2/(1+surd(x-2,3)^2)^2,x))",
+      "exit": 0,
+      "result": "(6*x^2*surd(x-2,3)-9*x^2*atan(surd(x-2,3))+3*x*(surd(x-2,3))^2-24*x*surd(x-2,3)+36*x*atan(surd(x-2,3))-3*x-6*(surd(x-2,3))^2+33*surd(x-2,3)-45*atan(surd(x-2,3))+6)/(2*x^2-8*x+10)",
+      "stderr": "Temporary replacing surd/NTHROOT by fractional powers\nPARSER_CALLS 1\nSECONDS 0.00272486\nMAX_RSS_KB 66088\n",
+      "verification": {
+        "exact": true,
+        "method": "Real cube-root substitution on both signs; exact rational derivative and difference quotient zero at the moving root. All denominators positive, global real atan."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "2": "0"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC6-I1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(surd(x-2,3)^2/(1+surd(x-2,3)^2)^2,x))",
+      "exit": 0,
+      "result": "(6*x^2*surd(x-2,3)-9*x^2*atan(surd(x-2,3))+3*x*(surd(x-2,3))^2-24*x*surd(x-2,3)+36*x*atan(surd(x-2,3))-3*x-6*(surd(x-2,3))^2+33*surd(x-2,3)-45*atan(surd(x-2,3))+6)/(2*x^2-8*x+10)",
+      "stderr": "Temporary replacing surd/NTHROOT by fractional powers\nPARSER_CALLS 1\nSECONDS 0.00282959\nMAX_RSS_KB 66088\n",
+      "verification": {
+        "exact": true,
+        "method": "Real cube-root substitution on both signs; exact rational derivative and difference quotient zero at the moving root. All denominators positive, global real atan."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "2": "0"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC6-I2",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(1/(sqrt(x^2+4)*(1+ln((x+sqrt(x^2+4))/2)^2)),x)",
+      "exit": 0,
+      "result": "atan(ln((x+sqrt(x^2+4))/2))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000879159\nMAX_RSS_KB 66088\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact logarithmic derivative t'=1/sqrt(x²+4); sqrt(x²+4)>|x| proves positive log argument globally. atan chain rule gives integrand everywhere, including derivative 1/2 at zero."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC6-I2",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(1/(sqrt(x^2+4)*(1+ln((x+sqrt(x^2+4))/2)^2)),x)",
+      "exit": 0,
+      "result": "atan(ln((x+sqrt(x^2+4))/2))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00124138\nMAX_RSS_KB 66088\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact logarithmic derivative t'=1/sqrt(x²+4); sqrt(x²+4)>|x| proves positive log argument globally. atan chain rule gives integrand everywhere, including derivative 1/2 at zero."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC6-I2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(1/(sqrt(x^2+4)*(1+ln((x+sqrt(x^2+4))/2)^2)),x))",
+      "exit": 0,
+      "result": "atan(ln((x+sqrt(x^2+4))/2))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00158789\nMAX_RSS_KB 66088\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact logarithmic derivative t'=1/sqrt(x²+4); sqrt(x²+4)>|x| proves positive log argument globally. atan chain rule gives integrand everywhere, including derivative 1/2 at zero."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC6-I2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(1/(sqrt(x^2+4)*(1+ln((x+sqrt(x^2+4))/2)^2)),x))",
+      "exit": 0,
+      "result": "atan(ln((x+sqrt(x^2+4))/2))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00161861\nMAX_RSS_KB 66088\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact logarithmic derivative t'=1/sqrt(x²+4); sqrt(x²+4)>|x| proves positive log argument globally. atan chain rule gives integrand everywhere, including derivative 1/2 at zero."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0"
+      },
+      "status": "exact"
+    }
+  ]
+}

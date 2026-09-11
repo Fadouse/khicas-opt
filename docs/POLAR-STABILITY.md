@@ -125,3 +125,16 @@ ROM 2,064,760 / 2,065,152 B（余392 B），AC2 2,483,552 / 2,559,996 B（余76,
 ROM 2,065,112 / 2,065,152 B（余40 B），AC2 2,487,388 / 2,559,996 B（余72,608 B），静态RAM和CAS堆不变。新增辅助函数明确放入AC2并验证链接地址。首次仍有错题，继续新出题代理，不进入最终性能代理验收。
 
 [首次](benchmarks/polar-cycle8-first-acceptance-2026a.json) · [修复后](benchmarks/polar-cycle8-fixed-acceptance-2026a.json) · [接点变体](benchmarks/oscillatory-root-guards-polar8-2026a.json) · [资源](benchmarks/resources-polar-cycle8-2026a.json) · [测量](benchmarks/polar-cycle8-performance-2026a.json) · [回归索引](benchmarks/polar-cycle8-regression-index-2026a.json)。
+
+
+## 第九轮：根幂整体求导、超越函数跳跃、符号复根延迟定支
+
+标签 `checkpoint/polar-stability-cycle9-2026a`。新6题首次3题完整通过：两道积分和紧凑资源题正常；实根有理组合在x=1残留0/0，含exp/ln的分段跳跃未被识别，复根商式在x=0引入伪除零。出题代理交付后结束，主代理完成修复与独立验收。
+
+实奇次根按有界、明确的因子拆为实根幂，非整除的指数保持整体，例如root(v)^4直接使用已约去奇异根幂的导数，避免v*root(v)再先乘后除。覆盖单个幂与多因子组合，保留真正低阶根尖点。分段局部解析检查增加exp，并比较精确函数值差与导数差，使共同的ln(2)等常量能相消，正确拒绝“斜率相同但函数跳跃”的接点。短符号复平方根在变量实际代入后再确定主值，避免矩形式在负实切口上引入a+|z|=0的伪极点；数值常量的求根继续计算。
+
+本轮24项、新44项根/分支检查、前两轮60项新变体、旧114项边界检查、前八轮232项、旧混合96项、极坐标60项、21项正式任务和7项补充任务均通过。旧实根题的等价输出改为root(v³)，参考验证器补充了实数唯一立方根root(v³)=v的恒等式，未把显示差异当成计算错误。通过积分清单663条：658精确、5导数采样，640种去空白文本。
+
+5次主机计算中位数最大约2.2 ms；本轮仍没有CG50实机计时或安装，64 KiB主机保护栈不是SH4/MMU模拟。ROM余40 B，AC2余72,412 B（使用2,487,584 B），静态RAM与CAS堆不变。首次有错题，下一步继续全新题集，未进入最终性能代理验收。
+
+[首次](benchmarks/polar-cycle9-first-acceptance-2026a.json) · [修复后](benchmarks/polar-cycle9-fixed-acceptance-2026a.json) · [变体](benchmarks/root-branch-guards-polar9-2026a.json) · [资源](benchmarks/resources-polar-cycle9-2026a.json) · [测量](benchmarks/polar-cycle9-performance-2026a.json) · [回归索引](benchmarks/polar-cycle9-regression-index-2026a.json)。

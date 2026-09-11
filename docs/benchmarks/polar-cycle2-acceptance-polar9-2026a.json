@@ -1,0 +1,529 @@
+{
+  "scope": "Actual repository integration/yderive/FXCG simplify on host dependencies; guarded 64 KiB stack, not SH4/MMU emulation.",
+  "corpus_sha256": "8156c98020416e773daec1f58ab056382c1365fe210843f09f66fa88bd4ee94c",
+  "probe_sha256": "4fd3d86f082db5ad14d269e708c07ab00dc136521656451bd449bb523b19513b",
+  "runs": [
+    {
+      "id": "PC2-I1",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(sqrt((1-x)/(1+x))/(1-x^2),x)",
+      "exit": 0,
+      "result": "-sqrt((1-x)/(1+x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000521533\nMAX_RSS_KB 66296\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative after a bijective positive-domain substitution. Both original endpoints excluded; primitive regular at x=0."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC2-I1",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(sqrt((1-x)/(1+x))/(1-x^2),x)",
+      "exit": 0,
+      "result": "-sqrt((1-x)/(1+x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000647642\nMAX_RSS_KB 66296\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative after a bijective positive-domain substitution. Both original endpoints excluded; primitive regular at x=0."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC2-I1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(sqrt((1-x)/(1+x))/(1-x^2),x))",
+      "exit": 0,
+      "result": "-sqrt(-x^2+1)*abs(x+1)/(x^2+2*x+1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00153158\nMAX_RSS_KB 66296\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative after a bijective positive-domain substitution. Both original endpoints excluded; primitive regular at x=0."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC2-I1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(sqrt((1-x)/(1+x))/(1-x^2),x))",
+      "exit": 0,
+      "result": "-sqrt(-x^2+1)*abs(x+1)/(x^2+2*x+1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00186839\nMAX_RSS_KB 66296\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative after a bijective positive-domain substitution. Both original endpoints excluded; primitive regular at x=0."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC2-I2",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate((2*x+2*i)/(x^2+2*i*x-2),x)",
+      "exit": 0,
+      "result": "ln(x+1+i)+ln(x-1+i)",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.00126997\nMAX_RSS_KB 66296\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact sum of principal logs of two strictly upper-half-plane factors; neither crosses a cut. Global derivative and regularity at x=0, not just intervalwise derivative."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC2-I2",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate((2*x+2*i)/(x^2+2*i*x-2),x)",
+      "exit": 0,
+      "result": "ln(x+1+i)+ln(x-1+i)",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.00143363\nMAX_RSS_KB 66296\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact sum of principal logs of two strictly upper-half-plane factors; neither crosses a cut. Global derivative and regularity at x=0, not just intervalwise derivative."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC2-I2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate((2*x+2*i)/(x^2+2*i*x-2),x))",
+      "exit": 0,
+      "result": "ln(x+1+i)+ln(x-1+i)",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.00127137\nMAX_RSS_KB 66296\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact sum of principal logs of two strictly upper-half-plane factors; neither crosses a cut. Global derivative and regularity at x=0, not just intervalwise derivative."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC2-I2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate((2*x+2*i)/(x^2+2*i*x-2),x))",
+      "exit": 0,
+      "result": "ln(x+1+i)+ln(x-1+i)",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.0013426\nMAX_RSS_KB 66296\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact sum of principal logs of two strictly upper-half-plane factors; neither crosses a cut. Global derivative and regularity at x=0, not just intervalwise derivative."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC2-I3",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(x*exp(x)*cos(x),x)",
+      "exit": 0,
+      "result": "exp(x)*(x/2*cos(x)+(x-1)/2*sin(x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000592482\nMAX_RSS_KB 66296\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact ordinary derivative on the entire real axis; expression composed of entire factors."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC2-I3",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(x*exp(x)*cos(x),x)",
+      "exit": 0,
+      "result": "exp(x)*(x/2*cos(x)+(x-1)/2*sin(x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000609652\nMAX_RSS_KB 66296\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact ordinary derivative on the entire real axis; expression composed of entire factors."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC2-I3",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(x*exp(x)*cos(x),x))",
+      "exit": 0,
+      "result": "(x*cos(x)*exp(x)+x*exp(x)*sin(x)-exp(x)*sin(x))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000628122\nMAX_RSS_KB 66296\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact ordinary derivative on the entire real axis; expression composed of entire factors."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC2-I3",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(x*exp(x)*cos(x),x))",
+      "exit": 0,
+      "result": "(x*cos(x)*exp(x)+x*exp(x)*sin(x)-exp(x)*sin(x))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000654792\nMAX_RSS_KB 66296\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact ordinary derivative on the entire real axis; expression composed of entire factors."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC2-D1",
+      "outer": false,
+      "stack": "normal",
+      "input": "diff(acos(1-x^4),x)",
+      "exit": 0,
+      "result": "4*x/sqrt(2-x^4)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00149698\nMAX_RSS_KB 66296\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact radical algebra on |x|<2^(1/4); acos(1-x^4)=2 asin(x\u00b2/sqrt(2)) proves the removable derivative value 0."
+      },
+      "pass": true,
+      "actual_endpoint_substitution": {
+        "0": 0
+      }
+    },
+    {
+      "id": "PC2-D1",
+      "outer": false,
+      "stack": "64",
+      "input": "diff(acos(1-x^4),x)",
+      "exit": 0,
+      "result": "4*x/sqrt(2-x^4)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00144576\nMAX_RSS_KB 66296\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact radical algebra on |x|<2^(1/4); acos(1-x^4)=2 asin(x\u00b2/sqrt(2)) proves the removable derivative value 0."
+      },
+      "pass": true,
+      "actual_endpoint_substitution": {
+        "0": 0
+      }
+    },
+    {
+      "id": "PC2-D1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(diff(acos(1-x^4),x))",
+      "exit": 0,
+      "result": "-4*x*sqrt(-x^4+2)/(x^4-2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00179076\nMAX_RSS_KB 66296\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact radical algebra on |x|<2^(1/4); acos(1-x^4)=2 asin(x\u00b2/sqrt(2)) proves the removable derivative value 0."
+      },
+      "pass": true,
+      "actual_endpoint_substitution": {
+        "0": 0
+      }
+    },
+    {
+      "id": "PC2-D1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(diff(acos(1-x^4),x))",
+      "exit": 0,
+      "result": "-4*x*sqrt(-x^4+2)/(x^4-2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00186114\nMAX_RSS_KB 66296\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact radical algebra on |x|<2^(1/4); acos(1-x^4)=2 asin(x\u00b2/sqrt(2)) proves the removable derivative value 0."
+      },
+      "pass": true,
+      "actual_endpoint_substitution": {
+        "0": 0
+      }
+    },
+    {
+      "id": "PC2-D2",
+      "outer": false,
+      "stack": "normal",
+      "input": "diff(surd(x^2-x,3)^4,x)",
+      "exit": 0,
+      "result": "4/3*surd(x^2-x,3)*(2*x-1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000318146\nMAX_RSS_KB 66296\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact real-root chain formula; |u|^(4/3) is differentiable with derivative zero at u=0. Both polynomial zeros and its stationary point included."
+      },
+      "pass": true,
+      "actual_endpoint_substitution": {
+        "0": 0,
+        "1": 0
+      }
+    },
+    {
+      "id": "PC2-D2",
+      "outer": false,
+      "stack": "64",
+      "input": "diff(surd(x^2-x,3)^4,x)",
+      "exit": 0,
+      "result": "4/3*surd(x^2-x,3)*(2*x-1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000608302\nMAX_RSS_KB 66296\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact real-root chain formula; |u|^(4/3) is differentiable with derivative zero at u=0. Both polynomial zeros and its stationary point included."
+      },
+      "pass": true,
+      "actual_endpoint_substitution": {
+        "0": 0,
+        "1": 0
+      }
+    },
+    {
+      "id": "PC2-D2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(diff(surd(x^2-x,3)^4,x))",
+      "exit": 0,
+      "result": "(8*x*surd(x^2-x,3)-4*surd(x^2-x,3))/3",
+      "stderr": "Temporary replacing surd/NTHROOT by fractional powers\nPARSER_CALLS 1\nSECONDS 0.00104308\nMAX_RSS_KB 66296\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact real-root chain formula; |u|^(4/3) is differentiable with derivative zero at u=0. Both polynomial zeros and its stationary point included."
+      },
+      "pass": true,
+      "actual_endpoint_substitution": {
+        "0": 0,
+        "1": 0
+      }
+    },
+    {
+      "id": "PC2-D2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(diff(surd(x^2-x,3)^4,x))",
+      "exit": 0,
+      "result": "(8*x*surd(x^2-x,3)-4*surd(x^2-x,3))/3",
+      "stderr": "Temporary replacing surd/NTHROOT by fractional powers\nPARSER_CALLS 1\nSECONDS 0.00109718\nMAX_RSS_KB 66296\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact real-root chain formula; |u|^(4/3) is differentiable with derivative zero at u=0. Both polynomial zeros and its stationary point included."
+      },
+      "pass": true,
+      "actual_endpoint_substitution": {
+        "0": 0,
+        "1": 0
+      }
+    },
+    {
+      "id": "PC2-D3",
+      "outer": false,
+      "stack": "normal",
+      "input": "diff(ln(1+exp(x))/(1+exp(x)),x)",
+      "exit": 0,
+      "result": "(exp(x)/(1+exp(x))*(1+exp(x))-ln(1+exp(x))*exp(x))/(1+exp(x))^2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000298177\nMAX_RSS_KB 66296\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact quotient derivative; positive denominator on all real x and unique sign-changing zero ln(e-1)."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC2-D3",
+      "outer": false,
+      "stack": "64",
+      "input": "diff(ln(1+exp(x))/(1+exp(x)),x)",
+      "exit": 0,
+      "result": "(exp(x)/(1+exp(x))*(1+exp(x))-ln(1+exp(x))*exp(x))/(1+exp(x))^2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000648602\nMAX_RSS_KB 66296\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact quotient derivative; positive denominator on all real x and unique sign-changing zero ln(e-1)."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC2-D3",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(diff(ln(1+exp(x))/(1+exp(x)),x))",
+      "exit": 0,
+      "result": "(-exp(x)*ln(exp(x)+1)+exp(x))/(exp(x)^2+2*exp(x)+1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000739961\nMAX_RSS_KB 66296\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact quotient derivative; positive denominator on all real x and unique sign-changing zero ln(e-1)."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC2-D3",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(diff(ln(1+exp(x))/(1+exp(x)),x))",
+      "exit": 0,
+      "result": "(-exp(x)*ln(exp(x)+1)+exp(x))/(exp(x)^2+2*exp(x)+1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00078027\nMAX_RSS_KB 66296\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact quotient derivative; positive denominator on all real x and unique sign-changing zero ln(e-1)."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC2-S1",
+      "outer": false,
+      "stack": "normal",
+      "input": "ln((x+i)^2)-2*ln(x+i)",
+      "exit": 0,
+      "result": "ln((x+i)^2)-2*ln(x+i)",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000309236\nMAX_RSS_KB 66296\n",
+      "verification": {
+        "exact": true,
+        "method": "For theta=arg(x+i) in (0,pi), doubling wraps by -2*pi exactly when x<0. Boundary arg(-1)=pi gives zero at x=0. Original branch expression also preserved exactly in direct mode."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC2-S1",
+      "outer": false,
+      "stack": "64",
+      "input": "ln((x+i)^2)-2*ln(x+i)",
+      "exit": 0,
+      "result": "ln((x+i)^2)-2*ln(x+i)",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000596973\nMAX_RSS_KB 66296\n",
+      "verification": {
+        "exact": true,
+        "method": "For theta=arg(x+i) in (0,pi), doubling wraps by -2*pi exactly when x<0. Boundary arg(-1)=pi gives zero at x=0. Original branch expression also preserved exactly in direct mode."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC2-S1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(ln((x+i)^2)-2*ln(x+i))",
+      "exit": 0,
+      "result": "((x>=0)? 0 : -2*pi*i)",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000381456\nMAX_RSS_KB 66296\n",
+      "verification": {
+        "exact": true,
+        "method": "For theta=arg(x+i) in (0,pi), doubling wraps by -2*pi exactly when x<0. Boundary arg(-1)=pi gives zero at x=0. Original branch expression also preserved exactly in direct mode."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC2-S1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(ln((x+i)^2)-2*ln(x+i))",
+      "exit": 0,
+      "result": "((x>=0)? 0 : -2*pi*i)",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000407545\nMAX_RSS_KB 66296\n",
+      "verification": {
+        "exact": true,
+        "method": "For theta=arg(x+i) in (0,pi), doubling wraps by -2*pi exactly when x<0. Boundary arg(-1)=pi gives zero at x=0. Original branch expression also preserved exactly in direct mode."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC2-R1",
+      "outer": false,
+      "stack": "normal",
+      "input": "((x+sqrt(x^2+1))^32-(sqrt(x^2+1)-x)^32)/((x+sqrt(x^2+1))^32+(sqrt(x^2+1)-x)^32)",
+      "exit": 0,
+      "result": "((x+sqrt(x^2+1))^32-(sqrt(x^2+1)-x)^32)/((x+sqrt(x^2+1))^32+(sqrt(x^2+1)-x)^32)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000298217\nMAX_RSS_KB 66296\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact original expression or polynomial identity modulo u\u00b2=x\u00b2+1, with positive real denominator. Original positive factors prove oddness, sign and strict (-1,1) bounds."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC2-R1",
+      "outer": false,
+      "stack": "64",
+      "input": "((x+sqrt(x^2+1))^32-(sqrt(x^2+1)-x)^32)/((x+sqrt(x^2+1))^32+(sqrt(x^2+1)-x)^32)",
+      "exit": 0,
+      "result": "((x+sqrt(x^2+1))^32-(sqrt(x^2+1)-x)^32)/((x+sqrt(x^2+1))^32+(sqrt(x^2+1)-x)^32)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000336225\nMAX_RSS_KB 66296\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact original expression or polynomial identity modulo u\u00b2=x\u00b2+1, with positive real denominator. Original positive factors prove oddness, sign and strict (-1,1) bounds."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC2-R1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(((x+sqrt(x^2+1))^32-(sqrt(x^2+1)-x)^32)/((x+sqrt(x^2+1))^32+(sqrt(x^2+1)-x)^32))",
+      "exit": 0,
+      "result": "((x+sqrt(x^2+1))^32-(sqrt(x^2+1)-x)^32)/((x+sqrt(x^2+1))^32+(sqrt(x^2+1)-x)^32)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000323906\nMAX_RSS_KB 66296\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact original expression or polynomial identity modulo u\u00b2=x\u00b2+1, with positive real denominator. Original positive factors prove oddness, sign and strict (-1,1) bounds."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC2-R1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(((x+sqrt(x^2+1))^32-(sqrt(x^2+1)-x)^32)/((x+sqrt(x^2+1))^32+(sqrt(x^2+1)-x)^32))",
+      "exit": 0,
+      "result": "((x+sqrt(x^2+1))^32-(sqrt(x^2+1)-x)^32)/((x+sqrt(x^2+1))^32+(sqrt(x^2+1)-x)^32)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000360566\nMAX_RSS_KB 66296\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact original expression or polynomial identity modulo u\u00b2=x\u00b2+1, with positive real denominator. Original positive factors prove oddness, sign and strict (-1,1) bounds."
+      },
+      "pass": true
+    }
+  ],
+  "source_sha256": {
+    "yintg.cc": "1f2dbf27fbc725ed08af29bfa12d9380e6db16e1819a4ae1b95686d805c63757",
+    "zintgab.cc": "3b6fa78aba4d53b1a11479c33bacb4c85e3d6091389ef3073ec60085a7ae9448",
+    "ksubst.cc": "8b89f6fc879ec06d19849a4c239b19f4b71ba72049d3ac419842254ef1956c0c",
+    "yderive.cc": "337c3d0bedeb181820c4bf1eee780bdf70aaff1fec4b5d4cac6c51bb63ee8c18",
+    "dilogarithm.h": "ca822ef4c094a4ed1f4aecf7219011668735d86d259c51ec6304515f8fa84d7a",
+    "kconvert.cc": "eed558eb2f8ff62e0cf1e94fdbf8497954a35577e283a8d07283350e65b76003",
+    "equation_normalize.h": "4bfb644f0e18bb36e280ce8886c8ac12695c9aeeaef187ea3e5f967cd1642e37",
+    "kusual.cc": "88020df204d4e478fed95d42aa5d79cf93768a4d7143b1aee5301d1f8cd8a865",
+    "zprog.cc": "513111030cf5233496da8c3efff53df9391f12d185254f314608600e13e5639e",
+    "conditional_eval.h": "f602bbce59fbcfcadb85a78ca5ba6a79cd56f643067f84d02a02a73a040f40c1"
+  },
+  "cases": [
+    {
+      "id": "PC2-I1",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC2-I2",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC2-I3",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC2-D1",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC2-D2",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC2-D3",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC2-S1",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC2-R1",
+      "all_four_pass": true
+    }
+  ]
+}

@@ -1,0 +1,131 @@
+{
+  "cases": [
+    {
+      "id": "PC9-I1",
+      "type": "integral",
+      "input": "simplify(integrate(ln(1+surd(x,3)^2),x))",
+      "conditions": [
+        "x is any finite real number, including zero. surd(t,3) is the unique real cube root; ln is the real logarithm and atan is the principal real inverse tangent.",
+        "The original integrand is defined and continuous on the whole real axis. An explicit exact antiderivative differentiable everywhere is required, up to one global additive constant.",
+        "The cube-root substitution has a singular derivative at zero. This does not exclude zero from either the integrand's domain or the required primitive's differentiability domain."
+      ],
+      "expected": {
+        "expression": "x*ln(1+surd(x,3)^2)-2*x/3+2*surd(x,3)-2*atan(surd(x,3))",
+        "properties": [
+          "Return an explicit evaluable closed-form antiderivative without unevaluated integrate; equivalent exact forms and one global additive constant are acceptable.",
+          "The displayed primitive is defined at zero with value zero and has two-sided derivative zero there. Prove this directly from its original difference quotient, independently of singular cube-root chain factors.",
+          "For x!=0 its derivative is exactly ln(1+surd(x,3)^2). Every logarithm argument is at least one, and no pole or complex branch is present.",
+          "For the displayed normalization the primitive is odd and strictly increasing on the real axis. Its derivative is positive away from zero.",
+          "Retaining the original or a transformed unevaluated integral does not count as a solution; assigning unrelated constants to the two half-axes is not acceptable."
+        ]
+      },
+      "reason": "Set u=surd(x,3), so x=u^3. Away from zero, integration by parts gives integral 3*u^2*ln(1+u^2) du = u^3*ln(1+u^2)-integral 2*u^4/(1+u^2) du. The exact division u^4/(1+u^2)=u^2-1+1/(1+u^2) yields G(u)=u^3*ln(1+u^2)-2*u^3/3+2*u-2*atan(u). Direct differentiation gives G'(u)=3*u^2*ln(1+u^2); multiplying by 1/(3*u^2) proves the primitive identity for x!=0. At zero the displayed expression has value zero. For nonzero h put u=surd(h,3), so its original difference quotient is G(u)/u^3=ln(1+u^2)-2/3+2*(u-atan(u))/u^3. To check the cancellation independently on both sides, u-atan(u)=integral from 0 to u of t^2/(1+t^2) dt, whence (u-atan(u))/u^3=integral from 0 to 1 of s^2/(1+u^2*s^2) ds tends to 1/3 as u tends to zero through either sign. Thus the quotient tends to zero. This definite-integral identity is only a proof of a limit; the answer itself is the displayed elementary closed form. Oddness follows term by term. The derivative is nonnegative and vanishes only at zero, so the primitive is strictly increasing, with no branch split required."
+    },
+    {
+      "id": "PC9-I2",
+      "type": "integral",
+      "input": "simplify(integrate(exp(x)*ln(1+exp(x))/(1+exp(x))^2,x))",
+      "conditions": [
+        "x is any finite real number; exp is the real exponential and ln is the real logarithm.",
+        "An explicit exact antiderivative differentiable on the whole real axis is required, up to one additive constant.",
+        "The logarithm argument and rational denominator are strictly positive everywhere. No finite endpoint, join, or excluded point occurs."
+      ],
+      "expected": {
+        "expression": "-(ln(1+exp(x))+1)/(1+exp(x))",
+        "properties": [
+          "Return an explicit evaluable closed-form antiderivative without unevaluated integrate; equivalent exact forms and an additive constant are acceptable.",
+          "The derivative equals the given integrand for every real x and is strictly positive.",
+          "For the displayed normalization the primitive lies strictly between -1 and zero. It tends to -1 as x tends to negative infinity and to zero as x tends to positive infinity.",
+          "At x=0 the displayed value is -(ln(2)+1)/2 and the derivative is ln(2)/4.",
+          "No complex logarithm correction, extra domain exclusion, or unevaluated integral is acceptable."
+        ]
+      },
+      "reason": "Put t=1+exp(x)>1, with dt=exp(x) dx. The transformed integral is integral ln(t)/t^2 dt. Integration by parts with v=-1/t gives -(ln(t)+1)/t. Independently its derivative with respect to t is ln(t)/t^2, and the chain rule supplies precisely exp(x)*ln(1+exp(x))/(1+exp(x))^2 for every real x. Since t>1 this derivative is positive. As x tends to negative infinity, t tends to one from above and the primitive tends to -1; as x tends to positive infinity, t tends to infinity and (ln(t)+1)/t tends to zero. Strict increase and these two limits prove the stated range. Substituting exp(0)=1 gives the exact value and derivative at zero. Positivity of t proves that every step uses the ordinary real logarithm without a branch correction."
+    },
+    {
+      "id": "PC9-D1",
+      "type": "derivative",
+      "input": "simplify(diff(surd(x^3*(x-1)^4,3)/(1+x^2)+sin(x),x))",
+      "conditions": [
+        "x is any finite real number. surd(t,3) means the unique real cube root of real t, not a principal complex fractional power.",
+        "The original function is defined and continuous on the entire real axis, including both radicand zeros x=0 and x=1; 1+x^2 is strictly positive.",
+        "The derivative is required at every real point, including both root zeros. The rational factor and smooth sine summand are part of the original function."
+      ],
+      "expected": {
+        "expression": "(1-x^2)*surd(x-1,3)^4/(1+x^2)^2+4*x*surd(x-1,3)/(3*(1+x^2))+cos(x)",
+        "properties": [
+          "Return an explicit exact derivative defined throughout the real axis; equivalent evaluable forms are acceptable.",
+          "The global real-root factorization is surd(x^3*(x-1)^4,3)=x*surd(x-1,3)^4. It remains valid for x<0, where the original radicand is negative.",
+          "The derivative is 2 at zero and cos(1) at one. Prove both values separately using the original function's two-sided difference quotient, without substituting into a singular radicand chain factor.",
+          "The derivative is continuous on the whole real axis. No division by a root that vanishes at zero or one may remain in a formula claiming to cover those points.",
+          "Neither a root zero nor cancellation of a root contribution permits dropping the rational factor or the derivative of sin(x)."
+        ]
+      },
+      "reason": "Let v=surd(x-1,3). Cubing x*v^4 gives x^3*(x-1)^4, so uniqueness of the real cube root proves that the original function equals f(x)=x*v^4/(1+x^2)+sin(x) at every real x. For x!=1, differentiation gives d(v^4)/dx=4*v/3, and d[x/(1+x^2)]/dx=(1-x^2)/(1+x^2)^2, yielding the displayed formula. Independent checks at the radicand zeros avoid any original-root chain denominator. At zero f(0)=0, and [f(h)-f(0)]/h=surd(h-1,3)^4/(1+h^2)+sin(h)/h tends to 1+1=2 from either side. At one f(1)=sin(1). For nonzero h put w=surd(h,3); since w^4/h=w, the original quotient is (1+h)*w/(1+(1+h)^2)+(sin(1+h)-sin(1))/h. It tends to cos(1) from both sides. The displayed formula takes exactly these values, and all its terms are continuous everywhere because their only denominators are positive multiples of powers of 1+x^2. Thus the entire real axis is the derivative domain."
+    },
+    {
+      "id": "PC9-D2",
+      "type": "derivative",
+      "input": "simplify(diff(piecewise(x<0,exp(x)-1,x<=1,ln(1+x),ln(2)+exp((x-1)/2)),x))",
+      "conditions": [
+        "x is any finite real number. piecewise selects the first true condition and otherwise its final default; inactive expressions are not evaluated.",
+        "The original function is defined on the entire real axis, with f(0)=0 and f(1)=ln(2). The logarithmic branch is evaluated only for 0<=x<=1.",
+        "The original function is continuous and differentiable at zero, but has a jump at one. Its derivative domain is exactly the real axis with one removed."
+      ],
+      "expected": {
+        "expression": "piecewise(x<0,exp(x),x<1,1/(1+x),x==1,undef,exp((x-1)/2)/2)",
+        "properties": [
+          "Return an explicit exact derivative at every real x!=1, including value 1 at zero; an equivalent formula with an explicit exclusion of one is acceptable.",
+          "Prove the derivative at zero using the original two-sided difference quotient, with separate exponential and logarithmic one-sided expressions.",
+          "At one the left difference quotient tends to 1/2 and the right difference quotient tends to positive infinity. The original function is defined there but has no finite derivative.",
+          "The two neighboring branch derivatives both tend to 1/2 at one. This agreement cannot establish differentiability because the right branch approaches ln(2)+1, whereas f(1)=ln(2).",
+          "The inactive logarithm creates no original-domain hole for x<=-1; for example the derivative at -1 is exp(-1)."
+        ]
+      },
+      "reason": "On the open branch intervals the derivatives are exp(x), 1/(1+x), and exp((x-1)/2)/2. At zero the selected value is zero. For h<0 the original quotient is (exp(h)-1)/h, tending to one; for small h>0 it is ln(1+h)/h, also tending to one. Thus the original two-sided derivative exists and equals one. At one the selected value is ln(2). For small h<0 the original quotient is [ln(2+h)-ln(2)]/h=ln(1+h/2)/h, tending to 1/2. For h>0 it is exp(h/2)/h, tending to positive infinity because its numerator tends to one. Therefore the function is not differentiable at one; its right limit is ln(2)+1, explicitly verifying the jump. In contrast the left and right branch derivatives tend to 1/2, illustrating why branch slopes alone are insufficient. Each remaining point is inside a smooth selected branch, and the logarithm's selected argument is at least one, so there are no additional exclusions."
+    },
+    {
+      "id": "PC9-S1",
+      "type": "simplify",
+      "input": "simplify(ln(sqrt((x+i)/(x-i)))-(ln(x+i)-ln(x-i))/2)",
+      "conditions": [
+        "x is any finite real number and i^2=-1; the exact value x=0 is included.",
+        "ln is the principal complex logarithm with argument in (-pi,pi]. sqrt is the principal complex square root with the same argument convention, so sqrt(-1)=i and ln(i)=i*pi/2.",
+        "The original denominator never vanishes, and all logarithm arguments are nonzero. Values on the negative real branch cut must use the stated exact convention, independent of floating-point signed zeros."
+      ],
+      "expected": {
+        "expression": "piecewise(x<0,-i*pi,0)",
+        "properties": [
+          "Return an exact expression equivalent for every real x; equivalent evaluable forms, including exact retention of the compact original expression, are acceptable.",
+          "The result is -i*pi for x<0 and zero for x>=0. It is defined at every real point and has a jump at zero.",
+          "At zero the quotient inside sqrt is exactly -1. Evaluate its root and all three logarithms independently to establish the exact value zero.",
+          "For x!=0, establish the branch correction using principal arguments on each half-axis; an unrestricted logarithm quotient rule or unrestricted square-root quotient rule is not a proof.",
+          "The result is purely imaginary; no real logarithmic remainder or new pole is allowed."
+        ]
+      },
+      "reason": "For real x let alpha=Arg(x+i), so 0<alpha<pi. Since x-i is its conjugate and neither number lies on the real cut, Arg(x-i)=-alpha, and both have modulus sqrt(1+x^2). Thus (ln(x+i)-ln(x-i))/2=i*alpha. The quotient (x+i)/(x-i) has modulus one and phase 2*alpha. For x>0, 0<alpha<pi/2, so its principal argument is 2*alpha and the principal square root has argument alpha. Its logarithm is therefore i*alpha, giving zero. For x<0, pi/2<alpha<pi, so the quotient's principal argument is 2*alpha-2*pi; its principal square root has argument alpha-pi in (-pi/2,0), and its logarithm is i*(alpha-pi), giving -i*pi. At x=0 the quotient is -1, its principal root is i, and the first logarithm is i*pi/2. Separately ln(i)=i*pi/2 and ln(-i)=-i*pi/2, so the half-difference is also i*pi/2 and the full value is zero. These computations establish the cut value independently of either one-sided formula. Nonvanishing of x+i and x-i proves that all original expressions are defined for every allowed input."
+    },
+    {
+      "id": "PC9-R1",
+      "type": "resource",
+      "input": "simplify(sqrt(((1+(x-y)^2)^12-(1+(x+y)^2)^12)^2+4*(1+(x-y)^2)^12*(1+(x+y)^2)^12)/((1+(x-y)^2)^12+(1+(x+y)^2)^12))",
+      "conditions": [
+        "x and y are arbitrary finite real numbers; all integer powers and arithmetic have their exact real meanings, and sqrt is the nonnegative real square root.",
+        "Use the existing finite CG50 stack, heap, and simplification budgets without increasing them.",
+        "This is bounded simplification of a compact positive-root rational expression. Full expansion of the degree-48 multivariate radicand is unnecessary; exact retention of the compact original expression is acceptable."
+      ],
+      "expected": {
+        "expression": "1",
+        "properties": [
+          "The exact value is one for all real x,y. Return one, an equivalent exact compact expression, or retain the original expression exactly.",
+          "The original denominator is at least two and the radicand is at least four. The expression is defined, real, and finite for every finite allowed pair.",
+          "There are no special exclusions on x=y, x=-y, either coordinate axis, or at the origin.",
+          "Establish the identity algebraically and justify the positive square-root sign; point checks and symmetry checks alone are insufficient.",
+          "No crash, stack overflow, runaway expansion, undef, new pole, or increase to existing resource limits is acceptable.",
+          "Compact exact retention is a valid outcome here; it does not relax the closed-form requirements of either integral."
+        ]
+      },
+      "reason": "Set A=(1+(x-y)^2)^12 and B=(1+(x+y)^2)^12. Both are at least one for every real x,y. The exact identity (A-B)^2+4*A*B=(A+B)^2 proves that the radicand is a perfect square without expanding either powered polynomial. Because A+B>=2>0, the specified nonnegative real square root equals A+B, not its negative, and division by the original nonzero denominator gives one. The same bounds give radicand>=4 and establish the domain globally, including points where A=B. Each powered polynomial has degree 24, so the written radicand has degree 48, but this constant-size algebraic proof does not require its multivariate expansion. Exact retention also preserves the required value and domain."
+    }
+  ]
+}

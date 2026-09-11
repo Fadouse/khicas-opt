@@ -86,29 +86,28 @@ namespace giac {
   __attribute__((noinline,optimize("Os")))
 #endif
   static bool derive_real_composition(const symbolic &s,const identificateur &i,gen &result,GIAC_CONTEXT){
-    // Pull exact odd powers out of a real odd root before differentiation.
-    // This removes only syntactically proved factors, never general factor().
+    // Split a bounded real odd root into real root powers. Keep a
+    // nonmultiple exponent together: root(v)^4 differentiates regularly at
+    // v=0, whereas v*root(v) first creates a spurious zero denominator.
     if((s.sommet==at_surd || s.sommet==at_NTHROOT) && s.feuille.type==_VECT && s.feuille._VECTptr->size()==2){
       bool nth=s.sommet==at_NTHROOT;gen u=s.feuille[nth?1:0],n=s.feuille[nth?0:1];
       if(n.type==_INT_ && n.val>=3 && n.val<=9 && n.val%2 && taille(u,65)<=64 &&
          !has_i(u) && !complex_mode(contextptr) && !complex_variables(contextptr) &&
-         u.is_symb_of_sommet(at_prod) && u._SYMBptr->feuille.type==_VECT){
+         (u.is_symb_of_sommet(at_prod) || u.is_symb_of_sommet(at_pow))){
         vecteur variables=lvar(u);
         if(variables.size()==1 && variables[0]==gen(i)){
-          const vecteur &v=*u._SYMBptr->feuille._VECTptr;gen outside=1,inside=1;
-          for(unsigned j=0;j<v.size();++j){
-            const gen &f=v[j];
-            if(f.is_symb_of_sommet(at_pow) && f._SYMBptr->feuille.type==_VECT && f._SYMBptr->feuille._VECTptr->size()==2 &&
-               f._SYMBptr->feuille[1].type==_INT_ && f._SYMBptr->feuille[1].val>=n.val && f._SYMBptr->feuille[1].val<=32){
-              int m=f._SYMBptr->feuille[1].val;gen base=f._SYMBptr->feuille[0];
-              outside=outside*pow(base,m/n.val);inside=inside*pow(base,m%n.val);
+          vecteur factors=u.is_symb_of_sommet(at_prod)?*u._SYMBptr->feuille._VECTptr:makevecteur(u);
+          gen product=1;bool changed=false;
+          for(unsigned j=0;j<factors.size();++j){
+            gen base=factors[j];int m=1;
+            if(base.is_symb_of_sommet(at_pow) && base._SYMBptr->feuille.type==_VECT && base._SYMBptr->feuille._VECTptr->size()==2 &&
+               base._SYMBptr->feuille[1].type==_INT_ && base._SYMBptr->feuille[1].val>0 && base._SYMBptr->feuille[1].val<=32){
+              m=base._SYMBptr->feuille[1].val;base=gen(base._SYMBptr->feuille[0]);
             }
-            else inside=inside*f;
+            changed=changed || m>=n.val;
+            product=product*(m%n.val?pow(symbolic(at_NTHROOT,makesequence(n,base)),m):pow(base,m/n.val));
           }
-          if(!is_one(outside)){
-            gen root=is_one(inside)?gen(1):gen(symbolic(at_NTHROOT,makesequence(n,inside)));
-            result=derive(outside*root,i,contextptr);return true;
-          }
+          if(changed){result=derive(product,i,contextptr);return true;}
         }
       }
     }
@@ -201,8 +200,8 @@ namespace giac {
       if(!derive_piecewise_regular(f,x,point,a,budget,depth+1,contextptr))return false;
       if(op==at_neg){value=-a;return true;}
       if(op==at_inv && equation_rational(a) && !is_zero(a)){value=gen(1)/a;return true;}
-      if((op==at_sqrt || op==at_ln) && equation_rational(a) && is_strictly_positive(a,contextptr)){
-        value=op==at_sqrt?sqrt(a,contextptr):ln(a,contextptr);return true;
+      if(equation_rational(a) && (op==at_exp || ((op==at_sqrt || op==at_ln) && is_strictly_positive(a,contextptr)))){
+        value=op==at_sqrt?sqrt(a,contextptr):(op==at_ln?ln(a,contextptr):exp(a,contextptr));return true;
       }
       return false;
     }
@@ -326,7 +325,8 @@ namespace giac {
          !derive_piecewise_regular(original[2*j+2<original.size()-1?2*j+3:original.size()-1],x,points[j],right,budget,0,contextptr) ||
          !derive_piecewise_regular(derivatives[2*j+1],x,points[j],dl,budget,0,contextptr) ||
          !derive_piecewise_regular(derivatives[2*j+2<derivatives.size()-1?2*j+3:derivatives.size()-1],x,points[j],dr,budget,0,contextptr))continue;
-      if(equation_rational(left) && equation_rational(right) && equation_rational(dl) && equation_rational(dr) && (left!=right || dl!=dr))
+      gen value_difference=ratnormal(left-right,contextptr),slope_difference=ratnormal(dl-dr,contextptr);
+      if(equation_rational(value_difference) && equation_rational(slope_difference) && (!is_zero(value_difference) || !is_zero(slope_difference)))
         result=symbolic(at_when,makesequence(symb_equal(x,points[j]),undef,result));
     }
     return result;

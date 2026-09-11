@@ -1,0 +1,24 @@
+{
+  "cases": [
+    {
+      "id": "PC9-I1",
+      "input": "simplify(integrate(ln(1+surd(x,3)^2),x))",
+      "expected": "x*ln(1+surd(x,3)^2)-2*x/3+2*surd(x,3)-2*atan(surd(x,3))",
+      "conditions": [
+        "x is any finite real number, including zero. surd(t,3) is the unique real cube root; ln is the real logarithm and atan is the principal real inverse tangent.",
+        "The original integrand is defined and continuous on the whole real axis. An explicit exact antiderivative differentiable everywhere is required, up to one global additive constant.",
+        "The cube-root substitution has a singular derivative at zero. This does not exclude zero from either the integrand's domain or the required primitive's differentiability domain."
+      ]
+    },
+    {
+      "id": "PC9-I2",
+      "input": "simplify(integrate(exp(x)*ln(1+exp(x))/(1+exp(x))^2,x))",
+      "expected": "-(ln(1+exp(x))+1)/(1+exp(x))",
+      "conditions": [
+        "x is any finite real number; exp is the real exponential and ln is the real logarithm.",
+        "An explicit exact antiderivative differentiable on the whole real axis is required, up to one additive constant.",
+        "The logarithm argument and rational denominator are strictly positive everywhere. No finite endpoint, join, or excluded point occurs."
+      ]
+    }
+  ]
+}

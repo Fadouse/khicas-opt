@@ -1241,10 +1241,10 @@ namespace giac {
       return makemod(a,b);
     }
     if (e.type==_CPLX || has_i(e)){
-      // Symbolic logarithms may cross the negative-real cut. The usual
-      // rectangular formula divides by a+|z|, which can vanish there.
+      // A symbolic complex argument may reach the negative-real cut. The
+      // rectangular formula divides by a+|z| and can create a spurious pole.
       // Preserve the principal root until its argument is specialized.
-      if(taille(e,129)<=128 && has_op(e,*at_ln))return symbolic(at_sqrt,e);
+      if(taille(e,129)<=128 && !lidnt(e).empty())return symbolic(at_sqrt,e);
       if (e.type==_CPLX && e.subtype){
 #ifdef _SOFTMATH_H
 	return std::giac_gnuwince_sqrt(gen2complex_d(e));
