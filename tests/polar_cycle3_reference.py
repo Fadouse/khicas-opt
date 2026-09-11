@@ -55,12 +55,14 @@ def verify(case,printed):
         method="Positive-base logarithmic differentiation accounts for both base and exponent; entire real domain and zero at origin."
     elif ident=='PC3-S1':
         expected=s.sqrt(x*x+1)+s.I*s.Abs(x)
-        delta=s.cancel(a-expected)
-        u=s.Symbol('u')
-        numerator=s.fraction(delta.xreplace({s.sqrt(x*x+1):u}))[0]
-        assert s.rem(s.Poly(s.expand(numerator),u),s.Poly(u*u-x*x-1,u)).is_zero
-        assert s.simplify(a.subs(x,0))==1
-        method="Exact radical-field identity plus positive denominator sqrt(x²+1)-x>0. Conjugate principal roots multiply to the positive modulus; sqrt(-x²)=i|x| on both signs."
+        retained=s.sqrt(-x+s.I)*s.sqrt(-x-s.I)+s.I*s.Abs(x)
+        if not equal(a,retained):
+            delta=s.cancel(a-expected)
+            u=s.Symbol('u')
+            numerator=s.fraction(delta.xreplace({s.sqrt(x*x+1):u}))[0]
+            assert s.rem(s.Poly(s.expand(numerator),u),s.Poly(u*u-x*x-1,u)).is_zero
+        assert s.simplify(s.expand_complex(a.subs(x,0)))==1
+        method="Retained conjugate principal roots, or exact radical-field identity with positive denominator sqrt(x²+1)-x>0. Conjugate principal roots multiply to the positive modulus; sqrt(-x²)=i|x| on both signs."
     elif ident=='PC3-R1':
         original=parse(case['input'][9:-1]);assert a==original
         method="Exact structural retention. Twelve recurrence steps with R_n>=1 prove positive denominators, evenness, and 1<=R_12<=1+x²/2."

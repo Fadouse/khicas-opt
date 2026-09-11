@@ -69,3 +69,15 @@ ROM 2,064,136 / 2,065,152 B（余1,016 B），AC2 2,473,692 / 2,559,996 B（余8
 首次仍有错题，因此下一步继续派发全新题集。
 
 [首次](benchmarks/polar-cycle4-first-acceptance-2026a.json) · [修复后](benchmarks/polar-cycle4-fixed-acceptance-2026a.json) · [资源](benchmarks/resources-polar-cycle4-2026a.json) · [测量](benchmarks/polar-cycle4-performance-2026a.json)。
+
+## 第五轮：有理实根复合与复平方根主支
+
+标签 `checkpoint/polar-stability-cycle5-2026a`。新的6题首次4题完整通过。实根有理式直接求导在零点残留0/0；复对数平方根的外层化简也未通过。该轮明确审计了主机依赖差异：旧探针使用主机平方根时在切口返回undef；重新构建未改动的bb93f89、链接其实际平方根实现后，直接形式正确，但外层化简错误返回列表。这两种失败现象分别保留报告，未将主机依赖错误直接归因于SH4。
+
+新增有界规则计算 `root^m/(A+B*root^k)^p` 的导数，在使用链式法则前消掉会导致0/0的根幂。根为仿射变量的3/5/7/9次实根，m不少于根次数，A为非零有理数，并保留原分母零点。复对数平方根保留主值节点，避免矩形式引入可能为零的分母及外层分支展开。新增28项检查覆盖移动零点、分母平方、正负系数与主支上下侧；原42项分段/实根补测也通过。
+
+本轮24项、前4轮136项、旧混合96项、极坐标60项、21项正式回归及7项补充任务通过。主机探针现链接仓库平方根函数，旧共轭根式验收也补充了保留原式的独立主支证明。通过积分清单655条：650精确、5导数采样；本轮5次主机进程中位数最大约33 ms，不是CG50耗时。
+
+ROM余872 B，AC2余84,420 B。复合求导辅助函数位于AC2，大小3,844 B、编译器单帧344 B；主递归求导单帧248 B。单帧数字不是完整调用链峰值。静态RAM与CAS堆不变。首次仍有错题，继续全新题集，尚不进入最终性能代理验收。
+
+[最初探针](benchmarks/polar-cycle5-first-acceptance-2026a.json) · [实际平方根旧版复核](benchmarks/polar-cycle5-baseline-actual-sqrt-acceptance-2026a.json) · [修复后](benchmarks/polar-cycle5-fixed-acceptance-2026a.json) · [变体](benchmarks/polar-cycle5-root-guards-2026a.json) · [资源](benchmarks/resources-polar-cycle5-2026a.json) · [测量](benchmarks/polar-cycle5-performance-2026a.json)。

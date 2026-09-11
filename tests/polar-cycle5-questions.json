@@ -1,0 +1,127 @@
+{
+  "cases": [
+    {
+      "id": "PC5-I1",
+      "type": "integral",
+      "input": "simplify(integrate(surd(x,3)/(1+x),x))",
+      "conditions": [
+        "x is real and x!=-1; x=0 is included. surd(x,3) is the real cube root on both half-lines.",
+        "An explicit differentiable antiderivative is required on each of (-infinity,-1) and (-1,infinity); additive constants may differ between these two intervals.",
+        "ln(abs(...)) is a real logarithm, and atan is the principal real inverse tangent."
+      ],
+      "expected": {
+        "expression": "3*surd(x,3)-ln(abs(1+surd(x,3)))+ln(surd(x,3)^2-surd(x,3)+1)/2-sqrt(3)*atan((2*surd(x,3)-1)/sqrt(3))",
+        "properties": [
+          "Return an explicit exact antiderivative without unevaluated integrate; mathematically equivalent evaluable forms are acceptable.",
+          "Preserve the real cube root for negative x and the real logarithm on each side of x=-1.",
+          "The primitive must be defined and differentiable at x=0 with derivative zero; a singular derivative of an individual cube-root summand is not a singularity of the complete primitive.",
+          "The quadratic logarithm argument is strictly positive for all real cube roots. The original pole x=-1 must remain excluded.",
+          "Safe unevaluated retention does not count as solving this integral."
+        ]
+      },
+      "reason": "Set u=surd(x,3). Away from zero, x=u^3 gives the transformed integrand 3*u^3/(1+u^3)=3-3/(1+u^3). The partial fraction identity 1/(1+u^3)=1/(3*(u+1))+(-u+2)/(3*(u^2-u+1)) integrates to ln(abs(u+1))/3-ln(u^2-u+1)/6+atan((2*u-1)/sqrt(3))/sqrt(3). Multiplying by -3 and adding 3*u yields the displayed primitive. Since u^2-u+1=(u-1/2)^2+3/4, its logarithm is always real and defined. At u=0 the displayed primitive has value sqrt(3)*pi/6. Its difference from this value is 3*u^4/4+O(u^7), obtained by integrating the local expansion 3*u^3/(1+u^3)=3*u^3+O(u^6). Dividing by x=u^3 gives 3*u/4+O(u^4), which tends to zero from both sides. This independently proves differentiability at the root origin. Only u=-1, equivalently x=-1, is a real pole."
+    },
+    {
+      "id": "PC5-I2",
+      "type": "integral",
+      "input": "simplify(integrate(ln(abs(x))/(x*(1+ln(abs(x))^4)),x))",
+      "conditions": [
+        "x is real and nonzero; ln(abs(x)) is the real logarithm on both connected components of this domain.",
+        "An explicit antiderivative is required on (-infinity,0) and (0,infinity), with independently allowed additive constants.",
+        "Both x=-1 and x=1 are included. atan is the principal real inverse tangent."
+      ],
+      "expected": {
+        "expression": "atan(ln(abs(x))^2)/2",
+        "properties": [
+          "Return an explicit exact antiderivative without unevaluated integrate; mathematically equivalent evaluable forms are acceptable.",
+          "The result must differentiate to the integrand for negative as well as positive x; replacing ln(abs(x)) by the principal complex ln(x) globally is invalid.",
+          "The derivative equals zero at x=-1 and x=1, and neither point may acquire a pole or a branch discontinuity.",
+          "The integrand remains undefined at zero even if the primitive has a finite one-sided limit there.",
+          "Safe unevaluated retention does not count as solving this integral."
+        ]
+      },
+      "reason": "For every nonzero real x put t=ln(abs(x)); then dt=dx/x on either half-line. The integral becomes integral(t/(1+t^4),t). The identity d[atan(t^2)/2]/dt=t/(1+t^4) follows directly from the chain rule, so it remains valid at t=0 without assuming that t^2 is an invertible substitution. Composing with t gives the displayed primitive and its derivative t/(x*(1+t^4)). The denominator 1+t^4 is strictly positive, and t=0 corresponds exactly to x=+-1, where the derivative vanishes. At x=0 the original logarithm and division by x are undefined; the limiting primitive value pi/4 does not change that exclusion."
+    },
+    {
+      "id": "PC5-D1",
+      "type": "derivative",
+      "input": "simplify(diff(surd(x,3)^4/(1+surd(x,3)^2),x))",
+      "conditions": [
+        "x is real, including x=0. surd(x,3) denotes the real cube root.",
+        "The original denominator is strictly positive everywhere, and the original function has value zero at x=0."
+      ],
+      "expected": {
+        "expression": "2*surd(x,3)*(2+surd(x,3)^2)/(3*(1+surd(x,3)^2)^2)",
+        "properties": [
+          "Return an explicit exact derivative valid on the entire real axis; equivalent evaluable forms are acceptable.",
+          "The derivative equals zero at x=0 and must be defined there without a residual division by a vanishing cube root.",
+          "Use the real cube root on negative inputs. The derivative is negative for x<0 and positive for x>0.",
+          "Establish the derivative at zero from the original function's two-sided difference quotient; the singular chain derivative of surd alone does not decide this point."
+        ]
+      },
+      "reason": "For x!=0 write u=surd(x,3), so du/dx=1/(3*u^2). Differentiating u^4/(1+u^2) with respect to u gives (4*u^3+2*u^5)/(1+u^2)^2. Multiplication by du/dx and cancellation at nonzero u gives 2*u*(2+u^2)/(3*(1+u^2)^2). To establish the missing point independently, for h!=0 put v=surd(h,3). Since the original function at zero is zero, its difference quotient is [v^4/(1+v^2)]/v^3=v/(1+v^2), tending to zero from both sides. Thus the displayed expression also gives the actual derivative at zero. Its denominator is positive everywhere, and its sign away from zero is the sign of u."
+    },
+    {
+      "id": "PC5-D2",
+      "type": "derivative",
+      "input": "simplify(diff(piecewise(x<0,ln(1-x),x<=1,-x/(1+x),-1/2-(x-1)/4+(x-1)^2),x))",
+      "conditions": [
+        "x is real; both joining points x=0 and x=1 are included.",
+        "piecewise selects the first true condition and otherwise the final default branch; inactive branch expressions are not evaluated.",
+        "ln is real on its selected branch x<0, where 1-x>1. The rational branch is selected only on 0<=x<=1, where 1+x is nonzero."
+      ],
+      "expected": {
+        "expression": "piecewise(x<0,-1/(1-x),x<=1,-1/(1+x)^2,-1/4+2*(x-1))",
+        "properties": [
+          "Return an explicit exact derivative at every real x, including value -1 at zero and -1/4 at one; equivalent evaluable forms are acceptable.",
+          "Independently verify both joining points using the original function's two-sided difference quotients.",
+          "Do not introduce singularities from inactive branches: x=-1 selects the logarithmic branch, and x=1 selects the rational branch.",
+          "The original function and its derivative are defined for x>1 even though the inactive real logarithm ln(1-x) is not."
+        ]
+      },
+      "reason": "Differentiation inside the three open regions gives -1/(1-x), -1/(1+x)^2, and -1/4+2*(x-1). At zero the original value is zero. For h<0 the difference quotient is ln(1-h)/h, tending to -1; for h>0 sufficiently small it is -1/(1+h), also tending to -1. At one the original value is -1/2. For h<0 sufficiently small, [-(1+h)/(2+h)+1/2]/h=-1/(2*(2+h)), tending to -1/4. For h>0 the quotient is -1/4+h, with the same limit. Both joining points are therefore differentiable; there are no real nondifferentiable points to exclude. The denominators and logarithm are defined throughout their selected branches, so inactive singularities impose no extra domain restriction."
+    },
+    {
+      "id": "PC5-S1",
+      "type": "simplify",
+      "input": "simplify(sqrt((ln(x)+i*pi)^2)-ln(x)-i*pi)",
+      "conditions": [
+        "x is real and strictly positive; x=1 is included, and ln(x) is real.",
+        "sqrt is the principal complex square root, whose argument is half the principal input argument in (-pi,pi]; in particular sqrt(-pi^2)=i*pi.",
+        "No continuity across the square-root branch cut is assumed."
+      ],
+      "expected": {
+        "expression": "piecewise(x>=1,0,-2*ln(x)-2*i*pi)",
+        "properties": [
+          "Return an exact expression equivalent for every allowed x. Strictly mathematically equivalent evaluable forms, including exact retention of the original expression, are acceptable.",
+          "For 0<x<1 the result is -2*ln(x)-2*i*pi; for x>=1 it is zero.",
+          "At x=1 the exact value is zero, while the limit from below is -2*i*pi. Preserve the principal-root boundary value and this jump.",
+          "The identity sqrt(w^2)=w cannot be applied without a complex branch condition. The logarithm's exclusion of x<=0 must remain in force."
+        ]
+      },
+      "reason": "Let a=ln(x) and w=a+i*pi. Then w^2=a^2-pi^2+2*i*pi*a. If a>0, w has positive real part and is the principal square root of w^2, so subtracting w gives zero. If a<0, -w has positive real part and negative imaginary part, making -w the principal root; subtracting w gives -2*a-2*i*pi. At a=0, w^2=-pi^2 lies on the cut and its principal root is +i*pi=w, so the value is zero. Since a has the sign of x-1 for positive x, this gives exactly the stated piecewise expression. As x tends to one from below, a tends to zero through negative values and the result tends to -2*i*pi, which differs from the defined cut value."
+    },
+    {
+      "id": "PC5-R1",
+      "type": "resource",
+      "input": "simplify(1/sqrt(1+((1+(x-y)^2+(y-z)^2)^5*(1+(x+y)^2+(y+z)^2)^4)^6))",
+      "conditions": [
+        "x, y, and z are arbitrary finite real numbers; sqrt is the nonnegative real square root.",
+        "Use the existing finite CG50 stack, heap, and simplification budgets; do not increase them to pass this case.",
+        "This requests bounded simplification of a compact expression containing a product of powered sums of squares of linear forms. Multivariate polynomial expansion is not requested."
+      ],
+      "expected": {
+        "properties": [
+          "Exact preservation of the original compact expression is an accepted result; any rewrite must be mathematically equivalent for all real x, y, z.",
+          "The result is real, finite, and strictly positive, with value at most 1/sqrt(2); equality holds exactly at x=y=z=0.",
+          "The result is invariant under simultaneous sign reversal (x,y,z)->(-x,-y,-z) and under reversal (x,y,z)->(z,y,x). Independent coordinate sign changes are not asserted.",
+          "At x=y=z=t the result is exactly 1/sqrt(1+(1+8*t^2)^24), for every real t.",
+          "No crash, stack overflow, runaway expansion, undef, or newly introduced real pole is acceptable.",
+          "Bounds, symmetries, and the diagonal restriction are necessary checks, not sufficient proofs of general equivalence; preserve the exact input or justify the rewrite mathematically.",
+          "Safe retention counts as success for this resource request only, not for either integral."
+        ]
+      },
+      "reason": "Set A=1+(x-y)^2+(y-z)^2 and C=1+(x+y)^2+(y+z)^2. Both are at least one, so P=A^5*C^4>=1 and the radicand 1+P^6>=2 is positive and finite for finite real inputs. Hence its reciprocal square root lies in (0,1/sqrt(2)]. Equality forces A=C=1: the first equation gives x=y=z, and the second gives x=-y and y=-z, whose simultaneous solution is the origin. Simultaneous sign reversal preserves every squared linear form, while reversing x and z exchanges the two squares within each base, proving the stated symmetries. On the diagonal x=y=z=t, A=1 and C=1+8*t^2, so P^6=(1+8*t^2)^24. These conclusions require no distribution of the powers. Full expansion would create a polynomial of degree 108 with mixed-variable terms from two different families of linear forms; the compact product representation avoids that unnecessary allocation."
+    }
+  ]
+}

@@ -5,6 +5,9 @@ from mixed_round2_reference import canonical_dilog
 
 def verify(case,printed):
     ident=case['id']
+    if ident.startswith('PC5-'):
+        from polar_cycle5_reference import verify as next_cycle
+        return next_cycle(case,printed)
     if ident.startswith('PC4-'):
         from polar_cycle4_reference import verify as next_cycle
         return next_cycle(case,printed)

@@ -2438,6 +2438,7 @@ namespace giac {
     // atoms separate; squares in a proved half-plane have a short exact
     // correction, including the negative-real cut endpoint.
     if(taille(e_orig,129)<=128 && contains(e_orig,*at_ln)){
+      if(contains(e_orig,*at_sqrt) && has_i(e_orig))return e_orig;
       vecteur logs=lop(e_orig,at_ln),from,to;bool complex_log=false;
       for(unsigned j=0;j<logs.size();++j){
         const gen &argument=logs[j]._SYMBptr->feuille;

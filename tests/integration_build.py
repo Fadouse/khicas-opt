@@ -66,9 +66,10 @@ def derivative_source(ref='current'):
         for sig in ('  gen _when(', '  gen _piecewise('):
             out+=function(source(ref,'zprog.cc'),sig)
     out+='extern const unary_function_ptr * const at_Li2;\n'
-    out+=function(source(ref,'kusual.cc'),'  gen _abs(')
-    out+='gen host_symb_derive(const gen &);\ngen host_symb_derive(const gen &,const gen &);\ngen host_symb_derive(const gen &,const gen &,const gen &);\n'
     out+='gen symb_prog3(const gen &,const gen &,const gen &);\n'
+    out+=function(source(ref,'kusual.cc'),'  gen _abs(')
+    out+=function(source(ref,'kusual.cc'),'  gen sqrt(const gen & e,GIAC_CONTEXT)')
+    out+='gen host_symb_derive(const gen &);\ngen host_symb_derive(const gen &,const gen &);\ngen host_symb_derive(const gen &,const gen &,const gen &);\n'
     for sig in ('   gen eval_before_diff(', '  bool depend(', '  static int count_noncst(', '  static bool derive_real_composition(', '  static gen derive_SYMB(',
                 '  static gen derive_VECT(', '  gen derive(const gen & e,const identificateur & i,GIAC_CONTEXT)',
                 '  static gen _VECTderive(', '  static gen derivesymb(',

@@ -37,6 +37,7 @@ for c in cases:
       assert r.returncode==0 and r.stdout.strip()=='0',(point,r.stdout,r.stderr)
      row['actual_endpoint_substitution']={str(point):0 for point in points}
     values={'PC4-I2':{2:'0'},'PC4-D1':{0:'0',1:'1',-1:'-1'},'PC4-D2':{-1:'-1',1:'2',2:'2'},'PC4-S1':{0:'2*i*pi'}}.get(c['id'],{})
+    values.update({'PC5-I1':{0:'sqrt(3)*pi/6'},'PC5-I2':{-1:'-pi/4',1:'-pi/4'},'PC5-D1':{0:'0'},'PC5-D2':{-1:'-1/2',0:'-1',1:'-1/4',2:'7/4'},'PC5-S1':{1:'0'}}.get(c['id'],{}))
     if values:
      from mixed_reference import parse,equal
      for point,expected in values.items():

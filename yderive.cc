@@ -86,6 +86,38 @@ namespace giac {
   __attribute__((noinline,optimize("Os")))
 #endif
   static bool derive_real_composition(const symbolic &s,const identificateur &i,gen &result,GIAC_CONTEXT){
+    if(s.sommet==at_prod && taille(s.feuille,97)<=96 &&
+       (has_op(s.feuille,*at_surd) || has_op(s.feuille,*at_NTHROOT))){
+      gen f(s),coefficient=equation_numeric_factor(f);
+      if(f.is_symb_of_sommet(at_prod) && f._SYMBptr->feuille.type==_VECT && f._SYMBptr->feuille._VECTptr->size()==2){
+        const vecteur &v=*f._SYMBptr->feuille._VECTptr;
+        gen numerator=v[0],den=v[1],p=1;
+        if(numerator.is_symb_of_sommet(at_inv))std::swap(numerator,den);
+        if(den.is_symb_of_sommet(at_inv)){
+          den=gen(den._SYMBptr->feuille);
+          if(den.is_symb_of_sommet(at_pow) && den._SYMBptr->feuille.type==_VECT && den._SYMBptr->feuille._VECTptr->size()==2 && den._SYMBptr->feuille[1].type==_INT_ && den._SYMBptr->feuille[1].val>0){p=den._SYMBptr->feuille[1];den=gen(den._SYMBptr->feuille[0]);}
+        }
+        else if(den.is_symb_of_sommet(at_pow) && den._SYMBptr->feuille.type==_VECT && den._SYMBptr->feuille._VECTptr->size()==2 && den._SYMBptr->feuille[1].type==_INT_ && den._SYMBptr->feuille[1].val<0){p=-den._SYMBptr->feuille[1];den=gen(den._SYMBptr->feuille[0]);}
+        else return false;
+        if(numerator.is_symb_of_sommet(at_pow) && numerator._SYMBptr->feuille.type==_VECT && numerator._SYMBptr->feuille._VECTptr->size()==2 && p.type==_INT_ && p.val<=8){
+          gen root=numerator._SYMBptr->feuille[0],m=numerator._SYMBptr->feuille[1];
+          if((root.is_symb_of_sommet(at_surd) || root.is_symb_of_sommet(at_NTHROOT)) && root._SYMBptr->feuille.type==_VECT && root._SYMBptr->feuille._VECTptr->size()==2 && m.type==_INT_ && m.val<=32){
+            const gen &rf=root._SYMBptr->feuille;bool nth=root.is_symb_of_sommet(at_NTHROOT);
+            gen u=rf[nth?1:0],n=rf[nth?0:1],a,b;
+            if(n.type==_INT_ && n.val>=3 && n.val<=9 && n.val%2 && m.val>=n.val &&
+               is_linear_wrt(u,gen(i),a,b,contextptr) && equation_rational(a) && equation_rational(b) && !is_zero(a)){
+              for(int k=1;k<=8;++k){
+                gen power=pow(root,k),A,B;
+                if(!is_linear_wrt(den,power,B,A,contextptr) || !equation_rational(A) || !equation_rational(B) || is_zero(A))continue;
+                // u_root^m/(A+B*u_root^k)^p: cancel u_root^(n-1)
+                // analytically before the quotient rule creates 0/0.
+                result=coefficient*a*pow(root,m-n,contextptr)*(m*A+(m-gen(k)*p)*B*power)/(n*pow(den,p+1,contextptr));return true;
+              }
+            }
+          }
+        }
+      }
+    }
     if((s.sommet==at_acos || s.sommet==at_asin) && angle_radian(contextptr) &&
        taille(s.feuille,65)<=64 && is_zero(im(s.feuille,contextptr))){
       vecteur powers=lop(s.feuille,at_pow);
@@ -190,6 +222,7 @@ namespace giac {
       return res;
     }
     if (s.sommet==at_prod){
+      gen composed;if(derive_real_composition(s,i,composed,contextptr))return composed;
       bool do_step=step_infolevel(contextptr)>1 && count_noncst(s.feuille,i)>1;
       if (s.feuille.type==_VECT && s.feuille._VECTptr->size()==2 && s.feuille._VECTptr->back().is_symb_of_sommet(at_inv) && !is_constant_wrt(s.feuille._VECTptr->back()._SYMBptr->feuille,i,contextptr)){
 	gen u=s.feuille._VECTptr->front(),v=s.feuille._VECTptr->back()._SYMBptr->feuille;
