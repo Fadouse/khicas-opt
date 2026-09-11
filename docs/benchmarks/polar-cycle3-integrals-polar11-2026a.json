@@ -1,0 +1,210 @@
+{
+  "source_sha256": {
+    "yintg.cc": "1f2dbf27fbc725ed08af29bfa12d9380e6db16e1819a4ae1b95686d805c63757",
+    "zintgab.cc": "3b6fa78aba4d53b1a11479c33bacb4c85e3d6091389ef3073ec60085a7ae9448",
+    "ksubst.cc": "f3b1234d0ecc8bba6a68ecfff82ac5707f76a9c5fbd4f37594e2f59b9c69dbfe",
+    "yderive.cc": "ee4e0cd8de85abfeaef1473cbea75255d17f52c62947254444f6257abbe11e31",
+    "dilogarithm.h": "ca822ef4c094a4ed1f4aecf7219011668735d86d259c51ec6304515f8fa84d7a",
+    "kconvert.cc": "eed558eb2f8ff62e0cf1e94fdbf8497954a35577e283a8d07283350e65b76003",
+    "equation_normalize.h": "4bfb644f0e18bb36e280ce8886c8ac12695c9aeeaef187ea3e5f967cd1642e37",
+    "kusual.cc": "88020df204d4e478fed95d42aa5d79cf93768a4d7143b1aee5301d1f8cd8a865",
+    "zprog.cc": "513111030cf5233496da8c3efff53df9391f12d185254f314608600e13e5639e",
+    "conditional_eval.h": "f602bbce59fbcfcadb85a78ca5ba6a79cd56f643067f84d02a02a73a040f40c1"
+  },
+  "corpus_sha256": "f4b08043434cc4a08e53ed6f92e3f98cb54c639641cd01592187fe12d3f6f28a",
+  "provenance": "polar-cycle3-acceptance-polar11-2026a.json",
+  "runs": [
+    {
+      "id": "PC3-I1",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(1/(1+surd(x,3)),x)",
+      "exit": 0,
+      "result": "3*((surd(x,3))^2/2-(surd(x,3))+ln(abs(surd(x,3)+1)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000404296\nMAX_RSS_KB 66248\n",
+      "verification": {
+        "exact": true,
+        "method": "Real-root bijection x=u³, exact derivative on both sides of u=-1, and two-sided difference quotient 1 at u=0; real log magnitude retained."
+      },
+      "pass": true,
+      "actual_endpoint_substitution": {
+        "0": 0
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC3-I1",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(1/(1+surd(x,3)),x)",
+      "exit": 0,
+      "result": "3*((surd(x,3))^2/2-(surd(x,3))+ln(abs(surd(x,3)+1)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000678463\nMAX_RSS_KB 66248\n",
+      "verification": {
+        "exact": true,
+        "method": "Real-root bijection x=u³, exact derivative on both sides of u=-1, and two-sided difference quotient 1 at u=0; real log magnitude retained."
+      },
+      "pass": true,
+      "actual_endpoint_substitution": {
+        "0": 0
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC3-I1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(1/(1+surd(x,3)),x))",
+      "exit": 0,
+      "result": "3*((surd(x,3))^2/2-(surd(x,3))+ln(abs(surd(x,3)+1)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000365086\nMAX_RSS_KB 66248\n",
+      "verification": {
+        "exact": true,
+        "method": "Real-root bijection x=u³, exact derivative on both sides of u=-1, and two-sided difference quotient 1 at u=0; real log magnitude retained."
+      },
+      "pass": true,
+      "actual_endpoint_substitution": {
+        "0": 0
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC3-I1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(1/(1+surd(x,3)),x))",
+      "exit": 0,
+      "result": "3*((surd(x,3))^2/2-(surd(x,3))+ln(abs(surd(x,3)+1)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000368967\nMAX_RSS_KB 66248\n",
+      "verification": {
+        "exact": true,
+        "method": "Real-root bijection x=u³, exact derivative on both sides of u=-1, and two-sided difference quotient 1 at u=0; real log magnitude retained."
+      },
+      "pass": true,
+      "actual_endpoint_substitution": {
+        "0": 0
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC3-I2",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(1/(1+exp(i*x)),x)",
+      "exit": 0,
+      "result": "(-i)*ln(exp(i*x))+i*ln(i*exp(i*x)+i)",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.00134861\nMAX_RSS_KB 66248\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative. log(exp(i*x)) cuts only at excluded odd*pi; i*(1+exp(i*x)) has strictly positive imaginary part 1+cos(x) away from those same poles. No additional jump within any allowed interval."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC3-I2",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(1/(1+exp(i*x)),x)",
+      "exit": 0,
+      "result": "(-i)*ln(exp(i*x))+i*ln(i*exp(i*x)+i)",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.00105649\nMAX_RSS_KB 66248\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative. log(exp(i*x)) cuts only at excluded odd*pi; i*(1+exp(i*x)) has strictly positive imaginary part 1+cos(x) away from those same poles. No additional jump within any allowed interval."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC3-I2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(1/(1+exp(i*x)),x))",
+      "exit": 0,
+      "result": "(-i)*ln(exp(i*x))+i*ln(i*exp(i*x)+i)",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.0010146\nMAX_RSS_KB 66248\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative. log(exp(i*x)) cuts only at excluded odd*pi; i*(1+exp(i*x)) has strictly positive imaginary part 1+cos(x) away from those same poles. No additional jump within any allowed interval."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC3-I2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(1/(1+exp(i*x)),x))",
+      "exit": 0,
+      "result": "(-i)*ln(exp(i*x))+i*ln(i*exp(i*x)+i)",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.0010201\nMAX_RSS_KB 66248\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative. log(exp(i*x)) cuts only at excluded odd*pi; i*(1+exp(i*x)) has strictly positive imaginary part 1+cos(x) away from those same poles. No additional jump within any allowed interval."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC3-I3",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(x^2/(1+x^2)^2,x)",
+      "exit": 0,
+      "result": "-x/(2*(x^2+1))+1/2*atan(x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00121975\nMAX_RSS_KB 66248\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact rational derivative, positive denominator and global real atan."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC3-I3",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(x^2/(1+x^2)^2,x)",
+      "exit": 0,
+      "result": "-x/(2*(x^2+1))+1/2*atan(x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00123005\nMAX_RSS_KB 66248\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact rational derivative, positive denominator and global real atan."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC3-I3",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(x^2/(1+x^2)^2,x))",
+      "exit": 0,
+      "result": "(x^2*atan(x)-x+atan(x))/(2*x^2+2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00142564\nMAX_RSS_KB 66248\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact rational derivative, positive denominator and global real atan."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC3-I3",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(x^2/(1+x^2)^2,x))",
+      "exit": 0,
+      "result": "(x^2*atan(x)-x+atan(x))/(2*x^2+2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00146516\nMAX_RSS_KB 66248\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact rational derivative, positive denominator and global real atan."
+      },
+      "pass": true,
+      "status": "exact"
+    }
+  ]
+}

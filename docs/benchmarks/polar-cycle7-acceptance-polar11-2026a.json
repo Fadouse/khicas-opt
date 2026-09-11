@@ -1,0 +1,473 @@
+{
+  "scope": "Actual repository integration/yderive/FXCG simplify on host dependencies; guarded 64 KiB stack, not SH4/MMU emulation.",
+  "corpus_sha256": "84524cfc0b52ef5d278cfca3f485a1fda77864becba4e37cb57d130f4e837327",
+  "probe_sha256": "81d5fc2aa876c2fa2ce284465e49ad6ce890e5f14876a93f6bf575396c9f2714",
+  "runs": [
+    {
+      "id": "PC7-I1",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate((1-x^2)*ln((sqrt(x^4+3*x^2+1)+x)/(1+x^2))/((1+x^2)*sqrt(x^4+3*x^2+1)),x)",
+      "exit": 0,
+      "result": "ln((sqrt(x^4+3*x^2+1)+x)/(1+x^2))^2/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00116626\nMAX_RSS_KB 66616\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact logarithmic derivative, including stationary points \u00b11 and zero. With A=1+x\u00b2>0, sqrt(A\u00b2+x\u00b2)>|x| proves the log argument positive globally. Its reciprocal at -x proves evenness of the primitive; x/A tends to zero at both infinities."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0"
+      }
+    },
+    {
+      "id": "PC7-I1",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate((1-x^2)*ln((sqrt(x^4+3*x^2+1)+x)/(1+x^2))/((1+x^2)*sqrt(x^4+3*x^2+1)),x)",
+      "exit": 0,
+      "result": "ln((sqrt(x^4+3*x^2+1)+x)/(1+x^2))^2/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00099188\nMAX_RSS_KB 66616\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact logarithmic derivative, including stationary points \u00b11 and zero. With A=1+x\u00b2>0, sqrt(A\u00b2+x\u00b2)>|x| proves the log argument positive globally. Its reciprocal at -x proves evenness of the primitive; x/A tends to zero at both infinities."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0"
+      }
+    },
+    {
+      "id": "PC7-I1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate((1-x^2)*ln((sqrt(x^4+3*x^2+1)+x)/(1+x^2))/((1+x^2)*sqrt(x^4+3*x^2+1)),x))",
+      "exit": 0,
+      "result": "(ln(sqrt(x^4+3*x^2+1)+x)^2-2*ln(sqrt(x^4+3*x^2+1)+x)*ln(x^2+1)+ln(x^2+1)^2)/2",
+      "stderr": "Simplification assuming x near 0\nPARSER_CALLS 1\nSECONDS 0.00231987\nMAX_RSS_KB 66616\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact logarithmic derivative, including stationary points \u00b11 and zero. With A=1+x\u00b2>0, sqrt(A\u00b2+x\u00b2)>|x| proves the log argument positive globally. Its reciprocal at -x proves evenness of the primitive; x/A tends to zero at both infinities."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0"
+      }
+    },
+    {
+      "id": "PC7-I1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate((1-x^2)*ln((sqrt(x^4+3*x^2+1)+x)/(1+x^2))/((1+x^2)*sqrt(x^4+3*x^2+1)),x))",
+      "exit": 0,
+      "result": "(ln(sqrt(x^4+3*x^2+1)+x)^2-2*ln(sqrt(x^4+3*x^2+1)+x)*ln(x^2+1)+ln(x^2+1)^2)/2",
+      "stderr": "Simplification assuming x near 0\nPARSER_CALLS 1\nSECONDS 0.0027987\nMAX_RSS_KB 66616\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact logarithmic derivative, including stationary points \u00b11 and zero. With A=1+x\u00b2>0, sqrt(A\u00b2+x\u00b2)>|x| proves the log argument positive globally. Its reciprocal at -x proves evenness of the primitive; x/A tends to zero at both infinities."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0"
+      }
+    },
+    {
+      "id": "PC7-I2",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(sqrt(x/(1-x))/(1+x),x)",
+      "exit": 0,
+      "result": "2*(atan(sqrt(x/(1-x)))-atan(sqrt(2)*sqrt(x/(1-x)))/sqrt(2))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000491905\nMAX_RSS_KB 66616\n",
+      "verification": {
+        "exact": true,
+        "method": "Positive bijection u=sqrt(x/(1-x)) on (0,1); exact partial fractions and derivative. Both atan arguments are smooth finite inside the interval, with endpoint limits 0 and pi*(1-1/sqrt(2))."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "1/2": "pi/2-sqrt(2)*atan(sqrt(2))"
+      }
+    },
+    {
+      "id": "PC7-I2",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(sqrt(x/(1-x))/(1+x),x)",
+      "exit": 0,
+      "result": "2*(atan(sqrt(x/(1-x)))-atan(sqrt(2)*sqrt(x/(1-x)))/sqrt(2))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000675163\nMAX_RSS_KB 66616\n",
+      "verification": {
+        "exact": true,
+        "method": "Positive bijection u=sqrt(x/(1-x)) on (0,1); exact partial fractions and derivative. Both atan arguments are smooth finite inside the interval, with endpoint limits 0 and pi*(1-1/sqrt(2))."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "1/2": "pi/2-sqrt(2)*atan(sqrt(2))"
+      }
+    },
+    {
+      "id": "PC7-I2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(sqrt(x/(1-x))/(1+x),x))",
+      "exit": 0,
+      "result": "(2*sqrt(2)*atan(sqrt(x/(1-x)))-2*atan(sqrt(2)*sqrt(x/(1-x))))/sqrt(2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000638933\nMAX_RSS_KB 66616\n",
+      "verification": {
+        "exact": true,
+        "method": "Positive bijection u=sqrt(x/(1-x)) on (0,1); exact partial fractions and derivative. Both atan arguments are smooth finite inside the interval, with endpoint limits 0 and pi*(1-1/sqrt(2))."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "1/2": "pi/2-sqrt(2)*atan(sqrt(2))"
+      }
+    },
+    {
+      "id": "PC7-I2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(sqrt(x/(1-x))/(1+x),x))",
+      "exit": 0,
+      "result": "(2*sqrt(2)*atan(sqrt(x/(1-x)))-2*atan(sqrt(2)*sqrt(x/(1-x))))/sqrt(2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000682723\nMAX_RSS_KB 66616\n",
+      "verification": {
+        "exact": true,
+        "method": "Positive bijection u=sqrt(x/(1-x)) on (0,1); exact partial fractions and derivative. Both atan arguments are smooth finite inside the interval, with endpoint limits 0 and pi*(1-1/sqrt(2))."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "1/2": "pi/2-sqrt(2)*atan(sqrt(2))"
+      }
+    },
+    {
+      "id": "PC7-D1",
+      "outer": false,
+      "stack": "normal",
+      "input": "diff(surd((x^2-1)/(1+x^2),3)^4+sin(x),x)",
+      "exit": 0,
+      "result": "4/3*surd((x^2-1)/(1+x^2),3)*(2*x*(1+x^2)-(x^2-1)*2*x)/(1+x^2)^2+cos(x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000354296\nMAX_RSS_KB 66616\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact regular derivative with q\u2032=4x/(1+x\u00b2)\u00b2. At a=\u00b11 the original root-term difference quotient is v*(2a+h)/(1+(a+h)\u00b2), tending to zero on both sides; sine contributes cos(1). Denominator positive globally; negative real roots retained."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "cos(1)",
+        "1": "cos(1)",
+        "0": "1"
+      }
+    },
+    {
+      "id": "PC7-D1",
+      "outer": false,
+      "stack": "64",
+      "input": "diff(surd((x^2-1)/(1+x^2),3)^4+sin(x),x)",
+      "exit": 0,
+      "result": "4/3*surd((x^2-1)/(1+x^2),3)*(2*x*(1+x^2)-(x^2-1)*2*x)/(1+x^2)^2+cos(x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000358156\nMAX_RSS_KB 66616\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact regular derivative with q\u2032=4x/(1+x\u00b2)\u00b2. At a=\u00b11 the original root-term difference quotient is v*(2a+h)/(1+(a+h)\u00b2), tending to zero on both sides; sine contributes cos(1). Denominator positive globally; negative real roots retained."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "cos(1)",
+        "1": "cos(1)",
+        "0": "1"
+      }
+    },
+    {
+      "id": "PC7-D1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(diff(surd((x^2-1)/(1+x^2),3)^4+sin(x),x))",
+      "exit": 0,
+      "result": "4/3*surd((x^2-1)/(1+x^2),3)*(2*x*(1+x^2)-(x^2-1)*2*x)/(1+x^2)^2+cos(x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000357496\nMAX_RSS_KB 66616\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact regular derivative with q\u2032=4x/(1+x\u00b2)\u00b2. At a=\u00b11 the original root-term difference quotient is v*(2a+h)/(1+(a+h)\u00b2), tending to zero on both sides; sine contributes cos(1). Denominator positive globally; negative real roots retained."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "cos(1)",
+        "1": "cos(1)",
+        "0": "1"
+      }
+    },
+    {
+      "id": "PC7-D1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(diff(surd((x^2-1)/(1+x^2),3)^4+sin(x),x))",
+      "exit": 0,
+      "result": "4/3*surd((x^2-1)/(1+x^2),3)*(2*x*(1+x^2)-(x^2-1)*2*x)/(1+x^2)^2+cos(x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00091946\nMAX_RSS_KB 66616\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact regular derivative with q\u2032=4x/(1+x\u00b2)\u00b2. At a=\u00b11 the original root-term difference quotient is v*(2a+h)/(1+(a+h)\u00b2), tending to zero on both sides; sine contributes cos(1). Denominator positive globally; negative real roots retained."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "cos(1)",
+        "1": "cos(1)",
+        "0": "1"
+      }
+    },
+    {
+      "id": "PC7-D2",
+      "outer": false,
+      "stack": "normal",
+      "input": "diff(piecewise(x<0,x^2,x<=1,1-sqrt(1-x^2),1),x)",
+      "exit": 0,
+      "result": "((x=1)? undef : piecewise(0>x,2*x,x<=1,1/2*2*x*(sqrt(1-x^2))^-1,0))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000472205\nMAX_RSS_KB 66616\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact interior derivatives; original difference quotients at zero both tend to zero, at one the left tends to +infinity and right is zero. Explicit lazy undef at one; no inactive-root exclusions."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "-2",
+        "0": "0",
+        "1": "undef",
+        "2": "0"
+      }
+    },
+    {
+      "id": "PC7-D2",
+      "outer": false,
+      "stack": "64",
+      "input": "diff(piecewise(x<0,x^2,x<=1,1-sqrt(1-x^2),1),x)",
+      "exit": 0,
+      "result": "((x=1)? undef : piecewise(0>x,2*x,x<=1,1/2*2*x*(sqrt(1-x^2))^-1,0))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000459235\nMAX_RSS_KB 66616\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact interior derivatives; original difference quotients at zero both tend to zero, at one the left tends to +infinity and right is zero. Explicit lazy undef at one; no inactive-root exclusions."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "-2",
+        "0": "0",
+        "1": "undef",
+        "2": "0"
+      }
+    },
+    {
+      "id": "PC7-D2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(diff(piecewise(x<0,x^2,x<=1,1-sqrt(1-x^2),1),x))",
+      "exit": 0,
+      "result": "((x=1)? undef : piecewise(0>x,2*x,x<=1,1/2*2*x*(sqrt(1-x^2))^-1,0))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000455895\nMAX_RSS_KB 66616\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact interior derivatives; original difference quotients at zero both tend to zero, at one the left tends to +infinity and right is zero. Explicit lazy undef at one; no inactive-root exclusions."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "-2",
+        "0": "0",
+        "1": "undef",
+        "2": "0"
+      }
+    },
+    {
+      "id": "PC7-D2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(diff(piecewise(x<0,x^2,x<=1,1-sqrt(1-x^2),1),x))",
+      "exit": 0,
+      "result": "((x=1)? undef : piecewise(0>x,2*x,x<=1,1/2*2*x*(sqrt(1-x^2))^-1,0))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000463575\nMAX_RSS_KB 66616\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact interior derivatives; original difference quotients at zero both tend to zero, at one the left tends to +infinity and right is zero. Explicit lazy undef at one; no inactive-root exclusions."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "-2",
+        "0": "0",
+        "1": "undef",
+        "2": "0"
+      }
+    },
+    {
+      "id": "PC7-S1",
+      "outer": false,
+      "stack": "normal",
+      "input": "ln(exp(i*x))-i*x",
+      "exit": 0,
+      "result": "ln(exp(i*x))-i*x",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000307437\nMAX_RSS_KB 66616\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact retained principal logarithm. Argument chosen in (-pi,pi] yields phase corrections +2pi,0,-2pi on the three specified intervals; exact values at both cuts and both outer endpoints checked."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-2*pi": "2*i*pi",
+        "-pi": "2*i*pi",
+        "pi": "0",
+        "2*pi": "-2*i*pi"
+      }
+    },
+    {
+      "id": "PC7-S1",
+      "outer": false,
+      "stack": "64",
+      "input": "ln(exp(i*x))-i*x",
+      "exit": 0,
+      "result": "ln(exp(i*x))-i*x",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000295707\nMAX_RSS_KB 66616\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact retained principal logarithm. Argument chosen in (-pi,pi] yields phase corrections +2pi,0,-2pi on the three specified intervals; exact values at both cuts and both outer endpoints checked."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-2*pi": "2*i*pi",
+        "-pi": "2*i*pi",
+        "pi": "0",
+        "2*pi": "-2*i*pi"
+      }
+    },
+    {
+      "id": "PC7-S1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(ln(exp(i*x))-i*x)",
+      "exit": 0,
+      "result": "(-i)*x+ln(exp(i*x))",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000343816\nMAX_RSS_KB 66616\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact retained principal logarithm. Argument chosen in (-pi,pi] yields phase corrections +2pi,0,-2pi on the three specified intervals; exact values at both cuts and both outer endpoints checked."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-2*pi": "2*i*pi",
+        "-pi": "2*i*pi",
+        "pi": "0",
+        "2*pi": "-2*i*pi"
+      }
+    },
+    {
+      "id": "PC7-S1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(ln(exp(i*x))-i*x)",
+      "exit": 0,
+      "result": "(-i)*x+ln(exp(i*x))",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000348476\nMAX_RSS_KB 66616\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact retained principal logarithm. Argument chosen in (-pi,pi] yields phase corrections +2pi,0,-2pi on the three specified intervals; exact values at both cuts and both outer endpoints checked."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-2*pi": "2*i*pi",
+        "-pi": "2*i*pi",
+        "pi": "0",
+        "2*pi": "-2*i*pi"
+      }
+    },
+    {
+      "id": "PC7-R1",
+      "outer": false,
+      "stack": "normal",
+      "input": "ln(((1+(x-y)^2)*(1+(y-z)^2)*(1+(z-x)^2))^6/(1+(x+y+z)^2)^4)",
+      "exit": 0,
+      "result": "ln(((1+(x-y)^2)*(1+(y-z)^2)*(1+(z-x)^2))^6/(1+(x+y+z)^2)^4)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000303727\nMAX_RSS_KB 66616\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact compact syntax retained. Every base 1+square is positive, so the stated real-log sum identity is valid globally. Permutation/sign symmetries and diagonal/opposite restrictions follow without expansion."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC7-R1",
+      "outer": false,
+      "stack": "64",
+      "input": "ln(((1+(x-y)^2)*(1+(y-z)^2)*(1+(z-x)^2))^6/(1+(x+y+z)^2)^4)",
+      "exit": 0,
+      "result": "ln(((1+(x-y)^2)*(1+(y-z)^2)*(1+(z-x)^2))^6/(1+(x+y+z)^2)^4)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000293227\nMAX_RSS_KB 66616\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact compact syntax retained. Every base 1+square is positive, so the stated real-log sum identity is valid globally. Permutation/sign symmetries and diagonal/opposite restrictions follow without expansion."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC7-R1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(ln(((1+(x-y)^2)*(1+(y-z)^2)*(1+(z-x)^2))^6/(1+(x+y+z)^2)^4))",
+      "exit": 0,
+      "result": "ln(((1+(x-y)^2)*(1+(y-z)^2)*(1+(z-x)^2))^6/(1+(x+y+z)^2)^4)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000311237\nMAX_RSS_KB 66616\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact compact syntax retained. Every base 1+square is positive, so the stated real-log sum identity is valid globally. Permutation/sign symmetries and diagonal/opposite restrictions follow without expansion."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC7-R1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(ln(((1+(x-y)^2)*(1+(y-z)^2)*(1+(z-x)^2))^6/(1+(x+y+z)^2)^4))",
+      "exit": 0,
+      "result": "ln(((1+(x-y)^2)*(1+(y-z)^2)*(1+(z-x)^2))^6/(1+(x+y+z)^2)^4)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000336587\nMAX_RSS_KB 66616\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact compact syntax retained. Every base 1+square is positive, so the stated real-log sum identity is valid globally. Permutation/sign symmetries and diagonal/opposite restrictions follow without expansion."
+      },
+      "pass": true
+    }
+  ],
+  "source_sha256": {
+    "yintg.cc": "1f2dbf27fbc725ed08af29bfa12d9380e6db16e1819a4ae1b95686d805c63757",
+    "zintgab.cc": "3b6fa78aba4d53b1a11479c33bacb4c85e3d6091389ef3073ec60085a7ae9448",
+    "ksubst.cc": "f3b1234d0ecc8bba6a68ecfff82ac5707f76a9c5fbd4f37594e2f59b9c69dbfe",
+    "yderive.cc": "ee4e0cd8de85abfeaef1473cbea75255d17f52c62947254444f6257abbe11e31",
+    "dilogarithm.h": "ca822ef4c094a4ed1f4aecf7219011668735d86d259c51ec6304515f8fa84d7a",
+    "kconvert.cc": "eed558eb2f8ff62e0cf1e94fdbf8497954a35577e283a8d07283350e65b76003",
+    "equation_normalize.h": "4bfb644f0e18bb36e280ce8886c8ac12695c9aeeaef187ea3e5f967cd1642e37",
+    "kusual.cc": "88020df204d4e478fed95d42aa5d79cf93768a4d7143b1aee5301d1f8cd8a865",
+    "zprog.cc": "513111030cf5233496da8c3efff53df9391f12d185254f314608600e13e5639e",
+    "conditional_eval.h": "f602bbce59fbcfcadb85a78ca5ba6a79cd56f643067f84d02a02a73a040f40c1"
+  },
+  "cases": [
+    {
+      "id": "PC7-I1",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC7-I2",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC7-D1",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC7-D2",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC7-S1",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC7-R1",
+      "all_four_pass": true
+    }
+  ]
+}

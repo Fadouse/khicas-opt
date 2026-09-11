@@ -3157,6 +3157,20 @@ namespace giac {
         if(f.type==_VECT && f._VECTptr->size()==2 && f[1]==gen(1)/2)return true;
       }
     }
+    // Logarithms of even powers encode excluded zeros. Combining them
+    // with a quotient log can otherwise erase its sign/domain restriction.
+    if(!has_i(args) && has_op(args,*at_ln)){
+      vecteur logs=lop(args,at_ln);bool square=false,quotient=false;
+      for(unsigned j=0;j<logs.size() && logs.size()>1;++j){
+        const gen &u=logs[j]._SYMBptr->feuille;
+        quotient=quotient || has_op(u,*at_inv) || has_op(u,*at_division);
+        if(u.is_symb_of_sommet(at_pow) && u._SYMBptr->feuille.type==_VECT && u._SYMBptr->feuille._VECTptr->size()==2){
+          const gen &n=u._SYMBptr->feuille[1];
+          if(n.type==_INT_ && n.val>0 && n.val%2==0)square=true;
+        }
+      }
+      if(square && quotient)return true;
+    }
     // Rational inner arguments of real roots must not be replaced by a
     // principal complex power during algebraic normalization.
     if(has_op(args,*at_surd) || has_op(args,*at_NTHROOT)){

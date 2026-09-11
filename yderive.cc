@@ -246,9 +246,31 @@ namespace giac {
       else continue;
       if(n.type!=_INT_ || n.val<1 || n.val>9 || (n.val!=2 && n.val%2==0))continue;
       unsigned budget=128;equation_polynomial_budget bound;
+      gen C,L;
+      if(absolute && angle_radian(contextptr) && (Q.is_symb_of_sommet(at_sin) || Q.is_symb_of_sommet(at_cos))){
+        if(!is_linear_wrt(g,root,C,L,contextptr) || !is_zero(L) || has_i(C) || taille(C,49)>48)continue;
+        gen a,b;if(!is_linear_wrt(Q._SYMBptr->feuille,x,a,b,contextptr) || !equation_rational(a) || is_zero(a) || !equation_rational(b))continue;
+        // Polynomial amplitudes and log of a strictly positive quadratic
+        // are analytic globally. At every simple trig zero, C*|Q| has
+        // derivative zero exactly when C vanishes; otherwise it is a cusp.
+        bool analytic=equation_polynomial_bound(C,budget,0,bound);
+        if(!analytic && C.is_symb_of_sommet(at_ln)){
+          const gen &P=C._SYMBptr->feuille;budget=128;
+          gen A,B,D;
+          if(equation_polynomial_bound(P,budget,0,bound) && bound.degree==2 &&
+             is_linear_wrt(derive(P,i,contextptr),x,A,B,contextptr) && equation_rational(A) && equation_rational(B)){
+            D=ratnormal(subst(P,x,0,false,contextptr),contextptr);
+            analytic=equation_rational(D) && is_strictly_positive(A,contextptr) && is_strictly_positive(2*A*D-B*B,contextptr);
+          }
+        }
+        vecteur variables=lvar(C.is_symb_of_sommet(at_ln)?C._SYMBptr->feuille:C);
+        if(!analytic || (variables.size() && (variables.size()!=1 || variables[0]!=x)))continue;
+        result=symbolic(at_when,makesequence(symb_equal(Q,0),symbolic(at_when,makesequence(symb_equal(C,0),0,undef)),derive(C,i,contextptr)*root+C*symbolic(at_sign,Q)*derive(Q,i,contextptr)));
+        return true;
+      }
       if(!equation_polynomial_bound(Q,budget,0,bound) || bound.degree>2 || !bound.degree)continue;
       vecteur variables=lvar(Q);if(variables.size()!=1 || variables[0]!=x)continue;
-      gen C,L;if(!is_linear_wrt(g,root,C,L,contextptr) || !is_zero(L) || has_i(C) || taille(C,49)>48)continue;
+      if(!is_linear_wrt(g,root,C,L,contextptr) || !is_zero(L) || has_i(C) || taille(C,49)>48)continue;
       gen dQ=derive(Q,i,contextptr),a,b,c;vecteur points;
       if(is_linear_wrt(Q,x,a,b,contextptr) && equation_rational(a) && equation_rational(b) && !is_zero(a))points.push_back(-b/a);
       else {
@@ -321,33 +343,55 @@ namespace giac {
       if(condition.type!=_SYMB || condition._SYMBptr->feuille.type!=_VECT || condition._SYMBptr->feuille._VECTptr->size()!=2)return result;
       const gen &f=condition._SYMBptr->feuille;const unary_function_ptr &op=condition._SYMBptr->sommet;
       gen point;
-      if((op==at_inferieur_strict || op==at_inferieur_egal) && f[0]==x)point=f[1];
-      else if((op==at_superieur_strict || op==at_superieur_egal) && f[1]==x)point=f[0];
+      if((op==at_inferieur_strict || op==at_inferieur_egal || op==at_equal || op==at_same) && f[0]==x)point=f[1];
+      else if((op==at_superieur_strict || op==at_superieur_egal || op==at_equal || op==at_same) && f[1]==x)point=f[0];
       else return result;
-      if(!equation_rational(point) || (!points.empty() && !is_strictly_positive(point-points.back(),contextptr)))return result;
-      points.push_back(point);
+      if(!equation_rational(point) || (!points.empty() && !is_zero(point-points.back()) && !is_strictly_positive(point-points.back(),contextptr)))return result;
+      if(points.empty() || point!=points.back())points.push_back(point);
     }
     for(unsigned j=0;j<points.size();++j){
+      unsigned selected[3]={unsigned(original.size()-1),unsigned(original.size()-1),unsigned(original.size()-1)};
+      for(unsigned side=0;side<3;++side){
+        for(unsigned k=0;k<original.size()/2;++k){
+          const gen &condition=original[2*k],&f=condition._SYMBptr->feuille;
+          const unary_function_ptr &op=condition._SYMBptr->sommet;
+          gen delta=points[j]-(f[0]==x?f[1]:f[0]);
+          bool equality=op==at_equal || op==at_same;
+          bool accepts=is_zero(delta)?(equality?side==2:(side==0 || (side==2 && (op==at_inferieur_egal || op==at_superieur_egal)))):(!equality && is_strictly_positive(-delta,contextptr));
+          if(accepts){selected[side]=2*k+1;break;}
+        }
+      }
+      gen actual,left_value,right_value;unsigned point_budget=192;
+      if(derive_piecewise_regular(original[selected[2]],x,points[j],actual,point_budget,0,contextptr) &&
+         derive_piecewise_regular(original[selected[0]],x,points[j],left_value,point_budget,0,contextptr) &&
+         derive_piecewise_regular(original[selected[1]],x,points[j],right_value,point_budget,0,contextptr)){
+        gen dl=ratnormal(actual-left_value,contextptr),dr=ratnormal(actual-right_value,contextptr);
+        if((equation_rational(dl) && !is_zero(dl)) || (equation_rational(dr) && !is_zero(dr))){
+          result=symbolic(at_when,makesequence(symb_equal(x,points[j]),undef,result));continue;
+        }
+      }
       gen boundary_value[2],boundary_slope[2];int oscillation[2];
       for(unsigned side=0;side<2;++side)
-        oscillation[side]=derive_piecewise_oscillation(original[side?(2*j+3<original.size()?2*j+3:original.size()-1):2*j+1],x,points[j],boundary_value[side],boundary_slope[side],contextptr);
+        oscillation[side]=derive_piecewise_oscillation(original[selected[side]],x,points[j],boundary_value[side],boundary_slope[side],contextptr);
       if(oscillation[0]<0 || oscillation[1]<0){
         result=symbolic(at_when,makesequence(symb_equal(x,points[j]),undef,result));continue;
       }
       if(oscillation[0]>0 || oscillation[1]>0){
-        const unary_function_ptr &op=original[2*j]._SYMBptr->sommet;
-        unsigned selected=(op==at_inferieur_egal || op==at_superieur_egal)?0:1;
+        unsigned owner=selected[2]==selected[0]?0:1;
         // A vanishing amplitude has a continuous extension, but the raw
         // reciprocal phase is still undefined if this branch owns equality.
-        if(oscillation[selected]>0){result=symbolic(at_when,makesequence(symb_equal(x,points[j]),undef,result));continue;}
+        if(selected[2]==selected[owner] && oscillation[owner]>0){result=symbolic(at_when,makesequence(symb_equal(x,points[j]),undef,result));continue;}
         bool known=true;unsigned budget=192;
         for(unsigned side=0;side<2;++side)if(!oscillation[side]){
-          unsigned index=side?(2*j+3<original.size()?2*j+3:original.size()-1):2*j+1;
+          unsigned index=selected[side];
           if(!derive_piecewise_regular(original[index],x,points[j],boundary_value[side],budget,0,contextptr) ||
              !derive_piecewise_regular(derivatives[index],x,points[j],boundary_slope[side],budget,0,contextptr))known=false;
         }
-        if(known && equation_rational(boundary_value[0]) && equation_rational(boundary_value[1]) && equation_rational(boundary_slope[0]) && equation_rational(boundary_slope[1]))
-          result=symbolic(at_when,makesequence(symb_equal(x,points[j]),boundary_value[0]==boundary_value[1] && boundary_slope[0]==boundary_slope[1]?boundary_slope[0]:undef,result));
+        gen actual;unsigned actual_budget=64;
+        if(known && derive_piecewise_regular(original[selected[2]],x,points[j],actual,actual_budget,0,contextptr) && equation_rational(actual) && equation_rational(boundary_value[0]) && equation_rational(boundary_value[1]) && equation_rational(boundary_slope[0]) && equation_rational(boundary_slope[1])){
+          gen answer=actual==boundary_value[0] && actual==boundary_value[1] && boundary_slope[0]==boundary_slope[1]?boundary_slope[0]:undef;
+          if(answer!=derivatives[selected[2]])result=symbolic(at_when,makesequence(symb_equal(x,points[j]),answer,result));
+        }
         continue;
       }
       // A nonzero constant times sqrt(Q) at a simple zero of a real
@@ -355,7 +399,7 @@ namespace giac {
       // proved case; a vanishing multiplier must use the general fallback.
       bool singular=false;
       for(unsigned side=0;side<2 && !singular;++side){
-        const gen &branch=original[side?(2*j+3<original.size()?2*j+3:original.size()-1):2*j+1];
+        const gen &branch=original[selected[side]];
         if(taille(branch,65)>64)continue;
         vecteur roots=lop(branch,at_sqrt);
         for(unsigned k=0;k<roots.size();++k){
@@ -372,13 +416,20 @@ namespace giac {
       }
       if(singular){result=symbolic(at_when,makesequence(symb_equal(x,points[j]),undef,result));continue;}
       gen left,right,dl,dr;unsigned budget=192;
-      if(!derive_piecewise_regular(original[2*j+1],x,points[j],left,budget,0,contextptr) ||
-         !derive_piecewise_regular(original[2*j+2<original.size()-1?2*j+3:original.size()-1],x,points[j],right,budget,0,contextptr) ||
-         !derive_piecewise_regular(derivatives[2*j+1],x,points[j],dl,budget,0,contextptr) ||
-         !derive_piecewise_regular(derivatives[2*j+2<derivatives.size()-1?2*j+3:derivatives.size()-1],x,points[j],dr,budget,0,contextptr))continue;
+      if(!derive_piecewise_regular(original[selected[0]],x,points[j],left,budget,0,contextptr) ||
+         !derive_piecewise_regular(original[selected[1]],x,points[j],right,budget,0,contextptr) ||
+         !derive_piecewise_regular(derivatives[selected[0]],x,points[j],dl,budget,0,contextptr) ||
+         !derive_piecewise_regular(derivatives[selected[1]],x,points[j],dr,budget,0,contextptr))continue;
       gen value_difference=ratnormal(left-right,contextptr),slope_difference=ratnormal(dl-dr,contextptr);
-      if(equation_rational(value_difference) && equation_rational(slope_difference) && (!is_zero(value_difference) || !is_zero(slope_difference)))
-        result=symbolic(at_when,makesequence(symb_equal(x,points[j]),undef,result));
+      if(equation_rational(value_difference) && equation_rational(slope_difference)){
+        if(!is_zero(value_difference) || !is_zero(slope_difference))
+          result=symbolic(at_when,makesequence(symb_equal(x,points[j]),undef,result));
+        else if(selected[2]!=selected[0] && selected[2]!=selected[1]){
+          unsigned budget=64;gen value;
+          if(derive_piecewise_regular(original[selected[2]],x,points[j],value,budget,0,contextptr) && is_zero(ratnormal(value-left,contextptr)))
+            result=symbolic(at_when,makesequence(symb_equal(x,points[j]),dl,result));
+        }
+      }
     }
     return result;
   }

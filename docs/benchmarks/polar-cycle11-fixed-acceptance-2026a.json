@@ -1,0 +1,445 @@
+{
+  "scope": "Actual repository integration/yderive/FXCG simplify on host dependencies; guarded 64 KiB stack, not SH4/MMU emulation.",
+  "corpus_sha256": "bb1eaa82319e5b32790f5920b4c4e338328e2e0431986c95156ec3f617d14bad",
+  "probe_sha256": "81d5fc2aa876c2fa2ce284465e49ad6ce890e5f14876a93f6bf575396c9f2714",
+  "runs": [
+    {
+      "id": "PC11-I1",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(exp(2*x)/(exp(2*x)+exp(x)+1),x)",
+      "exit": 0,
+      "result": "1/2*ln(exp(x)^2+exp(x)+1)-1/sqrt(3)*atan((2*exp(x)+1)/sqrt(3))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00109125\nMAX_RSS_KB 66492\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact t=exp(x)>0 rational substitution; t\u00b2+t+1=(t+1/2)\u00b2+3/4>0. Real log and atan are continuous globally, so no variable additive jump."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC11-I1",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(exp(2*x)/(exp(2*x)+exp(x)+1),x)",
+      "exit": 0,
+      "result": "1/2*ln(exp(x)^2+exp(x)+1)-1/sqrt(3)*atan((2*exp(x)+1)/sqrt(3))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00197534\nMAX_RSS_KB 66492\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact t=exp(x)>0 rational substitution; t\u00b2+t+1=(t+1/2)\u00b2+3/4>0. Real log and atan are continuous globally, so no variable additive jump."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC11-I1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(exp(2*x)/(exp(2*x)+exp(x)+1),x))",
+      "exit": 0,
+      "result": "(-2*sqrt(3)*atan((2*sqrt(3)*exp(x)+sqrt(3))/3)+3*ln(exp(x)^2+exp(x)+1))/6",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00171696\nMAX_RSS_KB 66492\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact t=exp(x)>0 rational substitution; t\u00b2+t+1=(t+1/2)\u00b2+3/4>0. Real log and atan are continuous globally, so no variable additive jump."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC11-I1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(exp(2*x)/(exp(2*x)+exp(x)+1),x))",
+      "exit": 0,
+      "result": "(-2*sqrt(3)*atan((2*sqrt(3)*exp(x)+sqrt(3))/3)+3*ln(exp(x)^2+exp(x)+1))/6",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00166891\nMAX_RSS_KB 66492\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact t=exp(x)>0 rational substitution; t\u00b2+t+1=(t+1/2)\u00b2+3/4>0. Real log and atan are continuous globally, so no variable additive jump."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC11-I2",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(sqrt(x^2-1)/x,x)",
+      "exit": 0,
+      "result": "sqrt(x^2-1)-atan(sqrt(x^2-1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00140184\nMAX_RSS_KB 66492\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative on both |x|>1 components. G(u)=u-atan(u)=O(u\u00b3), while |x|-1=u\u00b2/(sqrt(1+u\u00b2)+1), proves continuous endpoint values and both one-sided slopes zero. No continuation to |x|<1 is asserted."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "0",
+        "1": "0"
+      }
+    },
+    {
+      "id": "PC11-I2",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(sqrt(x^2-1)/x,x)",
+      "exit": 0,
+      "result": "sqrt(x^2-1)-atan(sqrt(x^2-1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00120132\nMAX_RSS_KB 66492\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative on both |x|>1 components. G(u)=u-atan(u)=O(u\u00b3), while |x|-1=u\u00b2/(sqrt(1+u\u00b2)+1), proves continuous endpoint values and both one-sided slopes zero. No continuation to |x|<1 is asserted."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "0",
+        "1": "0"
+      }
+    },
+    {
+      "id": "PC11-I2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(sqrt(x^2-1)/x,x))",
+      "exit": 0,
+      "result": "sqrt(x^2-1)-atan(sqrt(x^2-1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00159793\nMAX_RSS_KB 66492\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative on both |x|>1 components. G(u)=u-atan(u)=O(u\u00b3), while |x|-1=u\u00b2/(sqrt(1+u\u00b2)+1), proves continuous endpoint values and both one-sided slopes zero. No continuation to |x|<1 is asserted."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "0",
+        "1": "0"
+      }
+    },
+    {
+      "id": "PC11-I2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(sqrt(x^2-1)/x,x))",
+      "exit": 0,
+      "result": "sqrt(x^2-1)-atan(sqrt(x^2-1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00164089\nMAX_RSS_KB 66492\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative on both |x|>1 components. G(u)=u-atan(u)=O(u\u00b3), while |x|-1=u\u00b2/(sqrt(1+u\u00b2)+1), proves continuous endpoint values and both one-sided slopes zero. No continuation to |x|<1 is asserted."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "0",
+        "1": "0"
+      }
+    },
+    {
+      "id": "PC11-D1",
+      "outer": false,
+      "stack": "normal",
+      "input": "diff(ln(1+x^2)*abs(sin(x)),x)",
+      "exit": 0,
+      "result": "((sin(x)=0)? ((ln(1+x^2)=0)? 0 : undef) : 2*x/(1+x^2)*abs(sin(x))+ln(1+x^2)*sign(sin(x))*cos(x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00163386\nMAX_RSS_KB 66492\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact regular product rule. At zero |f(h)/h|<=h\u00b2; at k*pi!=0 the original quotients tend to opposite nonzero \u00b1ln(1+k\u00b2*pi\u00b2). Guards preserve all contacts, including the removable one."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0",
+        "pi": "undef",
+        "-2*pi": "undef"
+      }
+    },
+    {
+      "id": "PC11-D1",
+      "outer": false,
+      "stack": "64",
+      "input": "diff(ln(1+x^2)*abs(sin(x)),x)",
+      "exit": 0,
+      "result": "((sin(x)=0)? ((ln(1+x^2)=0)? 0 : undef) : 2*x/(1+x^2)*abs(sin(x))+ln(1+x^2)*sign(sin(x))*cos(x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00199236\nMAX_RSS_KB 66492\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact regular product rule. At zero |f(h)/h|<=h\u00b2; at k*pi!=0 the original quotients tend to opposite nonzero \u00b1ln(1+k\u00b2*pi\u00b2). Guards preserve all contacts, including the removable one."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0",
+        "pi": "undef",
+        "-2*pi": "undef"
+      }
+    },
+    {
+      "id": "PC11-D1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(diff(ln(1+x^2)*abs(sin(x)),x))",
+      "exit": 0,
+      "result": "((sin(x)=0)? ((ln(1+x^2)=0)? 0 : undef) : 2*x/(1+x^2)*abs(sin(x))+ln(1+x^2)*sign(sin(x))*cos(x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00167746\nMAX_RSS_KB 66492\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact regular product rule. At zero |f(h)/h|<=h\u00b2; at k*pi!=0 the original quotients tend to opposite nonzero \u00b1ln(1+k\u00b2*pi\u00b2). Guards preserve all contacts, including the removable one."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0",
+        "pi": "undef",
+        "-2*pi": "undef"
+      }
+    },
+    {
+      "id": "PC11-D1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(diff(ln(1+x^2)*abs(sin(x)),x))",
+      "exit": 0,
+      "result": "((sin(x)=0)? ((ln(1+x^2)=0)? 0 : undef) : 2*x/(1+x^2)*abs(sin(x))+ln(1+x^2)*sign(sin(x))*cos(x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00164884\nMAX_RSS_KB 66492\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact regular product rule. At zero |f(h)/h|<=h\u00b2; at k*pi!=0 the original quotients tend to opposite nonzero \u00b1ln(1+k\u00b2*pi\u00b2). Guards preserve all contacts, including the removable one."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0",
+        "pi": "undef",
+        "-2*pi": "undef"
+      }
+    },
+    {
+      "id": "PC11-D2",
+      "outer": false,
+      "stack": "normal",
+      "input": "diff(piecewise(x<0,atan(x),x==0,1,x<=1,x/(1+x),1/2+(x-1)/4),x)",
+      "exit": 0,
+      "result": "((x=0)? undef : piecewise(0>x,1/(1+x^2),(x==0),0,x<=1,(1+x-x)/(1+x)^2,1/4))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000522754\nMAX_RSS_KB 66492\n",
+      "verification": {
+        "exact": true,
+        "method": "Original quotients at zero contain -1/h and diverge with opposite signs; isolated branch derivative zero is invalid. At one the left quotient is 1/(2*(2+h)) and the right is 1/4. Exact symbolic branch formulas cover all three open intervals, with no inactive pole at -1."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "1/2",
+        "0": "undef",
+        "1/2": "4/9",
+        "1": "1/4",
+        "2": "1/4"
+      }
+    },
+    {
+      "id": "PC11-D2",
+      "outer": false,
+      "stack": "64",
+      "input": "diff(piecewise(x<0,atan(x),x==0,1,x<=1,x/(1+x),1/2+(x-1)/4),x)",
+      "exit": 0,
+      "result": "((x=0)? undef : piecewise(0>x,1/(1+x^2),(x==0),0,x<=1,(1+x-x)/(1+x)^2,1/4))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000602073\nMAX_RSS_KB 66492\n",
+      "verification": {
+        "exact": true,
+        "method": "Original quotients at zero contain -1/h and diverge with opposite signs; isolated branch derivative zero is invalid. At one the left quotient is 1/(2*(2+h)) and the right is 1/4. Exact symbolic branch formulas cover all three open intervals, with no inactive pole at -1."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "1/2",
+        "0": "undef",
+        "1/2": "4/9",
+        "1": "1/4",
+        "2": "1/4"
+      }
+    },
+    {
+      "id": "PC11-D2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(diff(piecewise(x<0,atan(x),x==0,1,x<=1,x/(1+x),1/2+(x-1)/4),x))",
+      "exit": 0,
+      "result": "((x=0)? undef : piecewise(0>x,1/(1+x^2),(x==0),0,x<=1,(1+x-x)/(1+x)^2,1/4))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000543964\nMAX_RSS_KB 66492\n",
+      "verification": {
+        "exact": true,
+        "method": "Original quotients at zero contain -1/h and diverge with opposite signs; isolated branch derivative zero is invalid. At one the left quotient is 1/(2*(2+h)) and the right is 1/4. Exact symbolic branch formulas cover all three open intervals, with no inactive pole at -1."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "1/2",
+        "0": "undef",
+        "1/2": "4/9",
+        "1": "1/4",
+        "2": "1/4"
+      }
+    },
+    {
+      "id": "PC11-D2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(diff(piecewise(x<0,atan(x),x==0,1,x<=1,x/(1+x),1/2+(x-1)/4),x))",
+      "exit": 0,
+      "result": "((x=0)? undef : piecewise(0>x,1/(1+x^2),(x==0),0,x<=1,(1+x-x)/(1+x)^2,1/4))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000528985\nMAX_RSS_KB 66492\n",
+      "verification": {
+        "exact": true,
+        "method": "Original quotients at zero contain -1/h and diverge with opposite signs; isolated branch derivative zero is invalid. At one the left quotient is 1/(2*(2+h)) and the right is 1/4. Exact symbolic branch formulas cover all three open intervals, with no inactive pole at -1."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "1/2",
+        "0": "undef",
+        "1/2": "4/9",
+        "1": "1/4",
+        "2": "1/4"
+      }
+    },
+    {
+      "id": "PC11-S1",
+      "outer": false,
+      "stack": "normal",
+      "input": "ln((x-1)/(x+1))-ln((x-1)^2)/2+ln((x+1)^2)/2",
+      "exit": 0,
+      "result": "ln((x-1)/(x+1))-ln((x-1)^2)/2+ln((x+1)^2)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000492265\nMAX_RSS_KB 66492\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact compact retention. Real log requires (x-1)/(x+1)>0 and x!=\u00b11, hence two open rays. On each, ln(v\u00b2)=2 ln|v| cancels exactly; no values are assigned at the excluded points or middle interval."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC11-S1",
+      "outer": false,
+      "stack": "64",
+      "input": "ln((x-1)/(x+1))-ln((x-1)^2)/2+ln((x+1)^2)/2",
+      "exit": 0,
+      "result": "ln((x-1)/(x+1))-ln((x-1)^2)/2+ln((x+1)^2)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000468815\nMAX_RSS_KB 66492\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact compact retention. Real log requires (x-1)/(x+1)>0 and x!=\u00b11, hence two open rays. On each, ln(v\u00b2)=2 ln|v| cancels exactly; no values are assigned at the excluded points or middle interval."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC11-S1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(ln((x-1)/(x+1))-ln((x-1)^2)/2+ln((x+1)^2)/2)",
+      "exit": 0,
+      "result": "ln((x-1)/(x+1))-ln((x-1)^2)/2+ln((x+1)^2)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000485055\nMAX_RSS_KB 66492\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact compact retention. Real log requires (x-1)/(x+1)>0 and x!=\u00b11, hence two open rays. On each, ln(v\u00b2)=2 ln|v| cancels exactly; no values are assigned at the excluded points or middle interval."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC11-S1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(ln((x-1)/(x+1))-ln((x-1)^2)/2+ln((x+1)^2)/2)",
+      "exit": 0,
+      "result": "ln((x-1)/(x+1))-ln((x-1)^2)/2+ln((x+1)^2)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000476575\nMAX_RSS_KB 66492\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact compact retention. Real log requires (x-1)/(x+1)>0 and x!=\u00b11, hence two open rays. On each, ln(v\u00b2)=2 ln|v| cancels exactly; no values are assigned at the excluded points or middle interval."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC11-R1",
+      "outer": false,
+      "stack": "normal",
+      "input": "sum((-1)^k*binomial(24,k)/(x+k),k,0,24)",
+      "exit": 0,
+      "result": "620448401733239439360000/(x^25+300*x^24+42550*x^23+3795000*x^22+238810495*x^21+11276842500*x^20+414908513800*x^19+12191224980000*x^18+290886679867135*x^17+5700586321864500*x^16+92446911376173550*x^15+1246200069070215000*x^14+13990945200239106865*x^13+130770928736755873500*x^12+1014945527825214637300*x^11+6508376179668146850000*x^10+34218695959407148992880*x^9+145901905527662649288000*x^8+496910165055549644836800*x^7+1323714091579185857760000*x^6+2677503356427960382362624*x^5+3936561409138663118131200*x^4+3925495373278097719296000*x^3+2342787216398718566400000*x^2+620448401733239439360000*x)",
+      "stderr": "Unable to isolate function factorial\nPARSER_CALLS 1\nSECONDS 0.00313545\nMAX_RSS_KB 66492\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact degree-25 denominator identity; every derivative P'(-j) is nonzero and numerator is 24!, proving all 25 genuine poles and the stated nonzero residues. Bounded 25-term univariate polynomial, no resource runaway."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC11-R1",
+      "outer": false,
+      "stack": "64",
+      "input": "sum((-1)^k*binomial(24,k)/(x+k),k,0,24)",
+      "exit": 0,
+      "result": "620448401733239439360000/(x^25+300*x^24+42550*x^23+3795000*x^22+238810495*x^21+11276842500*x^20+414908513800*x^19+12191224980000*x^18+290886679867135*x^17+5700586321864500*x^16+92446911376173550*x^15+1246200069070215000*x^14+13990945200239106865*x^13+130770928736755873500*x^12+1014945527825214637300*x^11+6508376179668146850000*x^10+34218695959407148992880*x^9+145901905527662649288000*x^8+496910165055549644836800*x^7+1323714091579185857760000*x^6+2677503356427960382362624*x^5+3936561409138663118131200*x^4+3925495373278097719296000*x^3+2342787216398718566400000*x^2+620448401733239439360000*x)",
+      "stderr": "Unable to isolate function factorial\nPARSER_CALLS 1\nSECONDS 0.00250197\nMAX_RSS_KB 66492\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact degree-25 denominator identity; every derivative P'(-j) is nonzero and numerator is 24!, proving all 25 genuine poles and the stated nonzero residues. Bounded 25-term univariate polynomial, no resource runaway."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC11-R1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(sum((-1)^k*binomial(24,k)/(x+k),k,0,24))",
+      "exit": 0,
+      "result": "620448401733239439360000/(x^25+300*x^24+42550*x^23+3795000*x^22+238810495*x^21+11276842500*x^20+414908513800*x^19+12191224980000*x^18+290886679867135*x^17+5700586321864500*x^16+92446911376173550*x^15+1246200069070215000*x^14+13990945200239106865*x^13+130770928736755873500*x^12+1014945527825214637300*x^11+6508376179668146850000*x^10+34218695959407148992880*x^9+145901905527662649288000*x^8+496910165055549644836800*x^7+1323714091579185857760000*x^6+2677503356427960382362624*x^5+3936561409138663118131200*x^4+3925495373278097719296000*x^3+2342787216398718566400000*x^2+620448401733239439360000*x)",
+      "stderr": "Unable to isolate function factorial\nPARSER_CALLS 1\nSECONDS 0.0031687\nMAX_RSS_KB 66492\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact degree-25 denominator identity; every derivative P'(-j) is nonzero and numerator is 24!, proving all 25 genuine poles and the stated nonzero residues. Bounded 25-term univariate polynomial, no resource runaway."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC11-R1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(sum((-1)^k*binomial(24,k)/(x+k),k,0,24))",
+      "exit": 0,
+      "result": "620448401733239439360000/(x^25+300*x^24+42550*x^23+3795000*x^22+238810495*x^21+11276842500*x^20+414908513800*x^19+12191224980000*x^18+290886679867135*x^17+5700586321864500*x^16+92446911376173550*x^15+1246200069070215000*x^14+13990945200239106865*x^13+130770928736755873500*x^12+1014945527825214637300*x^11+6508376179668146850000*x^10+34218695959407148992880*x^9+145901905527662649288000*x^8+496910165055549644836800*x^7+1323714091579185857760000*x^6+2677503356427960382362624*x^5+3936561409138663118131200*x^4+3925495373278097719296000*x^3+2342787216398718566400000*x^2+620448401733239439360000*x)",
+      "stderr": "Unable to isolate function factorial\nPARSER_CALLS 1\nSECONDS 0.00265254\nMAX_RSS_KB 66492\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact degree-25 denominator identity; every derivative P'(-j) is nonzero and numerator is 24!, proving all 25 genuine poles and the stated nonzero residues. Bounded 25-term univariate polynomial, no resource runaway."
+      },
+      "pass": true
+    }
+  ],
+  "source_sha256": {
+    "yintg.cc": "1f2dbf27fbc725ed08af29bfa12d9380e6db16e1819a4ae1b95686d805c63757",
+    "zintgab.cc": "3b6fa78aba4d53b1a11479c33bacb4c85e3d6091389ef3073ec60085a7ae9448",
+    "ksubst.cc": "f3b1234d0ecc8bba6a68ecfff82ac5707f76a9c5fbd4f37594e2f59b9c69dbfe",
+    "yderive.cc": "ee4e0cd8de85abfeaef1473cbea75255d17f52c62947254444f6257abbe11e31",
+    "dilogarithm.h": "ca822ef4c094a4ed1f4aecf7219011668735d86d259c51ec6304515f8fa84d7a",
+    "kconvert.cc": "eed558eb2f8ff62e0cf1e94fdbf8497954a35577e283a8d07283350e65b76003",
+    "equation_normalize.h": "4bfb644f0e18bb36e280ce8886c8ac12695c9aeeaef187ea3e5f967cd1642e37",
+    "kusual.cc": "88020df204d4e478fed95d42aa5d79cf93768a4d7143b1aee5301d1f8cd8a865",
+    "zprog.cc": "513111030cf5233496da8c3efff53df9391f12d185254f314608600e13e5639e",
+    "conditional_eval.h": "f602bbce59fbcfcadb85a78ca5ba6a79cd56f643067f84d02a02a73a040f40c1"
+  },
+  "cases": [
+    {
+      "id": "PC11-I1",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC11-I2",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC11-D1",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC11-D2",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC11-S1",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC11-R1",
+      "all_four_pass": true
+    }
+  ]
+}

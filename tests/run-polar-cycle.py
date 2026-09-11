@@ -43,6 +43,7 @@ for c in cases:
     values.update({'PC8-I1':{0:'0'},'PC8-D1':{1:'3',0:'undef'},'PC8-D2':{0:'undef',1:'2',2:'2'},'PC8-S1':{-1:'-2*i',0:'0',1:'2*i'}}.get(c['id'],{}))
     values.update({'PC9-I1':{0:'0'},'PC9-I2':{0:'-(ln(2)+1)/2'},'PC9-D1':{0:'2',1:'cos(1)'},'PC9-D2':{-1:'exp(-1)',0:'1',1:'undef',2:'exp(1/2)/2'},'PC9-S1':{0:'0'}}.get(c['id'],{}))
     values.update({'PC10-I2':{1:'0'},'PC10-D1':{0:'0',1:'undef'},'PC10-D2':{-1:'1/2',0:'0',1:'3/4',2:'9/4'},'PC10-S1':{-1:'2*i*pi',1:'0'}}.get(c['id'],{}))
+    values.update({'PC11-I2':{-1:'0',1:'0'},'PC11-D1':{0:'0','pi':'undef','-2*pi':'undef'},'PC11-D2':{-1:'1/2',0:'undef','1/2':'4/9',1:'1/4',2:'1/4'}}.get(c['id'],{}))
     if values:
      from mixed_reference import parse,equal
      for point,expected in values.items():

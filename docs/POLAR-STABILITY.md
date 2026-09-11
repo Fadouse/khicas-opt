@@ -155,3 +155,17 @@ ROM 2,065,112 / 2,065,152 B（余40 B），AC2 2,487,388 / 2,559,996 B（余72,6
 首次仍有错题，提交后继续全新题集，尚不进入最终性能代理验收。
 
 [首次](benchmarks/polar-cycle10-first-acceptance-2026a.json) · [修复后](benchmarks/polar-cycle10-fixed-acceptance-2026a.json) · [变体](benchmarks/root-product-guards-polar10-2026a.json) · [资源](benchmarks/resources-polar-cycle10-2026a.json) · [测量](benchmarks/polar-cycle10-performance-2026a.json) · [回归索引](benchmarks/polar-cycle10-regression-index-2026a.json)。
+
+## 第十一轮：周期绝对值接点、孤立分支值与实对数定义域
+
+标签 `checkpoint/polar-stability-cycle11-2026a`。6题首次3题完整通过；两道积分和有限求和正确，周期绝对值乘积丢失有限导数零点，分段孤立跳点误给导数零，实对数化简抹除了原定义域。首次输出保留，修复后24项全部通过。
+
+周期绝对值规则限定为有理仿射三角相位、实多项式振幅或严格正二次多项式的对数振幅；在三角零点使用原函数差商，振幅消失则导数零，否则保留不可导状态。分段接点按第一个成立的条件分别选取左侧、右侧和点上分支，支持有理孤立等号及被先前条件遮蔽的分支。只有原函数实际点值与两侧值及斜率兼容才接受有限导数；振荡分支也不能跳过点值检查。偶次幂对数与商式对数混合时保留紧凑表达式，避免通过消项把原来无定义的区间填为零。
+
+新增52项正反例，其中补测发现并修复振荡连续延拓与孤立点实际值不同的情况。旧根式对数积分曾在新规则入口中触发64 KiB栈崩溃，恢复先做多项式/变量结构筛选、后做代数系数分析的顺序后，该组44项及全部旧回归恢复通过，没有提高栈预算。
+
+本轮24项、新52项边界测试、前三轮及第十轮152项变体、旧114项检查、前十轮280项、混合96项、极坐标60项、21项正式任务及7项补充任务均通过。有限求和保留有界25项一元多项式分母；独立验证全部25个极点及非零留数，未要求无意义的显示强制一致。通过积分清单667条（662精确、5导数采样），644种去空白文本，不代表数学去重后的题数。
+
+ROM使用2,064,552 B（余600 B），AC2使用2,494,744 B（余65,252 B），静态RAM与CAS堆不变。五次主机中位数最大约2.8 ms；没有本轮实机计时或安装，主机64 KiB保护栈不是SH4/MMU模拟。新增有界规则不等于一般超越零点或一般分段极限求解；首次有错题，继续全新题集，不进入最终性能代理验收。
+
+[首次](benchmarks/polar-cycle11-first-acceptance-2026a.json) · [修复后](benchmarks/polar-cycle11-fixed-acceptance-2026a.json) · [变体](benchmarks/periodic-isolated-guards-polar11-2026a.json) · [资源](benchmarks/resources-polar-cycle11-2026a.json) · [测量](benchmarks/polar-cycle11-performance-2026a.json) · [回归索引](benchmarks/polar-cycle11-regression-index-2026a.json)。

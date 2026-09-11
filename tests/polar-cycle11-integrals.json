@@ -1,0 +1,24 @@
+{
+  "cases": [
+    {
+      "id": "PC11-I1",
+      "input": "simplify(integrate(exp(2*x)/(exp(2*x)+exp(x)+1),x))",
+      "expected": "ln(exp(2*x)+exp(x)+1)/2-atan((2*exp(x)+1)/sqrt(3))/sqrt(3)",
+      "conditions": [
+        "x is any finite real number. exp and ln have their real meanings; atan is the real inverse tangent with values in (-pi/2,pi/2).",
+        "The integrand is smooth on the entire real axis. An explicit exact antiderivative is required on that whole connected domain, up to one global additive constant.",
+        "All expressions are interpreted exactly; large positive or negative x must not create symbolic domain exclusions."
+      ]
+    },
+    {
+      "id": "PC11-I2",
+      "input": "simplify(integrate(sqrt(x^2-1)/x,x))",
+      "expected": "sqrt(x^2-1)-atan(sqrt(x^2-1))",
+      "conditions": [
+        "x is real with x<=-1 or x>=1, the entire real domain of the original integrand. sqrt is the nonnegative real square root, and atan is the real inverse tangent.",
+        "An explicit exact antiderivative is required separately on (-infinity,-1) and (1,infinity), allowing independent additive constants on these disconnected intervals.",
+        "The primitive must extend continuously to the included endpoints. At -1 its left derivative and at 1 its right derivative must equal the integrand value zero. No two-sided real derivative at either endpoint is asserted."
+      ]
+    }
+  ]
+}

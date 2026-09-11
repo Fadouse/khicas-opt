@@ -1,0 +1,131 @@
+{
+  "cases": [
+    {
+      "id": "PC11-I1",
+      "type": "integral",
+      "input": "simplify(integrate(exp(2*x)/(exp(2*x)+exp(x)+1),x))",
+      "conditions": [
+        "x is any finite real number. exp and ln have their real meanings; atan is the real inverse tangent with values in (-pi/2,pi/2).",
+        "The integrand is smooth on the entire real axis. An explicit exact antiderivative is required on that whole connected domain, up to one global additive constant.",
+        "All expressions are interpreted exactly; large positive or negative x must not create symbolic domain exclusions."
+      ],
+      "expected": {
+        "expression": "ln(exp(2*x)+exp(x)+1)/2-atan((2*exp(x)+1)/sqrt(3))/sqrt(3)",
+        "properties": [
+          "Return an explicit evaluable closed-form primitive without unevaluated integrate; equivalent exact forms and one global additive constant are acceptable.",
+          "Its derivative is exp(2*x)/(exp(2*x)+exp(x)+1) for every real x. The primitive is smooth and strictly increasing throughout the real axis.",
+          "The logarithm argument is strictly positive and the real atan is continuous everywhere in its argument. No logarithm branch adjustments or piecewise constants are required.",
+          "For the displayed normalization, the limit as x tends to negative infinity is -pi/(6*sqrt(3)), and the limit of the primitive minus x as x tends to positive infinity is -pi/(2*sqrt(3))."
+        ]
+      },
+      "reason": "Set t=exp(x)>0, so dt=t dx and the integral becomes that of t/(t^2+t+1). Write t=((2*t+1)-1)/2 and complete the square t^2+t+1=((2*t+1)^2+3)/4. Integration gives H(t)=ln(t^2+t+1)/2-atan((2*t+1)/sqrt(3))/sqrt(3). Direct differentiation yields H'(t)=(2*t+1)/(2*(t^2+t+1))-1/(2*(t^2+t+1))=t/(t^2+t+1). Consequently dH(exp(x))/dx=t^2/(t^2+t+1), as required. The denominator is (t+1/2)^2+3/4>0, so both H and its composition are smooth and the derivative is strictly positive. As t tends to zero, the logarithmic term tends to zero and atan(1/sqrt(3))=pi/6. As t tends to positive infinity, ln(t^2+t+1)/2-ln(t)=ln(1+1/t+1/t^2)/2 tends to zero while atan((2*t+1)/sqrt(3)) tends to pi/2. These computations establish both stated limits and use a single continuous real branch on the entire substitution range."
+    },
+    {
+      "id": "PC11-I2",
+      "type": "integral",
+      "input": "simplify(integrate(sqrt(x^2-1)/x,x))",
+      "conditions": [
+        "x is real with x<=-1 or x>=1, the entire real domain of the original integrand. sqrt is the nonnegative real square root, and atan is the real inverse tangent.",
+        "An explicit exact antiderivative is required separately on (-infinity,-1) and (1,infinity), allowing independent additive constants on these disconnected intervals.",
+        "The primitive must extend continuously to the included endpoints. At -1 its left derivative and at 1 its right derivative must equal the integrand value zero. No two-sided real derivative at either endpoint is asserted."
+      ],
+      "expected": {
+        "expression": "sqrt(x^2-1)-atan(sqrt(x^2-1))",
+        "properties": [
+          "Return an explicit evaluable closed-form primitive without unevaluated integrate; equivalent exact forms with independently chosen constants on the two components are acceptable.",
+          "The displayed normalization is even, vanishes at both endpoints, is strictly positive elsewhere on its domain, decreases on (-infinity,-1), and increases on (1,infinity).",
+          "Its derivative equals sqrt(x^2-1)/x on both open components, including the correct negative sign on the negative component.",
+          "Prove endpoint continuity and the required one-sided derivatives from the original primitive's difference quotients. The divergent derivative of sqrt(x^2-1) alone does not invalidate these finite endpoint slopes.",
+          "The interval (-1,1) remains outside the real domain. Neither a global real continuation through that interval nor a common additive constant between disconnected components is required."
+        ]
+      },
+      "reason": "On either open component put u=sqrt(x^2-1)>0. Differentiating u^2=x^2-1 gives u du=x dx; hence (sqrt(x^2-1)/x) dx=u^2/(1+u^2) du, whose primitive is G(u)=u-atan(u). Independently G'(u)=u^2/(1+u^2), so the chain rule gives dG(u(x))/dx=(u^2/x^2)*(x/u)=u/x on either component, without replacing x by abs(x). The original domain follows from x^2-1>=0 and x!=0, namely the two stated closed rays. At u=0, G(0)=0 and Taylor's formula gives G(u)=u^3/3+O(u^5), proving continuity at both endpoints. For x=1+h with h>0, u^2=h*(2+h); consequently u^3/h=u*(2+h) tends to zero and the remainder divided by h also tends to zero. For x=-1+h with h<0, u^2=h*(-2+h); consequently u^3/h=u*(-2+h) tends to zero, as does the remainder divided by h. These are the actual one-sided quotients because the endpoint values are zero, proving both endpoint slopes. Evenness follows from x^2. Since G'(u)>0 for u>0 and G(0)=0, G is positive away from the endpoints; the derivative u/x establishes the stated monotonicity. The two open intervals are disconnected, so uniqueness of primitives fixes a constant only within each component."
+    },
+    {
+      "id": "PC11-D1",
+      "type": "derivative",
+      "input": "simplify(diff(ln(1+x^2)*abs(sin(x)),x))",
+      "conditions": [
+        "x is any finite real number, with trigonometric arguments in radians. ln is the real logarithm and abs is real absolute value.",
+        "The original function is defined and continuous throughout the real axis. Examine every absolute-value contact x=k*pi for integer k, including zero separately.",
+        "piecewise selects its first true condition lazily; undef marks absence of a finite derivative, not absence of the original function."
+      ],
+      "expected": {
+        "expression": "piecewise(x==0,0,sin(x)==0,undef,2*x*abs(sin(x))/(1+x^2)+ln(1+x^2)*sin(x)*cos(x)/abs(sin(x)))",
+        "properties": [
+          "Return an exact derivative on the real axis excluding the nonzero integer multiples of pi, with the finite value zero at zero. Equivalent exact formulas with this same domain are acceptable.",
+          "At zero the smooth logarithmic factor removes the absolute-value corner: the original two-sided difference quotient tends to zero, and the nearby derivative also tends to zero.",
+          "At every a=k*pi with nonzero integer k, the function value is zero and the function is continuous; its left derivative is -ln(1+a^2) and its right derivative is ln(1+a^2). It therefore has no finite two-sided derivative there.",
+          "Away from multiples of pi, both the logarithmic factor's derivative and the absolute-value factor's derivative must be included.",
+          "Neither blanket exclusion of every zero of sin(x) nor assignment of sign(0)=0 as a justification for differentiability at every contact is valid."
+        ]
+      },
+      "reason": "Since 1+x^2>0, the logarithmic factor is smooth for all real x, and the product with the continuous absolute value is continuous everywhere. When sin(x)!=0, differentiating abs(sin(x)) gives sin(x)*cos(x)/abs(sin(x)); the product rule yields the displayed regular formula. At zero the original function value is zero, and its quotient is ln(1+h^2)*abs(sin(h))/h. Its absolute value is at most h^2 because ln(1+h^2)<=h^2 and abs(sin(h))<=abs(h), so the quotient tends to zero from both sides. Moreover, near zero the first regular derivative term has absolute value at most 2*h^2 and the second at most h^2, proving continuity of the derivative at zero. At a=k*pi, sin(a+h)=(-1)^k*sin(h) and f(a)=0. The original quotient is therefore ln(1+(a+h)^2)*abs(sin(h))/h. The last factor tends to -1 from the left and 1 from the right. For a!=0 the logarithmic factor tends to the strictly positive number ln(1+a^2), giving the two distinct finite slopes stated above. These cases exhaust all contacts; elsewhere ordinary differentiation applies."
+    },
+    {
+      "id": "PC11-D2",
+      "type": "derivative",
+      "input": "simplify(diff(piecewise(x<0,atan(x),x==0,1,x<=1,x/(1+x),1/2+(x-1)/4),x))",
+      "conditions": [
+        "x is any finite real number and atan is the ordinary real inverse tangent.",
+        "piecewise uses first-true lazy selection, with the final expression as default. The actual selected value at zero is one, while the rational expression is selected only for 0<x<=1.",
+        "The original function is defined on the entire real axis. Determine continuity and differentiability from its selected values at zero and one, rather than only comparing neighboring branch derivatives."
+      ],
+      "expected": {
+        "expression": "piecewise(x<0,1/(1+x^2),x==0,undef,x<=1,1/(1+x)^2,1/4)",
+        "properties": [
+          "Return an exact derivative for every real x except zero, including derivative 1/4 at one; equivalent evaluable formulas with the same domain are acceptable.",
+          "At zero both neighboring function limits are zero but the selected function value is one, so the original function is discontinuous and has no finite derivative there.",
+          "The original left difference quotient at zero tends to positive infinity and the right quotient tends to negative infinity, even though both neighboring derivative formulas tend to one.",
+          "At one the original function is continuous, both original one-sided quotients tend to 1/4, and the first derivative is continuous. The second derivative does not exist there because its one-sided values are -1/4 and zero.",
+          "Inactive rational branches create no exclusion at x=-1. A rule that differentiates the isolated constant branch at zero as zero is incorrect."
+        ]
+      },
+      "reason": "The three open-interval derivatives are 1/(1+x^2), 1/(1+x)^2, and 1/4. Each selected branch is defined throughout its interval. At zero the original value is one, whereas atan(h) and h/(1+h) both tend to zero on their selected sides. For h<0 the original quotient is (atan(h)-1)/h=atan(h)/h-1/h, which tends to positive infinity because atan(h)/h tends to one. For h>0 it is (h/(1+h)-1)/h=1/(1+h)-1/h, which tends to negative infinity. This establishes the discontinuity and derivative failure using the actual point value, despite the matching limits of the two regular derivative formulas. At one the selected value is 1/2 and both adjacent function limits equal 1/2. For h<0 sufficiently close to zero the original quotient is [((1+h)/(2+h))-1/2]/h=1/(2*(2+h)), tending to 1/4. For h>0 the quotient equals 1/4 exactly. Thus the derivative exists at one and its adjacent formulas also tend to 1/4. For its second derivative, the left quotient [1/(2+h)^2-1/4]/h=-(4+h)/(4*(2+h)^2) tends to -1/4, while the right quotient of the constant derivative is zero. Finally, at x=-1 the selected atan branch and its derivative have no singularity; the unused rational expression imposes no domain restriction."
+    },
+    {
+      "id": "PC11-S1",
+      "type": "simplify",
+      "input": "simplify(ln((x-1)/(x+1))-ln((x-1)^2)/2+ln((x+1)^2)/2)",
+      "conditions": [
+        "x is finite and real. Every ln is strictly the real logarithm, defined only for a positive real argument; no principal complex interpretation is allowed.",
+        "Determine and preserve the entire real domain of the original expression, which is x<-1 or x>1.",
+        "The expression is evaluated only where all three original logarithms and the quotient inside the first logarithm are defined. A simplification must not silently extend that domain."
+      ],
+      "expected": {
+        "expression": "0",
+        "properties": [
+          "The expression equals zero everywhere on the two stated open rays. Return zero subject to that domain, an equivalent exact expression, or exact retention of the compact original expression.",
+          "At x=-1 the quotient is undefined and ln((x+1)^2) is undefined; at x=1 two logarithm arguments are zero. Neither endpoint belongs to the original domain.",
+          "For -1<x<1 the first logarithm argument is negative, so the original expression has no real value even though both squared logarithm arguments are positive.",
+          "On x<-1, both x-1 and x+1 are negative; use absolute values when expanding the logarithms of their squares. Individual real logarithms of x-1 or x+1 are not available there.",
+          "The constant value has possible continuous extensions beyond the original domain, but none changes the domain of this requested identity."
+        ]
+      },
+      "reason": "The squared logarithm arguments require x!=1 and x!=-1. For these x the quotient (x-1)/(x+1) is positive exactly when x-1 and x+1 have the same sign, namely x<-1 or x>1; it is negative between the two roots. This proves the full original domain and all exclusions. On either allowed ray, (x-1)/(x+1)=abs(x-1)/abs(x+1), with both absolute values strictly positive. The valid real logarithm rules then give ln((x-1)/(x+1))=ln(abs(x-1))-ln(abs(x+1)), ln((x-1)^2)=2*ln(abs(x-1)), and ln((x+1)^2)=2*ln(abs(x+1)). Substitution cancels all terms and proves zero on both components. The absolute values are necessary on the negative component, where replacing them by x-1 and x+1 would introduce undefined real logarithms. At the endpoints the specified zero arguments or undefined quotient prevent original evaluation; throughout the middle interval the negative first argument prevents evaluation. Thus cancellation proves an identity only on the original two-component domain."
+    },
+    {
+      "id": "PC11-R1",
+      "type": "resource",
+      "input": "simplify(sum((-1)^k*binomial(24,k)/(x+k),k,0,24))",
+      "conditions": [
+        "x is finite and real, with x not in {0,-1,-2,...,-24}. The index k runs through the integers zero to 24 inclusive, and binomial denotes the exact binomial coefficient.",
+        "sum and product denote exact finite operations, not infinite series or limiting processes. The bound 24 is a fixed integer, not a symbolic size parameter.",
+        "Use the existing finite CG50 stack, heap, and simplification budgets without increasing them. Exact retention of the compact finite sum is acceptable; a fully expanded common-denominator polynomial is unnecessary.",
+        "Preserve every original excluded point. Each is a genuine simple pole, so none can be filled by cancellation or continuity."
+      ],
+      "expected": {
+        "expression": "factorial(24)/product(x+k,k,0,24)",
+        "properties": [
+          "Return the displayed compact exact product quotient, an equivalent exact compact expression, or retain the original finite sum exactly.",
+          "The value is finite and real on the entire stated domain. The numerator factorial(24) is nonzero and the product denominator vanishes exactly at the excluded integers.",
+          "At each excluded point x=-j, for integer j from zero to 24, the coefficient of 1/(x+j) is exactly (-1)^j*binomial(24,j), which is nonzero. Preserve all these poles.",
+          "For every x>0 the exact result is strictly positive despite alternating signs in the finite sum. Numerical cancellation is not a proof of a zero value.",
+          "No crash, stack overflow, runaway expansion, new domain hole, undef on an allowed input, or increase to existing resource limits is acceptable.",
+          "Compact exact retention is valid for this finite resource case and does not relax the explicit closed-form requirements of either integral."
+        ]
+      },
+      "reason": "Let P(x)=product(x+k,k,0,24) and define the polynomial Q(x)=sum((-1)^k*binomial(24,k)*product(x+m,m in {0,...,24} excluding k),k,0,24). Each summand has degree 24, so Q has degree at most 24. At x=-j, every term except k=j vanishes. The surviving product is product(m-j,m in {0,...,24} excluding j)=(-1)^j*j!*(24-j)!, because the factors below j are -j through -1 and those above j are 1 through 24-j. Thus Q(-j)=(-1)^j*binomial(24,j)*(-1)^j*j!*(24-j)!=24! for each of the 25 distinct integers j=0,...,24. The polynomial Q-24!, of degree at most 24, therefore vanishes identically. On the allowed domain multiplication of the original finite sum by P yields Q, proving the displayed quotient. P has precisely the 25 stated simple roots and the numerator is nonzero; independently, at x=-j only the j-th original summand is singular, with nonzero coefficient (-1)^j*binomial(24,j), so every exclusion is a genuine pole. For x>0 every factor of P is positive and 24! is positive, proving positivity. This argument establishes the identity by finite polynomial algebra while leaving the output compact; no expansion of P or Q is needed in the returned expression."
+    }
+  ]
+}
