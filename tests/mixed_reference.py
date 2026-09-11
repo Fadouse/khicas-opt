@@ -32,6 +32,9 @@ def equal(a,b):return sp.simplify(sp.expand_func(a-b))==0
 def verify(case,printed):
     id=case['id']
     if case['type']=='conic':return conic_check(case,printed)
+    if id.startswith('MR2-'):
+        from mixed_round2_reference import verify as verify_round2
+        return verify_round2(case,printed)
     assert not any(s in printed for s in ['integrate(', 'diff(', 'rootof(']),printed
     actual=parse(printed)
     if id in ['MR1-I1','MR1-I2']:

@@ -1,0 +1,457 @@
+{
+  "stack_bytes": 65536,
+  "guard_bytes": 4096,
+  "target_simplify": true,
+  "scope": "repository conversion source with host Giac dependencies and parser",
+  "source_sha256": {
+    "kconvert.cc": "b7eddd77ee50ad4aa066dfaf8d46b391a33cf5ed03aaa0bd4a0dcf4bfa2fb979",
+    "equation_normalize.h": "4bfb644f0e18bb36e280ce8886c8ac12695c9aeeaef187ea3e5f967cd1642e37",
+    "ksubst.cc": "0b73c3af46ee86512424895925cb0054974fb9097988ff6dec2801328997376b",
+    "ysym2poly.cc": "ca2e4abe3652bf6314e38703100426e6996b3d272ad6f6215d469acf7ecb979c",
+    "zprog.cc": "d0cdef17a1214d959438010ca7e1a6b4754a24d0a4d0c498d735381d45f0a284"
+  },
+  "cases": [
+    {
+      "case": [
+        "cart",
+        "(x^3+y^3=3*x*y,[x,y],t)"
+      ],
+      "outer_simplify": false,
+      "returncode": 0,
+      "output": "[[3*t/(t^3+1),3*t^2/(t^3+1)]]\n",
+      "output_length": 29,
+      "diagnostics": "Rational parametrization: t=-1 is excluded.\n"
+    },
+    {
+      "case": [
+        "cart",
+        "(-27*x^3+81*x*y-27*y^3=0,[x,y],t)"
+      ],
+      "outer_simplify": false,
+      "returncode": 0,
+      "output": "[[3*t/(t^3+1),3*t^2/(t^3+1)]]\n",
+      "output_length": 29,
+      "diagnostics": "Rational parametrization: t=-1 is excluded.\n"
+    },
+    {
+      "case": [
+        "cart",
+        "(x^3+y^3=0,[x,y],t)"
+      ],
+      "outer_simplify": false,
+      "returncode": 0,
+      "output": "[[t,-t]]\n",
+      "output_length": 8,
+      "diagnostics": ""
+    },
+    {
+      "case": [
+        "cart",
+        "(x^3+y^3=3*a*x*y,[x,y],t)",
+        "assume(a>0)"
+      ],
+      "outer_simplify": false,
+      "returncode": 0,
+      "output": "[[3*a*t/(t^3+1),3*a*t^2/(t^3+1)]]\n",
+      "output_length": 33,
+      "diagnostics": "Rational parametrization: t=-1 is excluded.\n"
+    },
+    {
+      "case": [
+        "cart",
+        "((x^2+y^2)^2=2*(x^2-y^2),[x,y],t)"
+      ],
+      "outer_simplify": false,
+      "returncode": 0,
+      "output": "[[sqrt(2)*cos(t)/(1+sin(t)*sin(t)),sqrt(2)*cos(t)/(1+sin(t)*sin(t))*sin(t)]]\n",
+      "output_length": 76,
+      "diagnostics": ""
+    },
+    {
+      "case": [
+        "cart",
+        "((x^2+y^2)^2=-2*(x^2-y^2),[x,y],t)"
+      ],
+      "outer_simplify": false,
+      "returncode": 0,
+      "output": "[[sqrt(2)*cos(t)/(1+sin(t)*sin(t))*sin(t),sqrt(2)*cos(t)/(1+sin(t)*sin(t))]]\n",
+      "output_length": 76,
+      "diagnostics": ""
+    },
+    {
+      "case": [
+        "cart",
+        "((x^2+y^2)^2=0,[x,y],t)"
+      ],
+      "outer_simplify": false,
+      "returncode": 0,
+      "output": "[[0,0]]\n",
+      "output_length": 7,
+      "diagnostics": ""
+    },
+    {
+      "case": [
+        "cart",
+        "((x^2+y^2)^2/4=x^2-y^2,[x,y],t)"
+      ],
+      "outer_simplify": false,
+      "returncode": 0,
+      "output": "[[2*cos(t)/(1+sin(t)*sin(t)),2*cos(t)/(1+sin(t)*sin(t))*sin(t)]]\n",
+      "output_length": 64,
+      "diagnostics": ""
+    },
+    {
+      "case": [
+        "cart",
+        "(x+y^5+y=0,[x,y],t)"
+      ],
+      "outer_simplify": false,
+      "returncode": 0,
+      "output": "[[-t^5-t,t]]\n",
+      "output_length": 12,
+      "diagnostics": ""
+    },
+    {
+      "case": [
+        "cart",
+        "(x^3+y^3+x^2+y^2=0,[x,y],t)"
+      ],
+      "outer_simplify": false,
+      "returncode": 0,
+      "output": "[[(-t^2-1)/(t^3+1),(-t^3-t)/(t^3+1)],[0,-1],[0,0]]\n",
+      "output_length": 50,
+      "diagnostics": "Rational parametrization: retain nonzero denominator conditions; constant branches include missing points.\n"
+    },
+    {
+      "case": [
+        "cart",
+        "(x*(x^3+y^3-3*x*y)=0,[x,y],t)"
+      ],
+      "outer_simplify": false,
+      "returncode": 0,
+      "output": "[[0,t],[3*t/(t^3+1),3*t^2/(t^3+1)]]\n",
+      "output_length": 35,
+      "diagnostics": "Rational parametrization: t=-1 is excluded.\n"
+    },
+    {
+      "case": [
+        "polar",
+        "(r^3=sin(theta),[r,theta],t)"
+      ],
+      "outer_simplify": false,
+      "returncode": 0,
+      "output": "[[sign(sin(t))*abs(sin(t))^(1/3)*cos(t),sign(sin(t))*abs(sin(t))^(1/3)*sin(t)]]\n",
+      "output_length": 79,
+      "diagnostics": ""
+    },
+    {
+      "case": [
+        "polar",
+        "(r^5=1-2*cos(theta),[r,theta],t)"
+      ],
+      "outer_simplify": false,
+      "returncode": 0,
+      "output": "[[sign(1-2*cos(t))*abs(1-2*cos(t))^(1/5)*cos(t),sign(1-2*cos(t))*abs(1-2*cos(t))^(1/5)*sin(t)]]\n",
+      "output_length": 95,
+      "diagnostics": ""
+    },
+    {
+      "case": [
+        "polar",
+        "(r^3/2+sin(theta)=0,[r,theta],t)"
+      ],
+      "outer_simplify": false,
+      "returncode": 0,
+      "output": "[[sign(-2*sin(t))*abs(-2*sin(t))^(1/3)*cos(t),sign(-2*sin(t))*abs(-2*sin(t))^(1/3)*sin(t)]]\n",
+      "output_length": 91,
+      "diagnostics": ""
+    },
+    {
+      "case": [
+        "polar",
+        "(r^9=sin(theta),[r,theta],t)"
+      ],
+      "outer_simplify": false,
+      "returncode": 0,
+      "output": "[[sign(sin(t))*abs(sin(t))^(1/9)*cos(t),sign(sin(t))*abs(sin(t))^(1/9)*sin(t)]]\n",
+      "output_length": 79,
+      "diagnostics": ""
+    },
+    {
+      "case": [
+        "polar",
+        "(r^3=-8,[r,theta],t)"
+      ],
+      "outer_simplify": false,
+      "returncode": 0,
+      "output": "[[-8^(1/3)*cos(t),-8^(1/3)*sin(t)]]\n",
+      "output_length": 35,
+      "diagnostics": ""
+    },
+    {
+      "case": [
+        "cartpolar",
+        "((x^2+y^2)^2=2*(x^2-y^2),[x,y],[r,theta])"
+      ],
+      "outer_simplify": false,
+      "returncode": 0,
+      "output": "r^2=(2*cos(2*theta))\n",
+      "output_length": 20,
+      "diagnostics": "Same Cartesian curve; origin retained. Angle labels at the origin may differ.\n"
+    },
+    {
+      "case": [
+        "cartpolar",
+        "(x^3+y^3=3*x*y,[x,y],[r,theta])"
+      ],
+      "outer_simplify": false,
+      "returncode": 0,
+      "output": "r=(3*sin(theta)*cos(theta)/(cos(theta)^3+sin(theta)^3))\n",
+      "output_length": 55,
+      "diagnostics": "Same Cartesian curve; origin retained. Explicit radius excludes cos(theta)^3+sin(theta)^3=0.\n"
+    },
+    {
+      "case": [
+        "cartpolar",
+        "(x^3+y^3=3*a*x*y,[x,y],[r,theta])"
+      ],
+      "outer_simplify": false,
+      "returncode": 0,
+      "output": "r*(cos(theta)^3+sin(theta)^3)=(3*a*sin(theta)*cos(theta))\n",
+      "output_length": 57,
+      "diagnostics": "Same Cartesian curve; origin retained. Implicit radius preserves zero-parameter cases.\n"
+    },
+    {
+      "case": [
+        "cartpolar",
+        "((x^2+y^2)^2/4=x^2-y^2,[x,y],[r,theta])"
+      ],
+      "outer_simplify": false,
+      "returncode": 0,
+      "output": "r^2=(1/(1/4)*cos(2*theta))\n",
+      "output_length": 26,
+      "diagnostics": "Same Cartesian curve; origin retained. Angle labels at the origin may differ.\n"
+    },
+    {
+      "case": [
+        "cart",
+        "(x^3+y^3=3*x*y,[x,y],t)"
+      ],
+      "outer_simplify": true,
+      "returncode": 0,
+      "output": "[[3*t/(t^3+1),3*t^2/(t^3+1)]]\n",
+      "output_length": 29,
+      "diagnostics": "Rational parametrization: t=-1 is excluded.\n"
+    },
+    {
+      "case": [
+        "cart",
+        "(-27*x^3+81*x*y-27*y^3=0,[x,y],t)"
+      ],
+      "outer_simplify": true,
+      "returncode": 0,
+      "output": "[[3*t/(t^3+1),3*t^2/(t^3+1)]]\n",
+      "output_length": 29,
+      "diagnostics": "Rational parametrization: t=-1 is excluded.\n"
+    },
+    {
+      "case": [
+        "cart",
+        "(x^3+y^3=0,[x,y],t)"
+      ],
+      "outer_simplify": true,
+      "returncode": 0,
+      "output": "[[t,-t]]\n",
+      "output_length": 8,
+      "diagnostics": ""
+    },
+    {
+      "case": [
+        "cart",
+        "(x^3+y^3=3*a*x*y,[x,y],t)",
+        "assume(a>0)"
+      ],
+      "outer_simplify": true,
+      "returncode": 0,
+      "output": "[[3*a*t/(t^3+1),3*a*t^2/(t^3+1)]]\n",
+      "output_length": 33,
+      "diagnostics": "Rational parametrization: t=-1 is excluded.\n"
+    },
+    {
+      "case": [
+        "cart",
+        "((x^2+y^2)^2=2*(x^2-y^2),[x,y],t)"
+      ],
+      "outer_simplify": true,
+      "returncode": 0,
+      "output": "[[-sqrt(2)*cos(t)/(cos(t)^2-2),sqrt(2)*cos(t)*sin(t)/(sin(t)^2+1)]]\n",
+      "output_length": 67,
+      "diagnostics": ""
+    },
+    {
+      "case": [
+        "cart",
+        "((x^2+y^2)^2=-2*(x^2-y^2),[x,y],t)"
+      ],
+      "outer_simplify": true,
+      "returncode": 0,
+      "output": "[[sqrt(2)*cos(t)*sin(t)/(sin(t)^2+1),-sqrt(2)*cos(t)/(cos(t)^2-2)]]\n",
+      "output_length": 67,
+      "diagnostics": ""
+    },
+    {
+      "case": [
+        "cart",
+        "((x^2+y^2)^2=0,[x,y],t)"
+      ],
+      "outer_simplify": true,
+      "returncode": 0,
+      "output": "[[0,0]]\n",
+      "output_length": 7,
+      "diagnostics": ""
+    },
+    {
+      "case": [
+        "cart",
+        "((x^2+y^2)^2/4=x^2-y^2,[x,y],t)"
+      ],
+      "outer_simplify": true,
+      "returncode": 0,
+      "output": "[[-2*cos(t)/(cos(t)^2-2),2*cos(t)*sin(t)/(sin(t)^2+1)]]\n",
+      "output_length": 55,
+      "diagnostics": ""
+    },
+    {
+      "case": [
+        "cart",
+        "(x+y^5+y=0,[x,y],t)"
+      ],
+      "outer_simplify": true,
+      "returncode": 0,
+      "output": "[[-t^5-t,t]]\n",
+      "output_length": 12,
+      "diagnostics": ""
+    },
+    {
+      "case": [
+        "cart",
+        "(x^3+y^3+x^2+y^2=0,[x,y],t)"
+      ],
+      "outer_simplify": true,
+      "returncode": 0,
+      "output": "[[(-t^2-1)/(t^3+1),(-t^3-t)/(t^3+1)],[0,-1],[0,0]]\n",
+      "output_length": 50,
+      "diagnostics": "Rational parametrization: retain nonzero denominator conditions; constant branches include missing points.\n"
+    },
+    {
+      "case": [
+        "cart",
+        "(x*(x^3+y^3-3*x*y)=0,[x,y],t)"
+      ],
+      "outer_simplify": true,
+      "returncode": 0,
+      "output": "[[0,t],[3*t/(t^3+1),3*t^2/(t^3+1)]]\n",
+      "output_length": 35,
+      "diagnostics": "Rational parametrization: t=-1 is excluded.\n"
+    },
+    {
+      "case": [
+        "polar",
+        "(r^3=sin(theta),[r,theta],t)"
+      ],
+      "outer_simplify": true,
+      "returncode": 0,
+      "output": "[[abs(sin(t))^(1/3)*sign(sin(t))*cos(t),abs(sin(t))^(1/3)*sign(sin(t))*sin(t)]]\n",
+      "output_length": 79,
+      "diagnostics": ""
+    },
+    {
+      "case": [
+        "polar",
+        "(r^5=1-2*cos(theta),[r,theta],t)"
+      ],
+      "outer_simplify": true,
+      "returncode": 0,
+      "output": "[[abs(1-2*cos(t))^(1/5)*sign(1-2*cos(t))*cos(t),abs(1-2*cos(t))^(1/5)*sign(1-2*cos(t))*sin(t)]]\n",
+      "output_length": 95,
+      "diagnostics": ""
+    },
+    {
+      "case": [
+        "polar",
+        "(r^3/2+sin(theta)=0,[r,theta],t)"
+      ],
+      "outer_simplify": true,
+      "returncode": 0,
+      "output": "[[abs(-2*sin(t))^(1/3)*sign(-2*sin(t))*cos(t),abs(-2*sin(t))^(1/3)*sign(-2*sin(t))*sin(t)]]\n",
+      "output_length": 91,
+      "diagnostics": ""
+    },
+    {
+      "case": [
+        "polar",
+        "(r^9=sin(theta),[r,theta],t)"
+      ],
+      "outer_simplify": true,
+      "returncode": 0,
+      "output": "[[abs(sin(t))^(1/9)*sign(sin(t))*cos(t),abs(sin(t))^(1/9)*sign(sin(t))*sin(t)]]\n",
+      "output_length": 79,
+      "diagnostics": ""
+    },
+    {
+      "case": [
+        "polar",
+        "(r^3=-8,[r,theta],t)"
+      ],
+      "outer_simplify": true,
+      "returncode": 0,
+      "output": "[[-2*cos(t),-2*sin(t)]]\n",
+      "output_length": 23,
+      "diagnostics": ""
+    },
+    {
+      "case": [
+        "cartpolar",
+        "((x^2+y^2)^2=2*(x^2-y^2),[x,y],[r,theta])"
+      ],
+      "outer_simplify": true,
+      "returncode": 0,
+      "output": "r^2=(2*cos(2*theta))\n",
+      "output_length": 20,
+      "diagnostics": "Same Cartesian curve; origin retained. Angle labels at the origin may differ.\n"
+    },
+    {
+      "case": [
+        "cartpolar",
+        "(x^3+y^3=3*x*y,[x,y],[r,theta])"
+      ],
+      "outer_simplify": true,
+      "returncode": 0,
+      "output": "r=(3*cos(theta)*sin(theta)/(cos(theta)^3+sin(theta)^3))\n",
+      "output_length": 55,
+      "diagnostics": "Same Cartesian curve; origin retained. Explicit radius excludes cos(theta)^3+sin(theta)^3=0.\n"
+    },
+    {
+      "case": [
+        "cartpolar",
+        "(x^3+y^3=3*a*x*y,[x,y],[r,theta])"
+      ],
+      "outer_simplify": true,
+      "returncode": 0,
+      "output": "1/4*r*cos(3*theta)+3/4*r*cos(theta)-1/4*r*sin(3*theta)+3/4*r*sin(theta)=(3/2*a*sin(2*theta))\n",
+      "output_length": 92,
+      "diagnostics": "Same Cartesian curve; origin retained. Implicit radius preserves zero-parameter cases.\n"
+    },
+    {
+      "case": [
+        "cartpolar",
+        "((x^2+y^2)^2/4=x^2-y^2,[x,y],[r,theta])"
+      ],
+      "outer_simplify": true,
+      "returncode": 0,
+      "output": "r^2=(4*cos(2*theta))\n",
+      "output_length": 20,
+      "diagnostics": "Same Cartesian curve; origin retained. Angle labels at the origin may differ.\n"
+    }
+  ]
+}

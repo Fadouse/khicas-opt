@@ -111,6 +111,13 @@ static int curve_sign(const gen &g,unsigned depth,GIAC_CONTEXT) {
   return 2;
 }
 
+// Keep the old negative-form proof fallback when the bounded positive-form
+// analysis is undecided, but do not repeat it for an already proved sign.
+static int curve_proved_sign(const gen &g,GIAC_CONTEXT) {
+  int s=curve_sign(g,0,contextptr);
+  return s==2 && curve_sign(-g,0,contextptr)==1?-1:s;
+}
+
 static gen curve_coefficient(const curve_polynomial_terms &p,unsigned x,unsigned y) {
   for(unsigned i=0;i<p.size();++i)if(p[i].px==x && p[i].py==y)return p[i].coefficient;
   return 0;
@@ -192,7 +199,7 @@ static bool curve_folium_param(const curve_polynomial_terms &p,const gen &t,gen 
     if(p.size()!=2)return false;
     out=vecteur(1,makevecteur(t,-t));return true;
   }
-  if(p.size()!=3 || !((curve_sign(K,0,contextptr)==1)||(curve_sign(-K,0,contextptr)==1)))return false;
+  if(p.size()!=3 || curve_proved_sign(K,contextptr)==2)return false;
   gen X=ratnormal((K/L)*t/(1+pow(t,3)),contextptr);
   out=vecteur(1,makevecteur(X,ratnormal(t*X,contextptr)));
   *logptr(contextptr)<<"Rational parametrization: t=-1 is excluded.\n";
@@ -202,15 +209,15 @@ static bool curve_folium_param(const curve_polynomial_terms &p,const gen &t,gen 
 static bool curve_lemniscate_param(const curve_polynomial_terms &p,const gen &t,gen &out,GIAC_CONTEXT) {
   if(p.size()!=3 && p.size()!=5)return false;
   gen L=curve_coefficient(p,4,0);
-  if(!((curve_sign(L,0,contextptr)==1)||(curve_sign(-L,0,contextptr)==1)))return false;
+  int sl=curve_proved_sign(L,contextptr);if(sl==0 || sl==2)return false;
   if(!is_zero(ratnormal(curve_coefficient(p,0,4)-L,contextptr)) ||
      !is_zero(ratnormal(curve_coefficient(p,2,2)-2*L,contextptr)) ||
      !is_zero(ratnormal(curve_coefficient(p,2,0)+curve_coefficient(p,0,2),contextptr)))return false;
   gen K=ratnormal(curve_coefficient(p,0,2)/L,contextptr);
   if(is_zero(K)){if(p.size()!=3)return false;out=vecteur(1,makevecteur(0,0));return true;}
   if(p.size()!=5 || !angle_radian(contextptr))return false;
-  bool rotated=(curve_sign(-K,0,contextptr)==1);
-  if(!rotated && !(curve_sign(K,0,contextptr)==1))return false;
+  int sk=curve_proved_sign(K,contextptr);if(sk==2)return false;
+  bool rotated=sk==-1;
   gen s=sin(t,contextptr),c=cos(t,contextptr),X=sqrt(rotated?-K:K,contextptr)*c/(1+s*s);
   out=vecteur(1,rotated?makevecteur(X*s,X):makevecteur(X,X*s));return true;
 }
@@ -263,18 +270,20 @@ static bool curve_conic_param(const curve_polynomial_terms &p,const gen &t,gen &
     // graph, or a pair of parallel lines. Swap coordinates if necessary.
     bool swapped=is_zero(A);
     if(swapped){swapgen(A,C);swapgen(D,E);}
-    if(is_zero(A) || !((curve_sign(A,0,contextptr)==1) || (curve_sign(-A,0,contextptr)==1)))return false;
+    int sa=curve_proved_sign(A,contextptr);if(sa==0 || sa==2)return false;
     gen shear=B/(2*A),linear=ratnormal(E-D*shear,contextptr);
     vecteur branches;
-    if((curve_sign(linear,0,contextptr)==1) || (curve_sign(-linear,0,contextptr)==1)){
+    int sl=curve_proved_sign(linear,contextptr);
+    if(sl==1 || sl==-1){
       gen U=t-D/(2*A),V=ratnormal((-A*t*t+D*D/(4*A)-F)/linear,contextptr);
       gen X=ratnormal(U-shear*V,contextptr);
       branches.push_back(swapped?makevecteur(V,X):makevecteur(X,V));
     }
     else if(is_zero(linear)){
       gen discriminant=ratnormal(D*D-4*A*F,contextptr);
-      if((curve_sign(-discriminant,0,contextptr)==1)){out=vecteur(0);return true;}
-      if(!is_zero(discriminant) && !(curve_sign(discriminant,0,contextptr)==1))return false;
+      int sd=curve_proved_sign(discriminant,contextptr);
+      if(sd==-1){out=vecteur(0);return true;}
+      if(sd==2)return false;
       gen root=sqrt(discriminant,contextptr);
       for(int sign=1;sign>=-1;sign-=2){
         gen X=ratnormal((-D+sign*root)/(2*A)-shear*t,contextptr);
@@ -285,7 +294,7 @@ static bool curve_conic_param(const curve_polynomial_terms &p,const gen &t,gen &
     else return false;
     out=branches;return true;
   }
-  if(!((curve_sign(det,0,contextptr)==1) || (curve_sign(-det,0,contextptr)==1)))return false;
+  int sd=curve_proved_sign(det,contextptr);if(sd==2)return false;
   gen h=ratnormal((B*E-2*C*D)/det,contextptr),k=ratnormal((B*D-2*A*E)/det,contextptr);
   gen rho=ratnormal(-F+(C*D*D-B*D*E+A*E*E)/det,contextptr);
   if(is_zero(A) && is_zero(C)){
@@ -293,30 +302,52 @@ static bool curve_conic_param(const curve_polynomial_terms &p,const gen &t,gen &
     // shorter than rotated cosh/sinh sums and cover both signs of X.
     if(is_zero(rho)){out=makevecteur(makevecteur(h+t,k),makevecteur(h,k+t));return true;}
     gen product=ratnormal(rho/B,contextptr);
-    bool positive=(curve_sign(product,0,contextptr)==1);
-    if(!positive && !(curve_sign(-product,0,contextptr)==1))return false;
+    int sp=curve_proved_sign(product,contextptr);if(sp==0 || sp==2)return false;
+    bool positive=sp==1;
     gen radius=sqrt(positive?product:-product,contextptr),X=radius*exp(t,contextptr),Y=(positive?1:-1)*radius*exp(-t,contextptr);
     out=makevecteur(makevecteur(h+X,k+Y),makevecteur(h-X,k-Y));return true;
   }
   gen l1=A,l2=C,c=1,s=0;
+  bool sheared=false,swapped=false;
   if(!is_zero(B)){
+    // Rational eigenvalue gaps often give the textbook short rotated
+    // chart. Keep those rather than introducing new shear radicals.
+    gen gap;
+    bool simple_rotation=false;
+    if(curve_rational(A) && curve_rational(B) && curve_rational(C)){
+      gap=sqrt((A-C)*(A-C)+B*B,contextptr);
+      simple_rotation=curve_rational(gap);
+    }
+    // A proved nonzero pivot permits a unit-determinant shear, avoiding
+    // nested eigenvector radicals. If neither pivot is proved nonzero,
+    // retain the eigenvector path (the parameter may cross zero).
+    int sa=curve_proved_sign(A,contextptr);
+    if(!simple_rotation && (sa==0 || sa==2)){
+      int sc=curve_proved_sign(C,contextptr);
+      if(sc==1 || sc==-1){swapgen(A,C);swapgen(h,k);swapped=true;sa=sc;}
+    }
+    if(!simple_rotation && (sa==1 || sa==-1)){
+      l1=A;l2=ratnormal(det/(4*A),contextptr);s=ratnormal(B/(2*A),contextptr);sheared=true;
+    }
+    else {
     // Exact orthonormal eigenvectors; no atan quadrant or angle ambiguity.
-    if(!((curve_sign(B,0,contextptr)==1) || (curve_sign(-B,0,contextptr)==1)))return false;
-    gen gap=sqrt((A-C)*(A-C)+B*B,contextptr);
+    int sb=curve_proved_sign(B,contextptr);if(sb==0 || sb==2)return false;
+    if(!simple_rotation)gap=sqrt((A-C)*(A-C)+B*B,contextptr);
     l1=(A+C+gap)/2;l2=(A+C-gap)/2;
     c=sqrt((1+(A-C)/gap)/2,contextptr);
-    s=((curve_sign(B,0,contextptr)==1)?1:-1)*sqrt((1-(A-C)/gap)/2,contextptr);
+    s=sb*sqrt((1-(A-C)/gap)/2,contextptr);
+    }
   }
   vecteur charts;
   if(is_zero(rho)){
-    if((curve_sign(det,0,contextptr)==1)){out=vecteur(1,makevecteur(h,k));return true;}
+    if(sd==1){out=vecteur(1,swapped?makevecteur(k,h):makevecteur(h,k));return true;}
     gen slope=sqrt(-l1/l2,contextptr);
     charts.push_back(makevecteur(t,slope*t));charts.push_back(makevecteur(t,-slope*t));
   }
   else {
     gen r1=ratnormal(rho/l1,contextptr),r2=ratnormal(rho/l2,contextptr);
-    bool pos1=(curve_sign(r1,0,contextptr)==1),pos2=(curve_sign(r2,0,contextptr)==1);
-    bool neg1=(curve_sign(-r1,0,contextptr)==1),neg2=(curve_sign(-r2,0,contextptr)==1);
+    int sr1=curve_proved_sign(r1,contextptr),sr2=curve_proved_sign(r2,contextptr);
+    bool pos1=sr1==1,pos2=sr2==1,neg1=sr1==-1,neg2=sr2==-1;
     if(pos1 && pos2)charts.push_back(makevecteur(sqrt(r1,contextptr)*cos(t,contextptr),sqrt(r2,contextptr)*sin(t,contextptr)));
     else if(neg1 && neg2){out=vecteur(0);return true;}
     else if((pos1 && neg2) || (neg1 && pos2)){
@@ -329,7 +360,8 @@ static bool curve_conic_param(const curve_polynomial_terms &p,const gen &t,gen &
   vecteur branches;branches.reserve(charts.size());
   for(unsigned j=0;j<charts.size();++j){
     const vecteur &v=*charts[j]._VECTptr;
-    branches.push_back(makevecteur(ratnormal(h+c*v[0]-s*v[1],contextptr),ratnormal(k+s*v[0]+c*v[1],contextptr)));
+    gen X=ratnormal(h+c*v[0]-s*v[1],contextptr),Y=ratnormal(k+(sheared?v[1]:s*v[0]+c*v[1]),contextptr);
+    branches.push_back(swapped?makevecteur(Y,X):makevecteur(X,Y));
   }
   out=branches;return true;
 }
@@ -387,8 +419,7 @@ static bool curve_odd_polar_radius(const gen &f,const gen &r,const gen &theta,co
 }
 
 static bool curve_polar_nonzero(const gen &g,GIAC_CONTEXT) {
-  return !is_undef(g) && !is_inf(g) &&
-    ((curve_sign(g,0,contextptr)==1) || (curve_sign(-g,0,contextptr)==1));
+  int s=curve_proved_sign(g,contextptr);return s==1 || s==-1;
 }
 
 static bool curve_compact_polar(const gen &g,const gen &x,const gen &y,

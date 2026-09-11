@@ -1,0 +1,152 @@
+{
+  "cases": [
+    {
+      "id": "MR2-I1",
+      "type": "integral",
+      "input": "simplify(integrate(2*ln(abs(3*sin(3*x/4+pi/8)))-ln(abs(2*cos(x/2-pi/9))),x))",
+      "conditions": ["x is real", "sin(3*x/4+pi/8)*cos(x/2-pi/9) != 0", "An antiderivative is required on every connected component of this domain; additive constants may differ between components.", "Li2 and ln use their principal branches."],
+      "expected": {
+        "expression": "2*x*ln(3/2)-4/3*im(Li2(exp(2*i*(3*x/4+pi/8))))+im(Li2(exp(2*i*(x/2+7*pi/18))))",
+        "properties": ["Return an explicit exact antiderivative without unevaluated integrate.", "Cover all four possible sign combinations of the two trigonometric factors wherever those combinations occur.", "Equivalent short sums of Li2 terms are acceptable; retain the existing expression, stack, and heap budgets."]
+      },
+      "reason": "For real t away from sin(t)=0, define H(t)=Im Li2(exp(2*i*t)). The identity d Li2(z)/dz=-ln(1-z)/z gives H'(t)=-2*ln(abs(1-exp(2*i*t)))=-2*ln(2*abs(sin(t))). Put u=3*x/4+pi/8 and v=x/2+7*pi/18, so sin(v)=cos(x/2-pi/9). The proposed derivative is 2*ln(3/2)+2*ln(2*abs(sin(u)))-ln(2*abs(sin(v))). Each log argument is positive on the domain; the first two terms combine to 2*ln(abs(3*sin(u)))."
+    },
+    {
+      "id": "MR2-I2",
+      "type": "integral",
+      "input": "simplify(integrate(ln(-3*sin(2*x/3+pi/7)),x))",
+      "conditions": ["x is real", "sin(2*x/3+pi/7) != 0", "ln is the principal complex logarithm, with ln(-r)=ln(r)+i*pi for positive real r.", "Cover every connected component of the stated real domain, including both signs of the sine; intervalwise additive constants are immaterial."],
+      "expected": {
+        "expression": "x*ln(3/2)-3/4*im(Li2(exp(2*i*(2*x/3+pi/7))))+piecewise(sin(2*x/3+pi/7)>0,i*pi*x,0)",
+        "properties": ["An equivalent complete piecewise or periodic branch formula is acceptable.", "The derivative has imaginary part pi where sin(2*x/3+pi/7)>0 and zero where that sine is negative.", "A real-only result valid solely where the log argument is positive does not cover the required domain."]
+      },
+      "reason": "Let u=2*x/3+pi/7. Since d Im Li2(exp(2*i*u))/dx=-(4/3)*ln(2*abs(sin(u))), the derivative of the first two terms is ln(3/2)+ln(2*abs(sin(u)))=ln(3*abs(sin(u))). On each connected component the sign of sin(u) is constant. If it is positive then -3*sin(u)<0 and the principal logarithm requires i*pi, supplied by the derivative of i*pi*x. If it is negative the log argument is positive and no imaginary term is needed. The excluded zeros are exactly the switching boundaries."
+    },
+    {
+      "id": "MR2-I3",
+      "type": "integral",
+      "input": "simplify(integrate((2*x+1)*ln(1+(x^2+x)^2)/(x^2+x),x))",
+      "conditions": ["x is real", "x != -1 and x != 0", "Li2 is principal; its argument -(x^2+x)^2 lies on the nonpositive real axis.", "The stationary substitution point x=-1/2 belongs to the domain and must not become a singularity."],
+      "expected": {
+        "expression": "-Li2(-(x^2+x)^2)/2",
+        "properties": ["Return an explicit exact antiderivative on all three connected domain intervals.", "The result must be regular at x=-1/2 and its derivative there must equal zero.", "No inversion of x^2+x, selection of one quadratic inverse branch, or artificial division by 2*x+1 may discard part of the domain."]
+      },
+      "reason": "Write w=x^2+x, with w'=2*x+1. For w!=0, d Li2(-w^2)/dx=-2*w'*ln(1+w^2)/w. Multiplication by -1/2 gives the input exactly. This chain-rule argument remains valid when w'=0, so no monotonicity assumption or inverse-substitution branch is necessary. In particular at x=-1/2, w=-1/4 is nonzero and both derivatives vanish."
+    },
+    {
+      "id": "MR2-I4",
+      "type": "integral",
+      "input": "simplify(integrate(x*atan(x^2),x))",
+      "conditions": ["x is real, including x=0", "atan is the ordinary real principal arctangent."],
+      "expected": {
+        "expression": "x^2*atan(x^2)/2-ln(1+x^4)/4",
+        "properties": ["Return an explicit elementary antiderivative valid on the entire real axis.", "Preserve regularity at x=0 and do not introduce real poles."]
+      },
+      "reason": "Set u=x^2, so x*dx=du/2. Integration by parts gives integral atan(u) du = u*atan(u)-ln(1+u^2)/2. Equivalently, differentiating the proposed answer gives x*atan(x^2)+x^3/(1+x^4)-x^3/(1+x^4), exactly x*atan(x^2). Because 1+x^4>0, the expression is real and differentiable for every real x."
+    },
+    {
+      "id": "MR2-C1",
+      "type": "conic",
+      "input": "simplify(cart2param((3*x+y-2)^2+2*(x-y+1)^2=18,[x,y],theta))",
+      "equation": "(3*x+y-2)^2+2*(x-y+1)^2=18",
+      "parameter": "theta",
+      "kind": "ellipse",
+      "branches": 1,
+      "conditions": ["x and y are real", "theta traverses all real numbers"],
+      "expected": {
+        "parametrizations": [["(3*sqrt(2)*cos(theta)+3*sin(theta)+1)/4", "(3*sqrt(2)*cos(theta)-9*sin(theta)+5)/4"]],
+        "properties": ["Equivalent exact parametrizations or complete parameter charts are acceptable if they cover the entire real ellipse.", "Substitution must satisfy the equation identically and preserve the x(theta), y(theta) coordinate labels.", "The answer to this bounded quadratic input must remain displayable under the existing 256-node renderer protection without raising resource budgets."]
+      },
+      "reason": "Set U=3*x+y-2 and V=x-y+1. The inverse affine map is x=(U+V+1)/4, y=(U-3*V+5)/4. U=3*sqrt(2)*cos(theta), V=3*sin(theta) covers U^2+2*V^2=18 completely. The linear map has determinant -4, so the coverage transfers to the original curve without losing points. Its quadratic matrix is [[11,1],[1,3]], with eigenvalues 7+sqrt(17) and 7-sqrt(17); a diagonalization-based answer may differ but must describe the same complete real ellipse."
+    },
+    {
+      "id": "MR2-C2",
+      "type": "conic",
+      "input": "simplify(cart2param((x-2*y+3)^2=8*(2*x+y-1),[x,y],t))",
+      "equation": "(x-2*y+3)^2=8*(2*x+y-1)",
+      "parameter": "t",
+      "kind": "parabola",
+      "branches": 1,
+      "conditions": ["x and y are real", "t traverses all real numbers"],
+      "expected": {
+        "parametrizations": [["(t+t^2/4-1)/5", "(-2*t+t^2/8+7)/5"]],
+        "properties": ["Return the complete rotated parabola; equivalent exact parametrizations or complete parameter charts are acceptable.", "Include the vertex (-1/5,7/5), and both signs of x-2*y+3.", "Do not reduce the curve to one square-root half when solving the rank-one quadratic form."]
+      },
+      "reason": "Use U=x-2*y+3, V=2*x+y-1. Solving the invertible linear system yields x=(U+2*V-1)/5 and y=(-2*U+V+7)/5. The equation is U^2=8*V, so choose U=t and V=t^2/8. For any real solution its actual U gives a real t reproducing that point, proving complete coverage. The two coordinate directions are orthogonal and equally scaled, hence U=V=0 maps to the geometric vertex (-1/5,7/5)."
+    },
+    {
+      "id": "MR2-C3",
+      "type": "conic",
+      "input": "cart2param((2*x-3*y+4)^2=25,[x,y],q)",
+      "equation": "(2*x-3*y+4)^2=25",
+      "parameter": "q",
+      "kind": "parallel-lines",
+      "branches": 2,
+      "conditions": ["x and y are real", "q traverses all real numbers for each line"],
+      "expected": {
+        "parametrizations": [["(3*q+1)/2", "q"], ["(3*q-9)/2", "q"]],
+        "properties": ["Return both complete, distinct real parallel lines with the requested parameter label.", "Equivalent affine parametrizations are acceptable; both signs of 2*x-3*y+4 must occur.", "This rank-one quadratic must not be misclassified as a single repeated line or a parabola."]
+      },
+      "reason": "Over the reals the equation is equivalent to 2*x-3*y+4=5 or 2*x-3*y+4=-5. In each case set y=q and solve for x, obtaining the two listed lines. Every real point has one real y value and lies in exactly one sign case; conversely substitution gives the squared value 25 on each line. The distinct constants prove that the lines neither coincide nor intersect."
+    },
+    {
+      "id": "MR2-C4",
+      "type": "conic",
+      "input": "simplify(cart2param((x+2*y-1)^2+4*(3*x-y+5)^2=0,[x,y],r))",
+      "equation": "(x+2*y-1)^2+4*(3*x-y+5)^2=0",
+      "parameter": "r",
+      "kind": "point",
+      "branches": 1,
+      "conditions": ["x and y are real", "The parameter r may take any real value; a constant parametrization is permitted.", "branches counts returned real components here, so an isolated point has one component rather than zero."],
+      "expected": {
+        "parametrizations": [["-9/7", "8/7"]],
+        "properties": ["Return exactly the isolated real point (-9/7,8/7), either explicitly or as a constant parameter curve.", "Do not report the empty set, a nonconstant ellipse, or complex lines as the real answer.", "Keep the requested x,y coordinate ordering."]
+      },
+      "reason": "Both summands are nonnegative for real x,y, so their sum can vanish only when x+2*y-1=0 and 3*x-y+5=0 simultaneously. The coefficient determinant is -7, and solving gives x=-9/7, y=8/7. Substitution makes each square zero. Positivity excludes every other real point, so this is an isolated real component rather than an empty conic."
+    },
+    {
+      "id": "MR2-D1",
+      "type": "derivative-simplify",
+      "input": "simplify(diff(im(Li2(exp(i*(x^2+pi/4)))),x)+2*x*ln(2))",
+      "conditions": ["x is real", "sin((x^2+pi/4)/2) != 0", "x=0 is included in the domain.", "Li2 and ln use their principal branches."],
+      "expected": {
+        "expression": "-2*x*ln(abs(sin((x^2+pi/4)/2)))",
+        "properties": ["An equivalent compact sum of real logarithms is acceptable on every stated domain interval.", "The value at x=0 must be zero; no division by the phase derivative 2*x may create a new pole.", "Return an explicit derivative without unevaluated diff or Li2 derivatives, under the existing simplify, heap, and stack budgets."]
+      },
+      "reason": "Put u=x^2+pi/4. Differentiating the Li2 composition gives -i*u'*ln(1-exp(i*u)). Its imaginary part is -u'*ln(abs(1-exp(i*u)))=-2*x*ln(2*abs(sin(u/2))). Adding 2*x*ln(2) cancels the positive constant factor within the logarithm. This derivation does not divide by u', and at x=0 the sine is sin(pi/8), which is nonzero, so the derivative is exactly zero there."
+    },
+    {
+      "id": "MR2-D2",
+      "type": "derivative-simplify",
+      "input": "simplify(diff(Li2(-x^2*(x-1)^2),x))",
+      "conditions": ["x is real, including x=0 and x=1", "Li2 is analytic at zero and uses its principal branch along the nonpositive real axis."],
+      "expected": {
+        "expression": "piecewise(x==0,0,piecewise(x==1,0,-2*(2*x-1)*ln(1+x^2*(x-1)^2)/(x*(x-1))))",
+        "properties": ["For x different from 0 and 1, agree exactly with the stated logarithmic quotient.", "Define the derivative as zero at both x=0 and x=1, not merely at one of the two roots.", "An equivalent representation carrying both removable values is acceptable; an unqualified quotient undefined at either point is not a full-domain answer.", "The ordinary stationary point x=1/2 also has derivative zero and must remain regular."]
+      },
+      "reason": "Let w=x*(x-1), so z=-w^2 and w'=2*x-1. For w!=0 the chain rule gives d Li2(-w^2)/dx=-2*w'*ln(1+w^2)/w, the displayed quotient. At either root w=0, the analytic series Li2(-w^2)=-w^2+O(w^4) gives derivative -2*w*w'+O(w^3*w'), hence zero at both x=0 and x=1. At x=1/2 the denominator is nonzero and w'=0, yielding zero without any removable-point convention."
+    },
+    {
+      "id": "MR2-D3",
+      "type": "derivative-simplify",
+      "input": "simplify(diff(Li2(x^2/(1+x^2)),x))",
+      "conditions": ["x is real, including x=0", "The Li2 argument x^2/(1+x^2) belongs to [0,1), so no point on the principal branch cut [1,infinity) is encountered."],
+      "expected": {
+        "expression": "piecewise(x==0,0,2*ln(1+x^2)/(x*(1+x^2)))",
+        "properties": ["For every nonzero real x, return a derivative exactly equal to the stated quotient.", "Preserve the analytic derivative value zero at x=0 through an explicit condition or an equivalent defined representation.", "The derivative must be real and odd on the entire real domain; do not introduce a principal-log imaginary constant."]
+      },
+      "reason": "Set z=x^2/(1+x^2), with z'=2*x/(1+x^2)^2 and 1-z=1/(1+x^2)>0. For x!=0, -ln(1-z)*z'/z equals 2*ln(1+x^2)/(x*(1+x^2)); the logarithm identity is justified by strict real positivity. Near zero, z=x^2+O(x^4) and Li2(z)=z+O(z^2)=x^2+O(x^4), so the derivative equals 2*x+O(x^3) and is zero at zero. Its numerator and second denominator factor are even, while the factor x is odd, proving the stated parity."
+    },
+    {
+      "id": "MR2-D4",
+      "type": "derivative-simplify",
+      "input": "simplify(diff(sqrt(1+x^2)*atan(x),x)-x*atan(x)/sqrt(1+x^2)+sin(2*x)^2+cos(2*x)^2)",
+      "conditions": ["x is real, including x=0", "sqrt denotes the positive real square root of 1+x^2, and atan is the real principal arctangent."],
+      "expected": {
+        "expression": "1+1/sqrt(1+x^2)",
+        "properties": ["Return an explicit compact ordinary derivative and simplify the cancelling atan terms and the trigonometric identity.", "An algebraically equivalent real expression is acceptable; no real singularities may be introduced.", "At x=0 the full expression is 2."]
+      },
+      "reason": "The product rule gives x*atan(x)/sqrt(1+x^2)+sqrt(1+x^2)/(1+x^2). The explicit subtraction cancels the first term. Because 1+x^2>0, the remaining quotient equals 1/sqrt(1+x^2). Finally sin(2*x)^2+cos(2*x)^2=1 on the whole real axis. Strict positivity justifies the square-root cancellation without any sign ambiguity."
+    }
+  ]
+}

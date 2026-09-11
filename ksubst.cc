@@ -2466,6 +2466,27 @@ namespace giac {
         }
         return ratnormal(quotesubst(e_orig,from,to,contextptr),contextptr);
       }
+      // A short sum of higher trig powers in a denominator is already a
+      // useful rational form (including polar radii). The general trig
+      // rewrite can multiply it into a much larger quotient and exhaust
+      // a small stack. Normalize rational arithmetic without that rewrite.
+      if(contains(e_orig,*at_sin) && contains(e_orig,*at_cos)){
+        vecteur inverses=lop(e_orig,at_inv);
+        for(unsigned j=0;j<inverses.size();++j){
+          const gen &den=inverses[j]._SYMBptr->feuille;
+          if(!den.is_symb_of_sommet(at_plus))continue;
+          vecteur powers=lop(den,at_pow);
+          for(unsigned k=0;k<powers.size();++k){
+            const gen &f=powers[k]._SYMBptr->feuille;
+            if(f.type!=_VECT || f._VECTptr->size()!=2)continue;
+            const gen &base=f._VECTptr->front(),&n=f._VECTptr->back();
+            if(n.type!=_INT_ || n.val<3 ||
+               (!base.is_symb_of_sommet(at_sin) && !base.is_symb_of_sommet(at_cos)))continue;
+            gen reduced=ratnormal(e_orig,contextptr);
+            return taille(reduced,129)<=taille(e_orig,129)?reduced:e_orig;
+          }
+        }
+      }
     }
     // A single logarithm of a multivariate radical already is a compact
     // atom. Rational arithmetic outside it can cancel coefficients without

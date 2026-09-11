@@ -1,0 +1,46 @@
+{
+  "cases": [
+    {
+      "id": "MR2-I1",
+      "input": "simplify(integrate(2*ln(abs(3*sin(3*x/4+pi/8)))-ln(abs(2*cos(x/2-pi/9))),x))",
+      "expected": "2*x*ln(3/2)-4/3*im(Li2(exp(2*i*(3*x/4+pi/8))))+im(Li2(exp(2*i*(x/2+7*pi/18))))",
+      "conditions": [
+        "x is real",
+        "sin(3*x/4+pi/8)*cos(x/2-pi/9) != 0",
+        "An antiderivative is required on every connected component of this domain; additive constants may differ between components.",
+        "Li2 and ln use their principal branches."
+      ]
+    },
+    {
+      "id": "MR2-I2",
+      "input": "simplify(integrate(ln(-3*sin(2*x/3+pi/7)),x))",
+      "expected": "x*ln(3/2)-3/4*im(Li2(exp(2*i*(2*x/3+pi/7))))+piecewise(sin(2*x/3+pi/7)>0,i*pi*x,0)",
+      "conditions": [
+        "x is real",
+        "sin(2*x/3+pi/7) != 0",
+        "ln is the principal complex logarithm, with ln(-r)=ln(r)+i*pi for positive real r.",
+        "Cover every connected component of the stated real domain, including both signs of the sine; intervalwise additive constants are immaterial."
+      ]
+    },
+    {
+      "id": "MR2-I3",
+      "input": "simplify(integrate((2*x+1)*ln(1+(x^2+x)^2)/(x^2+x),x))",
+      "expected": "-Li2(-(x^2+x)^2)/2",
+      "conditions": [
+        "x is real",
+        "x != -1 and x != 0",
+        "Li2 is principal; its argument -(x^2+x)^2 lies on the nonpositive real axis.",
+        "The stationary substitution point x=-1/2 belongs to the domain and must not become a singularity."
+      ]
+    },
+    {
+      "id": "MR2-I4",
+      "input": "simplify(integrate(x*atan(x^2),x))",
+      "expected": "x^2*atan(x^2)/2-ln(1+x^4)/4",
+      "conditions": [
+        "x is real, including x=0",
+        "atan is the ordinary real principal arctangent."
+      ]
+    }
+  ]
+}

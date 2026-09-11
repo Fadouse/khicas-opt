@@ -103,7 +103,10 @@ namespace giac {
       if(z.is_symb_of_sommet(at_exp) && angle_radian(contextptr) && taille(z,65)<=64){
         gen u=ratnormal(-cst_i*z._SYMBptr->feuille,contextptr);
         if(is_zero(im(u,contextptr)))
-          return -derive(u,i,contextptr)*ln(2*abs(sin(u/2,contextptr),contextptr),contextptr);
+          // The identity already needs the absolute value on every sign
+          // interval. Keep it instead of running a global Sturm sign test
+          // merely to rediscover the same symbolic abs(sin(...)).
+          return -derive(u,i,contextptr)*symbolic(at_ln,2*symbolic(at_abs,sin(u/2,contextptr)));
       }
     }
     // rational operators are treated first for efficiency

@@ -1,0 +1,71 @@
+{
+  "scope": "Diagnostic record of remaining gaps; excluded from passed-integral and acceptance totals.",
+  "source_sha256": {
+    "kconvert.cc": "b7eddd77ee50ad4aa066dfaf8d46b391a33cf5ed03aaa0bd4a0dcf4bfa2fb979",
+    "ksubst.cc": "0b73c3af46ee86512424895925cb0054974fb9097988ff6dec2801328997376b",
+    "yderive.cc": "08fb682fe314d337d73f35d6cd7368f7dec2352935cc51c0c1c6c9e4e0b01f65",
+    "dilogarithm.h": "ca822ef4c094a4ed1f4aecf7219011668735d86d259c51ec6304515f8fa84d7a"
+  },
+  "runs": [
+    {
+      "id": "stationary-branch-endpoint",
+      "input": "eval(subst(diff(im(Li2(exp(i*x^2))),x),x=0))",
+      "stack": "normal",
+      "exit": 3,
+      "result": "undef",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000530493\nMAX_RSS_KB 19732\n",
+      "status": "known-gap-not-passed",
+      "note": "Expected derivative 0 by the local x^2*log(abs(x)) behavior; current output is undef. The real-phase identity only promises values off sine zeros."
+    },
+    {
+      "id": "stationary-branch-endpoint",
+      "input": "eval(subst(diff(im(Li2(exp(i*x^2))),x),x=0))",
+      "stack": "64",
+      "exit": 3,
+      "result": "undef",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.00081575\nMAX_RSS_KB 19732\n",
+      "status": "known-gap-not-passed",
+      "note": "Expected derivative 0 by the local x^2*log(abs(x)) behavior; current output is undef. The real-phase identity only promises values off sine zeros."
+    },
+    {
+      "id": "explicit-symbolic-eval",
+      "input": "eval(diff(im(Li2(exp(i*(x^2+pi/4)))),x))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "-8*x/4*ln(2*abs(sin((pi+4*x^2)/4/2)))",
+      "stderr": "  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\nPARSER_CALLS 2\nSECONDS 0.016957\nMAX_RSS_KB 28188\n",
+      "status": "known-gap-not-passed",
+      "note": "Mathematically correct, but an explicit eval of the unassigned symbolic result re-enters the generic abs/Sturm path; host PARI warnings can return."
+    },
+    {
+      "id": "explicit-symbolic-eval",
+      "input": "eval(diff(im(Li2(exp(i*(x^2+pi/4)))),x))",
+      "stack": "64",
+      "exit": 0,
+      "result": "-8*x/4*ln(2*abs(sin((pi+4*x^2)/4/2)))",
+      "stderr": "  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\nPARSER_CALLS 2\nSECONDS 0.016663\nMAX_RSS_KB 28160\n",
+      "status": "known-gap-not-passed",
+      "note": "Mathematically correct, but an explicit eval of the unassigned symbolic result re-enters the generic abs/Sturm path; host PARI warnings can return."
+    },
+    {
+      "id": "unknown-pivot-display",
+      "input": "(a*x^2+x*y-a*y^2=1,[x,y],t)",
+      "stack": "normal",
+      "exit": 0,
+      "result": "RAW [[sqrt((1+(a+a)/sqrt((a+a)*(a+a)+1))/2)*sqrt(2/sqrt((a+a)*(a+a)+1))*cosh(t)-sqrt((1-(a+a)/sqrt((a+a)*(a+a)+1))/2)*sqrt(2/sqrt((a+a)*(a+a)+1))*sinh(t),sqrt((1+(a+a)/sqrt((a+a)*(a+a)+1))/2)*sqrt(2/sqrt((a+a)*(a+a)+1))*sinh(t)+sqrt((1-(a+a)/sqrt((a+a)*(a+a)+1))/2)*sqrt(2/sqrt((a+a)*(a+a)+1))*cosh(t)],[-sqrt((1+(a+a)/sqrt((a+a)*(a+a)+1))/2)*sqrt(2/sqrt((a+a)*(a+a)+1))*cosh(t)-sqrt((1-(a+a)/sqrt((a+a)*(a+a)+1))/2)*sqrt(2/sqrt((a+a)*(a+a)+1))*sinh(t),sqrt((1+(a+a)/sqrt((a+a)*(a+a)+1))/2)*sqrt(2/sqrt((a+a)*(a+a)+1))*sinh(t)-sqrt((1-(a+a)/sqrt((a+a)*(a+a)+1))/2)*sqrt(2/sqrt((a+a)*(a+a)+1))*cosh(t)]]\nVIEW [[x(t)=(sqrt((1+(a+a)/sqrt((a+a)*(a+a)+1))/2)*sqrt(2/sqrt((a+a)*(a+a)+1))*cosh(t)-sqrt((1-(a+a)/sqrt((a+a)*(a+a)+1))/2)*sqrt(2/sqrt((a+a)*(a+a)+1))*sinh(t)),y(t)=(sqrt((1+(a+a)/sqrt((a+a)*(a+a)+1))/2)*sqrt(2/sqrt((a+a)*(a+a)+1))*sinh(t)+sqrt((1-(a+a)/sqrt((a+a)*(a+a)+1))/2)*sqrt(2/sqrt((a+a)*(a+a)+1))*cosh(t))],[x(t)=(-sqrt((1+(a+a)/sqrt((a+a)*(a+a)+1))/2)*sqrt(2/sqrt((a+a)*(a+a)+1))*cosh(t)-sqrt((1-(a+a)/sqrt((a+a)*(a+a)+1))/2)*sqrt(2/sqrt((a+a)*(a+a)+1))*sinh(t)),y(t)=(sqrt((1+(a+a)/sqrt((a+a)*(a+a)+1))/2)*sqrt(2/sqrt((a+a)*(a+a)+1))*sinh(t)-sqrt((1-(a+a)/sqrt((a+a)*(a+a)+1))/2)*sqrt(2/sqrt((a+a)*(a+a)+1))*cosh(t))]]\nNODES 412 428",
+      "stderr": "SECONDS 0.00109649\n",
+      "status": "known-gap-not-passed",
+      "note": "Unknown-pivot fallback retained. Expression can exceed the 256-node display budget; not counted as complete displayed coverage."
+    },
+    {
+      "id": "unknown-pivot-display",
+      "input": "(a*x^2+x*y-a*y^2=1,[x,y],t)",
+      "stack": "64",
+      "exit": 0,
+      "result": "RAW [[sqrt((1+(a+a)/sqrt((a+a)*(a+a)+1))/2)*sqrt(2/sqrt((a+a)*(a+a)+1))*cosh(t)-sqrt((1-(a+a)/sqrt((a+a)*(a+a)+1))/2)*sqrt(2/sqrt((a+a)*(a+a)+1))*sinh(t),sqrt((1+(a+a)/sqrt((a+a)*(a+a)+1))/2)*sqrt(2/sqrt((a+a)*(a+a)+1))*sinh(t)+sqrt((1-(a+a)/sqrt((a+a)*(a+a)+1))/2)*sqrt(2/sqrt((a+a)*(a+a)+1))*cosh(t)],[-sqrt((1+(a+a)/sqrt((a+a)*(a+a)+1))/2)*sqrt(2/sqrt((a+a)*(a+a)+1))*cosh(t)-sqrt((1-(a+a)/sqrt((a+a)*(a+a)+1))/2)*sqrt(2/sqrt((a+a)*(a+a)+1))*sinh(t),sqrt((1+(a+a)/sqrt((a+a)*(a+a)+1))/2)*sqrt(2/sqrt((a+a)*(a+a)+1))*sinh(t)-sqrt((1-(a+a)/sqrt((a+a)*(a+a)+1))/2)*sqrt(2/sqrt((a+a)*(a+a)+1))*cosh(t)]]\nVIEW [[x(t)=(sqrt((1+(a+a)/sqrt((a+a)*(a+a)+1))/2)*sqrt(2/sqrt((a+a)*(a+a)+1))*cosh(t)-sqrt((1-(a+a)/sqrt((a+a)*(a+a)+1))/2)*sqrt(2/sqrt((a+a)*(a+a)+1))*sinh(t)),y(t)=(sqrt((1+(a+a)/sqrt((a+a)*(a+a)+1))/2)*sqrt(2/sqrt((a+a)*(a+a)+1))*sinh(t)+sqrt((1-(a+a)/sqrt((a+a)*(a+a)+1))/2)*sqrt(2/sqrt((a+a)*(a+a)+1))*cosh(t))],[x(t)=(-sqrt((1+(a+a)/sqrt((a+a)*(a+a)+1))/2)*sqrt(2/sqrt((a+a)*(a+a)+1))*cosh(t)-sqrt((1-(a+a)/sqrt((a+a)*(a+a)+1))/2)*sqrt(2/sqrt((a+a)*(a+a)+1))*sinh(t)),y(t)=(sqrt((1+(a+a)/sqrt((a+a)*(a+a)+1))/2)*sqrt(2/sqrt((a+a)*(a+a)+1))*sinh(t)-sqrt((1-(a+a)/sqrt((a+a)*(a+a)+1))/2)*sqrt(2/sqrt((a+a)*(a+a)+1))*cosh(t))]]\nNODES 412 428",
+      "stderr": "SECONDS 0.00105601\n",
+      "status": "known-gap-not-passed",
+      "note": "Unknown-pivot fallback retained. Expression can exceed the 256-node display budget; not counted as complete displayed coverage."
+    }
+  ]
+}

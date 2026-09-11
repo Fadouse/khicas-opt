@@ -36,7 +36,7 @@ static std::complex<double> khicas_dilog_numeric(khicas_dilog_complex z){
  }
  if(radius>1){khicas_dilog_complex L=khicas_dilog_log(-z);return -khicas_dilog_numeric(khicas_dilog_complex(1,0)/z)-pi*pi/6.-L*L/2.;}
  if(z.real()>0.5)return pi*pi/6.-khicas_dilog_log(z)*khicas_dilog_log(khicas_dilog_complex(1,0)-z)-khicas_dilog_numeric(khicas_dilog_complex(1,0)-z);
- const double coefficients[]={0.027777777777777776,-0.00027777777777777778,4.7241118669690098e-06,-9.1857730746619641e-08,1.8978869988971001e-09,-4.0647616451442256e-11,8.9216910204564523e-13,-1.9939295860721074e-14,4.5189800296199183e-16,-1.0356517612181247e-17,2.395218621026187e-19,-5.581785874325009e-21};
+ static const double coefficients[]={0.027777777777777776,-0.00027777777777777778,4.7241118669690098e-06,-9.1857730746619641e-08,1.8978869988971001e-09,-4.0647616451442256e-11,8.9216910204564523e-13,-1.9939295860721074e-14,4.5189800296199183e-16,-1.0356517612181247e-17,2.395218621026187e-19,-5.581785874325009e-21};
  khicas_dilog_complex w=-khicas_dilog_log(khicas_dilog_complex(1,0)-z),w2=w*w,power=w*w2,sum=w-w2/4.;
  for(unsigned i=0;i<12;++i){sum+=coefficients[i]*power;power*=w2;}
  return sum;
