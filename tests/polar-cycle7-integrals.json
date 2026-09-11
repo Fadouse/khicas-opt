@@ -1,0 +1,24 @@
+{
+  "cases": [
+    {
+      "id": "PC7-I1",
+      "input": "simplify(integrate((1-x^2)*ln((sqrt(x^4+3*x^2+1)+x)/(1+x^2))/((1+x^2)*sqrt(x^4+3*x^2+1)),x))",
+      "expected": "ln((sqrt(x^4+3*x^2+1)+x)/(1+x^2))^2/2",
+      "conditions": [
+        "x is any finite real number, including -1, 0, and 1; sqrt is the nonnegative real square root and ln is the real logarithm.",
+        "An explicit exact antiderivative differentiable on the entire real axis is required, up to one global additive constant.",
+        "The substitution is not globally monotone; its stationary points must not become domain exclusions or branch boundaries."
+      ]
+    },
+    {
+      "id": "PC7-I2",
+      "input": "simplify(integrate(sqrt(x/(1-x))/(1+x),x))",
+      "expected": "2*atan(sqrt(x/(1-x)))-sqrt(2)*atan(sqrt(2)*sqrt(x/(1-x)))",
+      "conditions": [
+        "x is real with 0<x<1; sqrt is the positive real square root on this interval.",
+        "atan is the principal real inverse tangent. An explicit exact antiderivative is required throughout (0,1), up to one additive constant.",
+        "Endpoint limits may be stated, but neither endpoint is part of the required differentiation domain."
+      ]
+    }
+  ]
+}

@@ -3353,7 +3353,28 @@ namespace giac {
           if(roots[j].is_symb_of_sommet(at_sqrt))Q=roots[j]._SYMBptr->feuille;
           else {const gen &f=roots[j]._SYMBptr->feuille;if(f.type!=_VECT || f._VECTptr->size()!=2 || f[1]!=gen(1)/2)continue;Q=f[0];}
           sparse_poly1 polynomial;
-          if(!small_sparse_polynomial(Q,x,polynomial,contextptr) || polynomial.empty() || polynomial.front().exponent.val>2)continue;
+          if(!small_sparse_polynomial(Q,x,polynomial,contextptr) || polynomial.empty() || polynomial.front().exponent.val>4)continue;
+          bool bounded=true;
+          for(unsigned h=0;h<polynomial.size();++h)if(!integration_resource_rational(polynomial[h].coeff))bounded=false;
+          vecteur variables=lvar(arg);
+          for(unsigned h=0;h<variables.size();++h)if(variables[h]!=x && variables[h]!=roots[j])bounded=false;
+          if(bounded){
+            // Direct logarithmic chain: compare a bounded exact derivative.
+            // The returned primitive never divides by t', so stationary points
+            // remain regular. No logarithm product/branch identity is applied.
+            const vecteur &chain=*e._SYMBptr->feuille._VECTptr;
+            for(unsigned k=0;k<chain.size();++k)if(chain[k]==t){
+              gen weight=1;for(unsigned h=0;h<chain.size();++h)if(h!=k)weight=weight*chain[h];
+              gen dt=derive(t,x,contextptr);
+              if(!is_zero(dt) && taille(dt,129)<=128){
+                gen scale=normal(c*weight/dt,contextptr);
+                if(!contains(scale,x) && integration_resource_rational(scale)){
+                  res=scale*pow(t,2)/2;return true;
+                }
+              }
+            }
+          }
+          if(polynomial.front().exponent.val>2)continue;
           gen C,L,a,b;
           if(!is_linear_wrt(arg,roots[j],C,L,contextptr) || taille(C,17)>16 || contains(C,x) || !integration_resource_rational(normal(C*C,contextptr)) || !is_strictly_positive(C,contextptr) ||
              !is_linear_wrt(L,x,a,b,contextptr) || !integration_resource_rational(a) || !integration_resource_rational(b))continue;
@@ -3384,6 +3405,26 @@ namespace giac {
         if(v[j].is_symb_of_sommet(at_sqrt)){R=v[j]._SYMBptr->feuille;power=gen(1)/2;}
         else if(v[j].is_symb_of_sommet(at_pow) && v[j]._SYMBptr->feuille.type==_VECT && v[j]._SYMBptr->feuille._VECTptr->size()==2){R=v[j]._SYMBptr->feuille[0];power=v[j]._SYMBptr->feuille[1];}
         else continue;
+        // Positive square root of an affine ratio: use its own real
+        // parameter, avoiding a tangent-half-angle pole inside the interval.
+        if(power==gen(1)/2 && angle_radian(contextptr) && taille(R,17)<=16 && lop(R,at_pow).empty()){
+          gen den,num,div,a,b,d,f,h,k;
+          gen nd=fxnd(R);
+          if(nd.type!=_VECT || nd._VECTptr->size()!=2)continue;
+          num=nd[0];div=nd[1];
+          if(integration_power(v[1-j],den,-1) &&
+             is_linear_wrt(num,x,a,b,contextptr) && is_linear_wrt(div,x,d,f,contextptr) &&
+             is_linear_wrt(den,x,h,k,contextptr) && integration_resource_rational(a) &&
+             integration_resource_rational(b) && integration_resource_rational(d) &&
+             integration_resource_rational(f) && integration_resource_rational(h) && integration_resource_rational(k)){
+            gen delta=a*f-b*d,E=k*a-h*b,F=h*f-k*d,J=a*F+d*E;
+            if(!is_zero(a) && !is_zero(E) && !is_zero(J) && !is_zero(delta) &&
+               is_strictly_positive(-d/a,contextptr) && is_strictly_positive(F/E,contextptr)){
+              gen u=v[j],r=sqrt(-d/a,contextptr),s=sqrt(F/E,contextptr);
+              res=2*c*delta/J*(atan(r*u,contextptr)/r-atan(s*u,contextptr)/s);return true;
+            }
+          }
+        }
         gen den;
         if(!integration_resource_rational(power) || is_zero(power) || is_strictly_greater(abs(power,contextptr),8,contextptr) ||
            !integration_power(v[1-j],den,-1))continue;

@@ -219,6 +219,27 @@ namespace giac {
       points.push_back(point);
     }
     for(unsigned j=0;j<points.size();++j){
+      // A nonzero constant times sqrt(Q) at a simple zero of a real
+      // polynomial Q has no finite one-sided derivative. Inspect only this
+      // proved case; a vanishing multiplier must use the general fallback.
+      bool singular=false;
+      for(unsigned side=0;side<2 && !singular;++side){
+        const gen &branch=original[side?(2*j+3<original.size()?2*j+3:original.size()-1):2*j+1];
+        if(taille(branch,65)>64)continue;
+        vecteur roots=lop(branch,at_sqrt);
+        for(unsigned k=0;k<roots.size();++k){
+          gen Q=roots[k]._SYMBptr->feuille,C,L,value,slope;unsigned budget=128;
+          equation_polynomial_budget bound;
+          if(!equation_polynomial_bound(Q,budget,0,bound) || !is_linear_wrt(branch,roots[k],C,L,contextptr) ||
+             !equation_rational(C) || is_zero(C) ||
+             !derive_piecewise_regular(L,x,points[j],value,budget,0,contextptr) ||
+             !derive_piecewise_regular(Q,x,points[j],value,budget,0,contextptr) || !is_zero(value) ||
+             !derive_piecewise_regular(derive(Q,x,contextptr),x,points[j],slope,budget,0,contextptr) ||
+             !equation_rational(slope) || is_zero(slope))continue;
+          singular=true;break;
+        }
+      }
+      if(singular){result=symbolic(at_when,makesequence(symb_equal(x,points[j]),undef,result));continue;}
       gen left,right,dl,dr;unsigned budget=192;
       if(!derive_piecewise_regular(original[2*j+1],x,points[j],left,budget,0,contextptr) ||
          !derive_piecewise_regular(original[2*j+2<original.size()-1?2*j+3:original.size()-1],x,points[j],right,budget,0,contextptr) ||

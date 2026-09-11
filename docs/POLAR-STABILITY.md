@@ -95,3 +95,18 @@ ROM余872 B，AC2余84,420 B。复合求导辅助函数位于AC2，大小3,844 B
 ROM 2,064,760 / 2,065,152 B（余392 B），AC2 2,480,500 / 2,559,996 B（余79,496 B），静态RAM与CAS堆不变。新分段检查辅助函数放置在AC2并核对链接地址。首次有错题，下一步仍需全新题集首次完整通过，才进入最终性能代理验收。
 
 [首次](benchmarks/polar-cycle6-first-acceptance-2026a.json) · [修复后](benchmarks/polar-cycle6-fixed-acceptance-2026a.json) · [变体](benchmarks/polar-cycle6-root-guards-2026a.json) · [资源](benchmarks/resources-polar-cycle6-2026a.json) · [测量](benchmarks/polar-cycle6-performance-2026a.json)。
+
+
+## 第七轮：驻点对数链、根式积分的区间内伪极点、无限斜率接点
+
+标签 `checkpoint/polar-stability-cycle7-2026a`。全新6题首次3题完整通过。PC7-I1在64 KiB栈出现SIGSEGV，普通栈保留未求积分；PC7-I2返回的原函数在区间中点x=1/2实际代入undef；PC7-D2在不可导的x=1返回infinity。修复后三题连同其余题目通过全部24项检查。
+
+有界对数链匹配直接构造 `scale*ln(arg)^2/2`，检查小型有理/四次多项式根式结构与精确导数比例，返回式不除以换元导数，保留驻点。对平方根仿射分式除以仿射式，使用正实根自身作为参数，两个正二次分母给出连续atan原函数，避免旧半角参数的区间内0/0。分段函数在非零常系数乘sqrt(Q)且Q为实多项式简单零点时明确返回undef，依据单侧差商无穷而非仅检查连续性。非解析的一般接点仍不宣称全部覆盖。
+
+回归发现新结构限制曾误伤带常量根式系数的旧对数换元，限制已收回到新增分支内，旧规则及其变体重新通过。新增24项变体检查独立验证平移、缩放、正分式换元和不可导接点。普通/64 KiB栈、直接/外层化简均覆盖；原70项及44项边界检查、前六轮184项、旧混合96项、极坐标60项、21项正式任务和7项补充任务全部通过。
+
+通过积分清单659条：654精确、5导数采样，按文本去空白为636种输入，不作数学去重。本轮5次主机进程中位数最大约2.4 ms；失败或错误旧结果不用于计算成功求解的加速比。主机依赖探针不是SH4/MMU模拟，本轮没有实机安装。
+
+ROM 2,064,760 / 2,065,152 B（余392 B），AC2 2,483,552 / 2,559,996 B（余76,444 B），静态RAM和CAS堆不变。首轮仍有错题，提交后继续全新出题代理，尚不进入最终性能分析。
+
+[首次](benchmarks/polar-cycle7-first-acceptance-2026a.json) · [修复后](benchmarks/polar-cycle7-fixed-acceptance-2026a.json) · [变体](benchmarks/log-root-guards-polar7-2026a.json) · [资源](benchmarks/resources-polar-cycle7-2026a.json) · [测量](benchmarks/polar-cycle7-performance-2026a.json) · [回归索引](benchmarks/polar-cycle7-regression-index-2026a.json)。

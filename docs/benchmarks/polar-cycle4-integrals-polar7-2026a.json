@@ -1,0 +1,150 @@
+{
+  "source_sha256": {
+    "yintg.cc": "ddec64baeffdebe62d9421b38cb72a7893c35a4fa433fa55ba5f8c64a26e9b65",
+    "zintgab.cc": "3b6fa78aba4d53b1a11479c33bacb4c85e3d6091389ef3073ec60085a7ae9448",
+    "ksubst.cc": "63d5ae1bca57dffcedf4810b52c970518aa8696946dec41646d45ef784188d24",
+    "yderive.cc": "162a2d00e9164b60836fca8579de850ab5f86681b9e090fee43ffc018ecc3b11",
+    "dilogarithm.h": "ca822ef4c094a4ed1f4aecf7219011668735d86d259c51ec6304515f8fa84d7a",
+    "kconvert.cc": "eed558eb2f8ff62e0cf1e94fdbf8497954a35577e283a8d07283350e65b76003",
+    "equation_normalize.h": "4bfb644f0e18bb36e280ce8886c8ac12695c9aeeaef187ea3e5f967cd1642e37",
+    "kusual.cc": "573c67c28e9d83215bd76907e84f883e4fabf10acabc5b7e3186cbf7dad83960",
+    "zprog.cc": "513111030cf5233496da8c3efff53df9391f12d185254f314608600e13e5639e",
+    "conditional_eval.h": "f602bbce59fbcfcadb85a78ca5ba6a79cd56f643067f84d02a02a73a040f40c1"
+  },
+  "corpus_sha256": "6bf947290e2ecaa2e6cc64a6d5e52efb7f3552a4181abd3d9ba04bf94ead28d2",
+  "provenance": "polar-cycle4-acceptance-polar7-2026a.json",
+  "runs": [
+    {
+      "id": "PC4-I1",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(1/(surd(x,3)*(1+surd(x,3))),x)",
+      "exit": 0,
+      "result": "3*(surd(x,3)-ln(abs(surd(x,3)+1)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000734711\nMAX_RSS_KB 66092\n",
+      "verification": {
+        "exact": true,
+        "method": "Real cube-root bijection; exact local log derivatives on all three intervals. Both original denominator zeros -1 and 0 remain excluded."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC4-I1",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(1/(surd(x,3)*(1+surd(x,3))),x)",
+      "exit": 0,
+      "result": "3*(surd(x,3)-ln(abs(surd(x,3)+1)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000695361\nMAX_RSS_KB 66092\n",
+      "verification": {
+        "exact": true,
+        "method": "Real cube-root bijection; exact local log derivatives on all three intervals. Both original denominator zeros -1 and 0 remain excluded."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC4-I1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(1/(surd(x,3)*(1+surd(x,3))),x))",
+      "exit": 0,
+      "result": "3*surd(x,3)-3*ln(abs(surd(x,3)+1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000623052\nMAX_RSS_KB 66092\n",
+      "verification": {
+        "exact": true,
+        "method": "Real cube-root bijection; exact local log derivatives on all three intervals. Both original denominator zeros -1 and 0 remain excluded."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC4-I1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(1/(surd(x,3)*(1+surd(x,3))),x))",
+      "exit": 0,
+      "result": "3*surd(x,3)-3*ln(abs(surd(x,3)+1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000608462\nMAX_RSS_KB 66092\n",
+      "verification": {
+        "exact": true,
+        "method": "Real cube-root bijection; exact local log derivatives on all three intervals. Both original denominator zeros -1 and 0 remain excluded."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC4-I2",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(1/(1+surd(x-2,5)^2),x)",
+      "exit": 0,
+      "result": "5*(1/3*(surd(x-2,5))^3-(surd(x-2,5))+atan(surd(x-2,5)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000926278\nMAX_RSS_KB 66092\n",
+      "verification": {
+        "exact": true,
+        "method": "Real fifth-root bijection x=2+u⁵; exact derivative plus two-sided difference quotient 1 at the moving root; real continuous primitive on the entire real line."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "2": "0"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC4-I2",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(1/(1+surd(x-2,5)^2),x)",
+      "exit": 0,
+      "result": "5*(1/3*(surd(x-2,5))^3-(surd(x-2,5))+atan(surd(x-2,5)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00157168\nMAX_RSS_KB 66092\n",
+      "verification": {
+        "exact": true,
+        "method": "Real fifth-root bijection x=2+u⁵; exact derivative plus two-sided difference quotient 1 at the moving root; real continuous primitive on the entire real line."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "2": "0"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC4-I2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(1/(1+surd(x-2,5)^2),x))",
+      "exit": 0,
+      "result": "(5*(surd(x-2,5))^3-15*surd(x-2,5)+15*atan(surd(x-2,5)))/3",
+      "stderr": "Temporary replacing surd/NTHROOT by fractional powers\nPARSER_CALLS 1\nSECONDS 0.00163771\nMAX_RSS_KB 66092\n",
+      "verification": {
+        "exact": true,
+        "method": "Real fifth-root bijection x=2+u⁵; exact derivative plus two-sided difference quotient 1 at the moving root; real continuous primitive on the entire real line."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "2": "0"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC4-I2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(1/(1+surd(x-2,5)^2),x))",
+      "exit": 0,
+      "result": "(5*(surd(x-2,5))^3-15*surd(x-2,5)+15*atan(surd(x-2,5)))/3",
+      "stderr": "Temporary replacing surd/NTHROOT by fractional powers\nPARSER_CALLS 1\nSECONDS 0.00159172\nMAX_RSS_KB 66092\n",
+      "verification": {
+        "exact": true,
+        "method": "Real fifth-root bijection x=2+u⁵; exact derivative plus two-sided difference quotient 1 at the moving root; real continuous primitive on the entire real line."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "2": "0"
+      },
+      "status": "exact"
+    }
+  ]
+}

@@ -1,0 +1,131 @@
+{
+  "cases": [
+    {
+      "id": "PC7-I1",
+      "type": "integral",
+      "input": "simplify(integrate((1-x^2)*ln((sqrt(x^4+3*x^2+1)+x)/(1+x^2))/((1+x^2)*sqrt(x^4+3*x^2+1)),x))",
+      "conditions": [
+        "x is any finite real number, including -1, 0, and 1; sqrt is the nonnegative real square root and ln is the real logarithm.",
+        "An explicit exact antiderivative differentiable on the entire real axis is required, up to one global additive constant.",
+        "The substitution is not globally monotone; its stationary points must not become domain exclusions or branch boundaries."
+      ],
+      "expected": {
+        "expression": "ln((sqrt(x^4+3*x^2+1)+x)/(1+x^2))^2/2",
+        "properties": [
+          "Return an explicit evaluable closed-form antiderivative without unevaluated integrate; equivalent closed forms and additive constants are acceptable.",
+          "The logarithm argument is strictly positive for every real x. No absolute-value sign split, complex logarithm correction, or new real pole is needed.",
+          "The derivative equals zero at x=-1, x=0, and x=1; all three points belong to the domain.",
+          "After normalization to value zero at the origin, the displayed primitive is even and nonnegative, and tends to zero as x tends to either infinity.",
+          "Exact retention of the integrand or an unevaluated integral is not a solution."
+        ]
+      },
+      "reason": "Set A=1+x^2 and s=sqrt(A^2+x^2)=sqrt(x^4+3*x^2+1). Since A>0 and s>|x|, (s+x)/A is strictly positive everywhere. Let u=x/A and t=ln((s+x)/A). Because sqrt(1+u^2)=s/A, t=asinh(u). Independently, d[ln(u+sqrt(1+u^2))]/du=1/sqrt(1+u^2), while u'=(1-x^2)/A^2. Thus t'=(1-x^2)/(A*s), and d[t^2/2]/dx is exactly the integrand. This chain-rule identity remains valid when u'=0 at x=+-1 and when t=0 at zero; it does not require inversion of u. The identity ((s+x)/A)*((s-x)/A)=1 proves t(-x)=-t(x), so t^2/2 is even and nonnegative. Finally u tends to zero at both infinities, hence so do t and the normalized primitive. All expressions are smooth real functions on the entire axis."
+    },
+    {
+      "id": "PC7-I2",
+      "type": "integral",
+      "input": "simplify(integrate(sqrt(x/(1-x))/(1+x),x))",
+      "conditions": [
+        "x is real with 0<x<1; sqrt is the positive real square root on this interval.",
+        "atan is the principal real inverse tangent. An explicit exact antiderivative is required throughout (0,1), up to one additive constant.",
+        "Endpoint limits may be stated, but neither endpoint is part of the required differentiation domain."
+      ],
+      "expected": {
+        "expression": "2*atan(sqrt(x/(1-x)))-sqrt(2)*atan(sqrt(2)*sqrt(x/(1-x)))",
+        "properties": [
+          "Return an explicit evaluable closed-form antiderivative without unevaluated integrate; equivalent closed forms and additive constants are acceptable.",
+          "The primitive is real, smooth, and strictly increasing on (0,1); no interior pole or inverse-trigonometric branch jump may be introduced.",
+          "For the displayed normalization the limit at zero from the right is zero, and the limit at one from the left is pi*(1-1/sqrt(2)).",
+          "A finite endpoint limit of the primitive does not make the original integrand defined at x=1.",
+          "Safe retention of an unevaluated integral does not count as an answer."
+        ]
+      },
+      "reason": "Put u=sqrt(x/(1-x))>0. Then x=u^2/(1+u^2), dx=2*u/(1+u^2)^2 du, and 1+x=(1+2*u^2)/(1+u^2). The transformed integrand is 2*u^2/((1+u^2)*(1+2*u^2))=2/(1+u^2)-2/(1+2*u^2). Integration gives 2*atan(u)-sqrt(2)*atan(sqrt(2)*u), the displayed expression. Both transformed denominators are positive, and the substitution is smooth and strictly increasing throughout the stated interval. The original integrand is positive there, establishing strict increase. As x tends to zero from above, u tends to zero; as x tends to one from below, u tends to positive infinity and both inverse tangents tend to pi/2. These yield the stated endpoint limits without assigning a derivative at an endpoint."
+    },
+    {
+      "id": "PC7-D1",
+      "type": "derivative",
+      "input": "simplify(diff(surd((x^2-1)/(1+x^2),3)^4+sin(x),x))",
+      "conditions": [
+        "x is any finite real number, including both root zeros x=-1 and x=1; surd denotes the real cube root.",
+        "The rational inner function has denominator 1+x^2>0, so the original function is defined on the entire real axis."
+      ],
+      "expected": {
+        "expression": "16*x*surd((x^2-1)/(1+x^2),3)/(3*(1+x^2)^2)+cos(x)",
+        "properties": [
+          "Return an explicit exact derivative defined on the entire real axis; equivalent evaluable formulas are acceptable.",
+          "At both x=-1 and x=1 the derivative is cos(1), not zero; cancellation in the root term must preserve the derivative of the ordinary smooth summand.",
+          "Prove differentiability independently at each root zero using the two-sided difference quotient of the original function.",
+          "No residual division by a vanishing cube root is allowed at either root zero. Use the real negative cube root on -1<x<1.",
+          "The derivative at x=0 is 1, and no real point may be excluded."
+        ]
+      },
+      "reason": "Write q=(x^2-1)/(1+x^2) and u=surd(q,3). Away from x=+-1, q'=4*x/(1+x^2)^2 and u'=q'/(3*u^2). Therefore d[u^4+sin(x)]/dx=4*u*q'/3+cos(x), which is the displayed formula. To prove the root points without using that singular chain factor, fix a in {-1,1}, put x=a+h, and let v=surd(q(a+h),3). Since a^2=1, v^3=h*(2*a+h)/(1+(a+h)^2). The original root term vanishes at a, and its difference quotient is v^4/h=v*(2*a+h)/(1+(a+h)^2), tending to zero from either side. The sine term's quotient tends to cos(a), so the full two-sided derivative at either point is cos(1). The displayed formula has that same value there. At zero its first term vanishes and its second is one. Positivity of the rational denominator and continuity of the real cube root complete the domain check."
+    },
+    {
+      "id": "PC7-D2",
+      "type": "derivative",
+      "input": "simplify(diff(piecewise(x<0,x^2,x<=1,1-sqrt(1-x^2),1),x))",
+      "conditions": [
+        "x is real. The original piecewise function is defined at both joining points x=0 and x=1.",
+        "piecewise selects the first true condition and otherwise its final default; inactive expressions are not evaluated. sqrt is the nonnegative real square root on its selected interval 0<=x<=1.",
+        "The derivative domain is all real numbers except x=1. The circular segment meets a constant saturation branch there with an infinite left difference quotient."
+      ],
+      "expected": {
+        "expression": "piecewise(x<0,2*x,x<1,x/sqrt(1-x^2),x>1,0,undef)",
+        "properties": [
+          "Return an explicit exact derivative for every real x except 1, including value zero at x=0; equivalent formulas with an explicit exclusion of 1 are acceptable.",
+          "Establish the derivative at zero from the original function's two-sided difference quotient, not solely from the branch selected at equality.",
+          "At x=1 the original function is continuous, but its left difference quotient tends to positive infinity and its right quotient is zero. The derivative there must be undef or explicitly excluded.",
+          "Do not assign a finite derivative at x=1 by differentiating the constant branch or treating continuity as sufficient.",
+          "Inactive square-root singularities impose no extra restriction: at x=-1 the derivative is -2, and for x>1 it is zero."
+        ]
+      },
+      "reason": "On the three open intervals ordinary differentiation gives 2*x, x/sqrt(1-x^2), and zero. At zero the original value is zero. For h<0 the original quotient is h; for 0<h<1 it is (1-sqrt(1-h^2))/h=h/(1+sqrt(1-h^2)). Both tend to zero, proving differentiability at this join independently. At one the original value is one and both branches approach that value. For negative sufficiently small h, the original quotient is -sqrt(1-(1+h)^2)/h=sqrt(-2*h-h^2)/(-h). Writing k=-h>0 makes this sqrt(2-k)/sqrt(k), which tends to positive infinity. For positive h the original quotient is zero. Consequently no finite two-sided derivative exists at one. The circular branch is smooth on (0,1), and the polynomial and constant branches are smooth everywhere they are selected, so there are no other exclusions."
+    },
+    {
+      "id": "PC7-S1",
+      "type": "simplify",
+      "input": "simplify(ln(exp(i*x))-i*x)",
+      "conditions": [
+        "x is real and -2*pi<=x<=2*pi; the exact phase values x=-pi and x=pi are included.",
+        "ln is the principal complex logarithm with argument in (-pi,pi], so ln(-1)=i*pi. exp is the complex exponential.",
+        "Branch-cut values are evaluated exactly; signed floating-point zero must not select a different logarithm convention."
+      ],
+      "expected": {
+        "expression": "piecewise(x<=-pi,2*i*pi,x<=pi,0,-2*i*pi)",
+        "properties": [
+          "Return an exact expression equivalent on the stated interval; equivalent evaluable forms, including exact retention of the original expression, are acceptable.",
+          "The value is 2*i*pi on [-2*pi,-pi], zero on (-pi,pi], and -2*i*pi on (pi,2*pi].",
+          "Preserve the asymmetric endpoint assignment: the exact value at -pi is 2*i*pi, while at pi it is zero.",
+          "The exact values at -2*pi and 2*pi are 2*i*pi and -2*i*pi respectively. All allowed inputs are defined.",
+          "The inverse identity ln(exp(z))=z is conditional for complex z and must not erase phase wrapping."
+        ]
+      },
+      "reason": "For real x the number exp(i*x) has modulus one, so its principal logarithm is i times its unique argument in (-pi,pi]. On [-2*pi,-pi] that argument is x+2*pi; on (-pi,pi] it is x; on (pi,2*pi] it is x-2*pi. Subtracting i*x gives the three stated constants. At either x=-pi or x=pi the exponential is exactly -1 and its principal logarithm is i*pi, yielding 2*i*pi and zero respectively. At either outer endpoint the exponential is one and its logarithm is zero. The exponential never vanishes, so there are no logarithmic singularities; the jumps arise entirely from the principal-argument convention."
+    },
+    {
+      "id": "PC7-R1",
+      "type": "resource",
+      "input": "simplify(ln(((1+(x-y)^2)*(1+(y-z)^2)*(1+(z-x)^2))^6/(1+(x+y+z)^2)^4))",
+      "conditions": [
+        "x, y, and z are arbitrary finite real numbers; ln is the real logarithm of its strictly positive argument.",
+        "Use the existing finite CG50 stack, heap, and simplification budgets without increasing them.",
+        "This is bounded simplification of a compact logarithmic product ratio. Expansion of the powered multivariate factors is unnecessary; exact retention of the compact input is acceptable."
+      ],
+      "expected": {
+        "expression": "6*ln(1+(x-y)^2)+6*ln(1+(y-z)^2)+6*ln(1+(z-x)^2)-4*ln(1+(x+y+z)^2)",
+        "properties": [
+          "Exact retention of the original compact expression is acceptable; every rewrite must preserve its exact real value for all allowed inputs.",
+          "The result is real and finite everywhere, with value zero at the origin. It takes both positive and negative values, so a global nonnegative bound is incorrect.",
+          "The result is invariant under every permutation of x, y, z and under simultaneous sign reversal.",
+          "On x=y=z=t it equals -4*ln(1+9*t^2). On (x,y,z)=(t,-t,0) it equals 6*ln(1+4*t^2)+12*ln(1+t^2).",
+          "No crash, stack overflow, runaway expansion, undef, new real pole, or complex branch correction is acceptable.",
+          "Point values, symmetries, and restrictions alone do not prove equivalence; preserve the exact compact input or justify all rewrites.",
+          "Compact retention counts as success for this resource case, but unevaluated retention does not solve either integral."
+        ]
+      },
+      "reason": "Let A=1+(x-y)^2, B=1+(y-z)^2, C=1+(z-x)^2, and D=1+(x+y+z)^2. Each is at least one, so A, B, C, D and the ratio (A*B*C)^6/D^4 are positive and finite for finite real inputs. The real-logarithm product, quotient, and integer-power identities therefore give exactly 6*ln(A)+6*ln(B)+6*ln(C)-4*ln(D), without any branch correction. At the origin all four bases equal one. Permutations merely permute A, B, C and preserve D; simultaneous sign reversal preserves every square. On the diagonal A=B=C=1 and D=1+9*t^2, giving a strictly negative value for t!=0. On (t,-t,0), A=1+4*t^2, B=C=1+t^2, D=1, giving the stated strictly positive value for t!=0. These identities need no expansion of the numerator's degree-36 multivariate polynomial or the denominator. Exact compact retention is also a complete equivalence argument."
+    }
+  ]
+}
