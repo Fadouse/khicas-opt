@@ -211,3 +211,13 @@ when/piecewise的纯精确常量条件在32节点、8层以内白名单检查后
 积分清单673条：668精确、5导数采样；650种去空白文本。ROM使用2,064,760 B（余392 B），AC2使用2,501,836 B（余58,160 B），静态RAM和CAS堆不变。新增积分、有限和及纯常量条件辅助函数全部核对AC2链接地址。五次主机中位数最大约1.1 ms；没有实机计时或安装，64 KiB主机栈不是SH4/MMU模拟。首次仍有错题，提交后继续全新题库，不进入最终性能代理验收。
 
 [首次](benchmarks/polar-cycle14-first-acceptance-2026a.json) · [修复后](benchmarks/polar-cycle14-fixed-acceptance-2026a.json) · [三角幂](benchmarks/global-trig-power-guards-polar14-2026a.json) · [有限域/条件](benchmarks/telescope-condition-guards-polar14-2026a.json) · [资源](benchmarks/resources-polar-cycle14-2026a.json) · [测量](benchmarks/polar-cycle14-performance-2026a.json) · [回归索引](benchmarks/polar-cycle14-regression-index-2026a.json)。
+
+## 第十五轮：反正弦接触点与约分定义域（2026a）
+
+首次独立验收 6 题中 3 题完整通过；原始输出保留在 `polar-cycle15-first-runs-2026a.json`，未用修复结果覆盖。直接 `asin(2*sin(x)/(1+sin(x)^2))` 求导在接触点留下 0/0，根式与对数的导数相加让端点 undef 被另一个奇异项变成 infinity，有限乘积的外层 simplify 丢失约去分母的禁取值。没有首次崩溃。
+
+在已证明的实数范围内，反正弦采用 `asin(2t/(1+t²))=2atan(t)` 的全局光滑表示，支持幅度不超过 1 的 sin/cos 多项式相位。两个导数相加时，把已有的 undef 条件提到整个和外侧，保持惰性。对于显式乘积中原样重复的分子/分母因子，化简保留原式以保留孔点；不进行额外展开或求根。非可去极点的 infinity 与被约去孔点的 undef 在测试中分别记录。
+
+修复后本轮 24 种模式、96 项新增变式、前十四轮、混合验收、既有 21+7 组回归、60 项极坐标显示及全部边界补充测试通过。独立证明覆盖全定义域，并实际代入接触点和乘积的每个被约去零点。普通/64 KiB 主机受限栈均通过，不能替代 SH4/MMU 实机验证。5 次新进程采样的本轮最慢中位耗时 1.560 ms，只是主机数据，错误基线不作为加速比。
+
+SH4 ROM 2,064,760 / 2,065,152 字节，AC2 2,503,664 / 2,559,996 字节；静态 RAM 424,620 字节，配置堆 1,572,864 字节。新增辅助函数放入 AC2，未扩大资源限制。本轮仍存在首次失败，按流程继续派发新的出题 agent，尚不进入最终性能验收。

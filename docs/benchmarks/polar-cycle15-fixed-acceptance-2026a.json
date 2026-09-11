@@ -1,0 +1,569 @@
+{
+  "scope": "Actual repository integration/yderive/FXCG simplify on host dependencies; guarded 64 KiB stack, not SH4/MMU emulation.",
+  "corpus_sha256": "b675cbf115a85b30adff221bf97652a2276a6f07c3a23c592fd661f3e8af9b18",
+  "probe_sha256": "935699cdcbbe636866fc007ca70eea5e278389bfcd42700c2e2e4cc640de97af",
+  "runs": [
+    {
+      "id": "PC15-I1",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(x^2*exp(2*x)*sin(3*x),x)",
+      "exit": 0,
+      "result": "exp(2*x)*(((-5*x^2-4*x+2)*-9/2197+(12*x^2-6*x)*-46/2197)*cos(3*x)+((-5*x^2-4*x+2)*-46/2197-(12*x^2-6*x)*-9/2197)*sin(3*x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00139629\nMAX_RSS_KB 66896\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative of polynomial times exponential times sine/cosine; entire real domain, no denominators depending on x. Exponential decay gives zero at negative infinity."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "-18/2197"
+      }
+    },
+    {
+      "id": "PC15-I1",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(x^2*exp(2*x)*sin(3*x),x)",
+      "exit": 0,
+      "result": "exp(2*x)*(((-5*x^2-4*x+2)*-9/2197+(12*x^2-6*x)*-46/2197)*cos(3*x)+((-5*x^2-4*x+2)*-46/2197-(12*x^2-6*x)*-9/2197)*sin(3*x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00136056\nMAX_RSS_KB 66896\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative of polynomial times exponential times sine/cosine; entire real domain, no denominators depending on x. Exponential decay gives zero at negative infinity."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "-18/2197"
+      }
+    },
+    {
+      "id": "PC15-I1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(x^2*exp(2*x)*sin(3*x),x))",
+      "exit": 0,
+      "result": "(-507*x^2*cos(3*x)*exp(2*x)+338*x^2*exp(2*x)*sin(3*x)+312*x*cos(3*x)*exp(2*x)+130*x*exp(2*x)*sin(3*x)-18*cos(3*x)*exp(2*x)-92*exp(2*x)*sin(3*x))/2197",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.0010998\nMAX_RSS_KB 66896\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative of polynomial times exponential times sine/cosine; entire real domain, no denominators depending on x. Exponential decay gives zero at negative infinity."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "-18/2197"
+      }
+    },
+    {
+      "id": "PC15-I1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(x^2*exp(2*x)*sin(3*x),x))",
+      "exit": 0,
+      "result": "(-507*x^2*cos(3*x)*exp(2*x)+338*x^2*exp(2*x)*sin(3*x)+312*x*cos(3*x)*exp(2*x)+130*x*exp(2*x)*sin(3*x)-18*cos(3*x)*exp(2*x)-92*exp(2*x)*sin(3*x))/2197",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00109719\nMAX_RSS_KB 66896\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative of polynomial times exponential times sine/cosine; entire real domain, no denominators depending on x. Exponential decay gives zero at negative infinity."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "-18/2197"
+      }
+    },
+    {
+      "id": "PC15-I2",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(1/(5+3*cos(x))^3,x)",
+      "exit": 0,
+      "result": "59/512*(x-2*atan(3*sin(x)/(9+3*cos(x))))/4+(-15*3*sin(x)/(5+3*cos(x))/16-3*sin(x)/((5+3*cos(x))*(5+3*cos(x))))/32",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000480965\nMAX_RSS_KB 66896\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact recurrence derivative. All displayed denominators are positive powers of 5+3cos(x)>=2 or atan chart 3+cos(x)>=2; globally continuous primitive with increment 59pi/1024."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0",
+        "pi": "59*pi/2048",
+        "-pi": "-59*pi/2048"
+      }
+    },
+    {
+      "id": "PC15-I2",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(1/(5+3*cos(x))^3,x)",
+      "exit": 0,
+      "result": "59/512*(x-2*atan(3*sin(x)/(9+3*cos(x))))/4+(-15*3*sin(x)/(5+3*cos(x))/16-3*sin(x)/((5+3*cos(x))*(5+3*cos(x))))/32",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000507634\nMAX_RSS_KB 66896\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact recurrence derivative. All displayed denominators are positive powers of 5+3cos(x)>=2 or atan chart 3+cos(x)>=2; globally continuous primitive with increment 59pi/1024."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0",
+        "pi": "59*pi/2048",
+        "-pi": "-59*pi/2048"
+      }
+    },
+    {
+      "id": "PC15-I2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(1/(5+3*cos(x))^3,x))",
+      "exit": 0,
+      "result": "59/512*(x-2*atan(3*sin(x)/(9+3*cos(x))))/4+(-15*3*sin(x)/(5+3*cos(x))/16-3*sin(x)/((5+3*cos(x))*(5+3*cos(x))))/32",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000475435\nMAX_RSS_KB 66896\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact recurrence derivative. All displayed denominators are positive powers of 5+3cos(x)>=2 or atan chart 3+cos(x)>=2; globally continuous primitive with increment 59pi/1024."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0",
+        "pi": "59*pi/2048",
+        "-pi": "-59*pi/2048"
+      }
+    },
+    {
+      "id": "PC15-I2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(1/(5+3*cos(x))^3,x))",
+      "exit": 0,
+      "result": "59/512*(x-2*atan(3*sin(x)/(9+3*cos(x))))/4+(-15*3*sin(x)/(5+3*cos(x))/16-3*sin(x)/((5+3*cos(x))*(5+3*cos(x))))/32",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000833391\nMAX_RSS_KB 66896\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact recurrence derivative. All displayed denominators are positive powers of 5+3cos(x)>=2 or atan chart 3+cos(x)>=2; globally continuous primitive with increment 59pi/1024."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0",
+        "pi": "59*pi/2048",
+        "-pi": "-59*pi/2048"
+      }
+    },
+    {
+      "id": "PC15-D1",
+      "outer": false,
+      "stack": "normal",
+      "input": "diff(asin(2*sin(x)/(1+sin(x)^2)),x)",
+      "exit": 0,
+      "result": "2*cos(x)/(1+sin(x)*sin(x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00143649\nMAX_RSS_KB 66896\n",
+      "verification": {
+        "exact": true,
+        "method": "Principal range identity asin(2t/(1+t\u00b2))=2atan(t) for |t|<=1 proves smoothness for t=sin(x). At a=pi/2+kpi the original quotient is bounded by |h| via cos(h)-1, hence zero; actual contact substitution additionally required."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "2",
+        "pi": "-2",
+        "pi/2": "0",
+        "-pi/2": "0"
+      }
+    },
+    {
+      "id": "PC15-D1",
+      "outer": false,
+      "stack": "64",
+      "input": "diff(asin(2*sin(x)/(1+sin(x)^2)),x)",
+      "exit": 0,
+      "result": "2*cos(x)/(1+sin(x)*sin(x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00142231\nMAX_RSS_KB 66896\n",
+      "verification": {
+        "exact": true,
+        "method": "Principal range identity asin(2t/(1+t\u00b2))=2atan(t) for |t|<=1 proves smoothness for t=sin(x). At a=pi/2+kpi the original quotient is bounded by |h| via cos(h)-1, hence zero; actual contact substitution additionally required."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "2",
+        "pi": "-2",
+        "pi/2": "0",
+        "-pi/2": "0"
+      }
+    },
+    {
+      "id": "PC15-D1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(diff(asin(2*sin(x)/(1+sin(x)^2)),x))",
+      "exit": 0,
+      "result": "-2*cos(x)/(cos(x)^2-2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00152527\nMAX_RSS_KB 66896\n",
+      "verification": {
+        "exact": true,
+        "method": "Principal range identity asin(2t/(1+t\u00b2))=2atan(t) for |t|<=1 proves smoothness for t=sin(x). At a=pi/2+kpi the original quotient is bounded by |h| via cos(h)-1, hence zero; actual contact substitution additionally required."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "2",
+        "pi": "-2",
+        "pi/2": "0",
+        "-pi/2": "0"
+      }
+    },
+    {
+      "id": "PC15-D1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(diff(asin(2*sin(x)/(1+sin(x)^2)),x))",
+      "exit": 0,
+      "result": "-2*cos(x)/(cos(x)^2-2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00215996\nMAX_RSS_KB 66896\n",
+      "verification": {
+        "exact": true,
+        "method": "Principal range identity asin(2t/(1+t\u00b2))=2atan(t) for |t|<=1 proves smoothness for t=sin(x). At a=pi/2+kpi the original quotient is bounded by |h| via cos(h)-1, hence zero; actual contact substitution additionally required."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "2",
+        "pi": "-2",
+        "pi/2": "0",
+        "-pi/2": "0"
+      }
+    },
+    {
+      "id": "PC15-D2",
+      "outer": false,
+      "stack": "normal",
+      "input": "diff(x*sqrt(x^2-1)-ln(abs(x+sqrt(x^2-1))),x)",
+      "exit": 0,
+      "result": "((x=-1)? undef : ((x=1)? undef : sqrt(x^2-1)+x*2*x/(2*sqrt(x^2-1))-(1+1/2*2*x*(sqrt(x^2-1))^-1)/(x+sqrt(x^2-1))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000697932\nMAX_RSS_KB 66896\n",
+      "verification": {
+        "exact": true,
+        "method": "On |x|>1, (x+sqrt(x\u00b2-1))(x-sqrt(x\u00b2-1))=1 proves no log holes and derivative 2sqrt(x\u00b2-1). Original inward endpoint quotient is 4t/3+O(t\u00b3) under x=\u00b1sqrt(1+t\u00b2); endpoints lack a two-sided original domain. Separate zero-filled extension is C1 with endpoint slopes zero."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "undef",
+        "1": "undef"
+      }
+    },
+    {
+      "id": "PC15-D2",
+      "outer": false,
+      "stack": "64",
+      "input": "diff(x*sqrt(x^2-1)-ln(abs(x+sqrt(x^2-1))),x)",
+      "exit": 0,
+      "result": "((x=-1)? undef : ((x=1)? undef : sqrt(x^2-1)+x*2*x/(2*sqrt(x^2-1))-(1+1/2*2*x*(sqrt(x^2-1))^-1)/(x+sqrt(x^2-1))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000720482\nMAX_RSS_KB 66896\n",
+      "verification": {
+        "exact": true,
+        "method": "On |x|>1, (x+sqrt(x\u00b2-1))(x-sqrt(x\u00b2-1))=1 proves no log holes and derivative 2sqrt(x\u00b2-1). Original inward endpoint quotient is 4t/3+O(t\u00b3) under x=\u00b1sqrt(1+t\u00b2); endpoints lack a two-sided original domain. Separate zero-filled extension is C1 with endpoint slopes zero."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "undef",
+        "1": "undef"
+      }
+    },
+    {
+      "id": "PC15-D2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(diff(x*sqrt(x^2-1)-ln(abs(x+sqrt(x^2-1))),x))",
+      "exit": 0,
+      "result": "((x=-1)? undef : ((x=1)? undef : sqrt(x^2-1)+x*2*x/(2*sqrt(x^2-1))-(1+1/2*2*x*(sqrt(x^2-1))^-1)/(x+sqrt(x^2-1))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000707033\nMAX_RSS_KB 66896\n",
+      "verification": {
+        "exact": true,
+        "method": "On |x|>1, (x+sqrt(x\u00b2-1))(x-sqrt(x\u00b2-1))=1 proves no log holes and derivative 2sqrt(x\u00b2-1). Original inward endpoint quotient is 4t/3+O(t\u00b3) under x=\u00b1sqrt(1+t\u00b2); endpoints lack a two-sided original domain. Separate zero-filled extension is C1 with endpoint slopes zero."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "undef",
+        "1": "undef"
+      }
+    },
+    {
+      "id": "PC15-D2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(diff(x*sqrt(x^2-1)-ln(abs(x+sqrt(x^2-1))),x))",
+      "exit": 0,
+      "result": "((x=-1)? undef : ((x=1)? undef : sqrt(x^2-1)+x*2*x/(2*sqrt(x^2-1))-(1+1/2*2*x*(sqrt(x^2-1))^-1)/(x+sqrt(x^2-1))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000836161\nMAX_RSS_KB 66896\n",
+      "verification": {
+        "exact": true,
+        "method": "On |x|>1, (x+sqrt(x\u00b2-1))(x-sqrt(x\u00b2-1))=1 proves no log holes and derivative 2sqrt(x\u00b2-1). Original inward endpoint quotient is 4t/3+O(t\u00b3) under x=\u00b1sqrt(1+t\u00b2); endpoints lack a two-sided original domain. Separate zero-filled extension is C1 with endpoint slopes zero."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "undef",
+        "1": "undef"
+      }
+    },
+    {
+      "id": "PC15-S1",
+      "outer": false,
+      "stack": "normal",
+      "input": "sqrt(ln(x/y)^2)-ln(sqrt(x^2)/sqrt(y^2))",
+      "exit": 0,
+      "result": "abs(ln(x/y))-ln(abs(x)/abs(y))",
+      "stderr": "Warning, infinity is unsigned, perhaps you meant +infinity\nPARSER_CALLS 1\nSECONDS 0.000571834\nMAX_RSS_KB 66896\n",
+      "verification": {
+        "exact": true,
+        "method": "Real log(x/y) requires exactly xy>0. On this full domain including the negative quadrant, second log is log(x/y), so |L|-L is zero for ratio>=1 and 2log(y/x) otherwise. The original log retains axes and opposite-sign exclusions."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC15-S1",
+      "outer": false,
+      "stack": "64",
+      "input": "sqrt(ln(x/y)^2)-ln(sqrt(x^2)/sqrt(y^2))",
+      "exit": 0,
+      "result": "abs(ln(x/y))-ln(abs(x)/abs(y))",
+      "stderr": "Warning, infinity is unsigned, perhaps you meant +infinity\nPARSER_CALLS 1\nSECONDS 0.000602333\nMAX_RSS_KB 66896\n",
+      "verification": {
+        "exact": true,
+        "method": "Real log(x/y) requires exactly xy>0. On this full domain including the negative quadrant, second log is log(x/y), so |L|-L is zero for ratio>=1 and 2log(y/x) otherwise. The original log retains axes and opposite-sign exclusions."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC15-S1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(sqrt(ln(x/y)^2)-ln(sqrt(x^2)/sqrt(y^2)))",
+      "exit": 0,
+      "result": "abs(ln(x/y))-ln(abs(x)/abs(y))",
+      "stderr": "Warning, infinity is unsigned, perhaps you meant +infinity\nWarning, infinity is unsigned, perhaps you meant +infinity\nWarning, infinity is unsigned, perhaps you meant +infinity\nWarning, infinity is unsigned, perhaps you meant +infinity\nWarning, infinity is unsigned, perhaps you meant +infinity\nPARSER_CALLS 1\nSECONDS 0.00103288\nMAX_RSS_KB 66896\n",
+      "verification": {
+        "exact": true,
+        "method": "Real log(x/y) requires exactly xy>0. On this full domain including the negative quadrant, second log is log(x/y), so |L|-L is zero for ratio>=1 and 2log(y/x) otherwise. The original log retains axes and opposite-sign exclusions."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC15-S1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(sqrt(ln(x/y)^2)-ln(sqrt(x^2)/sqrt(y^2)))",
+      "exit": 0,
+      "result": "abs(ln(x/y))-ln(abs(x)/abs(y))",
+      "stderr": "Warning, infinity is unsigned, perhaps you meant +infinity\nWarning, infinity is unsigned, perhaps you meant +infinity\nWarning, infinity is unsigned, perhaps you meant +infinity\nWarning, infinity is unsigned, perhaps you meant +infinity\nWarning, infinity is unsigned, perhaps you meant +infinity\nPARSER_CALLS 1\nSECONDS 0.00109219\nMAX_RSS_KB 66896\n",
+      "verification": {
+        "exact": true,
+        "method": "Real log(x/y) requires exactly xy>0. On this full domain including the negative quadrant, second log is log(x/y), so |L|-L is zero for ratio>=1 and 2log(y/x) otherwise. The original log retains axes and opposite-sign exclusions."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC15-R1",
+      "outer": false,
+      "stack": "normal",
+      "input": "product((x^2-k^2)/(x^2-(k+1)^2),k,1,12)",
+      "exit": 0,
+      "result": "(x^2-1)/(x^2-4)*(x^2-4)/(x^2-9)*(x^2-9)/(x^2-16)*(x^2-16)/(x^2-25)*(x^2-25)/(x^2-36)*(x^2-36)/(x^2-49)*(x^2-49)/(x^2-64)*(x^2-64)/(x^2-81)*(x^2-81)/(x^2-100)*(x^2-100)/(x^2-121)*(x^2-121)/(x^2-144)*(x^2-144)/(x^2-169)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000320916\nMAX_RSS_KB 66896\n",
+      "verification": {
+        "exact": true,
+        "method": "Finite factor telescope on the complement of \u00b12..\u00b113; retained factors retain exactly this full domain, and actual engine tests every excluded point plus allowed zeros and origin. No expanded degree-24 polynomial needed."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-2": "undef",
+        "2": "undef",
+        "-3": "undef",
+        "3": "undef",
+        "-4": "undef",
+        "4": "undef",
+        "-5": "undef",
+        "5": "undef",
+        "-6": "undef",
+        "6": "undef",
+        "-7": "undef",
+        "7": "undef",
+        "-8": "undef",
+        "8": "undef",
+        "-9": "undef",
+        "9": "undef",
+        "-10": "undef",
+        "10": "undef",
+        "-11": "undef",
+        "11": "undef",
+        "-12": "undef",
+        "12": "undef",
+        "13": "infinity",
+        "-13": "infinity",
+        "0": "1/169",
+        "1": "0",
+        "-1": "0"
+      }
+    },
+    {
+      "id": "PC15-R1",
+      "outer": false,
+      "stack": "64",
+      "input": "product((x^2-k^2)/(x^2-(k+1)^2),k,1,12)",
+      "exit": 0,
+      "result": "(x^2-1)/(x^2-4)*(x^2-4)/(x^2-9)*(x^2-9)/(x^2-16)*(x^2-16)/(x^2-25)*(x^2-25)/(x^2-36)*(x^2-36)/(x^2-49)*(x^2-49)/(x^2-64)*(x^2-64)/(x^2-81)*(x^2-81)/(x^2-100)*(x^2-100)/(x^2-121)*(x^2-121)/(x^2-144)*(x^2-144)/(x^2-169)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000347047\nMAX_RSS_KB 66896\n",
+      "verification": {
+        "exact": true,
+        "method": "Finite factor telescope on the complement of \u00b12..\u00b113; retained factors retain exactly this full domain, and actual engine tests every excluded point plus allowed zeros and origin. No expanded degree-24 polynomial needed."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-2": "undef",
+        "2": "undef",
+        "-3": "undef",
+        "3": "undef",
+        "-4": "undef",
+        "4": "undef",
+        "-5": "undef",
+        "5": "undef",
+        "-6": "undef",
+        "6": "undef",
+        "-7": "undef",
+        "7": "undef",
+        "-8": "undef",
+        "8": "undef",
+        "-9": "undef",
+        "9": "undef",
+        "-10": "undef",
+        "10": "undef",
+        "-11": "undef",
+        "11": "undef",
+        "-12": "undef",
+        "12": "undef",
+        "13": "infinity",
+        "-13": "infinity",
+        "0": "1/169",
+        "1": "0",
+        "-1": "0"
+      }
+    },
+    {
+      "id": "PC15-R1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(product((x^2-k^2)/(x^2-(k+1)^2),k,1,12))",
+      "exit": 0,
+      "result": "(x^2-1)/(x^2-4)*(x^2-4)/(x^2-9)*(x^2-9)/(x^2-16)*(x^2-16)/(x^2-25)*(x^2-25)/(x^2-36)*(x^2-36)/(x^2-49)*(x^2-49)/(x^2-64)*(x^2-64)/(x^2-81)*(x^2-81)/(x^2-100)*(x^2-100)/(x^2-121)*(x^2-121)/(x^2-144)*(x^2-144)/(x^2-169)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000325717\nMAX_RSS_KB 66896\n",
+      "verification": {
+        "exact": true,
+        "method": "Finite factor telescope on the complement of \u00b12..\u00b113; retained factors retain exactly this full domain, and actual engine tests every excluded point plus allowed zeros and origin. No expanded degree-24 polynomial needed."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-2": "undef",
+        "2": "undef",
+        "-3": "undef",
+        "3": "undef",
+        "-4": "undef",
+        "4": "undef",
+        "-5": "undef",
+        "5": "undef",
+        "-6": "undef",
+        "6": "undef",
+        "-7": "undef",
+        "7": "undef",
+        "-8": "undef",
+        "8": "undef",
+        "-9": "undef",
+        "9": "undef",
+        "-10": "undef",
+        "10": "undef",
+        "-11": "undef",
+        "11": "undef",
+        "-12": "undef",
+        "12": "undef",
+        "13": "infinity",
+        "-13": "infinity",
+        "0": "1/169",
+        "1": "0",
+        "-1": "0"
+      }
+    },
+    {
+      "id": "PC15-R1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(product((x^2-k^2)/(x^2-(k+1)^2),k,1,12))",
+      "exit": 0,
+      "result": "(x^2-1)/(x^2-4)*(x^2-4)/(x^2-9)*(x^2-9)/(x^2-16)*(x^2-16)/(x^2-25)*(x^2-25)/(x^2-36)*(x^2-36)/(x^2-49)*(x^2-49)/(x^2-64)*(x^2-64)/(x^2-81)*(x^2-81)/(x^2-100)*(x^2-100)/(x^2-121)*(x^2-121)/(x^2-144)*(x^2-144)/(x^2-169)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000353436\nMAX_RSS_KB 66896\n",
+      "verification": {
+        "exact": true,
+        "method": "Finite factor telescope on the complement of \u00b12..\u00b113; retained factors retain exactly this full domain, and actual engine tests every excluded point plus allowed zeros and origin. No expanded degree-24 polynomial needed."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-2": "undef",
+        "2": "undef",
+        "-3": "undef",
+        "3": "undef",
+        "-4": "undef",
+        "4": "undef",
+        "-5": "undef",
+        "5": "undef",
+        "-6": "undef",
+        "6": "undef",
+        "-7": "undef",
+        "7": "undef",
+        "-8": "undef",
+        "8": "undef",
+        "-9": "undef",
+        "9": "undef",
+        "-10": "undef",
+        "10": "undef",
+        "-11": "undef",
+        "11": "undef",
+        "-12": "undef",
+        "12": "undef",
+        "13": "infinity",
+        "-13": "infinity",
+        "0": "1/169",
+        "1": "0",
+        "-1": "0"
+      }
+    }
+  ],
+  "source_sha256": {
+    "yintg.cc": "a93951c62d9ddd9605d04eea0fdb638142342e6f523b2215b9aa23d925061c88",
+    "zintgab.cc": "3b6fa78aba4d53b1a11479c33bacb4c85e3d6091389ef3073ec60085a7ae9448",
+    "ksubst.cc": "70d31c04acb86908939ec1fd7e050e979ba07978c80b63592e7e643b01c0605f",
+    "yderive.cc": "85736f3aca6d32311c62e1425ac3bf13d6debb9668d32466f902d63c72c1ad9a",
+    "dilogarithm.h": "ca822ef4c094a4ed1f4aecf7219011668735d86d259c51ec6304515f8fa84d7a",
+    "kconvert.cc": "eed558eb2f8ff62e0cf1e94fdbf8497954a35577e283a8d07283350e65b76003",
+    "equation_normalize.h": "4bfb644f0e18bb36e280ce8886c8ac12695c9aeeaef187ea3e5f967cd1642e37",
+    "kusual.cc": "fcc854a0d1f8ad6f64600674a584ed6d903d44c53fef1931b90904272df26681",
+    "zprog.cc": "baf6570eac3b985e50bb2bbf8a3bbc47b72b34ce6835ce2f7a873185a7efe499",
+    "conditional_eval.h": "763e56cb14146b9e45728c4fa245f7fe4506a8eea4041cbaf98b927ea15e27a2"
+  },
+  "cases": [
+    {
+      "id": "PC15-I1",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC15-I2",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC15-D1",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC15-D2",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC15-S1",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC15-R1",
+      "all_four_pass": true
+    }
+  ]
+}

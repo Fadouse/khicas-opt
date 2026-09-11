@@ -1,0 +1,131 @@
+{
+  "cases": [
+    {
+      "id": "PC15-I1",
+      "type": "integral",
+      "input": "simplify(integrate(x^2*exp(2*x)*sin(3*x),x))",
+      "conditions": [
+        "x is any finite real number and all angles are in radians. The original integrand is smooth on the entire real axis.",
+        "Require an explicit exact antiderivative on the entire connected real domain, up to one global additive constant. An unevaluated integral or numerical quadrature is not acceptable."
+      ],
+      "expected": {
+        "expression": "exp(2*x)*((338*x^2+130*x-92)*sin(3*x)+(-507*x^2+312*x-18)*cos(3*x))/2197",
+        "properties": [
+          "Return the displayed exact global closed form or an equivalent exact evaluable primitive, with one global additive constant.",
+          "No real point may be excluded. In particular zeros of the trigonometric factors and x=0 are regular points.",
+          "The displayed normalization has F(0)=-18/2197, F'(0)=0, and limit zero as x tends to negative infinity.",
+          "The exact convergent integral from negative infinity to zero is -18/2197."
+        ]
+      },
+      "reason": "Set P=338*x^2+130*x-92 and Q=-507*x^2+312*x-18. Direct differentiation gives F'=exp(2*x)*[(P'+2*P-3*Q)*sin(3*x)+(Q'+2*Q+3*P)*cos(3*x)]/2197. Expanding just these quadratic coefficients gives P'+2*P-3*Q=2197*x^2 and Q'+2*Q+3*P=0. Hence the derivative is the original integrand everywhere, without dividing by x, sine or cosine. The two coefficient equations also provide a constructive method of undetermined coefficients for obtaining this elementary primitive. Substitution at zero gives the stated value and derivative. Exponential decay dominates both quadratic polynomials at negative infinity, proving the limit zero and the exact improper integral."
+    },
+    {
+      "id": "PC15-I2",
+      "type": "integral",
+      "input": "simplify(integrate(1/(5+3*cos(x))^3,x))",
+      "conditions": [
+        "x is any finite real number, in radians; atan is the principal real inverse tangent in (-pi/2,pi/2).",
+        "The original integrand is smooth and strictly positive on the entire real axis. Require one explicit exact global primitive, up to one global additive constant.",
+        "An unevaluated integral is not acceptable. If half-angle charts are used, every joining value and joining constant must be provided so that no original-domain point is missing."
+      ],
+      "expected": {
+        "expression": "59*(x-2*atan(sin(x)/(3+cos(x))))/2048-45*sin(x)/(512*(5+3*cos(x)))-3*sin(x)/(32*(5+3*cos(x))^2)",
+        "properties": [
+          "Return the displayed exact global closed form or an equivalent exact evaluable global primitive, with one global additive constant.",
+          "The displayed denominators satisfy 3+cos(x)>=2 and 5+3*cos(x)>=2, so every finite real point is included.",
+          "The displayed primitive is odd, is zero at zero, and is strictly increasing. It obeys F(x+2*pi)=F(x)+59*pi/1024.",
+          "The exact integral over any full period is 59*pi/1024. For every integer k, F(k*pi)=59*k*pi/2048 and F'(k*pi)=1/(5+3*(-1)^k)^3.",
+          "Artificial poles, jumps or missing values at odd multiples of pi or zeros of sine are unacceptable."
+        ]
+      },
+      "reason": "Put c=cos(x), s=sin(x), D=5+3*c, u=s/(3+c), and J=(x-2*atan(u))/4. All denominators are globally positive. We have u'=(3*c+1)/(3+c)^2 and 1+u^2=2*D/(3+c)^2, giving J'=[1-(3*c+1)/D]/4=1/D. Write H=s/D and K=s/D^2. Direct differentiation gives H'=(5*c+3)/D^2 and K'=(6+5*c-3*c^2)/D^3. The displayed F equals 59*J/512-45*H/512-3*K/32, so its derivative has numerator 59*D^2-45*(5*c+3)*D-48*(6+5*c-3*c^2) over 512*D^3. The numerator is identically 512: its constant, linear and quadratic coefficients are respectively 1475-675-288=512, 1770-1530-240=0, and 531-675+144=0. Thus F'=1/D^3 globally, including every potential half-angle chart boundary. Oddness follows from sine being odd and cosine even. Only the linear term changes over a period, giving the increment. At every k*pi the sine and atan terms vanish, proving the exact values, while direct substitution into 1/D^3 proves the slopes."
+    },
+    {
+      "id": "PC15-D1",
+      "type": "derivative",
+      "input": "simplify(diff(asin(2*sin(x)/(1+sin(x)^2)),x))",
+      "conditions": [
+        "x is any finite real number in radians. asin is the principal real inverse sine in [-pi/2,pi/2], and atan is the principal real inverse tangent.",
+        "The complete original domain is the entire real axis: for t=sin(x), abs(2*t/(1+t^2))<=1.",
+        "Determine the derivative everywhere, including every point x=pi/2+k*pi where the inner asin argument equals an endpoint. Use the original two-sided difference quotient with its actual value at each such contact.",
+        "No separately assigned extension is intended: all contact points already belong to the original function."
+      ],
+      "expected": {
+        "expression": "2*cos(x)/(1+sin(x)^2)",
+        "properties": [
+          "The exact derivative domain is all real numbers. Every contact a=pi/2+k*pi, k integer, has derivative zero.",
+          "The original function is exactly 2*atan(sin(x)) everywhere and is smooth. Its value at a contact is (-1)^k*pi/2.",
+          "The derivatives at x=k*pi are 2*(-1)^k. The derivative is even and changes sign under x to x+pi.",
+          "The apparent 0/0 from the formal asin chain rule at cos(x)=0 is removable within the already-defined original function; returning undef at these points is incorrect."
+        ]
+      },
+      "reason": "For t in [-1,1], theta=2*atan(t) belongs to [-pi/2,pi/2] and sin(theta)=2*t/(1+t^2). The defining principal range therefore gives asin(2*t/(1+t^2))=2*atan(t), including t=+-1. This proves the global identity directly and differentiating its smooth right side gives 2*cos(x)/(1+sin(x)^2). Independently check the original contact quotient: let a=pi/2+k*pi and epsilon=(-1)^k. Then sin(a+h)=epsilon*cos(h), f(a)=epsilon*pi/2=2*atan(epsilon), and [f(a+h)-f(a)]/h=2*[atan(epsilon*cos(h))-atan(epsilon)]/h. By the real mean value theorem this equals 2*epsilon*(cos(h)-1)/(h*(1+xi_h^2)), where xi_h is between epsilon*cos(h) and epsilon. Since abs(cos(h)-1)<=h^2/2, its absolute value is at most abs(h), so the actual two-sided quotient tends to zero. No new value was assigned at a. Substitution and the sine/cosine symmetries prove the remaining derivative values and symmetries."
+    },
+    {
+      "id": "PC15-D2",
+      "type": "derivative",
+      "input": "simplify(diff(x*sqrt(x^2-1)-ln(abs(x+sqrt(x^2-1))),x))",
+      "conditions": [
+        "x is finite real; sqrt is the nonnegative real square root and ln is the real logarithm. The complete original domain is (-infinity,-1] union [1,infinity).",
+        "Report ordinary two-sided derivatives on the open interior of the original domain. At -1 and 1, report the inward one-sided difference quotients separately; an ordinary two-sided derivative of the unextended original function is not defined there.",
+        "Also discuss the separate extension that assigns value zero on the missing interval (-1,1). Determine its actual two-sided derivatives at both joining points from its assigned values.",
+        "piecewise selects its first true branch lazily; undef in the expected derivative denotes absence of an ordinary two-sided derivative of the original unextended function."
+      ],
+      "expected": {
+        "expression": "piecewise(x<-1,2*sqrt(x^2-1),x>1,2*sqrt(x^2-1),undef)",
+        "properties": [
+          "The exact ordinary two-sided derivative domain of the unextended original function is (-infinity,-1) union (1,infinity), and its derivative there is 2*sqrt(x^2-1).",
+          "The original values f(-1) and f(1) are both zero. The original left derivative at -1 and original right derivative at 1 both exist and equal zero.",
+          "There are no logarithmic holes on the original domain, including on the entire negative component.",
+          "The separate extension equal to zero on [-1,1] is continuously differentiable on R, with derivative zero for abs(x)<=1 and 2*sqrt(x^2-1) for abs(x)>1.",
+          "The extension is odd and nondecreasing. Assigning its derivative at an endpoint must not be confused with an ordinary two-sided derivative of the unextended original domain."
+        ]
+      },
+      "reason": "Real square roots require abs(x)>=1. Set s=sqrt(x^2-1). On this domain (x+s)*(x-s)=1, so x+s is never zero and ln(abs(x+s)) is defined, even when x<-1. At either endpoint s=0 and ln(abs(x))=0, giving the original value zero. For abs(x)>1, d[ln(abs(x+s))]/dx=(1+x/s)/(x+s)=1/s. Therefore f'=s+x^2/s-1/s=2*s. To verify the actual endpoint quotients without relying on this singular calculation, parameterize an inward approach by x=sigma*sqrt(1+t^2), t>=0, sigma=+-1. Then s=t and ln(abs(x+t))=sigma*ln(sqrt(1+t^2)+t). Thus f(x)-f(sigma)=sigma*[t*sqrt(1+t^2)-ln(sqrt(1+t^2)+t)]=sigma*[2*t^3/3+O(t^5)], while x-sigma=sigma*[t^2/2+O(t^4)]. The original one-sided quotient is 4*t/3+O(t^3), tending to zero at both endpoints. There are no original-domain points on the other side locally, which is why these are one-sided derivatives only. For the separate extension, the quotient on the newly filled side is exactly zero, while the inward quotient just proved tends to zero; hence both actual two-sided joining derivatives are zero. The exterior derivative tends to zero at the joins, proving continuous differentiability. The identity (x+s)*(x-s)=1 shows f(-x)=-f(x); filling the central interval by zero preserves oddness, and the stated nonnegative derivative proves monotonicity."
+    },
+    {
+      "id": "PC15-S1",
+      "type": "simplify",
+      "input": "simplify(sqrt(ln(x/y)^2)-ln(sqrt(x^2)/sqrt(y^2)))",
+      "conditions": [
+        "x and y are finite real numbers. Every ln is the strictly real logarithm and sqrt is the nonnegative real square root.",
+        "The complete original domain is x*y>0, including the quadrant where both x and y are negative. Determine the exact value and retain this complete domain.",
+        "A domain-bearing answer or an exact piecewise guard is required; piecewise selects its first true branch lazily."
+      ],
+      "expected": {
+        "expression": "piecewise(x*y>0,piecewise(x/y>=1,0,2*ln(y/x)),undef)",
+        "properties": [
+          "On the exact original domain the value is abs(ln(x/y))-ln(x/y), equivalently the displayed piecewise formula.",
+          "The result is zero when x/y>=1 and is strictly positive when 0<x/y<1. A bare unrestricted zero is incorrect.",
+          "The axes and both opposite-sign quadrants remain excluded. Neither x>0 nor y>0 individually is a necessary domain condition.",
+          "At (x,y)=(-1,-2) the exact value is 2*ln(2); at (-2,-1) it is zero. At every nonzero point of the diagonal x=y it is zero.",
+          "Multiplying both variables by any nonzero real constant preserves the domain and value."
+        ]
+      },
+      "reason": "The inner ln(x/y) requires y!=0 and x/y>0, exactly x*y>0. The other original logarithm has argument abs(x)/abs(y), requiring x!=0 and y!=0, already guaranteed by the first condition. Hence x*y>0 is necessary and sufficient for all original operations. On this domain sqrt(ln(x/y)^2)=abs(ln(x/y)) and sqrt(x^2)/sqrt(y^2)=abs(x)/abs(y)=x/y>0. Writing L=ln(x/y) gives abs(L)-L, equal to zero for L>=0 and to -2*L=2*ln(y/x) for L<0. Strict monotonicity of the real logarithm makes these conditions x/y>=1 and 0<x/y<1. The outer guard retains all excluded axes and opposite-sign quadrants; laziness prevents evaluating forbidden quotients outside it. Exact substitution proves the two negative-quadrant values and the diagonal values. A common nonzero rescaling keeps the ratio and the sign of the product unchanged, proving invariance."
+    },
+    {
+      "id": "PC15-R1",
+      "type": "resource",
+      "input": "simplify(product((x^2-k^2)/(x^2-(k+1)^2),k,1,12))",
+      "conditions": [
+        "x is finite real. The complete original domain is R excluding x=+-j for every integer j from 2 through 13. Every factor of the original finite product must be defined.",
+        "The product contains exactly 12 factors, k=1 through 12; there is no symbolic or unbounded workload.",
+        "Each invocation has a fixed 10-second external wall-clock timeout and a 65536-byte output cap. Preserve all existing configured finite CG50 stack, heap and simplification budgets; do not enlarge limits or retry with enlarged limits.",
+        "Exact retention of the compact original finite product is acceptable. No forced expansion or enumeration of every factor is required."
+      ],
+      "expected": {
+        "expression": "piecewise(abs(x)<2,(x^2-1)/(x^2-169),abs(x)>13,(x^2-1)/(x^2-169),abs(x)==floor(abs(x)),undef,(x^2-1)/(x^2-169))",
+        "properties": [
+          "Return (x^2-1)/(x^2-169) with the full inherited exclusion set, an equivalent exact compact domain-bearing expression such as the displayed piecewise, or retain the original finite product exactly.",
+          "All 22 interior excluded points +-2 through +-12 remain excluded even though the rational continuation has finite values there. A zero numerator in one factor does not give meaning to another undefined factor.",
+          "The points +-13 are nonremovable poles; the only original-domain zeros are +-1. Zero is allowed and the exact value there is 1/169.",
+          "The result is even. It is positive for abs(x)<1 or abs(x)>13, and negative at allowed points with 1<abs(x)<13.",
+          "No crash, stack overflow, timeout, output-cap overrun, runaway expansion, new domain hole or undef at an allowed point is acceptable. Resource limits must not be increased.",
+          "Compact exact retention is allowed only as a resource-case alternative and does not relax the closed-form requirements of either integral."
+        ]
+      },
+      "reason": "Each original denominator vanishes precisely at x=+-(k+1). Their finite union is exactly {+-2,...,+-13}, proving the complete domain. At every point of that domain all shared factors x^2-j^2 for j=2,...,12 are nonzero, so finite cancellation gives product[(x^2-k^2)/(x^2-(k+1)^2)]=(x^2-1)/(x^2-169). This equality was proved only on the inherited domain: it does not define a value at any cancelled point. At an interior excluded point a simultaneous zero of a different numerator cannot legalize the undefined quotient. The displayed piecewise admits abs(x)<2 and abs(x)>13 directly, while within [2,13] it excludes exactly integer absolute values, giving precisely the original exclusion set. At +-13 the surviving denominator vanishes and numerator equals 168, so the poles are nonremovable. The surviving numerator vanishes only at +-1, which are allowed, and substitution at zero gives 1/169. Dependence on x^2 proves evenness, and signs of the two surviving factors prove the sign claims. This is an exact proof for a fixed twelve-factor workload and requires no expanded degree-24 polynomial."
+    }
+  ]
+}

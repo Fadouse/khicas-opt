@@ -1,0 +1,23 @@
+{
+  "cases": [
+    {
+      "id": "PC15-I1",
+      "input": "simplify(integrate(x^2*exp(2*x)*sin(3*x),x))",
+      "expected": "exp(2*x)*((338*x^2+130*x-92)*sin(3*x)+(-507*x^2+312*x-18)*cos(3*x))/2197",
+      "conditions": [
+        "x is any finite real number and all angles are in radians. The original integrand is smooth on the entire real axis.",
+        "Require an explicit exact antiderivative on the entire connected real domain, up to one global additive constant. An unevaluated integral or numerical quadrature is not acceptable."
+      ]
+    },
+    {
+      "id": "PC15-I2",
+      "input": "simplify(integrate(1/(5+3*cos(x))^3,x))",
+      "expected": "59*(x-2*atan(sin(x)/(3+cos(x))))/2048-45*sin(x)/(512*(5+3*cos(x)))-3*sin(x)/(32*(5+3*cos(x))^2)",
+      "conditions": [
+        "x is any finite real number, in radians; atan is the principal real inverse tangent in (-pi/2,pi/2).",
+        "The original integrand is smooth and strictly positive on the entire real axis. Require one explicit exact global primitive, up to one global additive constant.",
+        "An unevaluated integral is not acceptable. If half-angle charts are used, every joining value and joining constant must be provided so that no original-domain point is missing."
+      ]
+    }
+  ]
+}

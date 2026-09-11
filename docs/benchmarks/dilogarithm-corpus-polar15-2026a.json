@@ -1,0 +1,2105 @@
+{
+  "scope": "Repository integration, normalization and FXCG simplification entry points; other dependencies host Giac, not a CG50 emulator or hardware timings",
+  "validation": "Printed target results independently checked in a separate host-Giac process",
+  "corpus_sha256": "2d9ce990c225dfcb94217935a9b70e2cd45f7aa77f7527488d56a52d012e5487",
+  "validation_probe_sha256": "389931bcb1768f94a589ce5b4cdc1422b9629a9e2b5e3281dab7e775beb834a4",
+  "source_sha256": {
+    "yintg.cc": "a93951c62d9ddd9605d04eea0fdb638142342e6f523b2215b9aa23d925061c88",
+    "zintgab.cc": "3b6fa78aba4d53b1a11479c33bacb4c85e3d6091389ef3073ec60085a7ae9448",
+    "ysym2poly.cc": "ca2e4abe3652bf6314e38703100426e6996b3d272ad6f6215d469acf7ecb979c",
+    "ksubst.cc": "70d31c04acb86908939ec1fd7e050e979ba07978c80b63592e7e643b01c0605f",
+    "integration_guard.h": "5f4bfda11a19fdf8b4b41da6bb037f602dd741ec1f3492066abab251e85d48a9",
+    "equation_normalize.h": "4bfb644f0e18bb36e280ce8886c8ac12695c9aeeaef187ea3e5f967cd1642e37",
+    "dilogarithm.h": "ca822ef4c094a4ed1f4aecf7219011668735d86d259c51ec6304515f8fa84d7a"
+  },
+  "runs": [
+    {
+      "id": "L1",
+      "input": "integrate(ln(1+x)/x,x)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-Li2(-x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000320707\nMAX_RSS_KB 23132\n",
+      "host_seconds": 0.000320707,
+      "parser_calls": 1,
+      "host_max_rss_kb": 23132,
+      "result_characters": 8,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "L1",
+      "input": "integrate(ln(1+x)/x,x)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-Li2(-x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000539094\nMAX_RSS_KB 61844\n",
+      "host_seconds": 0.000539094,
+      "parser_calls": 1,
+      "host_max_rss_kb": 61844,
+      "result_characters": 8,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "L1",
+      "input": "simplify(integrate(ln(1+x)/x,x))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-Li2(-x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000341116\nMAX_RSS_KB 61844\n",
+      "host_seconds": 0.000341116,
+      "parser_calls": 1,
+      "host_max_rss_kb": 61844,
+      "result_characters": 8,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "L1",
+      "input": "simplify(integrate(ln(1+x)/x,x))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-Li2(-x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000615653\nMAX_RSS_KB 61844\n",
+      "host_seconds": 0.000615653,
+      "parser_calls": 1,
+      "host_max_rss_kb": 61844,
+      "result_characters": 8,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "L2",
+      "input": "integrate(ln(x)/(1-x),x)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "Li2(1-x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000516795\nMAX_RSS_KB 61844\n",
+      "host_seconds": 0.000516795,
+      "parser_calls": 1,
+      "host_max_rss_kb": 61844,
+      "result_characters": 8,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "L2",
+      "input": "integrate(ln(x)/(1-x),x)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "Li2(1-x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000339517\nMAX_RSS_KB 61844\n",
+      "host_seconds": 0.000339517,
+      "parser_calls": 1,
+      "host_max_rss_kb": 61844,
+      "result_characters": 8,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "L2",
+      "input": "simplify(integrate(ln(x)/(1-x),x))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "Li2(1-x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000345466\nMAX_RSS_KB 61844\n",
+      "host_seconds": 0.000345466,
+      "parser_calls": 1,
+      "host_max_rss_kb": 61844,
+      "result_characters": 8,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "L2",
+      "input": "simplify(integrate(ln(x)/(1-x),x))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "Li2(1-x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000349547\nMAX_RSS_KB 61844\n",
+      "host_seconds": 0.000349547,
+      "parser_calls": 1,
+      "host_max_rss_kb": 61844,
+      "result_characters": 8,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "L3",
+      "input": "integrate(ln(1-exp(-x)),x)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "Li2(exp(-x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000296257\nMAX_RSS_KB 61844\n",
+      "host_seconds": 0.000296257,
+      "parser_calls": 1,
+      "host_max_rss_kb": 61844,
+      "result_characters": 12,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "L3",
+      "input": "integrate(ln(1-exp(-x)),x)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "Li2(exp(-x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000590564\nMAX_RSS_KB 61844\n",
+      "host_seconds": 0.000590564,
+      "parser_calls": 1,
+      "host_max_rss_kb": 61844,
+      "result_characters": 12,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "L3",
+      "input": "simplify(integrate(ln(1-exp(-x)),x))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "Li2(exp(-x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000341436\nMAX_RSS_KB 61844\n",
+      "host_seconds": 0.000341436,
+      "parser_calls": 1,
+      "host_max_rss_kb": 61844,
+      "result_characters": 12,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "L3",
+      "input": "simplify(integrate(ln(1-exp(-x)),x))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "Li2(exp(-x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000652693\nMAX_RSS_KB 61844\n",
+      "host_seconds": 0.000652693,
+      "parser_calls": 1,
+      "host_max_rss_kb": 61844,
+      "result_characters": 12,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "L4",
+      "input": "integrate(ln(1-x)/(x*(1-x)),x)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-Li2(x)-ln(1-x)*ln(1-x)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000337426\nMAX_RSS_KB 61844\n",
+      "host_seconds": 0.000337426,
+      "parser_calls": 1,
+      "host_max_rss_kb": 61844,
+      "result_characters": 25,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "L4",
+      "input": "integrate(ln(1-x)/(x*(1-x)),x)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-Li2(x)-ln(1-x)*ln(1-x)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000335026\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000335026,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 25,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "L4",
+      "input": "simplify(integrate(ln(1-x)/(x*(1-x)),x))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(-2*Li2(x)-ln(1-x)^2)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000372066\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000372066,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 23,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "L4",
+      "input": "simplify(integrate(ln(1-x)/(x*(1-x)),x))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(-2*Li2(x)-ln(1-x)^2)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000361526\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000361526,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 23,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "L5",
+      "input": "integrate(ln(1-x)/x,x,0,1)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-pi*pi/6",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000316667\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000316667,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 8,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent symbolic endpoint value identity",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "L5",
+      "input": "integrate(ln(1-x)/x,x,0,1)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-pi*pi/6",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000343527\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000343527,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 8,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent symbolic endpoint value identity",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "L5",
+      "input": "simplify(integrate(ln(1-x)/x,x,0,1))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-pi^2/6",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000409186\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000409186,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 7,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent symbolic endpoint value identity",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "L5",
+      "input": "simplify(integrate(ln(1-x)/x,x,0,1))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-pi^2/6",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000404576\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000404576,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 7,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent symbolic endpoint value identity",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "L6",
+      "input": "integrate(ln(1+x)/x,x,0,1)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "pi*pi/12",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000326806\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000326806,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 8,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent symbolic endpoint value identity",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "L6",
+      "input": "integrate(ln(1+x)/x,x,0,1)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "pi*pi/12",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000316677\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000316677,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 8,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent symbolic endpoint value identity",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "L6",
+      "input": "simplify(integrate(ln(1+x)/x,x,0,1))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "pi^2/12",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000389875\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000389875,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 7,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent symbolic endpoint value identity",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "L6",
+      "input": "simplify(integrate(ln(1+x)/x,x,0,1))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "pi^2/12",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000423085\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000423085,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 7,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent symbolic endpoint value identity",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "Q6",
+      "input": "integrate(ln(1-x^2)/x,x)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-1/2*Li2(x^2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000336326\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000336326,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 13,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "Q6",
+      "input": "integrate(ln(1-x^2)/x,x)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-1/2*Li2(x^2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000330757\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000330757,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 13,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "Q6",
+      "input": "simplify(integrate(ln(1-x^2)/x,x))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-Li2(x^2)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000356796\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000356796,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 11,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "Q6",
+      "input": "simplify(integrate(ln(1-x^2)/x,x))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-Li2(x^2)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000334686\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000334686,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 11,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "power-2",
+      "input": "integrate(ln(1-x^2)/x,x)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-1/2*Li2(x^2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000334587\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000334587,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 13,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "power-2",
+      "input": "integrate(ln(1-x^2)/x,x)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-1/2*Li2(x^2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000532794\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000532794,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 13,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "power-2",
+      "input": "simplify(integrate(ln(1-x^2)/x,x))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-Li2(x^2)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000393396\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000393396,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 11,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "power-2",
+      "input": "simplify(integrate(ln(1-x^2)/x,x))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-Li2(x^2)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000695083\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000695083,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 11,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "power-plus-2",
+      "input": "integrate(3*ln(1+2*x^2)/x,x)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-3/2*Li2(-2*x^2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000338307\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000338307,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 16,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "power-plus-2",
+      "input": "integrate(3*ln(1+2*x^2)/x,x)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-3/2*Li2(-2*x^2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000344776\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000344776,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 16,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "power-plus-2",
+      "input": "simplify(integrate(3*ln(1+2*x^2)/x,x))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-3*Li2(-2*x^2)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000362156\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000362156,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 16,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "power-plus-2",
+      "input": "simplify(integrate(3*ln(1+2*x^2)/x,x))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-3*Li2(-2*x^2)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000363586\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000363586,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 16,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "endpoint-2",
+      "input": "integrate(ln(1-x^2)/x,x,0,1)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-1/2*pi*pi/6",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000342127\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000342127,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 12,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent symbolic endpoint value identity",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "endpoint-2",
+      "input": "integrate(ln(1-x^2)/x,x,0,1)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-1/2*pi*pi/6",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000336757\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000336757,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 12,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent symbolic endpoint value identity",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "endpoint-2",
+      "input": "simplify(integrate(ln(1-x^2)/x,x,0,1))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-pi^2/12",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000419045\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000419045,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 8,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent symbolic endpoint value identity",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "endpoint-2",
+      "input": "simplify(integrate(ln(1-x^2)/x,x,0,1))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-pi^2/12",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000407685\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000407685,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 8,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent symbolic endpoint value identity",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "power-3",
+      "input": "integrate(ln(1-x^3)/x,x)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-1/3*Li2(x^3)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000326966\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000326966,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 13,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "power-3",
+      "input": "integrate(ln(1-x^3)/x,x)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-1/3*Li2(x^3)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000335107\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000335107,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 13,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "power-3",
+      "input": "simplify(integrate(ln(1-x^3)/x,x))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-Li2(x^3)/3",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000367386\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000367386,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 11,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "power-3",
+      "input": "simplify(integrate(ln(1-x^3)/x,x))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-Li2(x^3)/3",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000695153\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000695153,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 11,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "power-plus-3",
+      "input": "integrate(3*ln(1+2*x^3)/x,x)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-3/3*Li2(-2*x^3)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000338906\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000338906,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 16,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "power-plus-3",
+      "input": "integrate(3*ln(1+2*x^3)/x,x)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-3/3*Li2(-2*x^3)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000338816\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000338816,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 16,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "power-plus-3",
+      "input": "simplify(integrate(3*ln(1+2*x^3)/x,x))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-Li2(-2*x^3)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000362496\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000362496,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 12,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "power-plus-3",
+      "input": "simplify(integrate(3*ln(1+2*x^3)/x,x))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-Li2(-2*x^3)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000367716\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000367716,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 12,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "endpoint-3",
+      "input": "integrate(ln(1-x^3)/x,x,0,1)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-1/3*pi*pi/6",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000335676\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000335676,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 12,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent symbolic endpoint value identity",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "endpoint-3",
+      "input": "integrate(ln(1-x^3)/x,x,0,1)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-1/3*pi*pi/6",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000349726\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000349726,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 12,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent symbolic endpoint value identity",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "endpoint-3",
+      "input": "simplify(integrate(ln(1-x^3)/x,x,0,1))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-pi^2/18",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000421965\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000421965,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 8,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent symbolic endpoint value identity",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "endpoint-3",
+      "input": "simplify(integrate(ln(1-x^3)/x,x,0,1))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-pi^2/18",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000425146\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000425146,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 8,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent symbolic endpoint value identity",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "power-7",
+      "input": "integrate(ln(1-x^7)/x,x)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-1/7*Li2(x^7)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000327856\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000327856,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 13,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "power-7",
+      "input": "integrate(ln(1-x^7)/x,x)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-1/7*Li2(x^7)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000359666\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000359666,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 13,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "power-7",
+      "input": "simplify(integrate(ln(1-x^7)/x,x))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-Li2(x^7)/7",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000370016\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000370016,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 11,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "power-7",
+      "input": "simplify(integrate(ln(1-x^7)/x,x))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-Li2(x^7)/7",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000592874\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000592874,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 11,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "power-plus-7",
+      "input": "integrate(3*ln(1+2*x^7)/x,x)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-3/7*Li2(-2*x^7)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000339106\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000339106,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 16,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "power-plus-7",
+      "input": "integrate(3*ln(1+2*x^7)/x,x)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-3/7*Li2(-2*x^7)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000344017\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000344017,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 16,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "power-plus-7",
+      "input": "simplify(integrate(3*ln(1+2*x^7)/x,x))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-3*Li2(-2*x^7)/7",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000363136\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000363136,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 16,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "power-plus-7",
+      "input": "simplify(integrate(3*ln(1+2*x^7)/x,x))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-3*Li2(-2*x^7)/7",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000364776\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000364776,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 16,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "endpoint-7",
+      "input": "integrate(ln(1-x^7)/x,x,0,1)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-1/7*pi*pi/6",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000343076\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000343076,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 12,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent symbolic endpoint value identity",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "endpoint-7",
+      "input": "integrate(ln(1-x^7)/x,x,0,1)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-1/7*pi*pi/6",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000347256\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000347256,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 12,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent symbolic endpoint value identity",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "endpoint-7",
+      "input": "simplify(integrate(ln(1-x^7)/x,x,0,1))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-pi^2/42",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000418936\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000418936,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 8,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent symbolic endpoint value identity",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "endpoint-7",
+      "input": "simplify(integrate(ln(1-x^7)/x,x,0,1))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-pi^2/42",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000430345\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000430345,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 8,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent symbolic endpoint value identity",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "power-16",
+      "input": "integrate(ln(1-x^16)/x,x)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-1/16*Li2(x^16)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000331706\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000331706,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 15,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "power-16",
+      "input": "integrate(ln(1-x^16)/x,x)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-1/16*Li2(x^16)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000328277\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000328277,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 15,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "power-16",
+      "input": "simplify(integrate(ln(1-x^16)/x,x))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-Li2(x^16)/16",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000356806\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000356806,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 13,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "power-16",
+      "input": "simplify(integrate(ln(1-x^16)/x,x))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-Li2(x^16)/16",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000387696\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000387696,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 13,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "power-plus-16",
+      "input": "integrate(3*ln(1+2*x^16)/x,x)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-3/16*Li2(-2*x^16)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000351407\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000351407,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 18,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "power-plus-16",
+      "input": "integrate(3*ln(1+2*x^16)/x,x)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-3/16*Li2(-2*x^16)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000341236\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000341236,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 18,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "power-plus-16",
+      "input": "simplify(integrate(3*ln(1+2*x^16)/x,x))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-3*Li2(-2*x^16)/16",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000367316\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000367316,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 18,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "power-plus-16",
+      "input": "simplify(integrate(3*ln(1+2*x^16)/x,x))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-3*Li2(-2*x^16)/16",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000365446\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000365446,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 18,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "endpoint-16",
+      "input": "integrate(ln(1-x^16)/x,x,0,1)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-1/16*pi*pi/6",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000338856\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000338856,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 13,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent symbolic endpoint value identity",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "endpoint-16",
+      "input": "integrate(ln(1-x^16)/x,x,0,1)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-1/16*pi*pi/6",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000342986\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000342986,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 13,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent symbolic endpoint value identity",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "endpoint-16",
+      "input": "simplify(integrate(ln(1-x^16)/x,x,0,1))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-pi^2/96",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000520155\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000520155,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 8,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent symbolic endpoint value identity",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "endpoint-16",
+      "input": "simplify(integrate(ln(1-x^16)/x,x,0,1))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-pi^2/96",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000433455\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000433455,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 8,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent symbolic endpoint value identity",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "fractional",
+      "input": "integrate(ln(1-sqrt(x))/x,x)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-2*Li2(sqrt(x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000734042\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000734042,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 15,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "fractional",
+      "input": "integrate(ln(1-sqrt(x))/x,x)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-2*Li2(sqrt(x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000705793\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000705793,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 15,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "fractional",
+      "input": "simplify(integrate(ln(1-sqrt(x))/x,x))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-2*Li2(sqrt(x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00090318\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.00090318,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 15,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "fractional",
+      "input": "simplify(integrate(ln(1-sqrt(x))/x,x))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-2*Li2(sqrt(x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000699852\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000699852,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 15,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "negative-power",
+      "input": "integrate(ln(1-1/x)/x,x)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "Li2(1/x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000314596\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000314596,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 8,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "negative-power",
+      "input": "integrate(ln(1-1/x)/x,x)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "Li2(1/x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000318146\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000318146,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 8,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "negative-power",
+      "input": "simplify(integrate(ln(1-1/x)/x,x))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "Li2(1/x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000334676\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000334676,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 8,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "negative-power",
+      "input": "simplify(integrate(ln(1-1/x)/x,x))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "Li2(1/x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000333137\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000333137,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 8,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "shifted",
+      "input": "integrate(ln(3-2*x)/(2*x-2),x)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-1/2*Li2(-3+2*x+1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000364776\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000364776,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 18,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "shifted",
+      "input": "integrate(ln(3-2*x)/(2*x-2),x)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-1/2*Li2(-3+2*x+1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000372026\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000372026,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 18,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "shifted",
+      "input": "simplify(integrate(ln(3-2*x)/(2*x-2),x))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-Li2(-3+2*x+1)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000370286\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000370286,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 16,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "shifted",
+      "input": "simplify(integrate(ln(3-2*x)/(2*x-2),x))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-Li2(-3+2*x+1)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000379085\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000379085,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 16,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "shifted-square",
+      "input": "integrate(ln(3-2*x)/((2*x-2)*(3-2*x)),x)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-1/2*Li2(-3+2*x+1)-1/2*ln(3-2*x-1+1)*ln(3-2*x-1+1)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000371026\nMAX_RSS_KB 62100\n",
+      "host_seconds": 0.000371026,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62100,
+      "result_characters": 52,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "shifted-square",
+      "input": "integrate(ln(3-2*x)/((2*x-2)*(3-2*x)),x)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-1/2*Li2(-3+2*x+1)-1/2*ln(3-2*x-1+1)*ln(3-2*x-1+1)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000507994\nMAX_RSS_KB 62356\n",
+      "host_seconds": 0.000507994,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62356,
+      "result_characters": 52,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "shifted-square",
+      "input": "simplify(integrate(ln(3-2*x)/((2*x-2)*(3-2*x)),x))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(-2*Li2(-3+2*x+1)-ln(3-2*x-1+1)^2)/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000398236\nMAX_RSS_KB 62612\n",
+      "host_seconds": 0.000398236,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62612,
+      "result_characters": 36,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "shifted-square",
+      "input": "simplify(integrate(ln(3-2*x)/((2*x-2)*(3-2*x)),x))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(-2*Li2(-3+2*x+1)-ln(3-2*x-1+1)^2)/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000674643\nMAX_RSS_KB 62612\n",
+      "host_seconds": 0.000674643,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62612,
+      "result_characters": 36,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "exponential-scaled",
+      "input": "integrate(5*ln(1-exp(-3*x)),x)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "5/3*Li2(exp(-3*x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000319766\nMAX_RSS_KB 62612\n",
+      "host_seconds": 0.000319766,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62612,
+      "result_characters": 18,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "exponential-scaled",
+      "input": "integrate(5*ln(1-exp(-3*x)),x)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "5/3*Li2(exp(-3*x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000640993\nMAX_RSS_KB 62612\n",
+      "host_seconds": 0.000640993,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62612,
+      "result_characters": 18,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "exponential-scaled",
+      "input": "simplify(integrate(5*ln(1-exp(-3*x)),x))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "5*Li2(exp(-3*x))/3",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000350496\nMAX_RSS_KB 62612\n",
+      "host_seconds": 0.000350496,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62612,
+      "result_characters": 18,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "exponential-scaled",
+      "input": "simplify(integrate(5*ln(1-exp(-3*x)),x))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "5*Li2(exp(-3*x))/3",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000387136\nMAX_RSS_KB 62612\n",
+      "host_seconds": 0.000387136,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62612,
+      "result_characters": 18,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "exponential-plus",
+      "input": "integrate(ln(1+2*exp(3*x)),x)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-1/3*Li2(-2*exp(3*x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000335417\nMAX_RSS_KB 62612\n",
+      "host_seconds": 0.000335417,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62612,
+      "result_characters": 21,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "exponential-plus",
+      "input": "integrate(ln(1+2*exp(3*x)),x)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-1/3*Li2(-2*exp(3*x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000696563\nMAX_RSS_KB 62612\n",
+      "host_seconds": 0.000696563,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62612,
+      "result_characters": 21,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "exponential-plus",
+      "input": "simplify(integrate(ln(1+2*exp(3*x)),x))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-Li2(-2*exp(3*x))/3",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000367146\nMAX_RSS_KB 62612\n",
+      "host_seconds": 0.000367146,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62612,
+      "result_characters": 19,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "exponential-plus",
+      "input": "simplify(integrate(ln(1+2*exp(3*x)),x))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-Li2(-2*exp(3*x))/3",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000377736\nMAX_RSS_KB 62612\n",
+      "host_seconds": 0.000377736,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62612,
+      "result_characters": 19,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent derivatives of actual and reference, principal Li2 on declared real intervals",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "half-endpoint",
+      "input": "integrate(ln(1-x)/x,x,0,1/2)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-pi*pi/12+ln(2)*ln(2)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000344736\nMAX_RSS_KB 62612\n",
+      "host_seconds": 0.000344736,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62612,
+      "result_characters": 23,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent symbolic endpoint value identity",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "half-endpoint",
+      "input": "integrate(ln(1-x)/x,x,0,1/2)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-pi*pi/12+ln(2)*ln(2)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000428535\nMAX_RSS_KB 62612\n",
+      "host_seconds": 0.000428535,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62612,
+      "result_characters": 23,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent symbolic endpoint value identity",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "half-endpoint",
+      "input": "simplify(integrate(ln(1-x)/x,x,0,1/2))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(-pi^2+6*ln(2)^2)/12",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000479385\nMAX_RSS_KB 62612\n",
+      "host_seconds": 0.000479385,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62612,
+      "result_characters": 20,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent symbolic endpoint value identity",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "half-endpoint",
+      "input": "simplify(integrate(ln(1-x)/x,x,0,1/2))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(-pi^2+6*ln(2)^2)/12",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000479335\nMAX_RSS_KB 62612\n",
+      "host_seconds": 0.000479335,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62612,
+      "result_characters": 20,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent symbolic endpoint value identity",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "reverse-endpoint",
+      "input": "integrate(ln(1+x)/x,x,1,0)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-pi*pi/12",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000311257\nMAX_RSS_KB 62612\n",
+      "host_seconds": 0.000311257,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62612,
+      "result_characters": 9,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent symbolic endpoint value identity",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "reverse-endpoint",
+      "input": "integrate(ln(1+x)/x,x,1,0)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-pi*pi/12",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000311987\nMAX_RSS_KB 62868\n",
+      "host_seconds": 0.000311987,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62868,
+      "result_characters": 9,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent symbolic endpoint value identity",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "reverse-endpoint",
+      "input": "simplify(integrate(ln(1+x)/x,x,1,0))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-pi^2/12",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000386966\nMAX_RSS_KB 62868\n",
+      "host_seconds": 0.000386966,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62868,
+      "result_characters": 8,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent symbolic endpoint value identity",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "reverse-endpoint",
+      "input": "simplify(integrate(ln(1+x)/x,x,1,0))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-pi^2/12",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000391776\nMAX_RSS_KB 62868\n",
+      "host_seconds": 0.000391776,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62868,
+      "result_characters": 8,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent symbolic endpoint value identity",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "negative-argument-endpoint",
+      "input": "integrate(ln(1+2*x)/x,x,0,1)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-Li2(-2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000316946\nMAX_RSS_KB 62868\n",
+      "host_seconds": 0.000316946,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62868,
+      "result_characters": 8,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent symbolic endpoint value identity",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "negative-argument-endpoint",
+      "input": "integrate(ln(1+2*x)/x,x,0,1)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-Li2(-2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000320547\nMAX_RSS_KB 63124\n",
+      "host_seconds": 0.000320547,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63124,
+      "result_characters": 8,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent symbolic endpoint value identity",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "negative-argument-endpoint",
+      "input": "simplify(integrate(ln(1+2*x)/x,x,0,1))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-Li2(-2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000339426\nMAX_RSS_KB 63124\n",
+      "host_seconds": 0.000339426,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63124,
+      "result_characters": 8,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent symbolic endpoint value identity",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "negative-argument-endpoint",
+      "input": "simplify(integrate(ln(1+2*x)/x,x,0,1))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-Li2(-2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000337966\nMAX_RSS_KB 63124\n",
+      "host_seconds": 0.000337966,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63124,
+      "result_characters": 8,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent symbolic endpoint value identity",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "finite-exponential",
+      "input": "integrate(ln(1-exp(-x)),x,0,1)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-pi*pi/6+Li2(1/exp(1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000324707\nMAX_RSS_KB 63124\n",
+      "host_seconds": 0.000324707,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63124,
+      "result_characters": 22,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent symbolic endpoint value identity",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "finite-exponential",
+      "input": "integrate(ln(1-exp(-x)),x,0,1)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-pi*pi/6+Li2(1/exp(1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000320947\nMAX_RSS_KB 63124\n",
+      "host_seconds": 0.000320947,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63124,
+      "result_characters": 22,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent symbolic endpoint value identity",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "finite-exponential",
+      "input": "simplify(integrate(ln(1-exp(-x)),x,0,1))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(-pi^2+6*Li2(1/exp(1)))/6",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000366406\nMAX_RSS_KB 63124\n",
+      "host_seconds": 0.000366406,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63124,
+      "result_characters": 25,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent symbolic endpoint value identity",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "finite-exponential",
+      "input": "simplify(integrate(ln(1-exp(-x)),x,0,1))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(-pi^2+6*Li2(1/exp(1)))/6",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000359436\nMAX_RSS_KB 63124\n",
+      "host_seconds": 0.000359436,
+      "parser_calls": 1,
+      "host_max_rss_kb": 63124,
+      "result_characters": 25,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: exact independent symbolic endpoint value identity",
+        "engine": "SymPy (does not invoke target derivative metadata)"
+      },
+      "status": "exact"
+    }
+  ]
+}

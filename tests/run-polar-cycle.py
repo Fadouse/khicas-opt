@@ -24,7 +24,7 @@ for c in cases:
     if saved:
      row.update(next(r for r in saved if r['id']==c['id'] and r['outer']==outer and r['stack']==stack))
     else:
-     r=subprocess.run([str(a.probe),expression],capture_output=True,text=True,env=env,timeout=10 if c['id'] in ('PC12-R1','PC13-R1','PC14-R1') else 12)
+     r=subprocess.run([str(a.probe),expression],capture_output=True,text=True,env=env,timeout=10 if c['id'] in ('PC12-R1','PC13-R1','PC14-R1','PC15-R1') else 12)
      row.update(exit=r.returncode,result=r.stdout.strip(),stderr=r.stderr)
     assert row['exit']==0,(row['exit'],row['result'][:400])
     key=(c['id'],row['result'])
@@ -33,7 +33,7 @@ for c in cases:
     points={'PC1-D1':[-1,1],'PC2-D1':[0],'PC2-D2':[0,1],'PC3-I1':[0],'PC3-D2':[0]}.get(c['id'],[])
     if points:
      for point in points:
-      r=subprocess.run([str(a.probe),'eval(subst('+expression+',x='+str(point)+'))'],capture_output=True,text=True,env=env,timeout=10 if c['id'] in ('PC12-R1','PC13-R1','PC14-R1') else 12)
+      r=subprocess.run([str(a.probe),'eval(subst('+expression+',x='+str(point)+'))'],capture_output=True,text=True,env=env,timeout=10 if c['id'] in ('PC12-R1','PC13-R1','PC14-R1','PC15-R1') else 12)
       assert r.returncode==0 and r.stdout.strip()=='0',(point,r.stdout,r.stderr)
      row['actual_endpoint_substitution']={str(point):0 for point in points}
     values={'PC4-I2':{2:'0'},'PC4-D1':{0:'0',1:'1',-1:'-1'},'PC4-D2':{-1:'-1',1:'2',2:'2'},'PC4-S1':{0:'2*i*pi'}}.get(c['id'],{})
@@ -47,15 +47,16 @@ for c in cases:
     values.update({'PC12-I1':{0:'0'},'PC12-I2':{1:'-4*ln(2)'},'PC12-D1':{0:'0','2*pi':'0','-2*pi':'0','pi':'undef','-pi':'undef'},'PC12-D2':{0:'1/2',-1:'1/4'}}.get(c['id'],{}))
     values.update({'PC13-D1':{0:'0','pi':'0','pi/2':'undef','-pi/2':'undef'},'PC13-D2':{0:'undef'}}.get(c['id'],{}))
     values.update({'PC14-D1':{0:'0','sqrt(pi)':'undef','-sqrt(2*pi)':'undef'},'PC14-D2':{0:'undef'},'PC14-R1':{**{-j:'undef' for j in range(21)},1:'20/21'}}.get(c['id'],{}))
+    values.update({'PC15-I1':{0:'-18/2197'},'PC15-I2':{0:'0','pi':'59*pi/2048','-pi':'-59*pi/2048'},'PC15-D1':{0:'2','pi':'-2','pi/2':'0','-pi/2':'0'},'PC15-D2':{-1:'undef',1:'undef'},'PC15-R1':{**{sign*j:'undef' for j in range(2,13) for sign in [-1,1]},13:'infinity',-13:'infinity',0:'1/169',1:'0',-1:'0'}}.get(c['id'],{}))
     if values:
      from mixed_reference import parse,equal
      for point,expected in values.items():
-      r=subprocess.run([str(a.probe),'eval(subst('+expression+',x='+str(point)+'))'],capture_output=True,text=True,env=env,timeout=10 if c['id'] in ('PC12-R1','PC13-R1','PC14-R1') else 12)
-      if expected=='undef':assert r.returncode==3 and r.stdout.strip()=='undef',(point,r.stdout,r.stderr)
+      r=subprocess.run([str(a.probe),'eval(subst('+expression+',x='+str(point)+'))'],capture_output=True,text=True,env=env,timeout=10 if c['id'] in ('PC12-R1','PC13-R1','PC14-R1','PC15-R1') else 12)
+      if expected in ('undef','infinity'):assert r.returncode==(3 if expected=='undef' else 0) and r.stdout.strip()==expected,(point,r.stdout,r.stderr)
       else:assert r.returncode==0 and equal(parse(r.stdout.strip()),parse(expected)),(point,r.stdout,r.stderr)
      row['actual_boundary_substitution']=values
     if c['id']=='PC10-R1':
-     r=subprocess.run([str(a.probe),'eval(subst('+expression+',[x,y],[0,0]))'],capture_output=True,text=True,env=env,timeout=10 if c['id'] in ('PC12-R1','PC13-R1','PC14-R1') else 12)
+     r=subprocess.run([str(a.probe),'eval(subst('+expression+',[x,y],[0,0]))'],capture_output=True,text=True,env=env,timeout=10 if c['id'] in ('PC12-R1','PC13-R1','PC14-R1','PC15-R1') else 12)
      assert r.returncode==3 and r.stdout.strip()=='undef',(r.stdout,r.stderr)
      row['actual_origin_exclusion']='undef'
    except Exception as e:row.update(error=str(e),**{'pass':False})

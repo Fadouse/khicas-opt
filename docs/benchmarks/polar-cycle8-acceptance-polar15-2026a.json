@@ -1,0 +1,449 @@
+{
+  "scope": "Actual repository integration/yderive/FXCG simplify on host dependencies; guarded 64 KiB stack, not SH4/MMU emulation.",
+  "corpus_sha256": "d87b9806f89f0e8bdf3bd98ad271166ee8a1b9bca4961e573fd79004e557c454",
+  "probe_sha256": "935699cdcbbe636866fc007ca70eea5e278389bfcd42700c2e2e4cc640de97af",
+  "runs": [
+    {
+      "id": "PC8-I1",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(2*x*ln(1+x^2)/((1+x^2)*(1+ln(1+x^2))),x)",
+      "exit": 0,
+      "result": "2*(ln(x^2+1)/2-1/4*2*ln(ln(x^2+1)+1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00143772\nMAX_RSS_KB 66812\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact global primitive G(ln(1+x\u00b2)); G\u2032=u/(1+u), u\u22650. Original difference quotient at zero is (G(u)/u)*(u/h), both tending to zero. All log arguments positive, evenness and monotonicity follow directly."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0"
+      }
+    },
+    {
+      "id": "PC8-I1",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(2*x*ln(1+x^2)/((1+x^2)*(1+ln(1+x^2))),x)",
+      "exit": 0,
+      "result": "2*(ln(x^2+1)/2-1/4*2*ln(ln(x^2+1)+1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00138863\nMAX_RSS_KB 66812\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact global primitive G(ln(1+x\u00b2)); G\u2032=u/(1+u), u\u22650. Original difference quotient at zero is (G(u)/u)*(u/h), both tending to zero. All log arguments positive, evenness and monotonicity follow directly."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0"
+      }
+    },
+    {
+      "id": "PC8-I1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(2*x*ln(1+x^2)/((1+x^2)*(1+ln(1+x^2))),x))",
+      "exit": 0,
+      "result": "-ln(ln(x^2+1)+1)+ln(x^2+1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00206109\nMAX_RSS_KB 66812\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact global primitive G(ln(1+x\u00b2)); G\u2032=u/(1+u), u\u22650. Original difference quotient at zero is (G(u)/u)*(u/h), both tending to zero. All log arguments positive, evenness and monotonicity follow directly."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0"
+      }
+    },
+    {
+      "id": "PC8-I1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(2*x*ln(1+x^2)/((1+x^2)*(1+ln(1+x^2))),x))",
+      "exit": 0,
+      "result": "-ln(ln(x^2+1)+1)+ln(x^2+1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00174846\nMAX_RSS_KB 66812\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact global primitive G(ln(1+x\u00b2)); G\u2032=u/(1+u), u\u22650. Original difference quotient at zero is (G(u)/u)*(u/h), both tending to zero. All log arguments positive, evenness and monotonicity follow directly."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0"
+      }
+    },
+    {
+      "id": "PC8-I2",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(1/(x*sqrt((x-1)/(x+1))),x)",
+      "exit": 0,
+      "result": "2*(ln(abs((1+1/sqrt((x-1)/(x+1)))/(1-1/sqrt((x-1)/(x+1)))))/2-atan(1/sqrt((x-1)/(x+1))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000464445\nMAX_RSS_KB 66812\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact positive reciprocal-root parameter. x=(1+u\u00b2)/(1-u\u00b2), dx=4u/(1-u\u00b2)\u00b2du; derivative is 4/(1-u\u2074) on both intervals u<1 and u>1. Real log magnitude nonzero, only u=1 excluded. atan(u)+atan(1/u)=pi/2 proves the displayed primitive differs by -pi from the stated normalization."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC8-I2",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(1/(x*sqrt((x-1)/(x+1))),x)",
+      "exit": 0,
+      "result": "2*(ln(abs((1+1/sqrt((x-1)/(x+1)))/(1-1/sqrt((x-1)/(x+1)))))/2-atan(1/sqrt((x-1)/(x+1))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000463855\nMAX_RSS_KB 66812\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact positive reciprocal-root parameter. x=(1+u\u00b2)/(1-u\u00b2), dx=4u/(1-u\u00b2)\u00b2du; derivative is 4/(1-u\u2074) on both intervals u<1 and u>1. Real log magnitude nonzero, only u=1 excluded. atan(u)+atan(1/u)=pi/2 proves the displayed primitive differs by -pi from the stated normalization."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC8-I2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(1/(x*sqrt((x-1)/(x+1))),x))",
+      "exit": 0,
+      "result": "2*(ln(abs((1+1/sqrt((x-1)/(x+1)))/(1-1/sqrt((x-1)/(x+1)))))/2-atan(1/sqrt((x-1)/(x+1))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000483955\nMAX_RSS_KB 66812\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact positive reciprocal-root parameter. x=(1+u\u00b2)/(1-u\u00b2), dx=4u/(1-u\u00b2)\u00b2du; derivative is 4/(1-u\u2074) on both intervals u<1 and u>1. Real log magnitude nonzero, only u=1 excluded. atan(u)+atan(1/u)=pi/2 proves the displayed primitive differs by -pi from the stated normalization."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC8-I2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(1/(x*sqrt((x-1)/(x+1))),x))",
+      "exit": 0,
+      "result": "2*(ln(abs((1+1/sqrt((x-1)/(x+1)))/(1-1/sqrt((x-1)/(x+1)))))/2-atan(1/sqrt((x-1)/(x+1))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000510554\nMAX_RSS_KB 66812\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact positive reciprocal-root parameter. x=(1+u\u00b2)/(1-u\u00b2), dx=4u/(1-u\u00b2)\u00b2du; derivative is 4/(1-u\u2074) on both intervals u<1 and u>1. Real log magnitude nonzero, only u=1 excluded. atan(u)+atan(1/u)=pi/2 proves the displayed primitive differs by -pi from the stated normalization."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC8-D1",
+      "outer": false,
+      "stack": "normal",
+      "input": "diff(surd(x^2*(x-1)^3,3)+x^2,x)",
+      "exit": 0,
+      "result": "2/3*surd(x,3)/x*surd(x,3)*(x-1)+(surd(x,3))^2+2*x",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000352406\nMAX_RSS_KB 66812\n",
+      "verification": {
+        "exact": true,
+        "method": "Unique real cube root proves root(x\u00b2(x-1)\u00b3)=(x-1)*root(x,3)\u00b2 globally. Exact derivative on x!=0; original quotient at one tends to 3. At zero the quotient (h-1)*sign(h)*|h|^(-1/3)+h has opposite infinite one-sided limits, a true cusp."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "1": "3",
+        "0": "undef"
+      }
+    },
+    {
+      "id": "PC8-D1",
+      "outer": false,
+      "stack": "64",
+      "input": "diff(surd(x^2*(x-1)^3,3)+x^2,x)",
+      "exit": 0,
+      "result": "2/3*surd(x,3)/x*surd(x,3)*(x-1)+(surd(x,3))^2+2*x",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000341816\nMAX_RSS_KB 66812\n",
+      "verification": {
+        "exact": true,
+        "method": "Unique real cube root proves root(x\u00b2(x-1)\u00b3)=(x-1)*root(x,3)\u00b2 globally. Exact derivative on x!=0; original quotient at one tends to 3. At zero the quotient (h-1)*sign(h)*|h|^(-1/3)+h has opposite infinite one-sided limits, a true cusp."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "1": "3",
+        "0": "undef"
+      }
+    },
+    {
+      "id": "PC8-D1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(diff(surd(x^2*(x-1)^3,3)+x^2,x))",
+      "exit": 0,
+      "result": "2/3*surd(x,3)/x*surd(x,3)*(x-1)+(surd(x,3))^2+2*x",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000392026\nMAX_RSS_KB 66812\n",
+      "verification": {
+        "exact": true,
+        "method": "Unique real cube root proves root(x\u00b2(x-1)\u00b3)=(x-1)*root(x,3)\u00b2 globally. Exact derivative on x!=0; original quotient at one tends to 3. At zero the quotient (h-1)*sign(h)*|h|^(-1/3)+h has opposite infinite one-sided limits, a true cusp."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "1": "3",
+        "0": "undef"
+      }
+    },
+    {
+      "id": "PC8-D1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(diff(surd(x^2*(x-1)^3,3)+x^2,x))",
+      "exit": 0,
+      "result": "2/3*surd(x,3)/x*surd(x,3)*(x-1)+(surd(x,3))^2+2*x",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000360946\nMAX_RSS_KB 66812\n",
+      "verification": {
+        "exact": true,
+        "method": "Unique real cube root proves root(x\u00b2(x-1)\u00b3)=(x-1)*root(x,3)\u00b2 globally. Exact derivative on x!=0; original quotient at one tends to 3. At zero the quotient (h-1)*sign(h)*|h|^(-1/3)+h has opposite infinite one-sided limits, a true cusp."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "1": "3",
+        "0": "undef"
+      }
+    },
+    {
+      "id": "PC8-D2",
+      "outer": false,
+      "stack": "normal",
+      "input": "diff(piecewise(x<0,x*sin(1/x),x<=1,x^2,2*x-1),x)",
+      "exit": 0,
+      "result": "((x=0)? undef : piecewise(0>x,sin(1/x)-x/x^2*cos(1/x),x<=1,2*x,2))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000462135\nMAX_RSS_KB 66812\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact interior derivatives; original left quotient sin(1/h) has two sequences with limits \u00b11 at zero, whereas original quotients at one tend to 2 from both sides. Lazy undef excludes precisely zero."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "undef",
+        "1": "2",
+        "2": "2"
+      }
+    },
+    {
+      "id": "PC8-D2",
+      "outer": false,
+      "stack": "64",
+      "input": "diff(piecewise(x<0,x*sin(1/x),x<=1,x^2,2*x-1),x)",
+      "exit": 0,
+      "result": "((x=0)? undef : piecewise(0>x,sin(1/x)-x/x^2*cos(1/x),x<=1,2*x,2))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000447745\nMAX_RSS_KB 66812\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact interior derivatives; original left quotient sin(1/h) has two sequences with limits \u00b11 at zero, whereas original quotients at one tend to 2 from both sides. Lazy undef excludes precisely zero."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "undef",
+        "1": "2",
+        "2": "2"
+      }
+    },
+    {
+      "id": "PC8-D2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(diff(piecewise(x<0,x*sin(1/x),x<=1,x^2,2*x-1),x))",
+      "exit": 0,
+      "result": "((x=0)? undef : piecewise(0>x,sin(1/x)-x/x^2*cos(1/x),x<=1,2*x,2))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000439295\nMAX_RSS_KB 66812\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact interior derivatives; original left quotient sin(1/h) has two sequences with limits \u00b11 at zero, whereas original quotients at one tend to 2 from both sides. Lazy undef excludes precisely zero."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "undef",
+        "1": "2",
+        "2": "2"
+      }
+    },
+    {
+      "id": "PC8-D2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(diff(piecewise(x<0,x*sin(1/x),x<=1,x^2,2*x-1),x))",
+      "exit": 0,
+      "result": "((x=0)? undef : piecewise(0>x,sin(1/x)-x/x^2*cos(1/x),x<=1,2*x,2))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000441155\nMAX_RSS_KB 66812\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact interior derivatives; original left quotient sin(1/h) has two sequences with limits \u00b11 at zero, whereas original quotients at one tend to 2 from both sides. Lazy undef excludes precisely zero."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "undef",
+        "1": "2",
+        "2": "2"
+      }
+    },
+    {
+      "id": "PC8-S1",
+      "outer": false,
+      "stack": "normal",
+      "input": "sqrt((x+i)^2)-sqrt((x-i)^2)",
+      "exit": 0,
+      "result": "sqrt((x+i)^2)-(sqrt((x-i)^2))",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000291686\nMAX_RSS_KB 66812\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact principal-root retention. Positive real part selects \u00b1(x\u00b1i) with matching sign of x; at zero both roots of -1 are i, hence difference zero. Full branch partition gives -2i,0,2i."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "-2*i",
+        "0": "0",
+        "1": "2*i"
+      }
+    },
+    {
+      "id": "PC8-S1",
+      "outer": false,
+      "stack": "64",
+      "input": "sqrt((x+i)^2)-sqrt((x-i)^2)",
+      "exit": 0,
+      "result": "sqrt((x+i)^2)-(sqrt((x-i)^2))",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000298316\nMAX_RSS_KB 66812\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact principal-root retention. Positive real part selects \u00b1(x\u00b1i) with matching sign of x; at zero both roots of -1 are i, hence difference zero. Full branch partition gives -2i,0,2i."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "-2*i",
+        "0": "0",
+        "1": "2*i"
+      }
+    },
+    {
+      "id": "PC8-S1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(sqrt((x+i)^2)-sqrt((x-i)^2))",
+      "exit": 0,
+      "result": "sqrt((x+i)^2)-(sqrt((x-i)^2))",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000292167\nMAX_RSS_KB 66812\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact principal-root retention. Positive real part selects \u00b1(x\u00b1i) with matching sign of x; at zero both roots of -1 are i, hence difference zero. Full branch partition gives -2i,0,2i."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "-2*i",
+        "0": "0",
+        "1": "2*i"
+      }
+    },
+    {
+      "id": "PC8-S1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(sqrt((x+i)^2)-sqrt((x-i)^2))",
+      "exit": 0,
+      "result": "sqrt((x+i)^2)-(sqrt((x-i)^2))",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000293627\nMAX_RSS_KB 66812\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact principal-root retention. Positive real part selects \u00b1(x\u00b1i) with matching sign of x; at zero both roots of -1 are i, hence difference zero. Full branch partition gives -2i,0,2i."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "-2*i",
+        "0": "0",
+        "1": "2*i"
+      }
+    },
+    {
+      "id": "PC8-R1",
+      "outer": false,
+      "stack": "normal",
+      "input": "((1+x^2+y^2)^32-(x^2+y^2)^32)/(1+2*x^2+2*y^2)",
+      "exit": 0,
+      "result": "((1+x^2+y^2)^32-(x^2+y^2)^32)/(1+2*x^2+2*y^2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000287837\nMAX_RSS_KB 66812\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact compact input retained. Repeated difference of squares proves the product identity; original denominator 1+2r>=1. All four factors increase from one, proving positivity, strict radial monotonicity and all stated symmetries."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC8-R1",
+      "outer": false,
+      "stack": "64",
+      "input": "((1+x^2+y^2)^32-(x^2+y^2)^32)/(1+2*x^2+2*y^2)",
+      "exit": 0,
+      "result": "((1+x^2+y^2)^32-(x^2+y^2)^32)/(1+2*x^2+2*y^2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000301337\nMAX_RSS_KB 66812\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact compact input retained. Repeated difference of squares proves the product identity; original denominator 1+2r>=1. All four factors increase from one, proving positivity, strict radial monotonicity and all stated symmetries."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC8-R1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(((1+x^2+y^2)^32-(x^2+y^2)^32)/(1+2*x^2+2*y^2))",
+      "exit": 0,
+      "result": "((1+x^2+y^2)^32-(x^2+y^2)^32)/(1+2*x^2+2*y^2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000308667\nMAX_RSS_KB 66812\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact compact input retained. Repeated difference of squares proves the product identity; original denominator 1+2r>=1. All four factors increase from one, proving positivity, strict radial monotonicity and all stated symmetries."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC8-R1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(((1+x^2+y^2)^32-(x^2+y^2)^32)/(1+2*x^2+2*y^2))",
+      "exit": 0,
+      "result": "((1+x^2+y^2)^32-(x^2+y^2)^32)/(1+2*x^2+2*y^2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000315836\nMAX_RSS_KB 66812\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact compact input retained. Repeated difference of squares proves the product identity; original denominator 1+2r>=1. All four factors increase from one, proving positivity, strict radial monotonicity and all stated symmetries."
+      },
+      "pass": true
+    }
+  ],
+  "source_sha256": {
+    "yintg.cc": "a93951c62d9ddd9605d04eea0fdb638142342e6f523b2215b9aa23d925061c88",
+    "zintgab.cc": "3b6fa78aba4d53b1a11479c33bacb4c85e3d6091389ef3073ec60085a7ae9448",
+    "ksubst.cc": "70d31c04acb86908939ec1fd7e050e979ba07978c80b63592e7e643b01c0605f",
+    "yderive.cc": "85736f3aca6d32311c62e1425ac3bf13d6debb9668d32466f902d63c72c1ad9a",
+    "dilogarithm.h": "ca822ef4c094a4ed1f4aecf7219011668735d86d259c51ec6304515f8fa84d7a",
+    "kconvert.cc": "eed558eb2f8ff62e0cf1e94fdbf8497954a35577e283a8d07283350e65b76003",
+    "equation_normalize.h": "4bfb644f0e18bb36e280ce8886c8ac12695c9aeeaef187ea3e5f967cd1642e37",
+    "kusual.cc": "fcc854a0d1f8ad6f64600674a584ed6d903d44c53fef1931b90904272df26681",
+    "zprog.cc": "baf6570eac3b985e50bb2bbf8a3bbc47b72b34ce6835ce2f7a873185a7efe499",
+    "conditional_eval.h": "763e56cb14146b9e45728c4fa245f7fe4506a8eea4041cbaf98b927ea15e27a2"
+  },
+  "cases": [
+    {
+      "id": "PC8-I1",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC8-I2",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC8-D1",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC8-D2",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC8-S1",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC8-R1",
+      "all_four_pass": true
+    }
+  ]
+}

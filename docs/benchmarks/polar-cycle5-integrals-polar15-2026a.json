@@ -1,0 +1,166 @@
+{
+  "source_sha256": {
+    "yintg.cc": "a93951c62d9ddd9605d04eea0fdb638142342e6f523b2215b9aa23d925061c88",
+    "zintgab.cc": "3b6fa78aba4d53b1a11479c33bacb4c85e3d6091389ef3073ec60085a7ae9448",
+    "ksubst.cc": "70d31c04acb86908939ec1fd7e050e979ba07978c80b63592e7e643b01c0605f",
+    "yderive.cc": "85736f3aca6d32311c62e1425ac3bf13d6debb9668d32466f902d63c72c1ad9a",
+    "dilogarithm.h": "ca822ef4c094a4ed1f4aecf7219011668735d86d259c51ec6304515f8fa84d7a",
+    "kconvert.cc": "eed558eb2f8ff62e0cf1e94fdbf8497954a35577e283a8d07283350e65b76003",
+    "equation_normalize.h": "4bfb644f0e18bb36e280ce8886c8ac12695c9aeeaef187ea3e5f967cd1642e37",
+    "kusual.cc": "fcc854a0d1f8ad6f64600674a584ed6d903d44c53fef1931b90904272df26681",
+    "zprog.cc": "baf6570eac3b985e50bb2bbf8a3bbc47b72b34ce6835ce2f7a873185a7efe499",
+    "conditional_eval.h": "763e56cb14146b9e45728c4fa245f7fe4506a8eea4041cbaf98b927ea15e27a2"
+  },
+  "corpus_sha256": "4b3d8d943514fc36eea984a9b114133dfb8f4e7100fb171f57f3283e316215e3",
+  "provenance": "polar-cycle5-acceptance-polar15-2026a.json",
+  "runs": [
+    {
+      "id": "PC5-I1",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(surd(x,3)/(1+x),x)",
+      "exit": 0,
+      "result": "3*(surd(x,3)-1/3*ln(abs(surd(x,3)+1))+1/6*ln((surd(x,3))^2-(surd(x,3))+1)-1/sqrt(3)*atan((2*surd(x,3)-1)/sqrt(3)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00141797\nMAX_RSS_KB 66244\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact real-root partial fractions; positive quadratic (u-1/2)^2+3/4 and both real log signs. Difference quotient at x=0 is zero; only x=-1 excluded."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "sqrt(3)*pi/6"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC5-I1",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(surd(x,3)/(1+x),x)",
+      "exit": 0,
+      "result": "3*(surd(x,3)-1/3*ln(abs(surd(x,3)+1))+1/6*ln((surd(x,3))^2-(surd(x,3))+1)-1/sqrt(3)*atan((2*surd(x,3)-1)/sqrt(3)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.0015845\nMAX_RSS_KB 66244\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact real-root partial fractions; positive quadratic (u-1/2)^2+3/4 and both real log signs. Difference quotient at x=0 is zero; only x=-1 excluded."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "sqrt(3)*pi/6"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC5-I1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(surd(x,3)/(1+x),x))",
+      "exit": 0,
+      "result": "3*(surd(x,3)-1/3*ln(abs(surd(x,3)+1))+1/6*ln((surd(x,3))^2-(surd(x,3))+1)-1/sqrt(3)*atan((2*surd(x,3)-1)/sqrt(3)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00155631\nMAX_RSS_KB 66244\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact real-root partial fractions; positive quadratic (u-1/2)^2+3/4 and both real log signs. Difference quotient at x=0 is zero; only x=-1 excluded."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "sqrt(3)*pi/6"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC5-I1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(surd(x,3)/(1+x),x))",
+      "exit": 0,
+      "result": "3*(surd(x,3)-1/3*ln(abs(surd(x,3)+1))+1/6*ln((surd(x,3))^2-(surd(x,3))+1)-1/sqrt(3)*atan((2*surd(x,3)-1)/sqrt(3)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00138923\nMAX_RSS_KB 66244\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact real-root partial fractions; positive quadratic (u-1/2)^2+3/4 and both real log signs. Difference quotient at x=0 is zero; only x=-1 excluded."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "sqrt(3)*pi/6"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC5-I2",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(ln(abs(x))/(x*(1+ln(abs(x))^4)),x)",
+      "exit": 0,
+      "result": "i/4*ln(ln(x*sign(x))^2+i)+(-i)/4*ln(ln(x*sign(x))^2-i)",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(x)]\nPARSER_CALLS 1\nSECONDS 0.0317248\nMAX_RSS_KB 66244\n",
+      "verification": {
+        "exact": true,
+        "method": "t=ln|x| and dt=dx/x on both half-lines. Exact transformed derivative. Complex-log arguments t²±i never touch a cut and are conjugates, so this real primitive differs from atan(t²)/2 only by -pi/4; ±1 are regular."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "-pi/4",
+        "1": "-pi/4"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC5-I2",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(ln(abs(x))/(x*(1+ln(abs(x))^4)),x)",
+      "exit": 0,
+      "result": "i/4*ln(ln(x*sign(x))^2+i)+(-i)/4*ln(ln(x*sign(x))^2-i)",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(x)]\nPARSER_CALLS 1\nSECONDS 0.033181\nMAX_RSS_KB 66244\n",
+      "verification": {
+        "exact": true,
+        "method": "t=ln|x| and dt=dx/x on both half-lines. Exact transformed derivative. Complex-log arguments t²±i never touch a cut and are conjugates, so this real primitive differs from atan(t²)/2 only by -pi/4; ±1 are regular."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "-pi/4",
+        "1": "-pi/4"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC5-I2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(ln(abs(x))/(x*(1+ln(abs(x))^4)),x))",
+      "exit": 0,
+      "result": "(i*ln(ln(x*sign(x))^2+i)+(-i)*ln(ln(x*sign(x))^2-i))/4",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(x)]\nPARSER_CALLS 1\nSECONDS 0.0332438\nMAX_RSS_KB 66244\n",
+      "verification": {
+        "exact": true,
+        "method": "t=ln|x| and dt=dx/x on both half-lines. Exact transformed derivative. Complex-log arguments t²±i never touch a cut and are conjugates, so this real primitive differs from atan(t²)/2 only by -pi/4; ±1 are regular."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "-pi/4",
+        "1": "-pi/4"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC5-I2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(ln(abs(x))/(x*(1+ln(abs(x))^4)),x))",
+      "exit": 0,
+      "result": "(i*ln(ln(x*sign(x))^2+i)+(-i)*ln(ln(x*sign(x))^2-i))/4",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(x)]\nPARSER_CALLS 1\nSECONDS 0.0341195\nMAX_RSS_KB 66244\n",
+      "verification": {
+        "exact": true,
+        "method": "t=ln|x| and dt=dx/x on both half-lines. Exact transformed derivative. Complex-log arguments t²±i never touch a cut and are conjugates, so this real primitive differs from atan(t²)/2 only by -pi/4; ±1 are regular."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "-pi/4",
+        "1": "-pi/4"
+      },
+      "status": "exact"
+    }
+  ]
+}

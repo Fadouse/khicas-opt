@@ -1,0 +1,224 @@
+{
+  "scope": "First execution on unchanged 7d70ea1 integration/yderive/simplify/actual-sqrt probe; execution completion is not mathematical acceptance.",
+  "probe": "/tmp/khicas-polar-cycle14-fix4/simplify/probe",
+  "probe_sha256": "668246aa705c7996fe6250c78aa9d9c854d7b9b12c8bff483d54b431032bc045",
+  "corpus_sha256": "b675cbf115a85b30adff221bf97652a2276a6f07c3a23c592fd661f3e8af9b18",
+  "runs": [
+    {
+      "id": "PC15-I1",
+      "input": "integrate(x^2*exp(2*x)*sin(3*x),x)",
+      "outer": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "exp(2*x)*(((-5*x^2-4*x+2)*-9/2197+(12*x^2-6*x)*-46/2197)*cos(3*x)+((-5*x^2-4*x+2)*-46/2197-(12*x^2-6*x)*-9/2197)*sin(3*x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00138536\nMAX_RSS_KB 20360\n"
+    },
+    {
+      "id": "PC15-I1",
+      "input": "integrate(x^2*exp(2*x)*sin(3*x),x)",
+      "outer": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "exp(2*x)*(((-5*x^2-4*x+2)*-9/2197+(12*x^2-6*x)*-46/2197)*cos(3*x)+((-5*x^2-4*x+2)*-46/2197-(12*x^2-6*x)*-9/2197)*sin(3*x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.0013329\nMAX_RSS_KB 30088\n"
+    },
+    {
+      "id": "PC15-I1",
+      "input": "simplify(integrate(x^2*exp(2*x)*sin(3*x),x))",
+      "outer": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(-507*x^2*cos(3*x)*exp(2*x)+338*x^2*exp(2*x)*sin(3*x)+312*x*cos(3*x)*exp(2*x)+130*x*exp(2*x)*sin(3*x)-18*cos(3*x)*exp(2*x)-92*exp(2*x)*sin(3*x))/2197",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00160494\nMAX_RSS_KB 30092\n"
+    },
+    {
+      "id": "PC15-I1",
+      "input": "simplify(integrate(x^2*exp(2*x)*sin(3*x),x))",
+      "outer": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "(-507*x^2*cos(3*x)*exp(2*x)+338*x^2*exp(2*x)*sin(3*x)+312*x*cos(3*x)*exp(2*x)+130*x*exp(2*x)*sin(3*x)-18*cos(3*x)*exp(2*x)-92*exp(2*x)*sin(3*x))/2197",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00148834\nMAX_RSS_KB 30092\n"
+    },
+    {
+      "id": "PC15-I2",
+      "input": "integrate(1/(5+3*cos(x))^3,x)",
+      "outer": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "59/512*(x-2*atan(3*sin(x)/(9+3*cos(x))))/4+(-15*3*sin(x)/(5+3*cos(x))/16-3*sin(x)/((5+3*cos(x))*(5+3*cos(x))))/32",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000613814\nMAX_RSS_KB 30092\n"
+    },
+    {
+      "id": "PC15-I2",
+      "input": "integrate(1/(5+3*cos(x))^3,x)",
+      "outer": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "59/512*(x-2*atan(3*sin(x)/(9+3*cos(x))))/4+(-15*3*sin(x)/(5+3*cos(x))/16-3*sin(x)/((5+3*cos(x))*(5+3*cos(x))))/32",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000625404\nMAX_RSS_KB 30092\n"
+    },
+    {
+      "id": "PC15-I2",
+      "input": "simplify(integrate(1/(5+3*cos(x))^3,x))",
+      "outer": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "59/512*(x-2*atan(3*sin(x)/(9+3*cos(x))))/4+(-15*3*sin(x)/(5+3*cos(x))/16-3*sin(x)/((5+3*cos(x))*(5+3*cos(x))))/32",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000626993\nMAX_RSS_KB 30092\n"
+    },
+    {
+      "id": "PC15-I2",
+      "input": "simplify(integrate(1/(5+3*cos(x))^3,x))",
+      "outer": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "59/512*(x-2*atan(3*sin(x)/(9+3*cos(x))))/4+(-15*3*sin(x)/(5+3*cos(x))/16-3*sin(x)/((5+3*cos(x))*(5+3*cos(x))))/32",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000654573\nMAX_RSS_KB 30092\n"
+    },
+    {
+      "id": "PC15-D1",
+      "input": "diff(asin(2*sin(x)/(1+sin(x)^2)),x)",
+      "outer": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(2*cos(x)/(1+sin(x)^2)-2*sin(x)*2*cos(x)*sin(x)/(1+sin(x)^2)^2)/(-sin(x)^2+1)*(sin(x)^2+1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00359386\nMAX_RSS_KB 30092\n"
+    },
+    {
+      "id": "PC15-D1",
+      "input": "diff(asin(2*sin(x)/(1+sin(x)^2)),x)",
+      "outer": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "(2*cos(x)/(1+sin(x)^2)-2*sin(x)*2*cos(x)*sin(x)/(1+sin(x)^2)^2)/(-sin(x)^2+1)*(sin(x)^2+1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00368869\nMAX_RSS_KB 30092\n"
+    },
+    {
+      "id": "PC15-D1",
+      "input": "simplify(diff(asin(2*sin(x)/(1+sin(x)^2)),x))",
+      "outer": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "-2*cos(x)/(cos(x)^2-2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00390215\nMAX_RSS_KB 30092\n"
+    },
+    {
+      "id": "PC15-D1",
+      "input": "simplify(diff(asin(2*sin(x)/(1+sin(x)^2)),x))",
+      "outer": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "-2*cos(x)/(cos(x)^2-2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.0040058\nMAX_RSS_KB 30092\n"
+    },
+    {
+      "id": "PC15-D2",
+      "input": "diff(x*sqrt(x^2-1)-ln(abs(x+sqrt(x^2-1))),x)",
+      "outer": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "((x=-1)? undef : ((x=1)? undef : sqrt(x^2-1)+x*2*x/(2*sqrt(x^2-1))))-(1+1/2*2*x*(sqrt(x^2-1))^-1)/(x+sqrt(x^2-1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000882811\nMAX_RSS_KB 30092\n"
+    },
+    {
+      "id": "PC15-D2",
+      "input": "diff(x*sqrt(x^2-1)-ln(abs(x+sqrt(x^2-1))),x)",
+      "outer": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "((x=-1)? undef : ((x=1)? undef : sqrt(x^2-1)+x*2*x/(2*sqrt(x^2-1))))-(1+1/2*2*x*(sqrt(x^2-1))^-1)/(x+sqrt(x^2-1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00092301\nMAX_RSS_KB 30092\n"
+    },
+    {
+      "id": "PC15-D2",
+      "input": "simplify(diff(x*sqrt(x^2-1)-ln(abs(x+sqrt(x^2-1))),x))",
+      "outer": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(sqrt(x^2-1)*((x=-1)? undef : ((x=1)? undef : sqrt(x^2-1)+x*2*x/(2*sqrt(x^2-1))))-1)/sqrt(x^2-1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000883541\nMAX_RSS_KB 30092\n"
+    },
+    {
+      "id": "PC15-D2",
+      "input": "simplify(diff(x*sqrt(x^2-1)-ln(abs(x+sqrt(x^2-1))),x))",
+      "outer": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "(sqrt(x^2-1)*((x=-1)? undef : ((x=1)? undef : sqrt(x^2-1)+x*2*x/(2*sqrt(x^2-1))))-1)/sqrt(x^2-1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00092624\nMAX_RSS_KB 30092\n"
+    },
+    {
+      "id": "PC15-S1",
+      "input": "sqrt(ln(x/y)^2)-ln(sqrt(x^2)/sqrt(y^2))",
+      "outer": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "abs(ln(x/y))-ln(abs(x)/abs(y))",
+      "stderr": "Warning, infinity is unsigned, perhaps you meant +infinity\nPARSER_CALLS 1\nSECONDS 0.0012136\nMAX_RSS_KB 30092\n"
+    },
+    {
+      "id": "PC15-S1",
+      "input": "sqrt(ln(x/y)^2)-ln(sqrt(x^2)/sqrt(y^2))",
+      "outer": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "abs(ln(x/y))-ln(abs(x)/abs(y))",
+      "stderr": "Warning, infinity is unsigned, perhaps you meant +infinity\nPARSER_CALLS 1\nSECONDS 0.000765672\nMAX_RSS_KB 30092\n"
+    },
+    {
+      "id": "PC15-S1",
+      "input": "simplify(sqrt(ln(x/y)^2)-ln(sqrt(x^2)/sqrt(y^2)))",
+      "outer": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "abs(ln(x/y))-ln(abs(x)/abs(y))",
+      "stderr": "Warning, infinity is unsigned, perhaps you meant +infinity\nWarning, infinity is unsigned, perhaps you meant +infinity\nWarning, infinity is unsigned, perhaps you meant +infinity\nWarning, infinity is unsigned, perhaps you meant +infinity\nWarning, infinity is unsigned, perhaps you meant +infinity\nPARSER_CALLS 1\nSECONDS 0.00133723\nMAX_RSS_KB 30092\n"
+    },
+    {
+      "id": "PC15-S1",
+      "input": "simplify(sqrt(ln(x/y)^2)-ln(sqrt(x^2)/sqrt(y^2)))",
+      "outer": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "abs(ln(x/y))-ln(abs(x)/abs(y))",
+      "stderr": "Warning, infinity is unsigned, perhaps you meant +infinity\nWarning, infinity is unsigned, perhaps you meant +infinity\nWarning, infinity is unsigned, perhaps you meant +infinity\nWarning, infinity is unsigned, perhaps you meant +infinity\nWarning, infinity is unsigned, perhaps you meant +infinity\nPARSER_CALLS 1\nSECONDS 0.00140982\nMAX_RSS_KB 30092\n"
+    },
+    {
+      "id": "PC15-R1",
+      "input": "product((x^2-k^2)/(x^2-(k+1)^2),k,1,12)",
+      "outer": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(x^2-1)/(x^2-4)*(x^2-4)/(x^2-9)*(x^2-9)/(x^2-16)*(x^2-16)/(x^2-25)*(x^2-25)/(x^2-36)*(x^2-36)/(x^2-49)*(x^2-49)/(x^2-64)*(x^2-64)/(x^2-81)*(x^2-81)/(x^2-100)*(x^2-100)/(x^2-121)*(x^2-121)/(x^2-144)*(x^2-144)/(x^2-169)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000417665\nMAX_RSS_KB 30092\n"
+    },
+    {
+      "id": "PC15-R1",
+      "input": "product((x^2-k^2)/(x^2-(k+1)^2),k,1,12)",
+      "outer": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "(x^2-1)/(x^2-4)*(x^2-4)/(x^2-9)*(x^2-9)/(x^2-16)*(x^2-16)/(x^2-25)*(x^2-25)/(x^2-36)*(x^2-36)/(x^2-49)*(x^2-49)/(x^2-64)*(x^2-64)/(x^2-81)*(x^2-81)/(x^2-100)*(x^2-100)/(x^2-121)*(x^2-121)/(x^2-144)*(x^2-144)/(x^2-169)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000456035\nMAX_RSS_KB 30092\n"
+    },
+    {
+      "id": "PC15-R1",
+      "input": "simplify(product((x^2-k^2)/(x^2-(k+1)^2),k,1,12))",
+      "outer": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(x^2-1)/(x^2-169)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000852721\nMAX_RSS_KB 30092\n"
+    },
+    {
+      "id": "PC15-R1",
+      "input": "simplify(product((x^2-k^2)/(x^2-(k+1)^2),k,1,12))",
+      "outer": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "(x^2-1)/(x^2-169)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00087162\nMAX_RSS_KB 30092\n"
+    }
+  ]
+}

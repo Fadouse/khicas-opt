@@ -105,6 +105,7 @@ SECTIONS
     yintg.o(.text.*integrate_dilog_primitive*)
     yintg.o(.text.*integrate_log_trig_primitive*)
     yderive.o(.text.*derive_real_composition*)
+    yderive.o(.text.*derive_guarded_sum*)
     yderive.o(.text.*derive_piecewise_regular*)
     ksubst.o(.text.*simplify_root_domain*)
     yderive.o(.text.*derive_root_product*)

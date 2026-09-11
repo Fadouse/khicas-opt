@@ -3147,6 +3147,17 @@ namespace giac {
 #endif
   static bool simplify_root_domain(const gen &args){
     if(taille(args,257)>256)return false;
+    // Preserve inherited holes of explicit factored quotients. Exact
+    // shared-factor detection needs no expansion or polynomial root search.
+    if(args.is_symb_of_sommet(at_prod) && args._SYMBptr->feuille.type==_VECT){
+      const vecteur &f=*args._SYMBptr->feuille._VECTptr;
+      for(unsigned j=0;j<f.size();++j){
+        if(!f[j].is_symb_of_sommet(at_inv))continue;
+        const gen &den=f[j]._SYMBptr->feuille;
+        if(den.type==_INT_ || den.type==_ZINT)continue;
+        for(unsigned k=0;k<f.size();++k)if(f[k]==den)return true;
+      }
+    }
     // Principal complex roots and real logarithm magnitudes carry domain
     // information that a real algebraic surrogate cannot discard.
     if(has_i(args) || contains(args,*at_ln)){

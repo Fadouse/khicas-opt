@@ -104,6 +104,29 @@ namespace giac {
         }
       }
     }
+    // The principal asin chart equals 2*atan(t) on |t|<=1.
+    // For t=c*sin/cos(real polynomial), cancel the endpoint 0/0
+    // analytically before applying the ordinary chain rule.
+    if(s.sommet==at_asin && angle_radian(contextptr) && !complex_mode(contextptr) &&
+       !complex_variables(contextptr) && taille(s.feuille,65)<=64){
+      vecteur waves=mergevecteur(lop(s.feuille,at_sin),lop(s.feuille,at_cos));
+      if(waves.size()==1){
+        gen wave=waves[0],phase=wave._SYMBptr->feuille;unsigned budget=64;equation_polynomial_budget bound;
+        if(equation_polynomial_bound(phase,budget,0,bound) && is_zero(im(phase,contextptr))){
+          gen nd=fxnd(s.feuille),n1,n0,d2,d1,d0;
+          if(nd.type==_VECT && nd._VECTptr->size()==2 &&
+             is_linear_wrt(nd[0],wave,n1,n0,contextptr) && is_zero(n0) &&
+             is_quadratic_wrt(nd[1],wave,d2,d1,d0,contextptr) && is_zero(d1) &&
+             equation_rational(n1) && equation_rational(d0) && !is_zero(d0)){
+            gen c=ratnormal(n1/(2*d0),contextptr),c2=c*c;
+            if(is_zero(ratnormal(d2-d0*c2,contextptr)) &&
+               (is_zero(1-c2) || is_strictly_positive(1-c2,contextptr))){
+              result=2*c*derive(wave,i,contextptr)/(1+c2*wave*wave);return true;
+            }
+          }
+        }
+      }
+    }
     // Split a bounded real odd root into real root powers. Keep a
     // nonmultiple exponent together: root(v)^4 differentiates regularly at
     // v=0, whereas v*root(v) first creates a spurious zero denominator.
@@ -454,6 +477,26 @@ namespace giac {
     return result;
   }
 
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static gen derive_guarded_sum(gen a,gen b){
+    vecteur guards;
+    for(unsigned side=0;side<2;++side){
+      gen &v=side?b:a;
+      while(v.is_symb_of_sommet(at_when) && guards.size()<8){
+        const gen &f=v._SYMBptr->feuille;
+        if(f.type!=_VECT || f._VECTptr->size()!=3 || !is_undef(f[1]))break;
+        guards.push_back(f[0]);v=gen(f[2]);
+      }
+    }
+    // Keep undefined derivative domains lazy around the entire sum: an
+    // eager other summand may otherwise turn undef + a pole into infinity.
+    gen result=a+b;
+    for(unsigned j=guards.size();j;--j)result=symbolic(at_when,makesequence(guards[j-1],undef,result));
+    return result;
+  }
+
   static gen derive_SYMB(const gen &g_orig,const identificateur & i,GIAC_CONTEXT){
     const symbolic & s = *g_orig._SYMBptr;
     if (s.sommet==at_pnt){
@@ -502,7 +545,7 @@ namespace giac {
       vecteur::const_iterator iti=s.feuille._VECTptr->begin(),itend=s.feuille._VECTptr->end();
       int taille=int(itend-iti);
       if (taille==2)
-	return derive(*iti,i,contextptr)+derive(*(iti+1),i,contextptr);
+	return derive_guarded_sum(derive(*iti,i,contextptr),derive(*(iti+1),i,contextptr));
       vecteur v;
       v.reserve(taille);
       gen e;
