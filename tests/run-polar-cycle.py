@@ -36,6 +36,13 @@ for c in cases:
       r=subprocess.run([str(a.probe),'eval(subst('+expression+',x='+str(point)+'))'],capture_output=True,text=True,env=env,timeout=12)
       assert r.returncode==0 and r.stdout.strip()=='0',(point,r.stdout,r.stderr)
      row['actual_endpoint_substitution']={str(point):0 for point in points}
+    values={'PC4-I2':{2:'0'},'PC4-D1':{0:'0',1:'1',-1:'-1'},'PC4-D2':{-1:'-1',1:'2',2:'2'},'PC4-S1':{0:'2*i*pi'}}.get(c['id'],{})
+    if values:
+     from mixed_reference import parse,equal
+     for point,expected in values.items():
+      r=subprocess.run([str(a.probe),'eval(subst('+expression+',x='+str(point)+'))'],capture_output=True,text=True,env=env,timeout=12)
+      assert r.returncode==0 and equal(parse(r.stdout.strip()),parse(expected)),(point,r.stdout,r.stderr)
+     row['actual_boundary_substitution']=values
    except Exception as e:row.update(error=str(e),**{'pass':False})
    rows.append(row);a.report.write_text(json.dumps(report,indent=2)+'\n')
    print(c['id'],outer,stack,row['pass'],row.get('error','')[:200],flush=True)

@@ -21,6 +21,8 @@ with tempfile.TemporaryDirectory(prefix='khicas-simplify-resources-') as tmp:
  cases=json.loads((ROOT/'tests/simplify-recursion-stress.json').read_text())['cases']
  cases += [{'id':'dilog-compact-'+str(i),'expression':e,'expected':e} for i,e in enumerate(['(1+Li2(x))^32','(1+Li2(x))^63','(Li2(x)+Li2(-x))^32'])]
  cases += [{'id':'compact-'+str(i),'expression':e,'expected':e} for i,e in enumerate(['(1+x)^1024/x','(1+x)^(-1024)','sqrt((x+1)^2048+1)','(1+sin(x))^128','(x+i)^2048+(x-i)^2048'])]
+ cases += [{'id':'multivariate-'+str(i),'expression':e,'expected':e} for i,e in enumerate(['((1+x^2+y^2)^5+(1-x^2-y^2)^5)^5','(1+x+y+z+t)^12','1/(1+(x+y)^12)'])]
+ cases += [{'id':'small-polynomial-cancellation','expression':'(x+y)^2-x^2-2*x*y-y^2','expected':'0'}]
  for case in cases:
   output=None
   for stack in ('normal','64'):

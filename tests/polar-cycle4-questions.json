@@ -1,0 +1,126 @@
+{
+  "cases": [
+    {
+      "id": "PC4-I1",
+      "type": "integral",
+      "input": "simplify(integrate(1/(surd(x,3)*(1+surd(x,3))),x))",
+      "conditions": [
+        "x is real, x!=-1 and x!=0; surd(x,3) is the real cube root, including for negative x.",
+        "An antiderivative is required on each of (-infinity,-1), (-1,0), and (0,infinity); additive constants may differ between these intervals.",
+        "ln(abs(...)) is the real logarithm of a positive argument."
+      ],
+      "expected": {
+        "expression": "3*surd(x,3)-3*ln(abs(1+surd(x,3)))",
+        "properties": [
+          "Return an explicit exact antiderivative without unevaluated integrate; mathematically equivalent evaluable forms are acceptable.",
+          "Cover both negative-x intervals using the real cube root and the appropriate real logarithm, as well as positive x.",
+          "The original integrand is undefined at both x=-1 and x=0. A finite limiting value of a primitive at zero does not remove that domain exclusion.",
+          "Safe unevaluated retention does not count as solving this integral."
+        ]
+      },
+      "reason": "Set u=surd(x,3). On each stated interval u is nonzero and is not -1, x=u^3 and dx=3*u^2 du. The transformed integrand is 3*u/(1+u)=3-3/(1+u), whose integral is 3*u-3*ln(abs(1+u)). This derivation works for either sign of u and of 1+u. Direct differentiation away from the two excluded points gives (3-3/(1+u))/(3*u^2)=1/(u*(1+u)). The excluded points are zeros of the original denominator, independent of whether the primitive has a finite limit."
+    },
+    {
+      "id": "PC4-I2",
+      "type": "integral",
+      "input": "simplify(integrate(1/(1+surd(x-2,5)^2),x))",
+      "conditions": [
+        "x is real, including x=2; surd(x-2,5) is the real fifth root.",
+        "atan is the principal real inverse tangent.",
+        "A differentiable antiderivative is required on the entire real axis, up to one global additive constant."
+      ],
+      "expected": {
+        "expression": "5*surd(x-2,5)^3/3-5*surd(x-2,5)+5*atan(surd(x-2,5))",
+        "properties": [
+          "Return an explicit exact antiderivative without unevaluated integrate; mathematically equivalent evaluable forms are acceptable.",
+          "Use the real fifth root on x<2, with no principal complex-power substitution.",
+          "The primitive must be defined and differentiable at the moving root x=2, with derivative 1 there; apparent singularities in derivatives of individual summands must cancel.",
+          "The integrand is continuous and strictly positive everywhere, so the answer must not introduce a real pole or a branch jump.",
+          "Safe unevaluated retention does not count as solving this integral."
+        ]
+      },
+      "reason": "Put u=surd(x-2,5), so x=2+u^5. Away from u=0, dx=5*u^4 du, and 5*u^4/(1+u^2)=5*u^2-5+5/(1+u^2). Integrating gives the displayed expression. At the point where the root substitution has a singular derivative, use atan(u)=u-u^3/3+u^5/5+O(u^7). The primitive is u^5+O(u^7)=(x-2)+O(abs(x-2)^(7/5)) and is zero at x=2. Its two-sided difference quotient there tends to 1. All three summands are continuous real functions everywhere; thus there is a single global primitive and no interval-dependent branch correction."
+    },
+    {
+      "id": "PC4-D1",
+      "type": "derivative",
+      "input": "simplify(diff(piecewise(x==0,0,1/x>0,x^2*ln(x),x^2*ln(-x)),x))",
+      "conditions": [
+        "x is real, including x=0.",
+        "piecewise conditions are considered in order. Once x==0 is true, neither the later condition 1/x>0 nor either logarithmic branch is evaluated.",
+        "On x>0 the selected function is x^2*ln(x); on x<0 it is x^2*ln(-x). These are real logarithms."
+      ],
+      "expected": {
+        "expression": "piecewise(x==0,0,2*x*ln(abs(x))+x)",
+        "properties": [
+          "Return an explicit exact derivative on the entire real axis, with derivative value zero at x=0.",
+          "Substitution of zero into the result must select a defined zero value without evaluating an inactive division, logarithm, or condition to undef.",
+          "For x!=0 the result must equal 2*x*ln(abs(x))+x. Equivalent evaluable piecewise forms are acceptable.",
+          "The zero derivative at the isolated branch requires the difference-quotient argument; simply differentiating the constant zero branch is not sufficient evidence."
+        ]
+      },
+      "reason": "For nonzero x the selected function is x^2*ln(abs(x)), and d ln(abs(x))/dx=1/x gives derivative 2*x*ln(abs(x))+x on both half-lines. At zero, the difference quotient is h*ln(abs(h)). Its absolute value tends to zero because t*abs(ln(t)) tends to zero as t tends to zero from above. Hence the two-sided derivative is zero. At x=0 the first condition is already true; trying the subsequent condition 1/x>0 would evaluate an expression outside its domain and violate the stated ordered piecewise semantics."
+    },
+    {
+      "id": "PC4-D2",
+      "type": "derivative",
+      "input": "simplify(diff(piecewise(x<0,-x,x<=1,x^2,2*x-1),x))",
+      "conditions": [
+        "x is real and x!=0; x=1 is included.",
+        "The original function is defined for every real x, but it is not differentiable at x=0.",
+        "piecewise uses the first true condition and otherwise the final default branch."
+      ],
+      "expected": {
+        "expression": "piecewise(x<0,-1,x<=1,2*x,2)",
+        "properties": [
+          "Return an explicit exact derivative on (-infinity,0) and (0,infinity), including the joining point x=1 where its value is 2.",
+          "The derivative is -1 for x<0, 2*x for 0<x<1, and 2 for x>1; equivalent evaluable forms are acceptable.",
+          "Any value assigned by the displayed expression at x=0 is not a derivative and must not override the explicit exclusion.",
+          "Verify x=1 from the two-sided difference quotient of the original function, rather than using only the derivative of the selected branch at that point."
+        ]
+      },
+      "reason": "Ordinary differentiation on the three open regions gives -1, 2*x, and 2. At zero the function value is zero; for negative h its difference quotient is -1, whereas for positive h it is h and tends to zero. Thus zero is a genuine corner and must be excluded. At x=1 the function value is 1. For negative sufficiently small h the difference quotient is ((1+h)^2-1)/h=2+h; for positive h it is (2*(1+h)-1-1)/h=2. Both limits are 2, proving differentiability at the included join from the original function."
+    },
+    {
+      "id": "PC4-S1",
+      "type": "simplify",
+      "input": "simplify(ln(sqrt((x-1)^2))+ln(-1+i*x)+ln(-1-i*x)-ln(1+x^2))",
+      "conditions": [
+        "x is real, x!=1; x=0 is included.",
+        "sqrt is the principal square root. Complex ln is the principal logarithm with argument in (-pi,pi], including ln(-1)=i*pi.",
+        "No continuity across the negative-real-axis branch cut is assumed."
+      ],
+      "expected": {
+        "expression": "ln(abs(x-1))+piecewise(x==0,2*i*pi,0)",
+        "properties": [
+          "Return an exact expression equivalent at every allowed real x; mathematically equivalent evaluable forms, including the original branch-correct logarithms, are acceptable.",
+          "For every nonzero allowed x the result is the real number ln(abs(x-1)); at x=0 the exact value is 2*i*pi.",
+          "Do not replace sqrt((x-1)^2) globally by x-1, or combine the two complex logarithms into ln(1+x^2) at x=0.",
+          "The logarithmic singularity at x=1 remains excluded. The special value at zero must be preserved even though the limit there is zero."
+        ]
+      },
+      "reason": "For real x, sqrt((x-1)^2)=abs(x-1), which is positive exactly when x!=1. When x!=0, the numbers -1+i*x and -1-i*x are nonreal conjugates, their principal arguments are opposite, and each has modulus sqrt(1+x^2). Their principal logarithms therefore sum to ln(1+x^2), canceling the final term. At x=0 both arguments equal -1 rather than lying on opposite sides of the cut; both principal logarithms equal i*pi, so their sum is 2*i*pi. The other two logarithms are zero there. This derives the isolated branch-cut value without invoking an unrestricted logarithm product identity."
+    },
+    {
+      "id": "PC4-R1",
+      "type": "resource",
+      "input": "simplify(((1+x^2+y^2+z^2)^6+(1-x^2-y^2-z^2)^6)^6/(1+((1+x^2+y^2+z^2)^6+(1-x^2-y^2-z^2)^6)^6))",
+      "conditions": [
+        "x, y, and z are real.",
+        "Use the existing finite CG50 stack, heap, and simplification budgets; do not increase them to pass this case.",
+        "This is a request for bounded simplification of a short expression; expansion into multivariate polynomials is not requested."
+      ],
+      "expected": {
+        "properties": [
+          "Exact preservation of the original compact expression is an accepted result; any rewrite must be mathematically equivalent for all real x, y, z.",
+          "The result is real, finite, and in [64/65,1). It equals 64/65 exactly at x=y=z=0.",
+          "The result is unchanged by independent sign changes or any permutation of x, y, z.",
+          "No crash, stack overflow, runaway expansion, undef, or newly introduced real pole is acceptable.",
+          "Bounds and symmetries alone do not prove equivalence; preserve the exact input or justify the returned rewrite mathematically.",
+          "Safe retention is success only for this bounded simplification request, not for either integral."
+        ]
+      },
+      "reason": "Let r=x^2+y^2+z^2>=0 and A=(1+r)^6+(1-r)^6. Pairing the binomial terms gives A=2+30*r^2+30*r^4+2*r^6>=2, with equality exactly when r=0. Thus B=A^6>=64 is finite for all finite real inputs, and the requested expression is B/(1+B)=1-1/(1+B). Its denominator is strictly positive, and the result lies in [64/65,1), attaining its lower bound exactly at the origin. Dependence only on r proves every stated symmetry. The short nested-power representation suffices for exact evaluation and these proofs; distributing its powers into a degree-72 polynomial in three variables is unnecessary and is the expansion pressure being tested."
+    }
+  ]
+}

@@ -2936,6 +2936,10 @@ namespace giac {
     bool psi=false;unsigned budget=2048;
     unsigned terms=simplify_special_terms(e_orig,psi,budget,0);
     if(!budget)return e_orig;
+    // Multivariate normalization can expand short nested powers into
+    // thousands of monomials. Keep the same 64-term distribution budget
+    // before constructing polynomial coefficient arrays.
+    if(terms>64 && lidnt(e_orig).size()>1)return e_orig;
     if(terms>64){
       if(contains(e_orig,*at_sqrt))return e_orig;
       vecteur roots=lop(e_orig,at_pow);

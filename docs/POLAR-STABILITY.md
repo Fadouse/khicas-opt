@@ -55,3 +55,17 @@ PC2-R1 的输出从679字符保留为79字符，两个版本都经独立代数�
 ROM 2,064,136 / 2,065,152 B（余1,016 B），AC2 2,473,692 / 2,559,996 B（余86,304 B）；静态RAM 424,620 B和CAS堆1,572,864 B不变。首次有错题，提交后继续派发全新题集，尚不进入最终性能代理验收。
 
 [首次](benchmarks/polar-cycle3-first-acceptance-2026a.json) · [修复后](benchmarks/polar-cycle3-fixed-acceptance-2026a.json) · [边界与实根](benchmarks/polar-cycle3-root-guards-2026a.json) · [资源](benchmarks/resources-polar-cycle3-2026a.json) · [主机测量](benchmarks/polar-cycle3-performance-2026a.json)。
+
+## 第四轮：多变量展开预算
+
+标签 `checkpoint/polar-stability-cycle4-2026a`。新代理仅出6题，交付后结束。首次5题完整通过；资源题在普通栈和64 KiB栈都能返回，但将93字符的输入展开为279,915字符，违反紧凑化简要求，故判失败，不因进程未崩溃而计为通过。
+
+化简对预计分配项数超过64且包含多个标识符的表达式保留紧凑原式，避免创建庞大的多变量系数数组。项数是保守上界，并非合并同类项后的单项式数量；该限制可能保留某些实际上可展开的小多项式，以控制CG50资源。没有增加堆、栈或展开预算。新增两变量、五变量、倒数形式及小多项式约零检查。
+
+资源题输出回到83字符；5次主机中位数从107.86 ms降至0.321 ms。这是避免不必要展开的收益，不是生成同一展开式的加速，也不是实机计时。ROM增加64 B，余952 B；AC2余86,304 B，静态RAM与CAS堆不变。
+
+本轮24项、前3轮112项、旧混合96项、极坐标60项、42项分段/实根补测、21项正式回归和7项补充任务通过。新增积分包含实根乘积分母及移动五次根的平方分母，均有独立换元和定义域证明。通过积分清单653条：648精确、5导数采样。复对数在零点打印为 `i*pi+i*pi`，已独立证明等于 `2*i*pi`，不因显示形式不同而误判。
+
+首次仍有错题，因此下一步继续派发全新题集。
+
+[首次](benchmarks/polar-cycle4-first-acceptance-2026a.json) · [修复后](benchmarks/polar-cycle4-fixed-acceptance-2026a.json) · [资源](benchmarks/resources-polar-cycle4-2026a.json) · [测量](benchmarks/polar-cycle4-performance-2026a.json)。

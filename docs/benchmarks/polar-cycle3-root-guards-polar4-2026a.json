@@ -1,0 +1,274 @@
+{
+  "probe_sha256": "1cac9b53de4998a1f39676101b2e2604a06da4d0eb1e46bfde9315e88fa6a266",
+  "scope": "Actual scalar probe; condition substitution is lazy, odd-root integrals independently differentiated in a real bijective variable.",
+  "runs": [
+    {
+      "input": "when(x==0,0,1/x)",
+      "stack": "normal",
+      "result": "((x=0)? 0 : 1/x)",
+      "exact": true
+    },
+    {
+      "input": "piecewise(x==0,0,1/x)",
+      "stack": "normal",
+      "result": "piecewise(x=0,0,1/x)",
+      "exact": true
+    },
+    {
+      "input": "when(x==0,0,1/x,7)",
+      "stack": "normal",
+      "result": "7",
+      "exact": true
+    },
+    {
+      "input": "when(0==0,3,1/0)",
+      "stack": "normal",
+      "result": "3",
+      "exact": true
+    },
+    {
+      "input": "piecewise(1==0,1/0,2==2,7,1/0)",
+      "stack": "normal",
+      "result": "7",
+      "exact": true
+    },
+    {
+      "input": "x==0",
+      "stack": "normal",
+      "result": "false",
+      "exact": true
+    },
+    {
+      "input": "when(x==x,7,1/0)",
+      "stack": "normal",
+      "result": "7",
+      "exact": true
+    },
+    {
+      "input": "eval(subst(piecewise(x==0,0,1/x),x=0))",
+      "stack": "normal",
+      "result": "0",
+      "exact": true
+    },
+    {
+      "input": "eval(subst(piecewise(x==0,0,1/x),x=2))",
+      "stack": "normal",
+      "result": "1/2",
+      "exact": true
+    },
+    {
+      "input": "eval(subst(piecewise(x==0,0,1/x),x=-2))",
+      "stack": "normal",
+      "result": "-1/2",
+      "exact": true
+    },
+    {
+      "input": "eval(subst(piecewise(x<0,-x,x==0,0,1/x),x=0))",
+      "stack": "normal",
+      "result": "0",
+      "exact": true
+    },
+    {
+      "input": "eval(subst(piecewise(x<0,-x,x==0,0,1/x),x=2))",
+      "stack": "normal",
+      "result": "1/2",
+      "exact": true
+    },
+    {
+      "input": "eval(subst(piecewise(x<0,-x,x==0,0,1/x),x=-2))",
+      "stack": "normal",
+      "result": "2",
+      "exact": true
+    },
+    {
+      "input": "integrate(1/(1*surd(x, 3)+1),x)",
+      "stack": "normal",
+      "result": "3*((surd(x,3))^2/2-(surd(x,3))+ln(abs(surd(x,3)+1)))",
+      "exact": true,
+      "method": "Exact real-root substitution and both local logarithm signs"
+    },
+    {
+      "input": "simplify(integrate(1/(1*surd(x, 3)+1),x))",
+      "stack": "normal",
+      "result": "(3*(surd(x,3))^2-6*surd(x,3)+6*ln(abs(surd(x,3)+1)))/2",
+      "exact": true,
+      "method": "Exact real-root substitution and both local logarithm signs"
+    },
+    {
+      "input": "integrate(2/(2*surd(3*x - 1, 5)+3),x)",
+      "stack": "normal",
+      "result": "10*((surd(3*x-1,5))^4/4-3/2*(surd(3*x-1,5))^3/3+9/4*(surd(3*x-1,5))^2/2-27/8*surd(3*x-1,5)+81/16*ln(abs(2*surd(3*x-1,5)+3)))/6",
+      "exact": true,
+      "method": "Exact real-root substitution and both local logarithm signs"
+    },
+    {
+      "input": "simplify(integrate(2/(2*surd(3*x - 1, 5)+3),x))",
+      "stack": "normal",
+      "result": "(20*(surd(3*x-1,5))^4-40*(surd(3*x-1,5))^3+90*(surd(3*x-1,5))^2-270*surd(3*x-1,5)+405*ln(abs(2*surd(3*x-1,5)+3)))/48",
+      "exact": true,
+      "method": "Exact real-root substitution and both local logarithm signs"
+    },
+    {
+      "input": "integrate(1/(-1*surd(x, 7)+2),x)",
+      "stack": "normal",
+      "result": "-7*((surd(x,7))^6/6+2*(surd(x,7))^5/5+4*(surd(x,7))^4/4+8*(surd(x,7))^3/3+16*(surd(x,7))^2/2+32*surd(x,7)+64*ln(abs(-(surd(x,7))+2)))",
+      "exact": true,
+      "method": "Exact real-root substitution and both local logarithm signs"
+    },
+    {
+      "input": "simplify(integrate(1/(-1*surd(x, 7)+2),x))",
+      "stack": "normal",
+      "result": "(-35*(surd(x,7))^6-84*(surd(x,7))^5-210*(surd(x,7))^4-560*(surd(x,7))^3-1680*(surd(x,7))^2-6720*surd(x,7)-13440*ln(abs(-(surd(x,7))+2)))/30",
+      "exact": true,
+      "method": "Exact real-root substitution and both local logarithm signs"
+    },
+    {
+      "input": "integrate(1/(1*surd(x, 3)+0),x)",
+      "stack": "normal",
+      "result": "3*(surd(x,3))^2/2",
+      "exact": true,
+      "method": "Exact real-root substitution and both local logarithm signs"
+    },
+    {
+      "input": "simplify(integrate(1/(1*surd(x, 3)+0),x))",
+      "stack": "normal",
+      "result": "3*(surd(x,3))^2/2",
+      "exact": true,
+      "method": "Exact real-root substitution and both local logarithm signs"
+    },
+    {
+      "input": "when(x==0,0,1/x)",
+      "stack": "64",
+      "result": "((x=0)? 0 : 1/x)",
+      "exact": true
+    },
+    {
+      "input": "piecewise(x==0,0,1/x)",
+      "stack": "64",
+      "result": "piecewise(x=0,0,1/x)",
+      "exact": true
+    },
+    {
+      "input": "when(x==0,0,1/x,7)",
+      "stack": "64",
+      "result": "7",
+      "exact": true
+    },
+    {
+      "input": "when(0==0,3,1/0)",
+      "stack": "64",
+      "result": "3",
+      "exact": true
+    },
+    {
+      "input": "piecewise(1==0,1/0,2==2,7,1/0)",
+      "stack": "64",
+      "result": "7",
+      "exact": true
+    },
+    {
+      "input": "x==0",
+      "stack": "64",
+      "result": "false",
+      "exact": true
+    },
+    {
+      "input": "when(x==x,7,1/0)",
+      "stack": "64",
+      "result": "7",
+      "exact": true
+    },
+    {
+      "input": "eval(subst(piecewise(x==0,0,1/x),x=0))",
+      "stack": "64",
+      "result": "0",
+      "exact": true
+    },
+    {
+      "input": "eval(subst(piecewise(x==0,0,1/x),x=2))",
+      "stack": "64",
+      "result": "1/2",
+      "exact": true
+    },
+    {
+      "input": "eval(subst(piecewise(x==0,0,1/x),x=-2))",
+      "stack": "64",
+      "result": "-1/2",
+      "exact": true
+    },
+    {
+      "input": "eval(subst(piecewise(x<0,-x,x==0,0,1/x),x=0))",
+      "stack": "64",
+      "result": "0",
+      "exact": true
+    },
+    {
+      "input": "eval(subst(piecewise(x<0,-x,x==0,0,1/x),x=2))",
+      "stack": "64",
+      "result": "1/2",
+      "exact": true
+    },
+    {
+      "input": "eval(subst(piecewise(x<0,-x,x==0,0,1/x),x=-2))",
+      "stack": "64",
+      "result": "2",
+      "exact": true
+    },
+    {
+      "input": "integrate(1/(1*surd(x, 3)+1),x)",
+      "stack": "64",
+      "result": "3*((surd(x,3))^2/2-(surd(x,3))+ln(abs(surd(x,3)+1)))",
+      "exact": true,
+      "method": "Exact real-root substitution and both local logarithm signs"
+    },
+    {
+      "input": "simplify(integrate(1/(1*surd(x, 3)+1),x))",
+      "stack": "64",
+      "result": "(3*(surd(x,3))^2-6*surd(x,3)+6*ln(abs(surd(x,3)+1)))/2",
+      "exact": true,
+      "method": "Exact real-root substitution and both local logarithm signs"
+    },
+    {
+      "input": "integrate(2/(2*surd(3*x - 1, 5)+3),x)",
+      "stack": "64",
+      "result": "10*((surd(3*x-1,5))^4/4-3/2*(surd(3*x-1,5))^3/3+9/4*(surd(3*x-1,5))^2/2-27/8*surd(3*x-1,5)+81/16*ln(abs(2*surd(3*x-1,5)+3)))/6",
+      "exact": true,
+      "method": "Exact real-root substitution and both local logarithm signs"
+    },
+    {
+      "input": "simplify(integrate(2/(2*surd(3*x - 1, 5)+3),x))",
+      "stack": "64",
+      "result": "(20*(surd(3*x-1,5))^4-40*(surd(3*x-1,5))^3+90*(surd(3*x-1,5))^2-270*surd(3*x-1,5)+405*ln(abs(2*surd(3*x-1,5)+3)))/48",
+      "exact": true,
+      "method": "Exact real-root substitution and both local logarithm signs"
+    },
+    {
+      "input": "integrate(1/(-1*surd(x, 7)+2),x)",
+      "stack": "64",
+      "result": "-7*((surd(x,7))^6/6+2*(surd(x,7))^5/5+4*(surd(x,7))^4/4+8*(surd(x,7))^3/3+16*(surd(x,7))^2/2+32*surd(x,7)+64*ln(abs(-(surd(x,7))+2)))",
+      "exact": true,
+      "method": "Exact real-root substitution and both local logarithm signs"
+    },
+    {
+      "input": "simplify(integrate(1/(-1*surd(x, 7)+2),x))",
+      "stack": "64",
+      "result": "(-35*(surd(x,7))^6-84*(surd(x,7))^5-210*(surd(x,7))^4-560*(surd(x,7))^3-1680*(surd(x,7))^2-6720*surd(x,7)-13440*ln(abs(-(surd(x,7))+2)))/30",
+      "exact": true,
+      "method": "Exact real-root substitution and both local logarithm signs"
+    },
+    {
+      "input": "integrate(1/(1*surd(x, 3)+0),x)",
+      "stack": "64",
+      "result": "3*(surd(x,3))^2/2",
+      "exact": true,
+      "method": "Exact real-root substitution and both local logarithm signs"
+    },
+    {
+      "input": "simplify(integrate(1/(1*surd(x, 3)+0),x))",
+      "stack": "64",
+      "result": "3*(surd(x,3))^2/2",
+      "exact": true,
+      "method": "Exact real-root substitution and both local logarithm signs"
+    }
+  ]
+}

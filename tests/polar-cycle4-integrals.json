@@ -1,0 +1,24 @@
+{
+  "cases": [
+    {
+      "id": "PC4-I1",
+      "input": "simplify(integrate(1/(surd(x,3)*(1+surd(x,3))),x))",
+      "expected": "3*surd(x,3)-3*ln(abs(1+surd(x,3)))",
+      "conditions": [
+        "x is real, x!=-1 and x!=0; surd(x,3) is the real cube root, including for negative x.",
+        "An antiderivative is required on each of (-infinity,-1), (-1,0), and (0,infinity); additive constants may differ between these intervals.",
+        "ln(abs(...)) is the real logarithm of a positive argument."
+      ]
+    },
+    {
+      "id": "PC4-I2",
+      "input": "simplify(integrate(1/(1+surd(x-2,5)^2),x))",
+      "expected": "5*surd(x-2,5)^3/3-5*surd(x-2,5)+5*atan(surd(x-2,5))",
+      "conditions": [
+        "x is real, including x=2; surd(x-2,5) is the real fifth root.",
+        "atan is the principal real inverse tangent.",
+        "A differentiable antiderivative is required on the entire real axis, up to one global additive constant."
+      ]
+    }
+  ]
+}
