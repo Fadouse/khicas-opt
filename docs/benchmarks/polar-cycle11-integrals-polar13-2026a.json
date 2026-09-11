@@ -1,0 +1,154 @@
+{
+  "source_sha256": {
+    "yintg.cc": "1f2dbf27fbc725ed08af29bfa12d9380e6db16e1819a4ae1b95686d805c63757",
+    "zintgab.cc": "3b6fa78aba4d53b1a11479c33bacb4c85e3d6091389ef3073ec60085a7ae9448",
+    "ksubst.cc": "cb4105a75ae6fecc426a5bbb5a1bc3ed8c01dacd50ad5d637a79bafdb3673b3b",
+    "yderive.cc": "b1b763b13b06fb202ee07be968e2d511f0f69919162af63a4f3704bd3b154f41",
+    "dilogarithm.h": "ca822ef4c094a4ed1f4aecf7219011668735d86d259c51ec6304515f8fa84d7a",
+    "kconvert.cc": "eed558eb2f8ff62e0cf1e94fdbf8497954a35577e283a8d07283350e65b76003",
+    "equation_normalize.h": "4bfb644f0e18bb36e280ce8886c8ac12695c9aeeaef187ea3e5f967cd1642e37",
+    "kusual.cc": "fcc854a0d1f8ad6f64600674a584ed6d903d44c53fef1931b90904272df26681",
+    "zprog.cc": "513111030cf5233496da8c3efff53df9391f12d185254f314608600e13e5639e",
+    "conditional_eval.h": "f602bbce59fbcfcadb85a78ca5ba6a79cd56f643067f84d02a02a73a040f40c1"
+  },
+  "corpus_sha256": "49ef0f984d5694d308ac1b1a3cc6cea94fe241040be6e1d679d736da2d706c56",
+  "provenance": "polar-cycle11-acceptance-polar13-2026a.json",
+  "runs": [
+    {
+      "id": "PC11-I1",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(exp(2*x)/(exp(2*x)+exp(x)+1),x)",
+      "exit": 0,
+      "result": "1/2*ln(exp(x)^2+exp(x)+1)-1/sqrt(3)*atan((2*exp(x)+1)/sqrt(3))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00128008\nMAX_RSS_KB 66324\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact t=exp(x)>0 rational substitution; t²+t+1=(t+1/2)²+3/4>0. Real log and atan are continuous globally, so no variable additive jump."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC11-I1",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(exp(2*x)/(exp(2*x)+exp(x)+1),x)",
+      "exit": 0,
+      "result": "1/2*ln(exp(x)^2+exp(x)+1)-1/sqrt(3)*atan((2*exp(x)+1)/sqrt(3))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00124058\nMAX_RSS_KB 66324\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact t=exp(x)>0 rational substitution; t²+t+1=(t+1/2)²+3/4>0. Real log and atan are continuous globally, so no variable additive jump."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC11-I1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(exp(2*x)/(exp(2*x)+exp(x)+1),x))",
+      "exit": 0,
+      "result": "1/2*ln(exp(x)^2+exp(x)+1)-1/sqrt(3)*atan((2*exp(x)+1)/sqrt(3))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00122636\nMAX_RSS_KB 66324\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact t=exp(x)>0 rational substitution; t²+t+1=(t+1/2)²+3/4>0. Real log and atan are continuous globally, so no variable additive jump."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC11-I1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(exp(2*x)/(exp(2*x)+exp(x)+1),x))",
+      "exit": 0,
+      "result": "1/2*ln(exp(x)^2+exp(x)+1)-1/sqrt(3)*atan((2*exp(x)+1)/sqrt(3))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00113917\nMAX_RSS_KB 66324\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact t=exp(x)>0 rational substitution; t²+t+1=(t+1/2)²+3/4>0. Real log and atan are continuous globally, so no variable additive jump."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC11-I2",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(sqrt(x^2-1)/x,x)",
+      "exit": 0,
+      "result": "sqrt(x^2-1)-atan(sqrt(x^2-1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00111082\nMAX_RSS_KB 66324\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative on both |x|>1 components. G(u)=u-atan(u)=O(u³), while |x|-1=u²/(sqrt(1+u²)+1), proves continuous endpoint values and both one-sided slopes zero. No continuation to |x|<1 is asserted."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "0",
+        "1": "0"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC11-I2",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(sqrt(x^2-1)/x,x)",
+      "exit": 0,
+      "result": "sqrt(x^2-1)-atan(sqrt(x^2-1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00133562\nMAX_RSS_KB 66324\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative on both |x|>1 components. G(u)=u-atan(u)=O(u³), while |x|-1=u²/(sqrt(1+u²)+1), proves continuous endpoint values and both one-sided slopes zero. No continuation to |x|<1 is asserted."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "0",
+        "1": "0"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC11-I2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(sqrt(x^2-1)/x,x))",
+      "exit": 0,
+      "result": "sqrt(x^2-1)-atan(sqrt(x^2-1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00183632\nMAX_RSS_KB 66324\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative on both |x|>1 components. G(u)=u-atan(u)=O(u³), while |x|-1=u²/(sqrt(1+u²)+1), proves continuous endpoint values and both one-sided slopes zero. No continuation to |x|<1 is asserted."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "0",
+        "1": "0"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC11-I2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(sqrt(x^2-1)/x,x))",
+      "exit": 0,
+      "result": "sqrt(x^2-1)-atan(sqrt(x^2-1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00166925\nMAX_RSS_KB 66324\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative on both |x|>1 components. G(u)=u-atan(u)=O(u³), while |x|-1=u²/(sqrt(1+u²)+1), proves continuous endpoint values and both one-sided slopes zero. No continuation to |x|<1 is asserted."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "0",
+        "1": "0"
+      },
+      "status": "exact"
+    }
+  ]
+}

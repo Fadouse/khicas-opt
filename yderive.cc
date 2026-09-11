@@ -271,7 +271,9 @@ namespace giac {
         // Polynomial amplitudes and log of a strictly positive quadratic
         // are analytic globally. At every simple trig zero, C*|Q| has
         // derivative zero exactly when C vanishes; otherwise it is a cusp.
-        bool analytic=equation_polynomial_bound(C,budget,0,bound);
+        gen amplitude=C;equation_numeric_factor(amplitude);
+        if(amplitude.is_symb_of_sommet(at_sin) || amplitude.is_symb_of_sommet(at_cos) || amplitude.is_symb_of_sommet(at_exp))amplitude=gen(amplitude._SYMBptr->feuille);
+        bool analytic=equation_polynomial_bound(amplitude,budget,0,bound);
         if(!analytic && C.is_symb_of_sommet(at_ln)){
           const gen &P=C._SYMBptr->feuille;budget=128;
           gen A,B,D;
@@ -281,7 +283,7 @@ namespace giac {
             analytic=equation_rational(D) && is_strictly_positive(A,contextptr) && is_strictly_positive(2*A*D-B*B,contextptr);
           }
         }
-        vecteur variables=lvar(C.is_symb_of_sommet(at_ln)?C._SYMBptr->feuille:C);
+        vecteur variables=lvar(C.is_symb_of_sommet(at_ln)?C._SYMBptr->feuille:amplitude);
         if(!analytic || (variables.size() && (variables.size()!=1 || variables[0]!=x)))continue;
         result=symbolic(at_when,makesequence(symb_equal(Q,0),symbolic(at_when,makesequence(symb_equal(C,0),0,undef)),derive(C,i,contextptr)*root+C*symbolic(at_sign,Q)*derive(Q,i,contextptr)));
         return true;

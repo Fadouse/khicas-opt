@@ -1,0 +1,130 @@
+{
+  "cases": [
+    {
+      "id": "PC13-I1",
+      "type": "integral",
+      "input": "simplify(integrate(x^2/sqrt(x^2+4),x))",
+      "conditions": [
+        "x is any finite real number. sqrt is the nonnegative real square root and ln is the real logarithm.",
+        "The original integrand is smooth on the entire real axis. Return an explicit exact antiderivative on that whole connected domain, up to one global additive constant.",
+        "Neither unevaluated integrate nor numerical quadrature is an acceptable answer."
+      ],
+      "expected": {
+        "expression": "x*sqrt(x^2+4)/2-2*ln((x+sqrt(x^2+4))/2)",
+        "properties": [
+          "Equivalent exact evaluable closed forms and one global additive constant are acceptable.",
+          "The derivative equals x^2/sqrt(x^2+4) for every real x, including zero. No exclusion of negative x or zero is valid.",
+          "The displayed primitive vanishes at zero, is odd and strictly increasing, and has derivative zero only at zero.",
+          "The logarithm argument is strictly positive everywhere, even for arbitrarily negative finite x."
+        ]
+      },
+      "reason": "Write s=sqrt(x^2+4). Since s>abs(x), s+x>0, and (s+x)*(s-x)=4. Thus every displayed term is defined for all real x and the logarithm is an ordinary real logarithm. Direct differentiation gives d[ln((x+s)/2)]/dx=(1+x/s)/(x+s)=1/s. The proposed derivative is s/2+x^2/(2*s)-2/s=(s^2+x^2-4)/(2*s)=x^2/s, including at zero because all denominators are nonzero there. The reciprocal identity ((s+x)/2)*((s-x)/2)=1 shows that the logarithm changes sign when x does, so the primitive is odd and its value at zero is zero. Its derivative is positive except at that one point; integrating the positive derivative over any nonempty interval proves strict increase. This gives both a direct exact check and a justification of all cancellations without numerical sampling."
+    },
+    {
+      "id": "PC13-I2",
+      "type": "integral",
+      "input": "simplify(integrate(1/(2+cos(x)),x))",
+      "conditions": [
+        "x is any finite real number, with angles in radians. atan denotes the real principal inverse tangent with range (-pi/2,pi/2).",
+        "The original denominator lies in [1,3]. Require an explicit exact primitive on the entire real axis, up to one global additive constant.",
+        "A formula valid only between consecutive odd multiples of pi is insufficient unless exact joining corrections and values at every join are supplied. No unevaluated integral is acceptable."
+      ],
+      "expected": {
+        "expression": "(x-2*atan(sin(x)/(2+sqrt(3)+cos(x))))/sqrt(3)",
+        "properties": [
+          "Return the displayed global closed form or an equivalent exact evaluable global primitive, with one global additive constant.",
+          "The displayed denominator inside atan is strictly positive for every real x. The primitive is smooth everywhere, including all odd multiples of pi.",
+          "The primitive is odd, vanishes at zero, and satisfies F(x+2*pi)=F(x)+2*pi/sqrt(3). Consequently the exact integral over any full period is 2*pi/sqrt(3).",
+          "For every integer k, F(k*pi)=k*pi/sqrt(3), and F'(k*pi)=1/(2+(-1)^k).",
+          "The uncorrected half-angle expression 2*atan(tan(x/2)/sqrt(3))/sqrt(3) is not a global answer: its jumps and missing values cannot be ignored."
+        ]
+      },
+      "reason": "Let c=2+sqrt(3)>1 and u=sin(x)/(c+cos(x)). Its denominator is at least c-1>0. The identity c^2+1=4*c yields 1+u^2=2*c*(2+cos(x))/(c+cos(x))^2, while u'=(c*cos(x)+1)/(c+cos(x))^2. Therefore d[atan(u)]/dx=(c*cos(x)+1)/(2*c*(2+cos(x))). Differentiating the proposed F now gives [1-(c*cos(x)+1)/(c*(2+cos(x)))]/sqrt(3)=(2-1/c)/(sqrt(3)*(2+cos(x)))=1/(2+cos(x)), since 1/c=2-sqrt(3). All denominators used in this calculation are strictly positive on the entire real axis, so no join remains to be filled. The sine numerator is odd and the cosine denominator even, proving oddness. Their periodicity proves the increment formula directly. At every k*pi the atan argument is exactly zero, proving the stated primitive values; substitution into the already global derivative gives the stated slopes. This exact derivation establishes the global branch behavior independently of a principal half-angle substitution."
+    },
+    {
+      "id": "PC13-D1",
+      "type": "derivative",
+      "input": "simplify(diff(sin(x)*abs(sin(2*x))+cos(x),x))",
+      "conditions": [
+        "x is any finite real number, in radians. abs is the ordinary real absolute value.",
+        "The original function is defined and continuous everywhere. Examine all contacts x=k*pi/2 for integer k; the multiplying amplitude vanishes at infinitely many, but not all, contacts.",
+        "piecewise uses first-true lazy selection, and undef denotes absence of a finite two-sided derivative of the original function."
+      ],
+      "expected": {
+        "expression": "piecewise(sin(x)==0,0,sin(2*x)==0,undef,cos(x)*abs(sin(2*x))+2*sin(x)*cos(2*x)*sign(sin(2*x))-sin(x))",
+        "properties": [
+          "Return an exact derivative with domain R excluding precisely pi/2+k*pi for integer k. Equivalent exact formulas with the same domain are acceptable.",
+          "At every a=k*pi, f(a)=(-1)^k and the original two-sided difference quotient tends to zero. These absolute-value contacts are removable for the derivative, which is continuous there.",
+          "At every b=pi/2+k*pi, f(b)=0, the original left derivative is -3*(-1)^k, and the original right derivative is (-1)^k. These contacts are genuine corners.",
+          "The smooth cosine summand contributes -sin(x) to both one-sided derivatives. Vanishing of the absolute-value term at a contact does not allow this contribution to be dropped.",
+          "There are no other exclusions, isolated values, or finite endpoints of the original real domain."
+        ]
+      },
+      "reason": "Away from zeros of sin(2*x), the product and chain rules give the displayed regular expression. At a=k*pi, put s=(-1)^k. The actual value is f(a)=s, and the original quotient is s*sin(h)*abs(sin(2*h))/h+s*(cos(h)-1)/h. The first term tends to zero because sin(h)/h tends to one while abs(sin(2*h)) tends to zero; the second also tends to zero. The regular derivative tends to zero there because both abs(sin(2*x)) and sin(x) tend to zero and the sign factor is bounded. At b=pi/2+k*pi put s=(-1)^k. Here sin(b+h)=s*cos(h), cos(b+h)=-s*sin(h), and abs(sin(2*b+2*h))=abs(sin(2*h)). Since f(b)=0, the exact original quotient is s*cos(h)*abs(sin(2*h))/h-s*sin(h)/h. The first ratio tends to -2 on the left and 2 on the right; the second ratio tends to one on both sides. This proves the stated unequal slopes -3*s and s. The two families exhaust all zeros of sin(2*x), and all remaining points have a smooth nonzero-sign neighborhood."
+    },
+    {
+      "id": "PC13-D2",
+      "type": "derivative",
+      "input": "simplify(diff((1+x)^(1/x),x))",
+      "conditions": [
+        "x is real. A real variable power a^b means exp(b*ln(a)) with a>0 and ln the real logarithm; isolated negative-base rational-power conventions are not used.",
+        "The complete original domain is (-1,0) union (0,infinity): the base must be positive and the original exponent 1/x must be defined.",
+        "Determine the derivative on that original domain. Discuss the removable extension at zero separately, using its actual assigned value and original difference quotient; do not add zero to the unextended original domain."
+      ],
+      "expected": {
+        "expression": "(1+x)^(1/x)*(x/(1+x)-ln(1+x))/x^2",
+        "properties": [
+          "Return the displayed exact derivative or an equivalent exact evaluable expression on precisely the original two open intervals.",
+          "The derivative is strictly negative throughout that domain. Both the negative interval and the positive interval must be retained.",
+          "The original function has limit exp(1) at zero. If and only if a separate extension is defined with value exp(1) there, its two-sided derivative at zero is -exp(1)/2.",
+          "Prove the extension's derivative from [f(h)-exp(1)]/h, rather than merely taking a limit of the formal derivative.",
+          "At the other finite boundary x=-1 the original function is undefined and tends to positive infinity from the right, so no finite-valued continuous extension or finite endpoint derivative exists there."
+        ]
+      },
+      "reason": "The requirements 1+x>0 and x!=0 prove the original domain exactly. On either interval let L(x)=ln(1+x)/x; then f=exp(L) and L'=[x/(1+x)-ln(1+x)]/x^2, giving the answer by the ordinary chain rule. To establish its sign, put t=1+x>0 and q(t)=1-1/t-ln(t). One has q(1)=0 and q'(t)=(1-t)/t^2, so q is strictly increasing up to one and strictly decreasing after one, hence q(t)<0 for t!=1. All other factors in f' are positive. At zero the exact Taylor formula with remainder for ln(1+h) gives L(h)=1-h/2+O(h^2), valid on both sides. Writing r(h)=L(h)-1, the original quotient for the assigned extension is exp(1)*(exp(r(h))-1)/h=exp(1)*[(exp(r(h))-1)/r(h)]*[r(h)/h]. Its factors tend to one and -1/2 respectively, proving derivative -exp(1)/2 and the required value exp(1). This is an analytic remainder argument, not numerical sampling. At x=-1+t with t decreasing to zero, L(x)=ln(t)/(t-1) tends to positive infinity, hence f tends to positive infinity and admits no finite extension there."
+    },
+    {
+      "id": "PC13-S1",
+      "type": "simplify",
+      "input": "simplify(ln(sqrt(x^2-y^2)/(x-y))-(ln(x+y)-ln(x-y))/2)",
+      "conditions": [
+        "x and y are finite real numbers. Every ln is strictly the real logarithm and sqrt is the nonnegative real square root.",
+        "Determine and preserve the complete domain of the original expression before any logarithmic cancellation: it is the open wedge x>abs(y).",
+        "The simplified zero must retain this domain restriction, either in an explicit domain-bearing result or an exact piecewise guard. Values outside it must not be manufactured by cancellation."
+      ],
+      "expected": {
+        "expression": "piecewise(x>abs(y),0,undef)",
+        "properties": [
+          "The exact value is zero for every pair with x>abs(y), and the original real expression is undefined for every other real pair.",
+          "A bare unrestricted zero is not an acceptable domain-preserving simplification. Exact retention of the compact original expression with its stated domain is acceptable.",
+          "Both boundary rays x=y and x=-y are excluded, including the origin. The opposite wedge x<-abs(y) remains excluded even though x^2-y^2 is positive there.",
+          "No complex logarithm continuation, implicit absolute-value replacement of ln(x+y) or ln(x-y), or floating-point sign test may enlarge the real domain."
+        ]
+      },
+      "reason": "The two separate real logarithms require x+y>0 and x-y>0. Together these are equivalent to x>abs(y). On this wedge their product x^2-y^2 is strictly positive, x-y is nonzero, and sqrt(x^2-y^2)/(x-y)>0, so all remaining original operations are defined. This proves necessity and sufficiency of the domain. Write A=x+y>0 and B=x-y>0. The positive real root identity gives sqrt(A*B)/B=sqrt(A/B), and hence ln(sqrt(A*B)/B)=(ln(A)-ln(B))/2. Subtracting yields zero on the whole domain. Outside it at least one separately present logarithm is undefined, regardless of any cancellation in a rewritten expression. This includes the negative wedge and both zero-product boundary rays, establishing the guard exactly."
+    },
+    {
+      "id": "PC13-R1",
+      "type": "resource",
+      "input": "simplify(sum(k*binomial(16,k)*x^k*y^(16-k),k,0,16)/(x+y)^16)",
+      "conditions": [
+        "x and y are finite real numbers with x+y!=0, the complete original domain. Nonnegative integer powers here are polynomial powers, so t^0 is the constant polynomial one even at t=0.",
+        "The summation contains exactly 17 terms, indexed by k=0 through 16. This is a fixed finite workload, not an infinite or symbolic-size sum.",
+        "Each invocation has a fixed 10-second external wall-clock timeout and a 65536-byte output cap. Keep all existing configured finite CG50 stack, heap, and simplification budgets unchanged; do not retry with enlarged limits.",
+        "Exact retention of the compact original finite expression is acceptable. No expanded bivariate polynomial or forced enumeration of all summands is required."
+      ],
+      "expected": {
+        "expression": "16*x/(x+y)",
+        "properties": [
+          "Return the displayed exact compact ratio, an equivalent exact compact expression, or retain the original finite expression exactly.",
+          "The entire line x+y=0 remains excluded, including the origin. No other real exclusions occur; neither x nor y is individually required to be nonzero or positive.",
+          "The exact values on the allowed coordinate axes are zero for x=0,y!=0 and sixteen for y=0,x!=0. For x=y!=0 the value is eight.",
+          "The result is invariant under simultaneous multiplication of x and y by any nonzero real scalar. Its sign is the sign of x/(x+y), without an unsupported global positivity assumption.",
+          "No crash, stack overflow, timeout, output-cap overrun, runaway expansion, new domain hole, or undef on an allowed pair is acceptable. No resource limit may be increased.",
+          "Compact exact retention is permitted for this resource case and does not relax the explicit closed-form requirements of either integral."
+        ]
+      },
+      "reason": "The binomial theorem is the exact polynomial identity sum(binomial(16,k)*x^k*y^(16-k),k,0,16)=(x+y)^16, valid for every real pair, including the axes under the stated polynomial convention. Differentiate this finite polynomial identity with respect to x and multiply by x. The result is sum(k*binomial(16,k)*x^k*y^(16-k),k,0,16)=16*x*(x+y)^15; the k=0 term is the zero polynomial. This proof never divides by x or y and therefore preserves both axes. The original denominator is nonzero exactly when x+y!=0. On that domain cancellation of (x+y)^15 gives 16*x/(x+y), whose denominator has precisely the same excluded line. Substitution proves the three listed exact values, and the degree-one ratio proves scale invariance and the sign statement. The identity is justified symbolically in a fixed number of steps without constructing an expanded polynomial or evaluating numerical samples."
+    }
+  ]
+}

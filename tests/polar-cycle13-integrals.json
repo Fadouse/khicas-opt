@@ -1,0 +1,24 @@
+{
+  "cases": [
+    {
+      "id": "PC13-I1",
+      "input": "simplify(integrate(x^2/sqrt(x^2+4),x))",
+      "expected": "x*sqrt(x^2+4)/2-2*ln((x+sqrt(x^2+4))/2)",
+      "conditions": [
+        "x is any finite real number. sqrt is the nonnegative real square root and ln is the real logarithm.",
+        "The original integrand is smooth on the entire real axis. Return an explicit exact antiderivative on that whole connected domain, up to one global additive constant.",
+        "Neither unevaluated integrate nor numerical quadrature is an acceptable answer."
+      ]
+    },
+    {
+      "id": "PC13-I2",
+      "input": "simplify(integrate(1/(2+cos(x)),x))",
+      "expected": "(x-2*atan(sin(x)/(2+sqrt(3)+cos(x))))/sqrt(3)",
+      "conditions": [
+        "x is any finite real number, with angles in radians. atan denotes the real principal inverse tangent with range (-pi/2,pi/2).",
+        "The original denominator lies in [1,3]. Require an explicit exact primitive on the entire real axis, up to one global additive constant.",
+        "A formula valid only between consecutive odd multiples of pi is insufficient unless exact joining corrections and values at every join are supplied. No unevaluated integral is acceptable."
+      ]
+    }
+  ]
+}

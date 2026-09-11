@@ -3149,7 +3149,7 @@ namespace giac {
     if(taille(args,257)>256)return false;
     // Principal complex roots and real logarithm magnitudes carry domain
     // information that a real algebraic surrogate cannot discard.
-    if((has_i(args) || (contains(args,*at_ln) && contains(args,*at_abs)))){
+    if(has_i(args) || contains(args,*at_ln)){
       if(has_op(args,*at_sqrt))return true;
       vecteur powers=lop(args,at_pow);
       for(unsigned j=0;j<powers.size();++j){
@@ -3171,6 +3171,9 @@ namespace giac {
       }
       if(square && quotient)return true;
     }
+    // Rationalizing a trig atan argument can multiply numerator and
+    // denominator by a vanishing conjugate, adding holes to a global chart.
+    if(has_op(args,*at_atan) && (has_op(args,*at_sin) || has_op(args,*at_cos)))return true;
     // Rational inner arguments of real roots must not be replaced by a
     // principal complex power during algebraic normalization.
     if(has_op(args,*at_surd) || has_op(args,*at_NTHROOT)){

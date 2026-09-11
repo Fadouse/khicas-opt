@@ -1,0 +1,224 @@
+{
+  "scope": "First execution on unchanged 1456547 integration/yderive/simplify/actual-sqrt probe; execution completion is not mathematical acceptance.",
+  "probe": "/tmp/khicas-polar-cycle12-fix3/simplify/probe",
+  "probe_sha256": "1ffc0864cec299ae417debd5b32f0a39338df41f38f7ad5c9741706eca9a9f98",
+  "corpus_sha256": "dcac300641f3052377543b82289067709f02a7bbe22e2346edd10a81bb3d5d42",
+  "runs": [
+    {
+      "id": "PC13-I1",
+      "input": "integrate(x^2/sqrt(x^2+4),x)",
+      "outer": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "2/4*x*sqrt(x^2+4)+2*ln(sqrt(x^2+4)-x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00386816\nMAX_RSS_KB 20108\n"
+    },
+    {
+      "id": "PC13-I1",
+      "input": "integrate(x^2/sqrt(x^2+4),x)",
+      "outer": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "2/4*x*sqrt(x^2+4)+2*ln(sqrt(x^2+4)-x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00387912\nMAX_RSS_KB 29380\n"
+    },
+    {
+      "id": "PC13-I1",
+      "input": "simplify(integrate(x^2/sqrt(x^2+4),x))",
+      "outer": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(x*sqrt(x^2+4)+4*ln(sqrt(x^2+4)-x))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00501119\nMAX_RSS_KB 29384\n"
+    },
+    {
+      "id": "PC13-I1",
+      "input": "simplify(integrate(x^2/sqrt(x^2+4),x))",
+      "outer": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "(x*sqrt(x^2+4)+4*ln(sqrt(x^2+4)-x))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00644011\nMAX_RSS_KB 29384\n"
+    },
+    {
+      "id": "PC13-I2",
+      "input": "integrate(1/(2+cos(x)),x)",
+      "outer": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "2*2/(2*sqrt(3))*(atan((-sqrt(3)*sin(x)+sin(x))/(sqrt(3)*cos(x)+sqrt(3)-cos(x)+1))+x/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00106776\nMAX_RSS_KB 29384\n"
+    },
+    {
+      "id": "PC13-I2",
+      "input": "integrate(1/(2+cos(x)),x)",
+      "outer": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "2*2/(2*sqrt(3))*(atan((-sqrt(3)*sin(x)+sin(x))/(sqrt(3)*cos(x)+sqrt(3)-cos(x)+1))+x/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00127482\nMAX_RSS_KB 29384\n"
+    },
+    {
+      "id": "PC13-I2",
+      "input": "simplify(integrate(1/(2+cos(x)),x))",
+      "outer": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "1/3*sqrt(3)*x+2/3*sqrt(3)*atan((sqrt(3)*sin(x)-cos(x)*sin(x)-2*sin(x))/(4*cos(x)-sin(x)^2+2))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.0108641\nMAX_RSS_KB 29384\n"
+    },
+    {
+      "id": "PC13-I2",
+      "input": "simplify(integrate(1/(2+cos(x)),x))",
+      "outer": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "1/3*sqrt(3)*x+2/3*sqrt(3)*atan((sqrt(3)*sin(x)-cos(x)*sin(x)-2*sin(x))/(4*cos(x)-sin(x)^2+2))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.0109655\nMAX_RSS_KB 29384\n"
+    },
+    {
+      "id": "PC13-D1",
+      "input": "diff(sin(x)*abs(sin(2*x))+cos(x),x)",
+      "outer": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "cos(x)*abs(sin(2*x))+sin(x)*2*cos(2*x)*abs(sin(2*x))/sin(2*x)-sin(x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00277881\nMAX_RSS_KB 29384\n"
+    },
+    {
+      "id": "PC13-D1",
+      "input": "diff(sin(x)*abs(sin(2*x))+cos(x),x)",
+      "outer": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "cos(x)*abs(sin(2*x))+sin(x)*2*cos(2*x)*abs(sin(2*x))/sin(2*x)-sin(x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00272476\nMAX_RSS_KB 29384\n"
+    },
+    {
+      "id": "PC13-D1",
+      "input": "simplify(diff(sin(x)*abs(sin(2*x))+cos(x),x))",
+      "outer": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(3*abs(sin(2*x))*cos(x)^2-abs(sin(2*x))-cos(x)*sin(x))/cos(x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.0152378\nMAX_RSS_KB 29384\n"
+    },
+    {
+      "id": "PC13-D1",
+      "input": "simplify(diff(sin(x)*abs(sin(2*x))+cos(x),x))",
+      "outer": true,
+      "stack": "64",
+      "exit": -11,
+      "result": "(3*abs(sin(2*x))*cos(x)^2-abs(sin(2*x))-cos(x)*sin(x))/cos(x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.0144704\nMAX_RSS_KB 29384\n"
+    },
+    {
+      "id": "PC13-D2",
+      "input": "diff((1+x)^(1/x),x)",
+      "outer": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "-1/x^2*ln(1+x)*(1+x)^(1/x)+1/x*(1+x)^(1/x-1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000338746\nMAX_RSS_KB 29384\n"
+    },
+    {
+      "id": "PC13-D2",
+      "input": "diff((1+x)^(1/x),x)",
+      "outer": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "-1/x^2*ln(1+x)*(1+x)^(1/x)+1/x*(1+x)^(1/x-1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000384925\nMAX_RSS_KB 29384\n"
+    },
+    {
+      "id": "PC13-D2",
+      "input": "simplify(diff((1+x)^(1/x),x))",
+      "outer": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(-x*(x+1)^((-x+1)/x)*ln(x+1)+x*(x+1)^((-x+1)/x)-(x+1)^((-x+1)/x)*ln(x+1))/x^2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00121159\nMAX_RSS_KB 29384\n"
+    },
+    {
+      "id": "PC13-D2",
+      "input": "simplify(diff((1+x)^(1/x),x))",
+      "outer": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "(-x*(x+1)^((-x+1)/x)*ln(x+1)+x*(x+1)^((-x+1)/x)-(x+1)^((-x+1)/x)*ln(x+1))/x^2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00163295\nMAX_RSS_KB 29384\n"
+    },
+    {
+      "id": "PC13-S1",
+      "input": "ln(sqrt(x^2-y^2)/(x-y))-(ln(x+y)-ln(x-y))/2",
+      "outer": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "ln(sqrt(x^2-y^2)/(x-y))-(ln(x+y)-ln(x-y))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000297826\nMAX_RSS_KB 29384\n"
+    },
+    {
+      "id": "PC13-S1",
+      "input": "ln(sqrt(x^2-y^2)/(x-y))-(ln(x+y)-ln(x-y))/2",
+      "outer": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "ln(sqrt(x^2-y^2)/(x-y))-(ln(x+y)-ln(x-y))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000668732\nMAX_RSS_KB 29384\n"
+    },
+    {
+      "id": "PC13-S1",
+      "input": "simplify(ln(sqrt(x^2-y^2)/(x-y))-(ln(x+y)-ln(x-y))/2)",
+      "outer": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "0",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.0015382\nMAX_RSS_KB 29384\n"
+    },
+    {
+      "id": "PC13-S1",
+      "input": "simplify(ln(sqrt(x^2-y^2)/(x-y))-(ln(x+y)-ln(x-y))/2)",
+      "outer": true,
+      "stack": "64",
+      "exit": -11,
+      "result": "",
+      "stderr": ""
+    },
+    {
+      "id": "PC13-R1",
+      "input": "sum(k*binomial(16,k)*x^k*y^(16-k),k,0,16)/(x+y)^16",
+      "outer": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(16*x^16+240*x^15*y+1680*x^14*y^2+7280*x^13*y^3+21840*x^12*y^4+48048*x^11*y^5+80080*x^10*y^6+102960*x^9*y^7+102960*x^8*y^8+80080*x^7*y^9+48048*x^6*y^10+21840*x^5*y^11+7280*x^4*y^12+1680*x^3*y^13+240*x^2*y^14+16*x*y^15)/(x+y)^16",
+      "stderr": "Unable to isolate function factorial\nPARSER_CALLS 1\nSECONDS 0.00112691\nMAX_RSS_KB 29384\n"
+    },
+    {
+      "id": "PC13-R1",
+      "input": "sum(k*binomial(16,k)*x^k*y^(16-k),k,0,16)/(x+y)^16",
+      "outer": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "(16*x^16+240*x^15*y+1680*x^14*y^2+7280*x^13*y^3+21840*x^12*y^4+48048*x^11*y^5+80080*x^10*y^6+102960*x^9*y^7+102960*x^8*y^8+80080*x^7*y^9+48048*x^6*y^10+21840*x^5*y^11+7280*x^4*y^12+1680*x^3*y^13+240*x^2*y^14+16*x*y^15)/(x+y)^16",
+      "stderr": "Unable to isolate function factorial\nPARSER_CALLS 1\nSECONDS 0.00106809\nMAX_RSS_KB 29384\n"
+    },
+    {
+      "id": "PC13-R1",
+      "input": "simplify(sum(k*binomial(16,k)*x^k*y^(16-k),k,0,16)/(x+y)^16)",
+      "outer": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(16*x^16+240*x^15*y+1680*x^14*y^2+7280*x^13*y^3+21840*x^12*y^4+48048*x^11*y^5+80080*x^10*y^6+102960*x^9*y^7+102960*x^8*y^8+80080*x^7*y^9+48048*x^6*y^10+21840*x^5*y^11+7280*x^4*y^12+1680*x^3*y^13+240*x^2*y^14+16*x*y^15)/(x+y)^16",
+      "stderr": "Unable to isolate function factorial\nPARSER_CALLS 1\nSECONDS 0.00106225\nMAX_RSS_KB 29384\n"
+    },
+    {
+      "id": "PC13-R1",
+      "input": "simplify(sum(k*binomial(16,k)*x^k*y^(16-k),k,0,16)/(x+y)^16)",
+      "outer": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "(16*x^16+240*x^15*y+1680*x^14*y^2+7280*x^13*y^3+21840*x^12*y^4+48048*x^11*y^5+80080*x^10*y^6+102960*x^9*y^7+102960*x^8*y^8+80080*x^7*y^9+48048*x^6*y^10+21840*x^5*y^11+7280*x^4*y^12+1680*x^3*y^13+240*x^2*y^14+16*x*y^15)/(x+y)^16",
+      "stderr": "Unable to isolate function factorial\nPARSER_CALLS 1\nSECONDS 0.00105312\nMAX_RSS_KB 29384\n"
+    }
+  ]
+}

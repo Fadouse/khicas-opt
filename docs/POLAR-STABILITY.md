@@ -183,3 +183,15 @@ ROM使用2,064,552 B（余600 B），AC2使用2,494,744 B（余65,252 B），静
 ROM余600 B，AC2使用2,496,104 B（余63,892 B），静态RAM和CAS堆不变。首次有错题，继续派发全新题库，不进入最终性能代理验收。
 
 [首次](benchmarks/polar-cycle12-first-acceptance-2026a.json) · [旧版实际acos](benchmarks/polar-cycle12-baseline-actual-acos-runs-2026a.json) · [修复后](benchmarks/polar-cycle12-fixed-acceptance-2026a.json) · [变式](benchmarks/periodic-acos-guards-polar12-2026a.json) · [资源](benchmarks/resources-polar-cycle12-2026a.json) · [测量](benchmarks/polar-cycle12-performance-2026a.json) · [回归索引](benchmarks/polar-cycle12-regression-index-2026a.json)。
+
+## 第十三轮：全局三角积分的假奇点、三角振幅与双变量对数域
+
+标签 `checkpoint/polar-stability-cycle13-2026a`。全新6题首次3题完整通过。全局三角积分直接结果正确，但外层化简的有理化给atan参数分子分母同时乘上可为零的共轭因子，新增实假奇点；三角振幅乘周期绝对值的导数丢失可去接点，外层小栈运行还崩溃；双变量实对数根式化简在普通栈误给无条件零、小栈崩溃。变量幂导数已正确，独立验证器使用正底数指数分解验证两条原实域分量，没有把等价写法误记为引擎错误。
+
+短三角atan式保留原有全局参数表达式，避免无定义的共轭因子；短根式对数保留原域节点，避免约零擦除条件。周期绝对值的振幅解析证明扩展到实多项式的sin/cos/exp复合及数值系数；零振幅贡献可去导数零，非零振幅仍为真角点，平滑相加项的导数另行保留。规则继续使用固定节点/次数预算。
+
+新增40项周期振幅检查及12项对数楔形域/全局atan参数检查，后者独立证明所有分母非零，并在可能被共轭有理化破坏的实际代入点追加有限性检查。资源题通过有限二项式恒等式证明，保留16个非零单项式的有界表示及原排除直线。修复后本轮24项、全部52项新增检查、此前264项变体、旧114项边界、前十二轮328项、混合96项、极坐标60项、21项正式及7项补充回归全部通过。
+
+积分清单671条：666精确、5导数采样；648种去空白文本。ROM余600 B，AC2使用2,496,324 B（余63,672 B），本轮净增220 B；静态RAM和CAS堆不变。五次主机中位数最大约3.1 ms，未将错误旧输出作为加速基线。主机64 KiB栈不是SH4/MMU模拟，未安装实机。首次有错题，继续全新出题代理，未进入最终性能代理验收。
+
+[首次](benchmarks/polar-cycle13-first-acceptance-2026a.json) · [修复后](benchmarks/polar-cycle13-fixed-acceptance-2026a.json) · [振幅](benchmarks/trig-amplitude-guards-polar13-2026a.json) · [定义域](benchmarks/log-chart-domain-guards-polar13-2026a.json) · [资源](benchmarks/resources-polar-cycle13-2026a.json) · [测量](benchmarks/polar-cycle13-performance-2026a.json) · [回归索引](benchmarks/polar-cycle13-regression-index-2026a.json)。
