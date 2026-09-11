@@ -12,7 +12,10 @@ struct logarithmic_span_index_less {
 #if defined(__GNUC__) && !defined(__clang__)
 __attribute__((noinline,optimize("Os")))
 #endif
-static bool logarithmic_span_entire(const gen &g,const gen &x,vecteur &atoms,unsigned &budget,unsigned depth){
+// External inline linkage shares this identical proof walker across the
+// integration, definite-integral and derivative translation units. GCC
+// noinline keeps recursion out of callers; COMDAT removes duplicate code.
+inline bool logarithmic_span_entire(const gen &g,const gen &x,vecteur &atoms,unsigned &budget,unsigned depth){
   if(!budget || depth>8)return false;--budget;
   if(g==x)return true;
   equation_polynomial_budget bound;

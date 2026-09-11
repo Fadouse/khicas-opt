@@ -1,0 +1,436 @@
+{
+  "scope": "Actual repository integration/yderive/FXCG simplify on host dependencies; guarded 64 KiB stack, not SH4/MMU emulation.",
+  "corpus_sha256": "254c898d382fd271a5dfdb269e090e31af439ab8f6a37f9bd7825c8d2b654332",
+  "probe_sha256": "b5469ca7b5b1d1b825bd730335db653f2f9e928bb1fc1a824c8658610df6d77d",
+  "runs": [
+    {
+      "id": "PC20-I1",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(1/(x^2+2*a*x+1),x)",
+      "exit": 0,
+      "result": "2/(2*sqrt(-a^2+1))*atan((a+x)/sqrt(-a^2+1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00148939\nMAX_RSS_KB 20364\n",
+      "error": "Generic primitive misses a=+/-1 and real pole regimes",
+      "pass": false
+    },
+    {
+      "id": "PC20-I1",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(1/(x^2+2*a*x+1),x)",
+      "exit": 0,
+      "result": "2/(2*sqrt(-a^2+1))*atan((a+x)/sqrt(-a^2+1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00151409\nMAX_RSS_KB 30552\n",
+      "error": "Generic primitive misses a=+/-1 and real pole regimes",
+      "pass": false
+    },
+    {
+      "id": "PC20-I1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(1/(x^2+2*a*x+1),x))",
+      "exit": 0,
+      "result": "2/(2*sqrt(-a^2+1))*atan((a+x)/sqrt(-a^2+1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00131134\nMAX_RSS_KB 30552\n",
+      "error": "Generic primitive misses a=+/-1 and real pole regimes",
+      "pass": false
+    },
+    {
+      "id": "PC20-I1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(1/(x^2+2*a*x+1),x))",
+      "exit": 0,
+      "result": "2/(2*sqrt(-a^2+1))*atan((a+x)/sqrt(-a^2+1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00139902\nMAX_RSS_KB 30552\n",
+      "error": "Generic primitive misses a=+/-1 and real pole regimes",
+      "pass": false
+    },
+    {
+      "id": "PC20-I2",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(asin(x)/sqrt(1+x),x)",
+      "exit": 0,
+      "result": "2*(sqrt(x+1)*asin(x)+2*(-sqrt(2)+sqrt(-x+1)))",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(t_nostep)]\nPARSER_CALLS 1\nSECONDS 0.00749672\nMAX_RSS_KB 30552\n",
+      "verification": {
+        "exact": true,
+        "normalized": true,
+        "method": "Integration by parts on the exact original domain (-1,1]. Under x=cos(t), compute the original endpoint difference quotient, obtaining pi/(2sqrt2). The finite primitive limit at excluded x=-1 is only an extension value; no finite original derivative there is claimed. One additive constant is accepted."
+      },
+      "pass": true,
+      "actual_domain_checks": [
+        {
+          "point": "1",
+          "expected": "finite",
+          "exit": 0,
+          "result": "2*(sqrt(2)*pi/2-2*sqrt(2))"
+        }
+      ]
+    },
+    {
+      "id": "PC20-I2",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(asin(x)/sqrt(1+x),x)",
+      "exit": 0,
+      "result": "2*(sqrt(x+1)*asin(x)+2*(-sqrt(2)+sqrt(-x+1)))",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(t_nostep)]\nPARSER_CALLS 1\nSECONDS 0.00663881\nMAX_RSS_KB 30552\n",
+      "verification": {
+        "exact": true,
+        "normalized": true,
+        "method": "Integration by parts on the exact original domain (-1,1]. Under x=cos(t), compute the original endpoint difference quotient, obtaining pi/(2sqrt2). The finite primitive limit at excluded x=-1 is only an extension value; no finite original derivative there is claimed. One additive constant is accepted."
+      },
+      "pass": true,
+      "actual_domain_checks": [
+        {
+          "point": "1",
+          "expected": "finite",
+          "exit": 0,
+          "result": "2*(sqrt(2)*pi/2-2*sqrt(2))"
+        }
+      ]
+    },
+    {
+      "id": "PC20-I2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(asin(x)/sqrt(1+x),x))",
+      "exit": 0,
+      "result": "4*sqrt(-x+1)-4*sqrt(2)+2*sqrt(x+1)*asin(x)",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(t_nostep)]\nPARSER_CALLS 1\nSECONDS 0.00750689\nMAX_RSS_KB 30552\n",
+      "verification": {
+        "exact": true,
+        "normalized": true,
+        "method": "Integration by parts on the exact original domain (-1,1]. Under x=cos(t), compute the original endpoint difference quotient, obtaining pi/(2sqrt2). The finite primitive limit at excluded x=-1 is only an extension value; no finite original derivative there is claimed. One additive constant is accepted."
+      },
+      "pass": true,
+      "actual_domain_checks": [
+        {
+          "point": "1",
+          "expected": "finite",
+          "exit": 0,
+          "result": "-4*sqrt(2)+2*sqrt(2)*pi/2"
+        }
+      ]
+    },
+    {
+      "id": "PC20-I2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(asin(x)/sqrt(1+x),x))",
+      "exit": 0,
+      "result": "4*sqrt(-x+1)-4*sqrt(2)+2*sqrt(x+1)*asin(x)",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(t_nostep)]\nPARSER_CALLS 1\nSECONDS 0.00778666\nMAX_RSS_KB 30552\n",
+      "verification": {
+        "exact": true,
+        "normalized": true,
+        "method": "Integration by parts on the exact original domain (-1,1]. Under x=cos(t), compute the original endpoint difference quotient, obtaining pi/(2sqrt2). The finite primitive limit at excluded x=-1 is only an extension value; no finite original derivative there is claimed. One additive constant is accepted."
+      },
+      "pass": true,
+      "actual_domain_checks": [
+        {
+          "point": "1",
+          "expected": "finite",
+          "exit": 0,
+          "result": "-4*sqrt(2)+2*sqrt(2)*pi/2"
+        }
+      ]
+    },
+    {
+      "id": "PC20-D1",
+      "outer": false,
+      "stack": "normal",
+      "input": "diff(piecewise(x==0,0,x^2*floor(1/x)),x)",
+      "exit": 0,
+      "result": "piecewise(x=0,0,2*x*floor(1/x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000444664\nMAX_RSS_KB 30552\n",
+      "error": "Original quotient at accumulation point tends to 1, not 0 or 2",
+      "pass": false
+    },
+    {
+      "id": "PC20-D1",
+      "outer": false,
+      "stack": "64",
+      "input": "diff(piecewise(x==0,0,x^2*floor(1/x)),x)",
+      "exit": 0,
+      "result": "piecewise(x=0,0,2*x*floor(1/x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000441154\nMAX_RSS_KB 30552\n",
+      "error": "Original quotient at accumulation point tends to 1, not 0 or 2",
+      "pass": false
+    },
+    {
+      "id": "PC20-D1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(diff(piecewise(x==0,0,x^2*floor(1/x)),x))",
+      "exit": 0,
+      "result": "piecewise(x=0,0,2*x*floor(1/x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000454625\nMAX_RSS_KB 30552\n",
+      "error": "Original quotient at accumulation point tends to 1, not 0 or 2",
+      "pass": false
+    },
+    {
+      "id": "PC20-D1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(diff(piecewise(x==0,0,x^2*floor(1/x)),x))",
+      "exit": 0,
+      "result": "piecewise(x=0,0,2*x*floor(1/x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000438615\nMAX_RSS_KB 30552\n",
+      "error": "Original quotient at accumulation point tends to 1, not 0 or 2",
+      "pass": false
+    },
+    {
+      "id": "PC20-D2",
+      "outer": false,
+      "stack": "normal",
+      "input": "diff(sqrt(x^2+y^2)-abs(x),x)",
+      "exit": 0,
+      "result": "((x=0)? undef : 1/2*2*x*(sqrt(x^2+y^2))^-1-sign(x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000576003\nMAX_RSS_KB 30552\n",
+      "error": "At y=0 the entire original function is zero",
+      "pass": false
+    },
+    {
+      "id": "PC20-D2",
+      "outer": false,
+      "stack": "64",
+      "input": "diff(sqrt(x^2+y^2)-abs(x),x)",
+      "exit": 0,
+      "result": "((x=0)? undef : 1/2*2*x*(sqrt(x^2+y^2))^-1-sign(x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000551183\nMAX_RSS_KB 30552\n",
+      "error": "At y=0 the entire original function is zero",
+      "pass": false
+    },
+    {
+      "id": "PC20-D2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(diff(sqrt(x^2+y^2)-abs(x),x))",
+      "exit": 0,
+      "result": "((x=0)? undef : 1/2*2*x*(sqrt(x^2+y^2))^-1-sign(x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000572872\nMAX_RSS_KB 30552\n",
+      "error": "At y=0 the entire original function is zero",
+      "pass": false
+    },
+    {
+      "id": "PC20-D2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(diff(sqrt(x^2+y^2)-abs(x),x))",
+      "exit": 0,
+      "result": "((x=0)? undef : 1/2*2*x*(sqrt(x^2+y^2))^-1-sign(x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000589642\nMAX_RSS_KB 30552\n",
+      "error": "At y=0 the entire original function is zero",
+      "pass": false
+    },
+    {
+      "id": "PC20-S1",
+      "outer": false,
+      "stack": "normal",
+      "input": "sqrt(x+sqrt(x^2-y^2))+sqrt(x-sqrt(x^2-y^2))",
+      "exit": 0,
+      "result": "sqrt(x+sqrt(x^2-y^2))+sqrt(x-sqrt(x^2-y^2))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000372636\nMAX_RSS_KB 30552\n",
+      "verification": {
+        "exact": true,
+        "normalized": false,
+        "method": "Direct precursor retains all original radicals. Original real domain is x>=|y|; explicit simplify must denest with the domain guard."
+      },
+      "pass": true,
+      "actual_domain_checks": [
+        {
+          "point": "[0,0]",
+          "expected": "0",
+          "exit": 0,
+          "result": "0"
+        },
+        {
+          "point": "[1,1]",
+          "expected": "2",
+          "exit": 0,
+          "result": "2"
+        },
+        {
+          "point": "[1,-1]",
+          "expected": "2",
+          "exit": 0,
+          "result": "2"
+        },
+        {
+          "point": "[2,0]",
+          "expected": "2",
+          "exit": 0,
+          "result": "2"
+        }
+      ]
+    },
+    {
+      "id": "PC20-S1",
+      "outer": false,
+      "stack": "64",
+      "input": "sqrt(x+sqrt(x^2-y^2))+sqrt(x-sqrt(x^2-y^2))",
+      "exit": 0,
+      "result": "sqrt(x+sqrt(x^2-y^2))+sqrt(x-sqrt(x^2-y^2))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000370115\nMAX_RSS_KB 30552\n",
+      "verification": {
+        "exact": true,
+        "normalized": false,
+        "method": "Direct precursor retains all original radicals. Original real domain is x>=|y|; explicit simplify must denest with the domain guard."
+      },
+      "pass": true,
+      "actual_domain_checks": [
+        {
+          "point": "[0,0]",
+          "expected": "0",
+          "exit": 0,
+          "result": "0"
+        },
+        {
+          "point": "[1,1]",
+          "expected": "2",
+          "exit": 0,
+          "result": "2"
+        },
+        {
+          "point": "[1,-1]",
+          "expected": "2",
+          "exit": 0,
+          "result": "2"
+        },
+        {
+          "point": "[2,0]",
+          "expected": "2",
+          "exit": 0,
+          "result": "2"
+        }
+      ]
+    },
+    {
+      "id": "PC20-S1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(sqrt(x+sqrt(x^2-y^2))+sqrt(x-sqrt(x^2-y^2)))",
+      "exit": 0,
+      "result": "sqrt(x+sqrt(x^2-y^2))+sqrt(x-sqrt(x^2-y^2))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000619362\nMAX_RSS_KB 30552\n",
+      "verification": {
+        "exact": true,
+        "normalized": false,
+        "method": "Direct precursor retains all original radicals. Original real domain is x>=|y|; explicit simplify must denest with the domain guard."
+      },
+      "pass": false,
+      "error": "Explicit simplify must normalize the atan branches"
+    },
+    {
+      "id": "PC20-S1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(sqrt(x+sqrt(x^2-y^2))+sqrt(x-sqrt(x^2-y^2)))",
+      "exit": 0,
+      "result": "sqrt(x+sqrt(x^2-y^2))+sqrt(x-sqrt(x^2-y^2))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000660982\nMAX_RSS_KB 30552\n",
+      "verification": {
+        "exact": true,
+        "normalized": false,
+        "method": "Direct precursor retains all original radicals. Original real domain is x>=|y|; explicit simplify must denest with the domain guard."
+      },
+      "pass": false,
+      "error": "Explicit simplify must normalize the atan branches"
+    },
+    {
+      "id": "PC20-P1",
+      "outer": false,
+      "stack": "normal",
+      "input": "cart2polar((x^2+y^2)^2=2*(x^2-y^2),[x,y],[r,theta])",
+      "exit": 0,
+      "result": "RAW r=(sqrt(2)*sqrt(cos(2*theta)))\nNODES 16",
+      "stderr": "Real polar radius: radicand >= 0; denominator != 0.\nSame Cartesian curve; origin retained. Angle labels at the origin may differ.\nSECONDS 0.000417475\n",
+      "verification": {
+        "exact": true,
+        "novel": false,
+        "method": "Historical lemniscate mechanism. Reduced real-radius chart includes cos(2theta)=0 endpoints, hence the origin and both lobes. It represents the Cartesian zero set, not every redundant polar pair for the origin."
+      },
+      "pass": true,
+      "actual_domain_checks": []
+    },
+    {
+      "id": "PC20-P1",
+      "outer": false,
+      "stack": "64",
+      "input": "cart2polar((x^2+y^2)^2=2*(x^2-y^2),[x,y],[r,theta])",
+      "exit": 0,
+      "result": "RAW r=(sqrt(2)*sqrt(cos(2*theta)))\nNODES 16",
+      "stderr": "Real polar radius: radicand >= 0; denominator != 0.\nSame Cartesian curve; origin retained. Angle labels at the origin may differ.\nSECONDS 0.000434404\n",
+      "verification": {
+        "exact": true,
+        "novel": false,
+        "method": "Historical lemniscate mechanism. Reduced real-radius chart includes cos(2theta)=0 endpoints, hence the origin and both lobes. It represents the Cartesian zero set, not every redundant polar pair for the origin."
+      },
+      "pass": true,
+      "actual_domain_checks": []
+    },
+    {
+      "id": "PC20-P1",
+      "outer": true,
+      "stack": "normal",
+      "input": "cart2polar((x^2+y^2)^2=2*(x^2-y^2),[x,y],[r,theta])",
+      "exit": 0,
+      "result": "RAW r=(sqrt(2)*sqrt(cos(2*theta)))\nNODES 16",
+      "stderr": "Real polar radius: radicand >= 0; denominator != 0.\nSame Cartesian curve; origin retained. Angle labels at the origin may differ.\nSECONDS 0.00131908\n",
+      "verification": {
+        "exact": true,
+        "novel": false,
+        "method": "Historical lemniscate mechanism. Reduced real-radius chart includes cos(2theta)=0 endpoints, hence the origin and both lobes. It represents the Cartesian zero set, not every redundant polar pair for the origin."
+      },
+      "pass": true,
+      "actual_domain_checks": []
+    },
+    {
+      "id": "PC20-P1",
+      "outer": true,
+      "stack": "64",
+      "input": "cart2polar((x^2+y^2)^2=2*(x^2-y^2),[x,y],[r,theta])",
+      "exit": 0,
+      "result": "RAW r=(sqrt(2)*sqrt(cos(2*theta)))\nNODES 16",
+      "stderr": "Real polar radius: radicand >= 0; denominator != 0.\nSame Cartesian curve; origin retained. Angle labels at the origin may differ.\nSECONDS 0.00122729\n",
+      "verification": {
+        "exact": true,
+        "novel": false,
+        "method": "Historical lemniscate mechanism. Reduced real-radius chart includes cos(2theta)=0 endpoints, hence the origin and both lobes. It represents the Cartesian zero set, not every redundant polar pair for the origin."
+      },
+      "pass": true,
+      "actual_domain_checks": []
+    }
+  ],
+  "polar_probe_sha256": "d4650a4393ceefe4ebf9afd2b3b1c28f01ddb180a19d60da3829fd35afff900e",
+  "cases": [
+    {
+      "id": "PC20-I1",
+      "all_four_pass": false
+    },
+    {
+      "id": "PC20-I2",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC20-D1",
+      "all_four_pass": false
+    },
+    {
+      "id": "PC20-D2",
+      "all_four_pass": false
+    },
+    {
+      "id": "PC20-S1",
+      "all_four_pass": false
+    },
+    {
+      "id": "PC20-P1",
+      "all_four_pass": true
+    }
+  ]
+}

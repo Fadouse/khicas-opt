@@ -1,0 +1,128 @@
+{
+  "cases": [
+    {
+      "id": "PC20-I1",
+      "type": "integral",
+      "input": "simplify(integrate(1/(x^2+2*a*x+1),x))",
+      "conditions": [
+        "x and a are finite real numbers; integrate with respect to x, treating a as a fixed real parameter. ln is the strictly real logarithm, sqrt is nonnegative, and atan has values in (-pi/2,pi/2). Determine all parameter regimes and the complete original x-domain in each regime.",
+        "Require an explicit real primitive on every connected original-domain component, including the discriminant-zero cases. Equivalent guarded formulas and componentwise constants are allowed. No unevaluated integral or tacit assumption that a generic parameter avoids degeneracy is acceptable.",
+        "Check direct operation and outer simplify, each with both the normal calculation stack and a 64 KiB calculation stack. Every invocation has a fixed 10-second external wall-clock timeout and a 65536-byte output cap. Preserve the existing finite CG50 stack, heap and simplification budgets; do not enlarge them or retry with larger limits. No crash, stack overflow, timeout or output-cap overrun is acceptable."
+      ],
+      "expected": {
+        "expression": "piecewise(x^2+2*a*x+1==0,undef,a^2<1,atan((x+a)/sqrt(1-a^2))/sqrt(1-a^2),a^2==1,-1/(x+a),ln(abs((x+a-sqrt(a^2-1))/(x+a+sqrt(a^2-1))))/(2*sqrt(a^2-1)))",
+        "properties": [
+          "For a^2<1, the exact original domain is the entire real line, with no holes. For a^2=1, it is the real line with x=-a removed. For a^2>1, remove exactly x=-a-sqrt(a^2-1) and x=-a+sqrt(a^2-1). These give respectively one, two and three connected x-components.",
+          "The derivative of the displayed primitive equals 1/(x^2+2*a*x+1) at every allowed x for every real a. A parameter-independent atan-only formula omits the real-pole regimes, and a log-only formula with sqrt(a^2-1) omits the strictly positive quadratic regime.",
+          "All finite component boundaries are excluded original poles; none is an included endpoint requiring an original endpoint quotient. At a^2=1 the pole is double; at a^2>1 both poles are simple. There is no finite continuous primitive extension through any pole and no mandatory connection of constants across different components.",
+          "On a connected component only one additive constant is allowed. Constants may depend on a; continuity of a particular normalization as a crosses plus or minus one is not a requirement. The parameter cases are not x-piece joins."
+        ]
+      },
+      "reason": "Complete the square: Q=(x+a)^2+1-a^2. If a^2<1, put c=sqrt(1-a^2)>0; Q is strictly positive and d[atan((x+a)/c)/c]/dx=1/Q. If a^2=1, Q=(x+a)^2 and d[-1/(x+a)]/dx=1/Q wherever x!=-a. If a^2>1, put b=sqrt(a^2-1)>0 and u=x+a. Then 1/(u^2-b^2)=(1/(2*b))*(1/(u-b)-1/(u+b)); integrate the real logarithmic derivatives to obtain ln(abs((u-b)/(u+b)))/(2*b). Its two logarithm factors are nonzero precisely away from the original two poles. At a simple pole the logarithmic primitive diverges; at the double pole -1/(x+a) diverges. Thus no original endpoint quotient or finite primitive join is available there. The original domain proof and derivative checks cover all real parameters, including a=1 and a=-1. Historical rational simple-pole, repeated-pole and irreducible-quadratic questions each fix a regime; the parameter-agent corpus concerns improper transform integrals. This question newly requires the three real primitive types and changing domain topology within one small parameterized input, rather than changing coefficients within one previously fixed regime."
+    },
+    {
+      "id": "PC20-I2",
+      "type": "integral",
+      "input": "simplify(integrate(asin(x)/sqrt(1+x),x))",
+      "conditions": [
+        "x is finite real, sqrt is nonnegative, and asin has its principal real values in [-pi/2,pi/2]. Establish the complete original domain, including the original denominator exclusion.",
+        "Require an explicit primitive on the complete original component with its assigned value and actual original one-sided difference quotient at the included endpoint. Distinguish a finite limiting value at an excluded endpoint from an original-domain value. No unevaluated integral is acceptable.",
+        "Check direct operation and outer simplify, each with both the normal calculation stack and a 64 KiB calculation stack. Every invocation has a fixed 10-second external wall-clock timeout and a 65536-byte output cap. Preserve the existing finite CG50 stack, heap and simplification budgets; do not enlarge them or retry with larger limits. No crash, stack overflow, timeout or output-cap overrun is acceptable."
+      ],
+      "expected": {
+        "expression": "piecewise(x<=-1,undef,x>1,undef,2*sqrt(1+x)*asin(x)+4*sqrt(1-x))",
+        "properties": [
+          "The exact original domain is (-1,1]. The asin restriction is -1<=x<=1; the denominator sqrt(1+x) removes x=-1. There are no interior holes. At the included endpoint x=1, the original integrand is pi/(2*sqrt(2)).",
+          "The displayed normalization has F(1)=pi*sqrt(2), and its actual original left difference quotient at one tends to pi/(2*sqrt(2)). Ordinary two-sided differentiation within the unextended domain applies on (-1,1). No right derivative at one is asserted.",
+          "The primitive is one connected function on (-1,1] with one additive constant. The separate derivative terms with denominators sqrt(1-x) cancel in the interior; their individual divergences cannot determine the quotient at one.",
+          "As x tends to -1 from above, the displayed primitive tends to 4*sqrt(2). This does not fill the original integrand hole at -1. If one separately chooses that continuous extension, its right difference quotient tends to negative infinity; it is not an original finite endpoint derivative."
+        ]
+      },
+      "reason": "The principal real asin requires [-1,1], and the real nonzero denominator requires x>-1, hence exactly (-1,1]. On (-1,1), integration by parts with u=asin(x), dv=dx/sqrt(1+x), v=2*sqrt(1+x), gives F=2*sqrt(1+x)*asin(x)-2*integrate(1/sqrt(1-x),x)=2*sqrt(1+x)*asin(x)+4*sqrt(1-x). Here sqrt(1-x^2)=sqrt(1-x)*sqrt(1+x) is valid because both factors are positive in the interior. To prove the included endpoint quotient directly, put x=cos(t), t>0 tending to zero. Then asin(x)=pi/2-t, sqrt(1+x)=sqrt(2)*cos(t/2), sqrt(1-x)=sqrt(2)*sin(t/2). Substitution in the original F gives F(cos(t))-F(1)=-pi*sqrt(2)*t^2/8+sqrt(2)*t^3/6+O(t^4), while cos(t)-1=-t^2/2+O(t^4). Their quotient tends to pi*sqrt(2)/4=pi/(2*sqrt(2)); this uses assigned original values, not a limit of F prime. At the excluded point put x=-1+h, h>0: asin(-1+h)=-pi/2+sqrt(2*h)+O(h^(3/2)), which gives F(-1+h)=4*sqrt(2)-pi*sqrt(h)+sqrt(2)*h+O(h^2). Thus the finite limiting value does not yield a finite derivative for a separately defined extension. Historical PC17-D1 differentiates asin(sqrt(x)) squared; PC17-I2 integrates a rationalized algebraic-root sum; PC19-I2 has an exterior inverse-hyperbolic logarithm and reciprocal-square weight. This new integral uses a principal asin with a one-sided radical weight, producing one removed endpoint and a distinct included endpoint whose singular derivative terms cancel."
+    },
+    {
+      "id": "PC20-D1",
+      "type": "derivative",
+      "input": "simplify(diff(piecewise(x==0,0,x^2*floor(1/x)),x))",
+      "conditions": [
+        "x is finite real and floor is the greatest-integer function. piecewise selects its first true branch lazily, so the original value at zero is assigned before 1/x is evaluated.",
+        "Determine the full original and ordinary finite derivative domains. Cover every jump point and the accumulation point zero. Prove the original left and right difference quotients at those points; substituting into an off-point derivative formula or taking its limit does not suffice.",
+        "Check direct operation and outer simplify, each with both the normal calculation stack and a 64 KiB calculation stack. Every invocation has a fixed 10-second external wall-clock timeout and a 65536-byte output cap. Preserve the existing finite CG50 stack, heap and simplification budgets; do not enlarge them or retry with larger limits. No crash, stack overflow, timeout or output-cap overrun is acceptable."
+      ],
+      "expected": {
+        "expression": "piecewise(x==0,1,1/x==floor(1/x),undef,2*x*floor(1/x))",
+        "properties": [
+          "The original function is defined on the whole real line. Its complete ordinary finite derivative domain is the real line minus {1/n: n is a nonzero integer}; zero belongs to that derivative domain.",
+          "At zero both original difference quotients tend to one and f(0)=0. At each a=1/n with nonzero integer n, f(a)=1/n, the original left quotient tends to 2, and the original right quotient tends to negative infinity. Therefore no such reciprocal-integer point has a finite ordinary derivative.",
+          "At every nonzero x for which 1/x is not an integer, floor(1/x) is locally constant, and the derivative is 2*x*floor(1/x). This covers positive and negative x and all reciprocal-integer intervals.",
+          "Along nonzero differentiability points approaching zero, the displayed off-zero derivative tends to 2, although f prime at zero is 1. There are excluded derivative points accumulating at zero, so extending that off-zero formula by its limit would give the wrong answer.",
+          "The piecewise definition removes the potential original division by zero only at its explicitly assigned branch. There are no other original holes or finite endpoints; reciprocal-integer points are included discontinuities of the original function."
+        ]
+      },
+      "reason": "For h!=0 write q(h)=1/h-floor(1/h), so 0<=q(h)<1 even when h is negative. The original quotient at zero is [h^2*floor(1/h)-0]/h=h*floor(1/h)=1-h*q(h), whose distance from one is at most abs(h). Both sides therefore give derivative one, and f is continuous at zero. At a=1/n, n a nonzero integer, 1/x is decreasing on a neighborhood avoiding zero. Thus for sufficiently small h<0 floor(1/(a+h))=n, whereas for h>0 it equals n-1. The original left quotient is [(a+h)^2*n-a^2*n]/h=2+n*h, tending to 2. The right quotient is [(a+h)^2*(n-1)-a^2*n]/h=-a^2/h+2*a*(n-1)+(n-1)*h, tending to negative infinity. Elsewhere off zero the floor is locally constant, proving the derivative formula and exact domain. Finally x*floor(1/x)=1-x*q(x), so the off-zero derivative tends to 2 wherever it exists; this independently highlights why that limit cannot replace the original quotient. PC16-D2 has jumps of floor(x) on a discrete lattice canceled by matching polynomial endpoint factors, and PC3-D2 has a continuously oscillating sin(1/x) piece. Here genuine nonzero jumps accumulate at an included differentiability point, and its derivative differs from the nearby off-jump limit. Neither prior mechanism is reproduced by a coefficient change."
+    },
+    {
+      "id": "PC20-D2",
+      "type": "derivative",
+      "input": "simplify(diff(sqrt(x^2+y^2)-abs(x),x))",
+      "conditions": [
+        "x and y are arbitrary finite real numbers; differentiate with respect to x holding y fixed. sqrt is the nonnegative real square root. Determine the full original real domain and the complete locus of finite ordinary x-derivatives.",
+        "Cover the parameter value y=0 separately from y!=0. At x=0 use the actual assigned original value and both original difference quotients; a formal chain rule at a zero radicand is not sufficient. piecewise selects its first true branch lazily.",
+        "Check direct operation and outer simplify, each with both the normal calculation stack and a 64 KiB calculation stack. Every invocation has a fixed 10-second external wall-clock timeout and a 65536-byte output cap. Preserve the existing finite CG50 stack, heap and simplification budgets; do not enlarge them or retry with larger limits. No crash, stack overflow, timeout or output-cap overrun is acceptable."
+      ],
+      "expected": {
+        "expression": "piecewise(y==0,0,x==0,undef,x/sqrt(x^2+y^2)-sign(x))",
+        "properties": [
+          "The original domain is the entire real (x,y)-plane, with no denominator exclusions or finite domain endpoints. The derivative locus is {y=0} union {x!=0}. Its only missing points are x=0,y!=0.",
+          "For y=0 the original function is identically zero for every x, so its derivative is zero on the entire line, including the origin where an unsimplified chain rule would contain 0/0.",
+          "For every fixed y!=0, at x=0 the original value is abs(y). The original left x-derivative is +1 and the original right x-derivative is -1. These unequal finite quotients exclude an ordinary derivative.",
+          "For x!=0 the formula x/sqrt(x^2+y^2)-sign(x) applies and automatically equals zero when y=0. A blanket exclusion of the zero radicand would incorrectly remove the origin, while a blanket cancellation of absolute-value cusps would incorrectly include x=0,y!=0."
+        ]
+      },
+      "reason": "Because x^2+y^2>=0 for all real pairs, every original term is real and finite. If y=0, sqrt(x^2)=abs(x), so the whole original function is exactly zero; all its original difference quotients are zero. If y!=0, the square root is strictly positive, and for x!=0 ordinary differentiation gives x/sqrt(x^2+y^2)-sign(x). At x=0, retain f(0,y)=abs(y) and rationalize the original quotient: [sqrt(h^2+y^2)-abs(h)-abs(y)]/h=h/(sqrt(h^2+y^2)+abs(y))-sign(h). Since y is fixed and nonzero, the first term tends to zero; the left and right limits are therefore +1 and -1. This proves every part of the derivative locus from original values. Prior scalar absolute-value derivative cases vary contact order at isolated x-values; PC19-D2 derives a flat half-line from a nested root. This question instead has a parameter locus on which an entire norm-minus-cusp function vanishes, while an arbitrarily small nonzero transverse parameter restores a cusp. It is not a constant variant of those scalar contact problems."
+    },
+    {
+      "id": "PC20-S1",
+      "type": "simplify",
+      "input": "simplify(sqrt(x+sqrt(x^2-y^2))+sqrt(x-sqrt(x^2-y^2)))",
+      "conditions": [
+        "x and y are arbitrary finite real numbers, and all square roots are nonnegative real square roots. Determine the exact original domain before denesting radicals.",
+        "Return a denested exact value with its complete original domain, or an equivalent guarded expression. Cover both signs of y and all included boundary points; do not enlarge the original domain merely because the simplified radical is real on a larger set.",
+        "Check direct operation and outer simplify, each with both the normal calculation stack and a 64 KiB calculation stack. Every invocation has a fixed 10-second external wall-clock timeout and a 65536-byte output cap. Preserve the existing finite CG50 stack, heap and simplification budgets; do not enlarge them or retry with larger limits. No crash, stack overflow, timeout or output-cap overrun is acceptable."
+      ],
+      "expected": {
+        "expression": "piecewise(x<abs(y),undef,sqrt(2*(x+abs(y))))",
+        "properties": [
+          "The exact original real domain is the closed cone x>=abs(y). It has no original denominators or deleted holes. Both boundary rays x=abs(y), including the origin, belong to the domain.",
+          "On y>=0 within the domain the value is sqrt(2*(x+y)); on y<=0 within the domain it is sqrt(2*(x-y)). These agree on y=0, where x>=0 and the value is sqrt(2*x).",
+          "On x=abs(y)>0 both outer roots equal sqrt(x), so the sum is 2*sqrt(x). At (0,0) the exact original value is zero. All branches join continuously on the closed original domain.",
+          "The inner condition x^2>=y^2 alone also permits a negative cone, but every point of that cone except the origin fails at least one outer real-root condition. For example (-2,1) is excluded. The unguarded denested formula is also real at (0,1), which is outside the original domain and must remain excluded.",
+          "This is a two-variable value simplification; no endpoint or partial derivative is requested."
+        ]
+      },
+      "reason": "Let s=sqrt(x^2-y^2). Its existence requires x^2>=y^2. Both outer roots additionally require x+s>=0 and x-s>=0, hence x>=s>=0; combined with the inner condition this implies x>=abs(y). Conversely if x>=abs(y), then 0<=s<=x, so both outer roots exist. This proves exact necessity and sufficiency. Write A=sqrt(x+s) and B=sqrt(x-s), both nonnegative. On the established domain, AB=sqrt((x+s)*(x-s))=sqrt(x^2-s^2)=sqrt(y^2)=abs(y). Thus (A+B)^2=2*x+2*abs(y), and nonnegativity of A+B selects the positive root sqrt(2*(x+abs(y))). Boundary and y-sign statements follow by substitution into the original roots, not by extending the simplified formula beyond its original cone. Historical PC12-S1 reduces square roots of literal squares to sums of absolute values; PC19-D2 has a single asymmetric nested radicand x+sqrt(x^2). This new symmetric pair requires multiplying conjugate outer radicands, deriving an abs(y) cross term, and preserving the simultaneous three-radical domain. It is a distinct denesting identity rather than a coefficient change."
+    },
+    {
+      "id": "PC20-P1",
+      "type": "polar",
+      "input": "cart2polar((x^2+y^2)^2=2*(x^2-y^2),[x,y],[r,theta])",
+      "conditions": [
+        "x and y are finite real Cartesian coordinates. Use x=r*cos(theta), y=r*sin(theta), canonical r>=0, and real theta in radians modulo 2*pi. If a returned representation permits signed radii, explicitly justify its equivalence in Cartesian coverage.",
+        "Accept an equivalent implicit polar equation or a complete guarded branch representation. Preserve every original curve component and the origin. A radius factor can be canceled only if its zero set remains covered. Do not assume that one unguarded r=f(theta) describes every polar solution.",
+        "The actual polar_output_probe.cc invocation is mode cart with argument ((x^2+y^2)^2=2*(x^2-y^2),[x,y],[r,theta]). Check direct output and KHICAS_OUTER_SIMPLIFY=1, each on the normal stack and with KHICAS_TEST_STACK_KIB=64. Every invocation has a fixed 10-second external wall-clock timeout and 65536-byte output cap; do not inherit longer display-script limits or enlarge existing stack, heap or simplification budgets. No crash, stack overflow, timeout or output-cap overrun is acceptable."
+      ],
+      "expected": {
+        "expression": "r^2*(r^2-2*cos(2*theta))=0",
+        "properties": [
+          "The original polynomial equation is defined on the entire real Cartesian plane and has no original denominator holes. The curve consists of two bounded lobes meeting at the included origin; it is a quartic curve, not a conic or a product of a separate line and circle.",
+          "The displayed implicit equation, with r>=0 and real theta modulo 2*pi, exactly preserves every canonical polar pair obtained by substitution. Expanded or otherwise equivalent implicit forms are acceptable.",
+          "At every theta, r=0 is a solution. Nonzero solutions exist exactly when cos(2*theta)>0 and then have the unique positive radius sqrt(2*cos(2*theta)). Thus the positive-radius sectors are (-pi/4,pi/4) and (3*pi/4,5*pi/4) modulo 2*pi.",
+          "The angular endpoints theta=pi/4+k*pi/2 have only r=0 and are included. In the sectors cos(2*theta)<0 there is also only r=0. Squaring a radius formula must not introduce real nonzero radii in those sectors.",
+          "A complete canonical-pair representation is the union of r=0 for all angles and r=sqrt(2*cos(2*theta)) where cos(2*theta)>=0. A representation using just the latter guarded formula is acceptable as a Cartesian curve parametrization if it explicitly includes its angular endpoints: the origin is then represented at those endpoints. It must not claim equality of all canonical polar pairs after canceling r^2.",
+          "For each fixed angle the solution radii form a finite set; there is no full ray with arbitrary positive radius in this particular curve. The angular endpoints join the two lobes at the origin, with tangent lines y=x and y=-x. The points (sqrt(2),0), (-sqrt(2),0) and (0,0) belong, while (0,1) and (2,0) do not. No scalar derivative is requested."
+        ]
+      },
+      "reason": "Substitute x=r*cos(theta), y=r*sin(theta). The left side is r^4 and the right side is 2*r^2*(cos(theta)^2-sin(theta)^2)=2*r^2*cos(2*theta). Keeping the common factor yields exactly r^2*(r^2-2*cos(2*theta))=0 in both directions. Under r>=0, r=0 solves the equation at every angle; when r>0 cancellation is legitimate and gives r^2=2*cos(2*theta), which requires strictly positive cosine and determines the unique positive root. The cosine sign gives the two stated open positive-radius sectors, and their four boundary angles give r=0. Including those endpoints therefore retains the origin even for a reduced Cartesian parametrization, although that reduced formula does not encode every polar representation of the origin. Each sector produces a connected lobe from the origin to radius sqrt(2) on its horizontal axis and back to the origin. Near the origin the lowest-degree part of the Cartesian equation is -2*(x^2-y^2), giving the two tangent lines, also obtained from the four limiting sector angles. There are no arbitrary-radius angular branches because a fixed-angle polynomial r^2*(r^2-2*cos(2*theta)) is never identically zero in r. With signed radii, a negative solution represents the positive radius at theta+pi, where cos(2*theta) is unchanged, so Cartesian coverage is the same after stating that convention. The conic corpus stops at degree two, and PC19-P1 uses a reducible degree-three line-times-circle equation with whole-ray components. This question instead has a quartic two-lobe curve, a radius-square factor caused by the origin singularity, and sector-restricted branches meeting there. No historical question input has this curve mechanism."
+    }
+  ]
+}

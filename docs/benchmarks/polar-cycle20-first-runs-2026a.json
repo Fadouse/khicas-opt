@@ -1,0 +1,225 @@
+{
+  "before_ref": "860761e",
+  "scope": "Immutable checkpoint 19 first execution; completion is not mathematical acceptance.",
+  "corpus_sha256": "254c898d382fd271a5dfdb269e090e31af439ab8f6a37f9bd7825c8d2b654332",
+  "probe_sha256": "b5469ca7b5b1d1b825bd730335db653f2f9e928bb1fc1a824c8658610df6d77d",
+  "polar_probe_sha256": "d4650a4393ceefe4ebf9afd2b3b1c28f01ddb180a19d60da3829fd35afff900e",
+  "runs": [
+    {
+      "id": "PC20-I1",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(1/(x^2+2*a*x+1),x)",
+      "exit": 0,
+      "result": "2/(2*sqrt(-a^2+1))*atan((a+x)/sqrt(-a^2+1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00148939\nMAX_RSS_KB 20364\n"
+    },
+    {
+      "id": "PC20-I1",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(1/(x^2+2*a*x+1),x)",
+      "exit": 0,
+      "result": "2/(2*sqrt(-a^2+1))*atan((a+x)/sqrt(-a^2+1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00151409\nMAX_RSS_KB 30552\n"
+    },
+    {
+      "id": "PC20-I1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(1/(x^2+2*a*x+1),x))",
+      "exit": 0,
+      "result": "2/(2*sqrt(-a^2+1))*atan((a+x)/sqrt(-a^2+1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00131134\nMAX_RSS_KB 30552\n"
+    },
+    {
+      "id": "PC20-I1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(1/(x^2+2*a*x+1),x))",
+      "exit": 0,
+      "result": "2/(2*sqrt(-a^2+1))*atan((a+x)/sqrt(-a^2+1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00139902\nMAX_RSS_KB 30552\n"
+    },
+    {
+      "id": "PC20-I2",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(asin(x)/sqrt(1+x),x)",
+      "exit": 0,
+      "result": "2*(sqrt(x+1)*asin(x)+2*(-sqrt(2)+sqrt(-x+1)))",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(t_nostep)]\nPARSER_CALLS 1\nSECONDS 0.00749672\nMAX_RSS_KB 30552\n"
+    },
+    {
+      "id": "PC20-I2",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(asin(x)/sqrt(1+x),x)",
+      "exit": 0,
+      "result": "2*(sqrt(x+1)*asin(x)+2*(-sqrt(2)+sqrt(-x+1)))",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(t_nostep)]\nPARSER_CALLS 1\nSECONDS 0.00663881\nMAX_RSS_KB 30552\n"
+    },
+    {
+      "id": "PC20-I2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(asin(x)/sqrt(1+x),x))",
+      "exit": 0,
+      "result": "4*sqrt(-x+1)-4*sqrt(2)+2*sqrt(x+1)*asin(x)",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(t_nostep)]\nPARSER_CALLS 1\nSECONDS 0.00750689\nMAX_RSS_KB 30552\n"
+    },
+    {
+      "id": "PC20-I2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(asin(x)/sqrt(1+x),x))",
+      "exit": 0,
+      "result": "4*sqrt(-x+1)-4*sqrt(2)+2*sqrt(x+1)*asin(x)",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(t_nostep)]\nPARSER_CALLS 1\nSECONDS 0.00778666\nMAX_RSS_KB 30552\n"
+    },
+    {
+      "id": "PC20-D1",
+      "outer": false,
+      "stack": "normal",
+      "input": "diff(piecewise(x==0,0,x^2*floor(1/x)),x)",
+      "exit": 0,
+      "result": "piecewise(x=0,0,2*x*floor(1/x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000444664\nMAX_RSS_KB 30552\n"
+    },
+    {
+      "id": "PC20-D1",
+      "outer": false,
+      "stack": "64",
+      "input": "diff(piecewise(x==0,0,x^2*floor(1/x)),x)",
+      "exit": 0,
+      "result": "piecewise(x=0,0,2*x*floor(1/x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000441154\nMAX_RSS_KB 30552\n"
+    },
+    {
+      "id": "PC20-D1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(diff(piecewise(x==0,0,x^2*floor(1/x)),x))",
+      "exit": 0,
+      "result": "piecewise(x=0,0,2*x*floor(1/x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000454625\nMAX_RSS_KB 30552\n"
+    },
+    {
+      "id": "PC20-D1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(diff(piecewise(x==0,0,x^2*floor(1/x)),x))",
+      "exit": 0,
+      "result": "piecewise(x=0,0,2*x*floor(1/x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000438615\nMAX_RSS_KB 30552\n"
+    },
+    {
+      "id": "PC20-D2",
+      "outer": false,
+      "stack": "normal",
+      "input": "diff(sqrt(x^2+y^2)-abs(x),x)",
+      "exit": 0,
+      "result": "((x=0)? undef : 1/2*2*x*(sqrt(x^2+y^2))^-1-sign(x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000576003\nMAX_RSS_KB 30552\n"
+    },
+    {
+      "id": "PC20-D2",
+      "outer": false,
+      "stack": "64",
+      "input": "diff(sqrt(x^2+y^2)-abs(x),x)",
+      "exit": 0,
+      "result": "((x=0)? undef : 1/2*2*x*(sqrt(x^2+y^2))^-1-sign(x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000551183\nMAX_RSS_KB 30552\n"
+    },
+    {
+      "id": "PC20-D2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(diff(sqrt(x^2+y^2)-abs(x),x))",
+      "exit": 0,
+      "result": "((x=0)? undef : 1/2*2*x*(sqrt(x^2+y^2))^-1-sign(x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000572872\nMAX_RSS_KB 30552\n"
+    },
+    {
+      "id": "PC20-D2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(diff(sqrt(x^2+y^2)-abs(x),x))",
+      "exit": 0,
+      "result": "((x=0)? undef : 1/2*2*x*(sqrt(x^2+y^2))^-1-sign(x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000589642\nMAX_RSS_KB 30552\n"
+    },
+    {
+      "id": "PC20-S1",
+      "outer": false,
+      "stack": "normal",
+      "input": "sqrt(x+sqrt(x^2-y^2))+sqrt(x-sqrt(x^2-y^2))",
+      "exit": 0,
+      "result": "sqrt(x+sqrt(x^2-y^2))+sqrt(x-sqrt(x^2-y^2))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000372636\nMAX_RSS_KB 30552\n"
+    },
+    {
+      "id": "PC20-S1",
+      "outer": false,
+      "stack": "64",
+      "input": "sqrt(x+sqrt(x^2-y^2))+sqrt(x-sqrt(x^2-y^2))",
+      "exit": 0,
+      "result": "sqrt(x+sqrt(x^2-y^2))+sqrt(x-sqrt(x^2-y^2))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000370115\nMAX_RSS_KB 30552\n"
+    },
+    {
+      "id": "PC20-S1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(sqrt(x+sqrt(x^2-y^2))+sqrt(x-sqrt(x^2-y^2)))",
+      "exit": 0,
+      "result": "sqrt(x+sqrt(x^2-y^2))+sqrt(x-sqrt(x^2-y^2))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000619362\nMAX_RSS_KB 30552\n"
+    },
+    {
+      "id": "PC20-S1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(sqrt(x+sqrt(x^2-y^2))+sqrt(x-sqrt(x^2-y^2)))",
+      "exit": 0,
+      "result": "sqrt(x+sqrt(x^2-y^2))+sqrt(x-sqrt(x^2-y^2))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000660982\nMAX_RSS_KB 30552\n"
+    },
+    {
+      "id": "PC20-P1",
+      "outer": false,
+      "stack": "normal",
+      "input": "cart2polar((x^2+y^2)^2=2*(x^2-y^2),[x,y],[r,theta])",
+      "exit": 0,
+      "result": "RAW r=(sqrt(2)*sqrt(cos(2*theta)))\nNODES 16",
+      "stderr": "Real polar radius: radicand >= 0; denominator != 0.\nSame Cartesian curve; origin retained. Angle labels at the origin may differ.\nSECONDS 0.000417475\n"
+    },
+    {
+      "id": "PC20-P1",
+      "outer": false,
+      "stack": "64",
+      "input": "cart2polar((x^2+y^2)^2=2*(x^2-y^2),[x,y],[r,theta])",
+      "exit": 0,
+      "result": "RAW r=(sqrt(2)*sqrt(cos(2*theta)))\nNODES 16",
+      "stderr": "Real polar radius: radicand >= 0; denominator != 0.\nSame Cartesian curve; origin retained. Angle labels at the origin may differ.\nSECONDS 0.000434404\n"
+    },
+    {
+      "id": "PC20-P1",
+      "outer": true,
+      "stack": "normal",
+      "input": "cart2polar((x^2+y^2)^2=2*(x^2-y^2),[x,y],[r,theta])",
+      "exit": 0,
+      "result": "RAW r=(sqrt(2)*sqrt(cos(2*theta)))\nNODES 16",
+      "stderr": "Real polar radius: radicand >= 0; denominator != 0.\nSame Cartesian curve; origin retained. Angle labels at the origin may differ.\nSECONDS 0.00131908\n"
+    },
+    {
+      "id": "PC20-P1",
+      "outer": true,
+      "stack": "64",
+      "input": "cart2polar((x^2+y^2)^2=2*(x^2-y^2),[x,y],[r,theta])",
+      "exit": 0,
+      "result": "RAW r=(sqrt(2)*sqrt(cos(2*theta)))\nNODES 16",
+      "stderr": "Real polar radius: radicand >= 0; denominator != 0.\nSame Cartesian curve; origin retained. Angle labels at the origin may differ.\nSECONDS 0.00122729\n"
+    }
+  ]
+}

@@ -3267,12 +3267,55 @@ namespace giac {
     return false;
   }
 
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static bool simplify_conjugate_roots(const gen &g,gen &result,GIAC_CONTEXT){
+    if(complex_mode(contextptr) || complex_variables(contextptr) || !g.is_symb_of_sommet(at_plus) || taille(g,97)>96)return false;
+    const gen &f=g._SYMBptr->feuille;
+    if(f.type!=_VECT || f._VECTptr->size()!=2)return false;
+    gen radicands[2];
+    for(unsigned j=0;j<2;++j){
+      const gen &root=f[j];
+      if(root.is_symb_of_sommet(at_sqrt))radicands[j]=root._SYMBptr->feuille;
+      else if(root.is_symb_of_sommet(at_pow) && root._SYMBptr->feuille.type==_VECT && root._SYMBptr->feuille._VECTptr->size()==2 && root._SYMBptr->feuille[1]==plus_one_half)radicands[j]=root._SYMBptr->feuille[0];
+      else return false;
+    }
+    vecteur roots=mergevecteur(lop(radicands[0],at_sqrt),lop(radicands[0],at_pow));
+    for(unsigned j=0;j<roots.size();++j){
+      gen W;
+      if(roots[j].is_symb_of_sommet(at_sqrt))W=roots[j]._SYMBptr->feuille;
+      else {const gen &v=roots[j]._SYMBptr->feuille;if(v.type!=_VECT || v._VECTptr->size()!=2 || v[1]!=plus_one_half)continue;W=v[0];}
+      unsigned budget=128;equation_polynomial_budget wb,ub,vb;
+      if(!equation_polynomial_bound(W,budget,0,wb) || wb.degree>4 || wb.terms>16)continue;
+      gen B,U;
+      if(!is_linear_wrt(radicands[0],roots[j],B,U,contextptr) || !equation_rational(B) || is_zero(B) ||
+         !equation_polynomial_bound(U,budget,0,ub) || ub.degree>2 || ub.terms>8 ||
+         !is_zero(im(U,contextptr)) || !is_zero(im(W,contextptr)) ||
+         !is_zero(ratnormal(radicands[1]-U+B*roots[j],contextptr)))continue;
+      gen V=ratnormal(U*U-B*B*W,contextptr);
+      if(!equation_polynomial_bound(V,budget,0,vb) || vb.terms>16)continue;
+      // The exact real domain is V>=0 and U>=sqrt(V), equivalent to
+      // W>=0 and both outer radicands nonnegative (B is nonzero).
+      gen magnitude=symbolic(at_sqrt,V);
+      bool square=false;
+      if(V.is_symb_of_sommet(at_pow) && V._SYMBptr->feuille.type==_VECT && V._SYMBptr->feuille._VECTptr->size()==2){
+        const gen &v=V._SYMBptr->feuille;
+        if(v[1].type==_INT_ && v[1].val>0 && v[1].val%2==0){magnitude=symbolic(at_abs,pow(v[0],v[1].val/2,contextptr));square=true;}
+      }
+      gen value=symbolic(at_sqrt,2*(U+magnitude));
+      value=symbolic(at_when,makesequence(symbolic(at_inferieur_strict,makesequence(U,magnitude)),undef,value));
+      result=square?value:gen(symbolic(at_when,makesequence(symbolic(at_inferieur_strict,makesequence(V,0)),undef,value)));return true;
+    }
+    return false;
+  }
+
   gen _simplify(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     // A conditional value is a lazy branch boundary. Evaluating or
     // normalizing both branches can enter an undefined Gamma/log branch.
     if(args.is_symb_of_sommet(at_when) || args.is_symb_of_sommet(at_piecewise))return args;
-    gen atan_addition;if(simplify_atan_addition(args,atan_addition,contextptr))return atan_addition;
+    gen atan_addition;if(simplify_conjugate_roots(args,atan_addition,contextptr) || simplify_atan_addition(args,atan_addition,contextptr))return atan_addition;
     if(simplify_root_domain(args))return args;
     // surd2pow's algebraic surrogate may be assumed nonnegative while a
     // real odd root changes sign. Keep real logarithm magnitudes intact.

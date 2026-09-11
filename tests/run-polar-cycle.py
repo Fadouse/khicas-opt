@@ -33,24 +33,27 @@ for c in cases:
     if saved:
      row.update(next(r for r in saved if r['id']==c['id'] and r['outer']==outer and r['stack']==stack))
     else:
-     r=subprocess.run(command,capture_output=True,text=True,env=env,timeout=10 if c['id'] in ('PC12-R1','PC13-R1','PC14-R1','PC15-R1','PC16-R1','PC17-R1','PC18-R1') or c['id'].startswith(('PC18-','PC19-')) else 12)
+     r=subprocess.run(command,capture_output=True,text=True,env=env,timeout=10 if c['id'] in ('PC12-R1','PC13-R1','PC14-R1','PC15-R1','PC16-R1','PC17-R1','PC18-R1') or c['id'].startswith(('PC18-','PC19-','PC20-')) else 12)
      row.update(exit=r.returncode,result=r.stdout.strip(),stderr=r.stderr)
     assert row['exit']==0,(row['exit'],row['result'][:400])
-    if c['id'].startswith(('PC18-','PC19-')):assert len(row['result'].encode())<=65536,'Output budget exceeded'
+    if c['id'].startswith(('PC18-','PC19-','PC20-')):assert len(row['result'].encode())<=65536,'Output budget exceeded'
     key=(c['id'],row['result'])
     if key not in cache:cache[key]=verify(c,row['result'])
     row['verification']=cache[key];row['pass']=True
-    if c['id']=='PC19-S1' and outer:assert row['verification'].get('normalized',False),'Explicit simplify must normalize the atan branches'
+    if c['id'] in ('PC19-S1','PC20-S1') and outer:assert row['verification'].get('normalized',False),'Explicit simplify must produce the proved guarded normal form'
     if c['id'].startswith('PC18-'):
      from polar_cycle18_reference import actual_checks
      row['actual_domain_checks']=actual_checks(c,expression,a.probe,env)
     if c['id'].startswith('PC19-'):
      from polar_cycle19_reference import actual_checks
      row['actual_domain_checks']=actual_checks(c,expression,a.probe,env)
+    if c['id'].startswith('PC20-'):
+     from polar_cycle20_reference import actual_checks
+     row['actual_domain_checks']=actual_checks(c,expression,a.probe,env)
     points={'PC1-D1':[-1,1],'PC2-D1':[0],'PC2-D2':[0,1],'PC3-I1':[0],'PC3-D2':[0]}.get(c['id'],[])
     if points:
      for point in points:
-      r=subprocess.run([str(a.probe),'eval(subst('+expression+',x='+str(point)+'))'],capture_output=True,text=True,env=env,timeout=10 if c['id'] in ('PC12-R1','PC13-R1','PC14-R1','PC15-R1','PC16-R1','PC17-R1','PC18-R1') or c['id'].startswith(('PC18-','PC19-')) else 12)
+      r=subprocess.run([str(a.probe),'eval(subst('+expression+',x='+str(point)+'))'],capture_output=True,text=True,env=env,timeout=10 if c['id'] in ('PC12-R1','PC13-R1','PC14-R1','PC15-R1','PC16-R1','PC17-R1','PC18-R1') or c['id'].startswith(('PC18-','PC19-','PC20-')) else 12)
       assert r.returncode==0 and r.stdout.strip()=='0',(point,r.stdout,r.stderr)
      row['actual_endpoint_substitution']={str(point):0 for point in points}
     values={'PC4-I2':{2:'0'},'PC4-D1':{0:'0',1:'1',-1:'-1'},'PC4-D2':{-1:'-1',1:'2',2:'2'},'PC4-S1':{0:'2*i*pi'}}.get(c['id'],{})
@@ -70,7 +73,7 @@ for c in cases:
     if values:
      from mixed_reference import parse,equal
      for point,expected in values.items():
-      r=subprocess.run([str(a.probe),'eval(subst('+expression+',x='+str(point)+'))'],capture_output=True,text=True,env=env,timeout=10 if c['id'] in ('PC12-R1','PC13-R1','PC14-R1','PC15-R1','PC16-R1','PC17-R1','PC18-R1') or c['id'].startswith(('PC18-','PC19-')) else 12)
+      r=subprocess.run([str(a.probe),'eval(subst('+expression+',x='+str(point)+'))'],capture_output=True,text=True,env=env,timeout=10 if c['id'] in ('PC12-R1','PC13-R1','PC14-R1','PC15-R1','PC16-R1','PC17-R1','PC18-R1') or c['id'].startswith(('PC18-','PC19-','PC20-')) else 12)
       if expected in ('undef','infinity'):assert r.returncode==(3 if expected=='undef' else 0) and r.stdout.strip()==expected,(point,r.stdout,r.stderr)
       else:assert r.returncode==0 and equal(parse(r.stdout.strip()),parse(expected)),(point,r.stdout,r.stderr)
      row['actual_boundary_substitution']=values
@@ -81,7 +84,7 @@ for c in cases:
       assert r.returncode==(3 if expected=='undef' else 0) and r.stdout.strip()==expected,(px,py,r.returncode,r.stdout)
      row['actual_two_variable_samples']=samples
     if c['id']=='PC10-R1':
-     r=subprocess.run([str(a.probe),'eval(subst('+expression+',[x,y],[0,0]))'],capture_output=True,text=True,env=env,timeout=10 if c['id'] in ('PC12-R1','PC13-R1','PC14-R1','PC15-R1','PC16-R1','PC17-R1','PC18-R1') or c['id'].startswith(('PC18-','PC19-')) else 12)
+     r=subprocess.run([str(a.probe),'eval(subst('+expression+',[x,y],[0,0]))'],capture_output=True,text=True,env=env,timeout=10 if c['id'] in ('PC12-R1','PC13-R1','PC14-R1','PC15-R1','PC16-R1','PC17-R1','PC18-R1') or c['id'].startswith(('PC18-','PC19-','PC20-')) else 12)
      assert r.returncode==3 and r.stdout.strip()=='undef',(r.stdout,r.stderr)
      row['actual_origin_exclusion']='undef'
    except Exception as e:row.update(error=str(e),**{'pass':False})

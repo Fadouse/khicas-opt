@@ -715,6 +715,172 @@ namespace giac {
       symbolic(at_when,makesequence(symbolic(at_superieur_strict,makesequence(A*Q,0)),regular,0))));return true;
   }
 
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static bool derive_norm_cusp(const gen &g,const identificateur &i,gen &result,GIAC_CONTEXT){
+    if(complex_mode(contextptr) || complex_variables(contextptr) || taille(g,97)>96)return false;
+    vecteur magnitudes=lop(g,at_abs);if(magnitudes.size()!=1)return false;
+    gen Q=magnitudes[0]._SYMBptr->feuille,x(i),a,b;
+    if(!is_linear_wrt(Q,x,a,b,contextptr) || !equation_rational(a) || is_zero(a) || !equation_rational(b))return false;
+    vecteur roots=mergevecteur(lop(g,at_sqrt),lop(g,at_pow));
+    for(unsigned j=0;j<roots.size();++j){
+      gen N;
+      if(roots[j].is_symb_of_sommet(at_sqrt))N=roots[j]._SYMBptr->feuille;
+      else {const gen &v=roots[j]._SYMBptr->feuille;if(v.type!=_VECT || v._VECTptr->size()!=2 || v[1]!=plus_one_half)continue;N=v[0];}
+      unsigned budget=192;equation_polynomial_budget bound;
+      if(!equation_polynomial_bound(N,budget,0,bound) || bound.degree>4 || bound.terms>16 || !is_zero(im(N,contextptr)))continue;
+      gen R=ratnormal(N-Q*Q,contextptr),C,L;
+      if(contains(R,x) || !equation_polynomial_bound(R,budget,0,bound) ||
+         !is_linear_wrt(g,roots[j],C,L,contextptr) || !equation_rational(C) || is_zero(C))continue;
+      L=ratnormal(L+C*magnitudes[0],contextptr);
+      if(!equation_polynomial_bound(L,budget,0,bound) || bound.degree>4 || bound.terms>16)continue;
+      vecteur terms=R.is_symb_of_sommet(at_plus) && R._SYMBptr->feuille.type==_VECT?*R._SYMBptr->feuille._VECTptr:makevecteur(R);
+      bool nonnegative=true;
+      for(unsigned k=0;k<terms.size();++k){gen ignored;if(!derive_magnitude_polynomial(terms[k],ignored,budget,0,contextptr)){nonnegative=false;break;}}
+      if(!nonnegative)continue;
+      // R=0 cancels the two entire cusp functions, including Q=0.
+      // For fixed R>0 the norm is smooth and the remaining |Q| cusp is real.
+      gen dL=derive(L,i,contextptr),regular=dL+C*a*(Q/roots[j]-symbolic(at_sign,Q));
+      result=symbolic(at_when,makesequence(symb_equal(R,0),dL,
+        symbolic(at_when,makesequence(symb_equal(Q,0),undef,regular))));return true;
+    }
+    return false;
+  }
+
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static bool derive_floor_phase(const gen &g,const gen &x,gen &phase,gen &den,GIAC_CONTEXT){
+    if(taille(g,97)>96 || !has_op(g,*at_floor))return false;
+    vecteur floors=lop(g,at_floor);if(floors.size()!=1)return false;
+    phase=floors[0]._SYMBptr->feuille;
+    if(taille(phase,33)>32)return false;
+    vecteur vars=lvar(phase);if(vars.size()!=1 || vars[0]!=x)return false;
+    // Inspect original inverse nodes before normalizing a Mobius phase.
+    // This keeps any original denominator exclusions after cancellation.
+    den=1;vecteur inverses=mergevecteur(lop(phase,at_inv),lop(phase,at_division));
+    vecteur powers=lop(phase,at_pow);
+    for(unsigned j=0;j<powers.size();++j){const gen &f=powers[j]._SYMBptr->feuille;if(f.type!=_VECT || f._VECTptr->size()!=2 || f[1].type!=_INT_ || f[1].val < -1 || f[1].val>2)return false;if(f[1].val==-1)inverses.push_back(powers[j]);}
+    if(inverses.size()>3)return false;
+    for(unsigned j=0;j<inverses.size();++j){
+      const gen &f=inverses[j]._SYMBptr->feuille;
+      gen d=inverses[j].is_symb_of_sommet(at_inv)?f:(inverses[j].is_symb_of_sommet(at_division)?f[1]:f[0]);
+      gen a,b;if(!is_linear_wrt(d,x,a,b,contextptr) || !equation_rational(a) || !equation_rational(b) || (is_zero(a) && is_zero(b)))return false;
+      den=den*d;
+    }
+    gen nd=fxnd(phase),a,b,c,d;
+    if(nd.type!=_VECT || nd._VECTptr->size()!=2 ||
+       !is_linear_wrt(nd[0],x,a,b,contextptr) || !is_linear_wrt(nd[1],x,c,d,contextptr) ||
+       !equation_rational(a) || !equation_rational(b) || !equation_rational(c) || !equation_rational(d) || is_zero(a*d-b*c))return false;
+    return true;
+  }
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static bool derive_floor_parts(const gen &g,const gen &x,gen &phase,gen &A,gen &B,gen &den,GIAC_CONTEXT){
+    if(!derive_floor_phase(g,x,phase,den,contextptr))return false;
+    vecteur floors=lop(g,at_floor);
+    if(!is_linear_wrt(g,floors[0],A,B,contextptr))return false;
+    unsigned budget=128;equation_polynomial_budget ab,bb;
+    if(!equation_polynomial_bound(A,budget,0,ab) || !equation_polynomial_bound(B,budget,0,bb) || ab.degree>8 || bb.degree>8 || ab.terms>16 || bb.terms>16)return false;
+    vecteur vars=lidnt(makevecteur(A,B));return vars.empty() || (vars.size()==1 && vars[0]==x);
+  }
+
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static gen derive_floor_periodic(const gen &g,const gen &wave,const gen &x,GIAC_CONTEXT){
+    if(!angle_radian(contextptr))return g;
+    vecteur trigs=mergevecteur(lop(g,at_sin),lop(g,at_cos));
+    gen result=g;
+    for(unsigned j=0;j<trigs.size();++j){
+      gen C,R;
+      if(!is_linear_wrt(trigs[j]._SYMBptr->feuille,wave,C,R,contextptr))continue;
+      gen n=ratnormal(C/cst_pi,contextptr);
+      if(n.type!=_INT_ || !n.val || n.val < -64 || n.val>64)continue;
+      if(n.val%2 && !(trigs[j].is_symb_of_sommet(at_sin) && is_zero(R)))continue;
+      unsigned budget=96;equation_polynomial_budget bound;
+      bool regular=equation_polynomial_bound(R,budget,0,bound) && bound.degree<=8 && bound.terms<=16;
+      if(regular){vecteur ids=lidnt(R);for(unsigned k=0;k<ids.size();++k)if(ids[k]!=x && ids[k]!=cst_pi)regular=false;}
+      if(!regular){vecteur atoms;budget=96;if(!logarithmic_span_entire(R,x,atoms,budget,0))continue;}
+      gen value=n.val%2?gen(0):gen(symbolic(trigs[j]._SYMBptr->sommet,R));
+      result=quotesubst(result,trigs[j],value,contextptr);
+    }
+    return result;
+  }
+
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static bool derive_floor_weight(const gen &g,const identificateur &i,gen &result,GIAC_CONTEXT){
+    if(complex_mode(contextptr) || complex_variables(contextptr))return false;
+    gen phase,den,x(i);
+    if(!derive_floor_phase(g,x,phase,den,contextptr))return false;
+    gen n(identificateur(" floor_contact_n"));
+    if(contains(g,n) || eval(n,1,contextptr)!=n)return false;
+    gen wave=symbolic(at_floor,phase),reduced=g;
+    if(has_op(g,*at_sin) || has_op(g,*at_cos))reduced=derive_floor_periodic(g,wave,x,contextptr);
+    if(reduced!=g && !has_op(reduced,*at_floor)){
+      result=derive(reduced,i,contextptr);
+      if(!equation_rational(den))result=symbolic(at_when,makesequence(symb_equal(den,0),undef,result));
+      return true;
+    }
+    gen H=quotesubst(reduced,wave,n,contextptr);
+    unsigned budget=192;equation_polynomial_budget bound;
+    if(!equation_polynomial_bound(H,budget,0,bound) || bound.degree>8 || bound.terms>64)return false;
+    vecteur vars=lidnt(H);for(unsigned j=0;j<vars.size();++j)if(vars[j]!=x && vars[j]!=n)return false;
+    gen dH=derive(H,i,contextptr),upper=quotesubst(H,n,phase,contextptr),lower=quotesubst(H,n,phase-1,contextptr);
+    gen dup=quotesubst(dH,n,phase,contextptr),dlo=quotesubst(dH,n,phase-1,contextptr);
+    gen jump=ratnormal(upper-lower,contextptr),slope_jump=ratnormal(dup-dlo,contextptr);
+    gen regular=quotesubst(dH,n,wave,contextptr);
+    // At every integer crossing compare the WHOLE polynomial branch,
+    // including its original value, before any chain rule splits it up.
+    // This also preserves smooth periodic polynomial functions of frac(x).
+    if(is_zero(jump) && is_zero(slope_jump))result=regular;
+    else {
+      gen contact=symbolic(at_when,makesequence(symb_equal(jump,0),
+        symbolic(at_when,makesequence(symb_equal(slope_jump,0),regular,undef)),undef));
+      result=symbolic(at_when,makesequence(symb_equal(phase,wave),contact,regular));
+    }
+    if(!equation_rational(den))result=symbolic(at_when,makesequence(symb_equal(den,0),undef,result));
+    return true;
+  }
+
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static bool derive_floor_accumulation(const gen &g,const identificateur &i,gen &result,GIAC_CONTEXT){
+    if(complex_mode(contextptr) || complex_variables(contextptr) || !g.is_symb_of_sommet(at_piecewise) || taille(g,129)>128)return false;
+    const gen &v=g._SYMBptr->feuille;
+    if(v.type!=_VECT || v._VECTptr->size()!=3 || (!v[0].is_symb_of_sommet(at_equal) && !v[0].is_symb_of_sommet(at_same)))return false;
+    const gen &cond=v[0]._SYMBptr->feuille;gen x(i),point;
+    if(cond.type!=_VECT || cond._VECTptr->size()!=2)return false;
+    if(cond[0]==x)point=cond[1];else if(cond[1]==x)point=cond[0];else return false;
+    if(!equation_rational(point))return false;
+    gen phase,A,B,den,branch=eval_before_diff(v[2],x,contextptr);
+    if(!derive_floor_parts(branch,x,phase,A,B,den,contextptr))return false;
+    gen nd=fxnd(phase),nv,dv;unsigned budget=128;
+    if(!derive_piecewise_regular(nd[0],x,point,nv,budget,0,contextptr) || !equation_rational(nv) || is_zero(nv) ||
+       !derive_piecewise_regular(nd[1],x,point,dv,budget,0,contextptr) || !is_zero(dv))return false;
+    gen assigned,av,ad;budget=128;
+    if(!derive_piecewise_regular(v[1],x,point,assigned,budget,0,contextptr) || !equation_rational(assigned) ||
+       !derive_piecewise_regular(A,x,point,av,budget,0,contextptr) || !equation_rational(av) ||
+       !derive_piecewise_regular(derive(A,i,contextptr),x,point,ad,budget,0,contextptr) || !equation_rational(ad))return false;
+    gen contact=undef;
+    if(is_zero(av) && is_zero(ad)){
+      // floor(phase)=phase-q, 0<=q<1 on BOTH sides of the pole.
+      // A=O(h²) makes A*q/h ->0; only the regular rational part S
+      // contributes to the original quotient at the assigned point.
+      gen S=ratnormal(A*phase+B,contextptr),value,slope;budget=128;
+      if(!derive_piecewise_regular(S,x,point,value,budget,0,contextptr) || !equation_rational(value) ||
+         !derive_piecewise_regular(derive(S,i,contextptr),x,point,slope,budget,0,contextptr) || !equation_rational(slope))return false;
+      if(value==assigned)contact=slope;
+    }
+    gen regular;if(!derive_floor_weight(branch,i,regular,contextptr))return false;
+    result=symbolic(at_when,makesequence(symb_equal(x,point),contact,regular));return true;
+  }
+
   // Keep recursive arithmetic/chain rules out of the large frame holding
   // special-function, implicit-function and higher-derivative temporaries.
   static gen derive_SYMB(const gen &,const identificateur &,GIAC_CONTEXT);
@@ -722,6 +888,7 @@ namespace giac {
   __attribute__((noinline,optimize("Os")))
 #endif
   static gen derive_symbolic_plus(const gen &g_orig,const identificateur &i,GIAC_CONTEXT){
+    gen norm_cusp;if(derive_norm_cusp(g_orig,i,norm_cusp,contextptr))return norm_cusp;
     const symbolic &s=*g_orig._SYMBptr;
       bool do_step=step_infolevel(contextptr)>1 && count_noncst(s.feuille,i)>1;
       if (do_step)
@@ -1190,7 +1357,7 @@ namespace giac {
   __attribute__((noinline,optimize("Os")))
 #endif
   static gen derive_SYMB(const gen &g_orig,const identificateur & i,GIAC_CONTEXT){
-    gen abs_composed;if(derive_abs_composition(g_orig,i,abs_composed,contextptr))return abs_composed;
+    gen abs_composed;if(derive_floor_accumulation(g_orig,i,abs_composed,contextptr) || derive_floor_weight(g_orig,i,abs_composed,contextptr) || derive_abs_composition(g_orig,i,abs_composed,contextptr))return abs_composed;
     const symbolic & s = *g_orig._SYMBptr;
     if(s.sommet==at_pnt && s.feuille.type==_VECT && !s.feuille._VECTptr->empty())
       return derive_symbolic_point(g_orig,i,contextptr);

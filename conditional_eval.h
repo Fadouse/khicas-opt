@@ -1,5 +1,6 @@
 #ifndef KHICAS_CONDITIONAL_EVAL_H
 #define KHICAS_CONDITIONAL_EVAL_H
+#include "equation_normalize.h"
 namespace giac {
 // Only inspect pure, small exact constants; no user calls or bindings are
 // evaluated here. This makes cos((-sqrt(2*pi))^2)=1 decidable without using
@@ -18,13 +19,42 @@ static bool conditional_pure_constant(const gen &g,unsigned &budget,unsigned dep
   for(unsigned j=0;j<f._VECTptr->size();++j)if(!conditional_pure_constant(f[j],budget,depth+1))return false;
   return true;
 }
+// One quadratic radical gives an extension of degree at most two.
+// Keep constant equality exact without opening arbitrary multiradical
+// normalization or treating a floating-point residual as mathematical zero.
+#if defined(__GNUC__) && !defined(__clang__)
+__attribute__((noinline,optimize("Os")))
+#endif
+static bool conditional_algebraic_constant(const gen &g,vecteur &roots,unsigned &budget,unsigned depth,GIAC_CONTEXT){
+  if(!budget || depth>8)return false;--budget;
+  equation_polynomial_budget bound;
+  if(equation_rational(g))return equation_rational_budget(g,bound);
+  if(g.type!=_SYMB)return false;
+  const gen &f=g._SYMBptr->feuille;gen radicand;
+  if(g.is_symb_of_sommet(at_sqrt))radicand=f;
+  else if(g.is_symb_of_sommet(at_pow) && f.type==_VECT && f._VECTptr->size()==2 && f[1]==gen(1)/2)radicand=f[0];
+  else {
+    if(g.is_symb_of_sommet(at_neg) || g.is_symb_of_sommet(at_inv))return conditional_algebraic_constant(f,roots,budget,depth+1,contextptr);
+    if(f.type!=_VECT || f._VECTptr->size()>8)return false;
+    if(g.is_symb_of_sommet(at_pow))return f._VECTptr->size()==2 && f[1].type==_INT_ && f[1].val>=-8 && f[1].val<=8 && conditional_algebraic_constant(f[0],roots,budget,depth+1,contextptr);
+    if(!g.is_symb_of_sommet(at_plus) && !g.is_symb_of_sommet(at_prod) && !g.is_symb_of_sommet(at_division))return false;
+    for(unsigned j=0;j<f._VECTptr->size();++j)if(!conditional_algebraic_constant(f[j],roots,budget,depth+1,contextptr))return false;
+    return true;
+  }
+  if(!equation_rational_budget(radicand,bound) || !is_strictly_positive(radicand,contextptr))return false;
+  if(!equalposcomp(roots,radicand))roots.push_back(radicand);
+  return roots.size()<=1;
+}
+
 #if defined(__GNUC__) && !defined(__clang__)
 __attribute__((noinline,optimize("Os")))
 #endif
 static bool conditional_exact_equal(const gen &a,const gen &b,GIAC_CONTEXT){
   unsigned budget=32;
-  if(!(has_op(a,*at_sin) || has_op(a,*at_cos) || has_op(b,*at_sin) || has_op(b,*at_cos)) ||
-     !conditional_pure_constant(a,budget,0) || !conditional_pure_constant(b,budget,0))return false;
+  if(has_op(a,*at_sin) || has_op(a,*at_cos) || has_op(b,*at_sin) || has_op(b,*at_cos)){
+    if(!conditional_pure_constant(a,budget,0) || !conditional_pure_constant(b,budget,0))return false;
+  }
+  else {vecteur roots;if(!conditional_algebraic_constant(a,roots,budget,0,contextptr) || !conditional_algebraic_constant(b,roots,budget,0,contextptr))return false;}
   gen aa=recursive_normal(a,contextptr),bb=recursive_normal(b,contextptr);
   return !is_undef(aa) && !is_undef(bb) && !is_inf(aa) && !is_inf(bb) && aa==bb;
 }

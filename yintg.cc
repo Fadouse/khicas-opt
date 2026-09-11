@@ -3421,6 +3421,45 @@ namespace giac {
 
   static bool integrate_affine_radical(const gen &,const gen &,gen &,GIAC_CONTEXT);
 
+  // A parameterized real quadratic changes primitive type when its
+  // discriminant vanishes. Retain those cases instead of dividing by a
+  // generic sqrt(discriminant) and silently losing the repeated-pole case.
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static bool integrate_parameter_quadratic(const gen &g,const gen &x,gen &result,GIAC_CONTEXT){
+    if(complex_mode(contextptr) || complex_variables(contextptr) || !angle_radian(contextptr) ||
+       !g.is_symb_of_sommet(at_inv))return false;
+    const gen &Q=g._SYMBptr->feuille;
+    if(taille(Q,65)>64)return false;
+    vecteur vars=lidnt(Q);if(vars.size()<2 || vars.size()>3 || !equalposcomp(vars,x))return false;
+    unsigned budget=96;equation_polynomial_budget bound;
+    if(!equation_polynomial_bound(Q,budget,0,bound) || bound.degree>4 || bound.terms>16 || !is_zero(im(Q,contextptr)))return false;
+    gen A,B,C;if(!is_quadratic_wrt(Q,x,A,B,C,contextptr) || contains(C,x))return false;
+    gen linear;
+    if(is_zero(B))linear=x/C;
+    else {
+      linear=symbolic(at_ln,symbolic(at_abs,Q))/B;
+      if(!equation_rational(B))linear=symbolic(at_when,makesequence(symb_equal(B,0),x/C,linear));
+    }
+    gen primitive=linear;
+    if(!is_zero(A)){
+      gen delta=ratnormal(4*A*C-B*B,contextptr),U=2*A*x+B;
+      gen repeated=-gen(2)/U;
+      if(is_zero(delta))primitive=repeated;
+      else {
+        gen positive_root=symbolic(at_sqrt,delta),negative_root=symbolic(at_sqrt,-delta);
+        gen elliptic=gen(2)*symbolic(at_atan,U/positive_root)/positive_root;
+        gen hyperbolic=symbolic(at_ln,symbolic(at_abs,(U-negative_root)/(U+negative_root)))/negative_root;
+        if(equation_rational(delta))primitive=is_strictly_positive(delta,contextptr)?elliptic:hyperbolic;
+        else primitive=symbolic(at_when,makesequence(symb_equal(delta,0),repeated,
+          symbolic(at_when,makesequence(symbolic(at_superieur_strict,makesequence(delta,0)),elliptic,hyperbolic))));
+      }
+      if(!equation_rational(A))primitive=symbolic(at_when,makesequence(symb_equal(A,0),linear,primitive));
+    }
+    result=symbolic(at_when,makesequence(symb_equal(Q,0),undef,primitive));return true;
+  }
+
 #if defined(__GNUC__) && !defined(__clang__)
   __attribute__((noinline,optimize("Os")))
 #endif
@@ -3429,6 +3468,7 @@ namespace giac {
     if(integrate_affine_radical(input,x,res,contextptr))return true;
     gen e=integration_syntax(input,contextptr),c=integration_coefficient(e,x,contextptr);
     gen p;
+    if(integration_resource_rational(c) && integrate_parameter_quadratic(e,x,p,contextptr)){res=c*p;return true;}
     if(integration_resource_rational(c) && integrate_logarithmic_span(e,x,p,contextptr)){res=c*p;return true;}
     if(integration_resource_rational(c) && integrate_global_trig_power(e,x,p,contextptr)){res=c*p;return true;}
     if (!is_undef(c) && !is_inf(c) && integrate_high_frequency_trig(e,x,p,contextptr)){res=c*p;return true;}

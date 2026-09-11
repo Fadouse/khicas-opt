@@ -35,6 +35,19 @@ for name in selectors+definite_helpers+conversion_names+conversion_helpers+deriv
     for address,section,size in hits:
         assert section=='.rominram' and regions['r8c2'][0]<=int(address,16)<sum(regions['r8c2']), name
     moved[name]=sum(int(size,16) for _,_,size in hits)
+# These bounded rules intentionally remain in ROM to balance the two
+# fixed code regions. Check the linked result, not just linker selectors.
+rom_rules={}
+for name,source in [('integrate_parameter_quadratic','yintg.cc'),('simplify_conjugate_roots','ksubst.cc')]:
+    if 'static bool '+name+'(' not in (d/source).read_text():continue
+    hits=re.findall(r'^([0-9a-f]+)\s+.*?\bF\s+(\S+)\s+([0-9a-f]+)\s+giac::'+name+r'\(',symbols,re.M)
+    assert len(hits)==1 and regions['rom'][0]<=int(hits[0][0],16)<sum(regions['rom']),name
+    rom_rules[name]={'address':hits[0][0],'code_bytes':int(hits[0][2],16),'source':source}
+shared_walkers={}
+if 'inline bool logarithmic_span_entire(' in (d/'logarithmic_span.h').read_text():
+    hits=re.findall(r'^([0-9a-f]+)\s+.*?\bF\s+(\S+)\s+([0-9a-f]+)\s+giac::logarithmic_span_entire\(',symbols,re.M)
+    assert len(hits)==1,'COMDAT must retain exactly one shared proof walker'
+    shared_walkers['logarithmic_span_entire']={'copies':len(hits),'address':hits[0][0],'code_bytes':int(hits[0][2],16)}
 # The calculator links zusual, so host extraction and provenance must use
 # this implementation rather than the parallel, unlinked kusual copy.
 assert 'zusual.o' in (d/'Makefile').read_text()
@@ -57,6 +70,8 @@ assert heap_sizes=={0x180000}, 'Review CAS heap change separately'
 report={'scope':'SH4 linker/binary capacity and single compiler stack frames; no CG50 runtime measurements',
         'regions':{name:{'origin':hex(origin),'used_bytes':used[name],'capacity_bytes':size,'remaining_bytes':size-used[name]} for name,(origin,size) in regions.items()},
         'configured_CAS_heap_bytes':0x180000,
+        'rom_rule_helpers':rom_rules,
+        'shared_proof_walkers':shared_walkers,
         'linked_usual_functions':linked_usual,
         'linked_determinant_entry':{'address':det_hits[0][0],'section':det_hits[0][1],'code_bytes':int(det_hits[0][2],16),'source':'zvecteur.cc'},
         'moved_helpers':{name:moved[name] for name in selectors},

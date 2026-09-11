@@ -281,3 +281,19 @@ SH4 ROM **2,051,756 / 2,065,152** 字节，AC2 **2,547,316 / 2,559,996** 字节�
 没有进行本轮实机安装；主机受限栈不是 SH4/MMU 仿真。未知参数、含极点的指数函数、超预算零点/多项式和更复杂的正部组合仍可能退回通用算法，不声称全部积分或所有 TLB 问题解决。本轮首次有错题，下一轮仍必须是全新出题代理，不能提前派发最终性能分析代理。
 
 [逐点分析](CALCULUS-CORE-AUDIT.md) · [通过积分清单](PASSED-INTEGRALS.md) · [首测](benchmarks/polar-cycle19-first-acceptance-2026a.json) · [修复后](benchmarks/polar-cycle19-fixed-acceptance-2026a.json) · [相关变式](benchmarks/polar19-related-guards-2026a.json) · [拒绝条件](benchmarks/polar19-proof-contracts-2026a.json) · [资源](benchmarks/resources-polar19-2026a.json) · [交错测量](benchmarks/entry-performance-polar19-2026a.json) · [正式回归](benchmarks/polar19-regression-index-2026a.json)。
+
+## Checkpoint 20：参数退化、取整跳点与共轭根式的完整实域
+
+标签 `checkpoint/polar-stability-cycle20-2026a`。原批 6 题首测 10/24 模式通过，但其中伯努利双纽线 P1 与历史机制重复，只计回归；全新代理补出的指数曲线 P2 首测 4/4。按替换后的 6 道新题统计，只有 I2 和 P2 首次完整通过。本轮仍不满足最终性能代理的触发条件。两份原始首测来自未修改的 `860761ee`，没有用修复结果覆盖。
+
+参数二次分母积分根据判别式生成反正切、重根有理式或实对数分支，并保留二次项、一次项消失的情况及原分母零点。取整函数求导先比较整个多项式分支的值和斜率；在倒数相位的聚集点使用原函数差商，而不是代入附近导函数。`sqrt(Q²+R)-|Q|` 在非负参数余项 R=0 时整体恒零，不能在 Q=0 留下虚假的未定义点。共轭根式和化为更短根式时同时保留完整实域条件。
+
+扩展检查发现整周期三角函数能完全消去 floor 项，逐项链式法则会产生虚假角点；新增有界整周期重写，仍保留倒数相位的原分母孔点。验证器的括号剥离也曾误读 `(表达式)=(表达式)` 和 `(表达式)<(表达式)`，现只删除包围整个谓词的括号。验证器修正、数学修正分别记录，不把前者算作引擎能力提升。
+
+最终原批 24 模式、补题 4 模式、38 个相关变式的 **152 项**检查及 **50 项**直接接收/拒绝条件全部通过；另完成第 1–19 轮、旧混合题、旧边界/函数族、60 项极坐标显示和 21＋7 组正式/补充回归。通过积分清单更新为 **686 条记录：681 精确、5 导数采样**，663 种去空白输入文本。P2 `y=exp(x)` 保留完整隐式极坐标残差：它在部分角度存在两个正半径及一个双根切点，不能无证明地只显示一个 r 分支。
+
+共用实解析证明函数通过 COMDAT 保留一份 660 字节代码，链接检查确认唯一副本。两段新规则保留在 ROM，以平衡固定代码区。最终 ROM **2,056,304 / 2,065,152** 字节，AC2 **2,554,708 / 2,559,996** 字节，余量分别 **8,848、5,288** 字节。两区合计比 checkpoint 19 增加 **11,940** 字节；静态 RAM 424,620 字节和配置堆 1,572,864 字节未变。求导公共分派单帧仍为 72 字节，取整权重辅助函数单帧 308 字节，聚集点辅助函数 228 字节，均不是总栈峰值。
+
+五道计算题各五次受限栈主机运行，最慢中位数约 **5.96 ms**。15 条相同正确输出入口的九次交错测量比值为 **0.974–1.084**，不能据此宣称整体提速。没有本轮实机安装或 CG50 堆/栈峰值测量，主机 64 KiB 保护栈不是 SH4/MMU 仿真。更高次数、多参数、多 floor 原子及更复杂分支仍可能走通用算法；这些明确保留为缺口。
+
+[逐点证明与限制](CALCULUS-CORE-AUDIT.md) · [通过积分](PASSED-INTEGRALS.md) · [首测](benchmarks/polar-cycle20-first-acceptance-2026a.json) · [修复后](benchmarks/polar-cycle20-acceptance-2026a.json) · [补题](benchmarks/polar-cycle20-extra-acceptance-2026a.json) · [相关变式](benchmarks/polar20-guards-2026a.json) · [规则条件](benchmarks/polar20-contracts-2026a.json) · [资源](benchmarks/resources-polar20-2026a.json) · [交错测量](benchmarks/entry-performance-polar20-2026a.json) · [正式回归](benchmarks/polar20-regression-index-2026a.json)。

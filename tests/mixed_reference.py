@@ -21,7 +21,16 @@ def convert_ternary(text):
                 if depth==0 and ch==':' and q is not None:colon=k;break
             if q is not None:
                 condition=out[:q].strip()
-                while condition.startswith('(') and condition.endswith(')'):condition=condition[1:-1]
+                # Strip only a pair enclosing the WHOLE predicate. For
+                # (x+1)=(floor(x)) or (x*x+1)<(abs(y)), the first and
+                # last parentheses belong to different operands.
+                while condition.startswith('(') and condition.endswith(')'):
+                    level=0;closing=None
+                    for k,ch in enumerate(condition):
+                        level+=(ch=='(')-(ch==')')
+                        if level==0:closing=k;break
+                    if closing!=len(condition)-1:break
+                    condition=condition[1:-1].strip()
                 if any(op in condition for op in ('>=','<=','>','<','!=')):
                     predicate=condition
                 else:

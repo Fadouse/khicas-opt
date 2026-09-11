@@ -1,0 +1,24 @@
+{
+  "cases": [
+    {
+      "id": "PC20-I1",
+      "input": "simplify(integrate(1/(x^2+2*a*x+1),x))",
+      "expected": "piecewise(x^2+2*a*x+1==0,undef,a^2<1,atan((x+a)/sqrt(1-a^2))/sqrt(1-a^2),a^2==1,-1/(x+a),ln(abs((x+a-sqrt(a^2-1))/(x+a+sqrt(a^2-1))))/(2*sqrt(a^2-1)))",
+      "conditions": [
+        "x and a are finite real numbers; integrate with respect to x, treating a as a fixed real parameter. ln is the strictly real logarithm, sqrt is nonnegative, and atan has values in (-pi/2,pi/2). Determine all parameter regimes and the complete original x-domain in each regime.",
+        "Require an explicit real primitive on every connected original-domain component, including the discriminant-zero cases. Equivalent guarded formulas and componentwise constants are allowed. No unevaluated integral or tacit assumption that a generic parameter avoids degeneracy is acceptable.",
+        "Check direct operation and outer simplify, each with both the normal calculation stack and a 64 KiB calculation stack. Every invocation has a fixed 10-second external wall-clock timeout and a 65536-byte output cap. Preserve the existing finite CG50 stack, heap and simplification budgets; do not enlarge them or retry with larger limits. No crash, stack overflow, timeout or output-cap overrun is acceptable."
+      ]
+    },
+    {
+      "id": "PC20-I2",
+      "input": "simplify(integrate(asin(x)/sqrt(1+x),x))",
+      "expected": "piecewise(x<=-1,undef,x>1,undef,2*sqrt(1+x)*asin(x)+4*sqrt(1-x))",
+      "conditions": [
+        "x is finite real, sqrt is nonnegative, and asin has its principal real values in [-pi/2,pi/2]. Establish the complete original domain, including the original denominator exclusion.",
+        "Require an explicit primitive on the complete original component with its assigned value and actual original one-sided difference quotient at the included endpoint. Distinguish a finite limiting value at an excluded endpoint from an original-domain value. No unevaluated integral is acceptable.",
+        "Check direct operation and outer simplify, each with both the normal calculation stack and a 64 KiB calculation stack. Every invocation has a fixed 10-second external wall-clock timeout and a 65536-byte output cap. Preserve the existing finite CG50 stack, heap and simplification budgets; do not enlarge them or retry with larger limits. No crash, stack overflow, timeout or output-cap overrun is acceptable."
+      ]
+    }
+  ]
+}
