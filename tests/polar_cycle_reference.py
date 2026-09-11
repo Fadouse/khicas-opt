@@ -5,6 +5,9 @@ from mixed_round2_reference import canonical_dilog
 
 def verify(case,printed):
     ident=case['id']
+    if ident.startswith('PC2-'):
+        from polar_cycle2_reference import verify as next_cycle
+        return next_cycle(case,printed)
     assert not any(t in printed for t in ('integrate(', 'diff(', 'undef', 'rootof(')),printed
     a=parse(printed)
     if ident in ('PC1-I1','PC1-I2'):

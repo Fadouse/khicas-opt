@@ -3340,6 +3340,48 @@ namespace giac {
     gen p;
     if (!is_undef(c) && !is_inf(c) && integrate_high_frequency_trig(e,x,p,contextptr)){res=c*p;return true;}
     if (!integration_rational(c)) return false;
+    // A power of a Mobius map divided by the product of its two
+    // affine factors: R'/R=det/(A*B). Read only small sparse polynomials
+    // and compare their numeric coefficients, avoiding algebraic search.
+    if(e.is_symb_of_sommet(at_prod) && e._SYMBptr->feuille.type==_VECT && e._SYMBptr->feuille._VECTptr->size()==2){
+      const vecteur &v=*e._SYMBptr->feuille._VECTptr;
+      for(unsigned j=0;j<2;++j){
+        gen R,power;
+        if(v[j].is_symb_of_sommet(at_sqrt)){R=v[j]._SYMBptr->feuille;power=gen(1)/2;}
+        else if(v[j].is_symb_of_sommet(at_pow) && v[j]._SYMBptr->feuille.type==_VECT && v[j]._SYMBptr->feuille._VECTptr->size()==2){R=v[j]._SYMBptr->feuille[0];power=v[j]._SYMBptr->feuille[1];}
+        else continue;
+        gen den;
+        if(!integration_resource_rational(power) || is_zero(power) || is_strictly_greater(abs(power,contextptr),8,contextptr) ||
+           !integration_power(v[1-j],den,-1))continue;
+        gen ratio=integration_syntax(R,contextptr),factor=integration_syntax(integration_coefficient(ratio,x,contextptr),contextptr);
+        if(!integration_resource_rational(factor) || is_zero(factor) || !ratio.is_symb_of_sommet(at_prod) ||
+           ratio._SYMBptr->feuille.type!=_VECT || ratio._SYMBptr->feuille._VECTptr->size()!=2)continue;
+        const vecteur &rv=*ratio._SYMBptr->feuille._VECTptr;
+        unsigned k=rv[0].is_symb_of_sommet(at_inv)?0:1;gen B;
+        if(!integration_power(rv[k],B,-1))continue;
+        gen A=rv[1-k];sparse_poly1 polys[3];
+        if(!small_sparse_polynomial(A,x,polys[0],contextptr) || !small_sparse_polynomial(B,x,polys[1],contextptr) ||
+           !small_sparse_polynomial(den,x,polys[2],contextptr))continue;
+        gen coeff[3][3];bool valid=true;
+        for(unsigned row=0;row<3;++row)for(unsigned col=0;col<polys[row].size();++col){
+          const monome &term=polys[row][col];int degree=term.exponent.val;
+          if(degree>(row==2?2:1) || !integration_resource_rational(term.coeff)){valid=false;break;}
+          coeff[row][degree]=coeff[row][degree]+term.coeff;
+        }
+        if(!valid)continue;
+        gen delta=coeff[0][1]*coeff[1][0]-coeff[0][0]*coeff[1][1];
+        if(is_zero(delta))continue;
+        gen product[3]={coeff[0][0]*coeff[1][0],coeff[0][1]*coeff[1][0]+coeff[0][0]*coeff[1][1],coeff[0][1]*coeff[1][1]};
+        gen scale=undef;
+        for(unsigned col=0;col<3;++col){
+          if(is_zero(product[col])){if(!is_zero(coeff[2][col]))valid=false;continue;}
+          gen next=coeff[2][col]/product[col];
+          if(is_undef(scale))scale=next;else if(scale!=next)valid=false;
+        }
+        if(!valid || !integration_resource_rational(scale) || is_zero(scale))continue;
+        res=c*v[j]/(power*delta*scale);return true;
+      }
+    }
     if (!integrate_log_trig_primitive(e,x,p,contextptr) &&
         !integrate_dilog_primitive(e,x,p,contextptr) &&
         !integrate_composed_binomial(e,x,p,contextptr) &&

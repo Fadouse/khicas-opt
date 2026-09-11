@@ -27,3 +27,19 @@ SH4构建：ROM 2,062,004 / 2,065,152 B，余3,148 B；AC2 2,468,064 / 2,559,996
 这些测试使用实际仓库计算模块及主机Giac依赖，64 KiB保护栈不是SH4/MMU模拟，尚不能保证所有实机TLB错误消除。本轮首测存在错题，因此下一步必须重新派发全新题目，不能立即进入最终性能代理验收。
 
 [首次验收](benchmarks/polar-cycle1-first-acceptance-2026a.json) · [修复后验收](benchmarks/polar-cycle1-fixed-acceptance-2026a.json) · [极坐标显示](benchmarks/polar-display-cycle1-2026a.json) · [资源](benchmarks/resources-polar-cycle1-2026a.json) · [主机逐题测量](benchmarks/polar-cycle1-performance-2026a.json) · [已通过积分清单](PASSED-INTEGRALS.md)。
+
+## 第二轮：分支与可去奇点
+
+标签 `checkpoint/polar-stability-cycle2-2026a`。新的8题首次完整通过3题，5题失败；出题代理交付后结束，全部实现和验收仍由主代理完成。
+
+根式积分现通过两个仿射因子的系数比较识别 Möbius 换元；平方复对数在已证明上/下半平面时生成严格的主支修正，其他短复对数保留独立对数节点。例如 `simplify(ln((x+i)^2)-2*ln(x+i))` 返回 `when(x>=0,0,-2*pi*i)`，下半平面的等号归属不同，已单独验证。
+
+反三角函数 `acos/asin(±1∓c*v^(2m))` 的有界实多项式复合规则保留零点导数；奇数实根的整数幂在指数不少于根次数时先约去根幂，避免先产生 `root/(n*u)` 的0/0。这些规则不会把负数实根替换成主值复幂。新增16项结构变体验证涵盖平移、正系数、三/五次实根、上/下半平面分界及带常数因子的 Möbius 幂。根式大幂的展开预算同样受保护。
+
+第二轮8题32项、第一轮48项、旧混合题96项、极坐标60项、21项正式回归及7项补充任务通过。新积分清单648条：643精确、5导数采样。通用测试器的缺失设置问题沿用专用用户矩阵验收，不将未知参数条件审计算为积分成功。
+
+PC2-R1 的输出从679字符保留为79字符，两个版本都经独立代数证明等价；5次主机进程中位数从1.665 ms降至0.331 ms。ROM曾仅余316 B，因此把新增求导复合规则独立放置到AC2并检查链接地址。当前ROM余1,724 B，AC2余88,088 B，静态RAM和CAS堆不变。这是代码区域重新分配，不是整体包体缩小。
+
+本轮首次仍有错题，下一步继续派发全新题集，尚不进入最终性能代理验收。
+
+[第二轮首次](benchmarks/polar-cycle2-first-acceptance-2026a.json) · [第二轮修复后](benchmarks/polar-cycle2-fixed-acceptance-2026a.json) · [结构变体](benchmarks/polar-cycle2-root-guards-2026a.json) · [资源](benchmarks/resources-polar-cycle2-2026a.json) · [测量](benchmarks/polar-cycle2-performance-2026a.json)。

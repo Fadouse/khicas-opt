@@ -1,0 +1,32 @@
+{
+  "cases": [
+    {
+      "id": "PC2-I1",
+      "input": "simplify(integrate(sqrt((1-x)/(1+x))/(1-x^2),x))",
+      "expected": "-sqrt((1-x)/(1+x))",
+      "conditions": [
+        "x is real and -1<x<1; this is the entire real domain of the integrand.",
+        "sqrt is the nonnegative real square root; additive constants are immaterial."
+      ]
+    },
+    {
+      "id": "PC2-I2",
+      "input": "simplify(integrate((2*x+2*i)/(x^2+2*i*x-2),x))",
+      "expected": "ln(x-1+i)+ln(x+1+i)",
+      "conditions": [
+        "x is real, including x=0.",
+        "ln is the principal complex logarithm, with arg in (-pi,pi].",
+        "A single antiderivative differentiable on the whole real axis is required, up to one global additive constant."
+      ]
+    },
+    {
+      "id": "PC2-I3",
+      "input": "simplify(integrate(x*exp(x)*cos(x),x))",
+      "expected": "exp(x)*(x*cos(x)+(x-1)*sin(x))/2",
+      "conditions": [
+        "x is real; the domain is the entire real axis.",
+        "Additive constants are immaterial."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,165 @@
+{
+  "scope": "Root-added structural variations on ordinary and guarded stacks. Exact independent formula comparisons with domain proofs in POLAR-STABILITY.md.",
+  "runs": [
+    {
+      "id": "upper-cut",
+      "input": "simplify(ln((2*x+3*i)^2)-2*ln(2*x+3*i))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "(((2*x)>=0)? 0 : -2*pi*i)",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000535936\nMAX_RSS_KB 15436\n",
+      "verification": "exact canonical formula; half-plane cut endpoints, real root powers, real-domain inverse-trig identity, or Mobius logarithmic derivative",
+      "pass": true
+    },
+    {
+      "id": "upper-cut",
+      "input": "simplify(ln((2*x+3*i)^2)-2*ln(2*x+3*i))",
+      "stack": "64",
+      "exit": 0,
+      "result": "(((2*x)>=0)? 0 : -2*pi*i)",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000521766\nMAX_RSS_KB 14896\n",
+      "verification": "exact canonical formula; half-plane cut endpoints, real root powers, real-domain inverse-trig identity, or Mobius logarithmic derivative",
+      "pass": true
+    },
+    {
+      "id": "lower-cut",
+      "input": "simplify(ln((x-2*i)^2)-2*ln(x-2*i))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "((x>0)? 0 : 2*pi*i)",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000521505\nMAX_RSS_KB 15692\n",
+      "verification": "exact canonical formula; half-plane cut endpoints, real root powers, real-domain inverse-trig identity, or Mobius logarithmic derivative",
+      "pass": true
+    },
+    {
+      "id": "lower-cut",
+      "input": "simplify(ln((x-2*i)^2)-2*ln(x-2*i))",
+      "stack": "64",
+      "exit": 0,
+      "result": "((x>0)? 0 : 2*pi*i)",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000520635\nMAX_RSS_KB 15136\n",
+      "verification": "exact canonical formula; half-plane cut endpoints, real root powers, real-domain inverse-trig identity, or Mobius logarithmic derivative",
+      "pass": true
+    },
+    {
+      "id": "shifted-acos",
+      "input": "simplify(diff(acos(1-2*(x-1)^6),x))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "6*sqrt(2)*(x-1)*abs(x-1)/sqrt(2-2*(x-1)^6)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00185259\nMAX_RSS_KB 19564\n",
+      "verification": "exact canonical formula; half-plane cut endpoints, real root powers, real-domain inverse-trig identity, or Mobius logarithmic derivative",
+      "pass": true
+    },
+    {
+      "id": "shifted-acos",
+      "input": "simplify(diff(acos(1-2*(x-1)^6),x))",
+      "stack": "64",
+      "exit": 0,
+      "result": "6*sqrt(2)*(x-1)*abs(x-1)/sqrt(2-2*(x-1)^6)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00182931\nMAX_RSS_KB 19288\n",
+      "verification": "exact canonical formula; half-plane cut endpoints, real root powers, real-domain inverse-trig identity, or Mobius logarithmic derivative",
+      "pass": true
+    },
+    {
+      "id": "shifted-asin",
+      "input": "simplify(diff(asin(-1+3*(x+2)^8),x))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "8*sqrt(3)*(x+2)*(x+2)^2/sqrt(2-3*(x+2)^8)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00183549\nMAX_RSS_KB 19636\n",
+      "verification": "exact canonical formula; half-plane cut endpoints, real root powers, real-domain inverse-trig identity, or Mobius logarithmic derivative",
+      "pass": true
+    },
+    {
+      "id": "shifted-asin",
+      "input": "simplify(diff(asin(-1+3*(x+2)^8),x))",
+      "stack": "64",
+      "exit": 0,
+      "result": "8*sqrt(3)*(x+2)*(x+2)^2/sqrt(2-3*(x+2)^8)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00195876\nMAX_RSS_KB 19308\n",
+      "verification": "exact canonical formula; half-plane cut endpoints, real root powers, real-domain inverse-trig identity, or Mobius logarithmic derivative",
+      "pass": true
+    },
+    {
+      "id": "root5",
+      "input": "simplify(diff(surd(x^2-4,5)^6,x))",
+      "stack": "normal",
+      "exit": 0,
+      "result": "12*x*surd(x^2-4,5)/5",
+      "stderr": "Temporary replacing surd/NTHROOT by fractional powers\nPARSER_CALLS 1\nSECONDS 0.001126\nMAX_RSS_KB 18904\n",
+      "verification": "exact canonical formula; half-plane cut endpoints, real root powers, real-domain inverse-trig identity, or Mobius logarithmic derivative",
+      "pass": true
+    },
+    {
+      "id": "root5",
+      "input": "simplify(diff(surd(x^2-4,5)^6,x))",
+      "stack": "64",
+      "exit": 0,
+      "result": "12*x*surd(x^2-4,5)/5",
+      "stderr": "Temporary replacing surd/NTHROOT by fractional powers\nPARSER_CALLS 1\nSECONDS 0.00120674\nMAX_RSS_KB 18592\n",
+      "verification": "exact canonical formula; half-plane cut endpoints, real root powers, real-domain inverse-trig identity, or Mobius logarithmic derivative",
+      "pass": true
+    },
+    {
+      "id": "root-equal",
+      "input": "diff(surd(x-3,5)^5,x)",
+      "stack": "normal",
+      "exit": 0,
+      "result": "1",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000362997\nMAX_RSS_KB 14748\n",
+      "verification": "exact canonical formula; half-plane cut endpoints, real root powers, real-domain inverse-trig identity, or Mobius logarithmic derivative",
+      "pass": true
+    },
+    {
+      "id": "root-equal",
+      "input": "diff(surd(x-3,5)^5,x)",
+      "stack": "64",
+      "exit": 0,
+      "result": "1",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000413977\nMAX_RSS_KB 14404\n",
+      "verification": "exact canonical formula; half-plane cut endpoints, real root powers, real-domain inverse-trig identity, or Mobius logarithmic derivative",
+      "pass": true
+    },
+    {
+      "id": "mobius-scaled",
+      "input": "integrate(sqrt(3*(2-x)/(2+x))/(4-x^2),x)",
+      "stack": "normal",
+      "exit": 0,
+      "result": "-sqrt(3*(2-x)/(2+x))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000450536\nMAX_RSS_KB 15216\n",
+      "verification": "exact canonical formula; half-plane cut endpoints, real root powers, real-domain inverse-trig identity, or Mobius logarithmic derivative",
+      "pass": true
+    },
+    {
+      "id": "mobius-scaled",
+      "input": "integrate(sqrt(3*(2-x)/(2+x))/(4-x^2),x)",
+      "stack": "64",
+      "exit": 0,
+      "result": "-sqrt(3*(2-x)/(2+x))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000481996\nMAX_RSS_KB 15144\n",
+      "verification": "exact canonical formula; half-plane cut endpoints, real root powers, real-domain inverse-trig identity, or Mobius logarithmic derivative",
+      "pass": true
+    },
+    {
+      "id": "mobius-power",
+      "input": "integrate(((3-x)/(3+x))^(1/3)/(9-x^2),x)",
+      "stack": "normal",
+      "exit": 0,
+      "result": "-((3-x)/(3+x))^(1/3)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000450886\nMAX_RSS_KB 15468\n",
+      "verification": "exact canonical formula; half-plane cut endpoints, real root powers, real-domain inverse-trig identity, or Mobius logarithmic derivative",
+      "pass": true
+    },
+    {
+      "id": "mobius-power",
+      "input": "integrate(((3-x)/(3+x))^(1/3)/(9-x^2),x)",
+      "stack": "64",
+      "exit": 0,
+      "result": "-((3-x)/(3+x))^(1/3)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000515446\nMAX_RSS_KB 14636\n",
+      "verification": "exact canonical formula; half-plane cut endpoints, real root powers, real-domain inverse-trig identity, or Mobius logarithmic derivative",
+      "pass": true
+    }
+  ]
+}

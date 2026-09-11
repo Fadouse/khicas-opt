@@ -22,8 +22,11 @@ def convert_ternary(text):
             if q is not None:
                 condition=out[:q].strip()
                 while condition.startswith('(') and condition.endswith(')'):condition=condition[1:-1]
-                lhs,rhs=condition.split('=',1)
-                out='Piecewise(('+out[q+1:colon]+',Eq('+lhs+','+rhs+')),('+out[colon+1:]+',True))'
+                if any(op in condition for op in ('>=','<=','>','<','!=')):
+                    predicate=condition
+                else:
+                    lhs,rhs=condition.split('=',1);predicate='Eq('+lhs+','+rhs+')'
+                out='Piecewise(('+out[q+1:colon]+','+predicate+'),('+out[colon+1:]+',True))'
         return out,j+1
     return group(0)[0]
 def parse(s):return sp.sympify(convert_ternary(s).replace('^','**'),locals=local)

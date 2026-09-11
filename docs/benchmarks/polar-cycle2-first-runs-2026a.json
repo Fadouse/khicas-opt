@@ -1,0 +1,296 @@
+{
+  "scope": "First execution on unchanged 803537b integration/yderive/simplify probe; execution completion is not mathematical acceptance.",
+  "probe": "/tmp/khicas-polar-fix3/simplify/probe",
+  "probe_sha256": "25ce57ae4887f5ea5db7366d808644236df847a2c1526916f5ac6a5542b8dd2f",
+  "corpus_sha256": "8156c98020416e773daec1f58ab056382c1365fe210843f09f66fa88bd4ee94c",
+  "runs": [
+    {
+      "id": "PC2-I1",
+      "input": "integrate(sqrt((1-x)/(1+x))/(1-x^2),x)",
+      "outer": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "2*sign(x+1)/(-1-1/2*(-2*sqrt(-x^2+1)+2)/x)",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(x+1)]\nUnable to cancel step at -1 of 2/(-1-1/2*(-2*sqrt(-x^2+1)+2)/x)--2/(-1-1/2*(-2*sqrt(-x^2+1)+2)/x)\nPARSER_CALLS 1\nSECONDS 0.00991874\nMAX_RSS_KB 20864\n"
+    },
+    {
+      "id": "PC2-I1",
+      "input": "integrate(sqrt((1-x)/(1+x))/(1-x^2),x)",
+      "outer": false,
+      "stack": "64",
+      "exit": -11,
+      "result": "",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(x+1)]\n"
+    },
+    {
+      "id": "PC2-I1",
+      "input": "simplify(integrate(sqrt((1-x)/(1+x))/(1-x^2),x))",
+      "outer": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(-x*sign(x+1)-sqrt(-x^2+1)*sign(x+1)-sign(x+1))/(x+1)",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(x+1)]\nUnable to cancel step at -1 of 2/(-1-1/2*(-2*sqrt(-x^2+1)+2)/x)--2/(-1-1/2*(-2*sqrt(-x^2+1)+2)/x)\nPARSER_CALLS 1\nSECONDS 0.0111526\nMAX_RSS_KB 27020\n"
+    },
+    {
+      "id": "PC2-I1",
+      "input": "simplify(integrate(sqrt((1-x)/(1+x))/(1-x^2),x))",
+      "outer": true,
+      "stack": "64",
+      "exit": -11,
+      "result": "",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(x+1)]\n"
+    },
+    {
+      "id": "PC2-I2",
+      "input": "integrate((2*x+2*i)/(x^2+2*i*x-2),x)",
+      "outer": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "ln(x+1+i)+ln(x-1+i)",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.0018015\nMAX_RSS_KB 27020\n"
+    },
+    {
+      "id": "PC2-I2",
+      "input": "integrate((2*x+2*i)/(x^2+2*i*x-2),x)",
+      "outer": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "ln(x+1+i)+ln(x-1+i)",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.0017892\nMAX_RSS_KB 27020\n"
+    },
+    {
+      "id": "PC2-I2",
+      "input": "simplify(integrate((2*x+2*i)/(x^2+2*i*x-2),x))",
+      "outer": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "ln(x^2+2*i*x-2)",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.00184402\nMAX_RSS_KB 27020\n"
+    },
+    {
+      "id": "PC2-I2",
+      "input": "simplify(integrate((2*x+2*i)/(x^2+2*i*x-2),x))",
+      "outer": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "ln(x^2+2*i*x-2)",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.00176687\nMAX_RSS_KB 27020\n"
+    },
+    {
+      "id": "PC2-I3",
+      "input": "integrate(x*exp(x)*cos(x),x)",
+      "outer": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "exp(x)*(x/2*cos(x)+(x-1)/2*sin(x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00073412\nMAX_RSS_KB 27020\n"
+    },
+    {
+      "id": "PC2-I3",
+      "input": "integrate(x*exp(x)*cos(x),x)",
+      "outer": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "exp(x)*(x/2*cos(x)+(x-1)/2*sin(x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00075186\nMAX_RSS_KB 27020\n"
+    },
+    {
+      "id": "PC2-I3",
+      "input": "simplify(integrate(x*exp(x)*cos(x),x))",
+      "outer": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(x*cos(x)*exp(x)+x*exp(x)*sin(x)-exp(x)*sin(x))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00074545\nMAX_RSS_KB 27020\n"
+    },
+    {
+      "id": "PC2-I3",
+      "input": "simplify(integrate(x*exp(x)*cos(x),x))",
+      "outer": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "(x*cos(x)*exp(x)+x*exp(x)*sin(x)-exp(x)*sin(x))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00077152\nMAX_RSS_KB 27020\n"
+    },
+    {
+      "id": "PC2-D1",
+      "input": "diff(acos(1-x^4),x)",
+      "outer": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "4*x^3/x^2/sqrt(-x^4+2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00189032\nMAX_RSS_KB 27020\n"
+    },
+    {
+      "id": "PC2-D1",
+      "input": "diff(acos(1-x^4),x)",
+      "outer": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "4*x^3/x^2/sqrt(-x^4+2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00198559\nMAX_RSS_KB 27020\n"
+    },
+    {
+      "id": "PC2-D1",
+      "input": "simplify(diff(acos(1-x^4),x))",
+      "outer": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "-4*x*sqrt(-x^4+2)/(x^4-2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00198195\nMAX_RSS_KB 27020\n"
+    },
+    {
+      "id": "PC2-D1",
+      "input": "simplify(diff(acos(1-x^4),x))",
+      "outer": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "-4*x*sqrt(-x^4+2)/(x^4-2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00233699\nMAX_RSS_KB 27276\n"
+    },
+    {
+      "id": "PC2-D2",
+      "input": "diff(surd(x^2-x,3)^4,x)",
+      "outer": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "4/3*(2*x-1)*surd(x^2-x,3)/(x^2-x)*(surd(x^2-x,3))^3",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000338586\nMAX_RSS_KB 27276\n"
+    },
+    {
+      "id": "PC2-D2",
+      "input": "diff(surd(x^2-x,3)^4,x)",
+      "outer": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "4/3*(2*x-1)*surd(x^2-x,3)/(x^2-x)*(surd(x^2-x,3))^3",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000325646\nMAX_RSS_KB 27276\n"
+    },
+    {
+      "id": "PC2-D2",
+      "input": "simplify(diff(surd(x^2-x,3)^4,x))",
+      "outer": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(8*x*surd(x^2-x,3)-4*surd(x^2-x,3))/3",
+      "stderr": "Temporary replacing surd/NTHROOT by fractional powers\nPARSER_CALLS 1\nSECONDS 0.0013232\nMAX_RSS_KB 27276\n"
+    },
+    {
+      "id": "PC2-D2",
+      "input": "simplify(diff(surd(x^2-x,3)^4,x))",
+      "outer": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "(8*x*surd(x^2-x,3)-4*surd(x^2-x,3))/3",
+      "stderr": "Temporary replacing surd/NTHROOT by fractional powers\nPARSER_CALLS 1\nSECONDS 0.00133492\nMAX_RSS_KB 27276\n"
+    },
+    {
+      "id": "PC2-D3",
+      "input": "diff(ln(1+exp(x))/(1+exp(x)),x)",
+      "outer": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(exp(x)/(1+exp(x))*(1+exp(x))-ln(1+exp(x))*exp(x))/(1+exp(x))^2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000304846\nMAX_RSS_KB 27276\n"
+    },
+    {
+      "id": "PC2-D3",
+      "input": "diff(ln(1+exp(x))/(1+exp(x)),x)",
+      "outer": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "(exp(x)/(1+exp(x))*(1+exp(x))-ln(1+exp(x))*exp(x))/(1+exp(x))^2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000337366\nMAX_RSS_KB 27276\n"
+    },
+    {
+      "id": "PC2-D3",
+      "input": "simplify(diff(ln(1+exp(x))/(1+exp(x)),x))",
+      "outer": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(-exp(x)*ln(exp(x)+1)+exp(x))/(exp(x)^2+2*exp(x)+1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00073977\nMAX_RSS_KB 27276\n"
+    },
+    {
+      "id": "PC2-D3",
+      "input": "simplify(diff(ln(1+exp(x))/(1+exp(x)),x))",
+      "outer": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "(-exp(x)*ln(exp(x)+1)+exp(x))/(exp(x)^2+2*exp(x)+1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000774\nMAX_RSS_KB 27276\n"
+    },
+    {
+      "id": "PC2-S1",
+      "input": "ln((x+i)^2)-2*ln(x+i)",
+      "outer": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "ln((x+i)^2)-2*ln(x+i)",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000306326\nMAX_RSS_KB 27276\n"
+    },
+    {
+      "id": "PC2-S1",
+      "input": "ln((x+i)^2)-2*ln(x+i)",
+      "outer": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "ln((x+i)^2)-2*ln(x+i)",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000321196\nMAX_RSS_KB 27276\n"
+    },
+    {
+      "id": "PC2-S1",
+      "input": "simplify(ln((x+i)^2)-2*ln(x+i))",
+      "outer": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "0",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000379795\nMAX_RSS_KB 27276\n"
+    },
+    {
+      "id": "PC2-S1",
+      "input": "simplify(ln((x+i)^2)-2*ln(x+i))",
+      "outer": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "0",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000394115\nMAX_RSS_KB 27276\n"
+    },
+    {
+      "id": "PC2-R1",
+      "input": "((x+sqrt(x^2+1))^32-(sqrt(x^2+1)-x)^32)/((x+sqrt(x^2+1))^32+(sqrt(x^2+1)-x)^32)",
+      "outer": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "((x+sqrt(x^2+1))^32-(sqrt(x^2+1)-x)^32)/((x+sqrt(x^2+1))^32+(sqrt(x^2+1)-x)^32)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000299686\nMAX_RSS_KB 27276\n"
+    },
+    {
+      "id": "PC2-R1",
+      "input": "((x+sqrt(x^2+1))^32-(sqrt(x^2+1)-x)^32)/((x+sqrt(x^2+1))^32+(sqrt(x^2+1)-x)^32)",
+      "outer": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "((x+sqrt(x^2+1))^32-(sqrt(x^2+1)-x)^32)/((x+sqrt(x^2+1))^32+(sqrt(x^2+1)-x)^32)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000325865\nMAX_RSS_KB 27276\n"
+    },
+    {
+      "id": "PC2-R1",
+      "input": "simplify(((x+sqrt(x^2+1))^32-(sqrt(x^2+1)-x)^32)/((x+sqrt(x^2+1))^32+(sqrt(x^2+1)-x)^32))",
+      "outer": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(2147483648*x^31*sqrt(x^2+1)+16106127360*x^29*sqrt(x^2+1)+54492397568*x^27*sqrt(x^2+1)+109924319232*x^25*sqrt(x^2+1)+147220070400*x^23*sqrt(x^2+1)+137950658560*x^21*sqrt(x^2+1)+92851404800*x^19*sqrt(x^2+1)+45364543488*x^17*sqrt(x^2+1)+16066609152*x^15*sqrt(x^2+1)+4074864640*x^13*sqrt(x^2+1)+722362368*x^11*sqrt(x^2+1)+85995520*x^9*sqrt(x^2+1)+6449664*x^7*sqrt(x^2+1)+274176*x^5*sqrt(x^2+1)+5440*x^3*sqrt(x^2+1)+32*x*sqrt(x^2+1))/(2147483648*x^32+17179869184*x^30+62277025792*x^28+135291469824*x^26+196293427200*x^24+200655503360*x^22+148562247680*x^20+80648077312*x^18+32133218304*x^16+9313976320*x^14+1926299648*x^12+275185664*x^10+25798656*x^8+1462272*x^6+43520*x^4+512*x^2+1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00226673\nMAX_RSS_KB 27276\n"
+    },
+    {
+      "id": "PC2-R1",
+      "input": "simplify(((x+sqrt(x^2+1))^32-(sqrt(x^2+1)-x)^32)/((x+sqrt(x^2+1))^32+(sqrt(x^2+1)-x)^32))",
+      "outer": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "(2147483648*x^31*sqrt(x^2+1)+16106127360*x^29*sqrt(x^2+1)+54492397568*x^27*sqrt(x^2+1)+109924319232*x^25*sqrt(x^2+1)+147220070400*x^23*sqrt(x^2+1)+137950658560*x^21*sqrt(x^2+1)+92851404800*x^19*sqrt(x^2+1)+45364543488*x^17*sqrt(x^2+1)+16066609152*x^15*sqrt(x^2+1)+4074864640*x^13*sqrt(x^2+1)+722362368*x^11*sqrt(x^2+1)+85995520*x^9*sqrt(x^2+1)+6449664*x^7*sqrt(x^2+1)+274176*x^5*sqrt(x^2+1)+5440*x^3*sqrt(x^2+1)+32*x*sqrt(x^2+1))/(2147483648*x^32+17179869184*x^30+62277025792*x^28+135291469824*x^26+196293427200*x^24+200655503360*x^22+148562247680*x^20+80648077312*x^18+32133218304*x^16+9313976320*x^14+1926299648*x^12+275185664*x^10+25798656*x^8+1462272*x^6+43520*x^4+512*x^2+1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00179022\nMAX_RSS_KB 27276\n"
+    }
+  ]
+}

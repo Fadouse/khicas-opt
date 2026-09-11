@@ -64,13 +64,14 @@ def derivative_source(ref='current'):
     out+='extern const unary_function_ptr * const at_Li2;\n'
     out+='gen host_symb_derive(const gen &);\ngen host_symb_derive(const gen &,const gen &);\ngen host_symb_derive(const gen &,const gen &,const gen &);\n'
     out+='gen symb_prog3(const gen &,const gen &,const gen &);\n'
-    for sig in ('   gen eval_before_diff(', '  bool depend(', '  static int count_noncst(', '  static gen derive_SYMB(',
+    for sig in ('   gen eval_before_diff(', '  bool depend(', '  static int count_noncst(', '  static bool derive_real_composition(', '  static gen derive_SYMB(',
                 '  static gen derive_VECT(', '  gen derive(const gen & e,const identificateur & i,GIAC_CONTEXT)',
                 '  static gen _VECTderive(', '  static gen derivesymb(',
                 '  gen derive(const gen & e,const gen & vars,GIAC_CONTEXT)',
                 '  gen derive(const gen & e,const gen & vars,const gen & nderiv,GIAC_CONTEXT)',
                 '  gen symb_derive(const gen & a)', '  gen symb_derive(const gen & a,const gen & b)',
                 '  gen symb_derive(const gen & a,const gen & b,const gen &c)', '  gen _derive(', '  gen _diff('):
+        if sig not in s and sig=='  static bool derive_real_composition(':continue
         out+=function(s,sig).replace('symb_derive(', 'host_symb_derive(').replace('symb_plus(v)', 'symbolic(at_plus,gen(v,_SEQ__VECT))')
     return out+'}\n'
 

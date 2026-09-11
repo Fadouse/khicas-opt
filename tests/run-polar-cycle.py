@@ -18,23 +18,24 @@ for c in cases:
    expression=c['input'];expression=expression[9:-1] if expression.startswith('simplify(') else expression
    if outer:expression='simplify('+expression+')'
    row=dict(id=c['id'],outer=outer,stack=stack,input=expression)
+   env=dict(os.environ);env.pop('KHICAS_TEST_STACK_KIB',None)
+   if stack=='64':env['KHICAS_TEST_STACK_KIB']='64'
    try:
     if saved:
      row.update(next(r for r in saved if r['id']==c['id'] and r['outer']==outer and r['stack']==stack))
     else:
-     env=dict(os.environ);env.pop('KHICAS_TEST_STACK_KIB',None)
-     if stack=='64':env['KHICAS_TEST_STACK_KIB']='64'
      r=subprocess.run([str(a.probe),expression],capture_output=True,text=True,env=env,timeout=12)
      row.update(exit=r.returncode,result=r.stdout.strip(),stderr=r.stderr)
     assert row['exit']==0,(row['exit'],row['result'][:400])
     key=(c['id'],row['result'])
     if key not in cache:cache[key]=verify(c,row['result'])
     row['verification']=cache[key];row['pass']=True
-    if c['id']=='PC1-D1' and not saved:
-     for point in [-1,1]:
+    points={'PC1-D1':[-1,1],'PC2-D1':[0],'PC2-D2':[0,1]}.get(c['id'],[])
+    if points:
+     for point in points:
       r=subprocess.run([str(a.probe),'eval(subst('+expression+',x='+str(point)+'))'],capture_output=True,text=True,env=env,timeout=12)
       assert r.returncode==0 and r.stdout.strip()=='0',(point,r.stdout,r.stderr)
-     row['actual_endpoint_substitution']='Both -1 and 1 evaluate to 0'
+     row['actual_endpoint_substitution']={str(point):0 for point in points}
    except Exception as e:row.update(error=str(e),**{'pass':False})
    rows.append(row);a.report.write_text(json.dumps(report,indent=2)+'\n')
    print(c['id'],outer,stack,row['pass'],row.get('error','')[:200],flush=True)

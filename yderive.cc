@@ -82,6 +82,45 @@ namespace giac {
     return res;
   }
 
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static bool derive_real_composition(const symbolic &s,const identificateur &i,gen &result,GIAC_CONTEXT){
+    if((s.sommet==at_acos || s.sommet==at_asin) && angle_radian(contextptr) &&
+       taille(s.feuille,65)<=64 && is_zero(im(s.feuille,contextptr))){
+      vecteur powers=lop(s.feuille,at_pow);
+      for(unsigned j=0;j<powers.size();++j){
+        const gen &p=powers[j]._SYMBptr->feuille;
+        if(p.type!=_VECT || p._VECTptr->size()!=2 || p[1].type!=_INT_ ||
+           p[1].val<4 || p[1].val>16 || p[1].val%2)continue;
+        gen a,b;
+        if(!is_linear_wrt(s.feuille,powers[j],a,b,contextptr) || !equation_rational(a) ||
+           (b!=1 && b!=-1) || !is_strictly_positive(-a*b,contextptr))continue;
+        unsigned budget=64;equation_polynomial_budget bound;
+        if(!equation_polynomial_bound(p[0],budget,0,bound))continue;
+        gen c=-a*b,v=p[0];int m=p[1].val/2;
+        // acos(1-c*v^(2m)): x*|x|^(m-2) keeps the sign and
+        // the finite derivative at a zero of v, without a 0/0 quotient.
+        gen answer=b*p[1]*sqrt(c,contextptr)*v*pow(symbolic(at_abs,v),m-2)*derive(v,i,contextptr)/sqrt(2-c*powers[j],contextptr);
+        result=s.sommet==at_acos?answer:-answer;return true;
+      }
+    }
+    if(s.sommet==at_pow && s.feuille.type==_VECT && s.feuille._VECTptr->size()==2){
+      gen base=s.feuille[0],exponent=s.feuille[1];
+      if((base.is_symb_of_sommet(at_surd) || base.is_symb_of_sommet(at_NTHROOT)) && base._SYMBptr->feuille.type==_VECT && exponent.type==_INT_ && exponent.val<=64){
+        vecteur root=*base._SYMBptr->feuille._VECTptr;
+        if(base.is_symb_of_sommet(at_NTHROOT) && root.size()==2)std::swap(root[0],root[1]);
+        if(root.size()==2 && root[1].type==_INT_ && root[1].val>=3 && root[1].val<=31 &&
+           root[1].val%2 && exponent.val>=root[1].val && taille(root[0],65)<=64 && is_zero(im(root[0],contextptr))){
+          // The composite real root power is differentiable at zero when
+          // m>=n. Cancel the root powers before computing root' = root/(n*u).
+          result=exponent/root[1]*pow(base,exponent-root[1],contextptr)*derive(root[0],i,contextptr);return true;
+        }
+      }
+    }
+    return false;
+  }
+
   static gen derive_SYMB(const gen &g_orig,const identificateur & i,GIAC_CONTEXT){
     const symbolic & s = *g_orig._SYMBptr;
     if (s.sommet==at_pnt){
@@ -196,6 +235,9 @@ namespace giac {
     }
     if (s.sommet==at_neg)
       return -derive(s.feuille,i,contextptr);
+    if(s.sommet==at_pow || s.sommet==at_acos || s.sommet==at_asin){
+      gen result;if(derive_real_composition(s,i,result,contextptr))return result;
+    }
     if (s.sommet==at_pow){
       if (s.feuille.type!=_VECT || s.feuille._VECTptr->size()!=2)
 	return gensizeerr(contextptr);

@@ -99,6 +99,7 @@ SECTIONS
     yintg.o(.text.*integration_dilog_form*)
     yintg.o(.text.*integrate_dilog_primitive*)
     yintg.o(.text.*integrate_log_trig_primitive*)
+    yderive.o(.text.*derive_real_composition*)
     yintg.o(.text.*integrate_dilog_definite*)
     yintg.o(.text.*integrate_compact_definite*)
 		yintg.o(.text.*integrate_real_root*)

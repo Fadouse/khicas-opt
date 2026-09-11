@@ -2434,6 +2434,29 @@ namespace giac {
       return e_orig;
     if (e_orig.type<=_POLY || is_inf(e_orig) || has_num_coeff(e_orig))
       return e_orig;
+    // Principal complex logarithms do not preserve products. Keep their
+    // atoms separate; squares in a proved half-plane have a short exact
+    // correction, including the negative-real cut endpoint.
+    if(taille(e_orig,129)<=128 && contains(e_orig,*at_ln)){
+      vecteur logs=lop(e_orig,at_ln),from,to;bool complex_log=false;
+      for(unsigned j=0;j<logs.size();++j){
+        const gen &argument=logs[j]._SYMBptr->feuille;
+        if(taille(argument,33)>32)continue;
+        if(!is_zero(im(argument,contextptr)))complex_log=true;
+        if(!argument.is_symb_of_sommet(at_pow) || argument._SYMBptr->feuille.type!=_VECT)continue;
+        const vecteur &p=*argument._SYMBptr->feuille._VECTptr;
+        if(p.size()!=2 || p[1]!=2)continue;
+        gen imaginary=im(p[0],contextptr);
+        bool upper=is_strictly_positive(imaginary,contextptr),lower=is_strictly_positive(-imaginary,contextptr);
+        if(!upper && !lower)continue;
+        gen real=re(p[0],contextptr);
+        gen condition=upper?symb_superieur_egal(real,0):symb_superieur_strict(real,0);
+        gen correction=symbolic(at_when,makesequence(condition,0,(upper?-2:2)*cst_pi*cst_i));
+        from.push_back(logs[j]);to.push_back(2*symbolic(at_ln,p[0])+correction);
+      }
+      if(complex_log || !from.empty())
+        return ratnormal(from.empty()?e_orig:quotesubst(e_orig,from,to,contextptr),contextptr);
+    }
     // Short logarithmic arithmetic needs no expansion of the phase inside
     // abs(sin(u))/abs(cos(u)). Such expansion can construct a cyclotomic
     // extension even though the existing real logarithms are already short.
@@ -2913,6 +2936,14 @@ namespace giac {
     bool psi=false;unsigned budget=2048;
     unsigned terms=simplify_special_terms(e_orig,psi,budget,0);
     if(!budget)return e_orig;
+    if(terms>64){
+      if(contains(e_orig,*at_sqrt))return e_orig;
+      vecteur roots=lop(e_orig,at_pow);
+      for(unsigned j=0;j<roots.size();++j){
+        const gen &f=roots[j]._SYMBptr->feuille;
+        if(f.type==_VECT && f._VECTptr->size()==2 && f[1]==gen(1)/2)return e_orig;
+      }
+    }
     // Factored trigonometric products can create exponentially many
     // independent polynomial terms before trig identities are applied.
     if(terms>64 && (contains(e_orig,*at_sin) || contains(e_orig,*at_cos)))return e_orig;
