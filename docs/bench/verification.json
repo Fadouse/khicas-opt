@@ -1,5 +1,5 @@
 {
-  "scope": "Current source layout, formatting, arithmetic and targeted regression verification. New-batch mathematical acceptance is reported separately.",
+  "scope": "Current menu package, SH4 build and device installation; existing mathematical checks inherited from cd769bcd879a9ffac78352f8fc3c92a95a21e3f0 without unrelated reruns.",
   "checks": {
     "objects": {
       "scope": "Same SH4 compiler/flags; compare complete relocatable object bytes after removing debug information. Formatting and relocation of source files should preserve objects except the previously pending MRV intersection fix.",
@@ -468,6 +468,78 @@
         }
       ],
       "device_script_paths": "Passed actual target read/time dispatch checks"
+    },
+    "menu_package": {
+      "name": "Cas50",
+      "build": "complete SH4 build",
+      "checks": [
+        "basic and eight localized menu names",
+        "internal identifier",
+        "both embedded RGB565 icons",
+        "full checksum and size",
+        "executable payload",
+        "build profile",
+        "link regions",
+        "20 pixel clean name area"
+      ],
+      "regions": {
+        "rom": {
+          "used": 2065004,
+          "capacity": 2065152,
+          "free": 148
+        },
+        "r8c2": {
+          "used": 2558792,
+          "capacity": 2559996,
+          "free": 1204
+        },
+        "ram": {
+          "used": 424620,
+          "capacity": 442368,
+          "free": 17748
+        }
+      },
+      "packages": {
+        "khicas50.g3a": {
+          "size": 2093680,
+          "sha256": "71be8c776fc353e44cc308cce5284bca38fbd3802afc1e55a020f4a53c0389f0"
+        },
+        "khicas50.ac2": {
+          "size": 2558792,
+          "sha256": "31f803b079ac25403ec3f5aaa3c4e6c5386df212b4fc9ce852f3b368f6cff1a4"
+        }
+      },
+      "device_test": "Installed; direct readback SHA-256 verified. Updated menu appearance awaits user confirmation.",
+      "executable_and_ac2_unchanged": true,
+      "layout": {
+        "canvas": [
+          92,
+          64
+        ],
+        "panel": {
+          "x": 5,
+          "y": 6,
+          "width": 82,
+          "height": 38
+        },
+        "name_area_rows": [
+          44,
+          63
+        ]
+      },
+      "source_stamp": "2a4759319306754e40c4dced41397f019c848b661280ee107073dda9397a753b",
+      "sources": {
+        "assets/khicasio.png": "fc2d66696b7b844e28bb445c02becdb6d22567c6057f3aa4c8961431bf8a0e38",
+        "assets/khicasio1.png": "53b331f29c68c5fcf30e8781d2bef6ee202c389937947e98a8178e180ebf764d",
+        "build/Makefile.native": "c81b9552c80a72ad2d42e68374c5f998b57a9b8a9889ea3595127db93fbb503e"
+      },
+      "payload_sha256": "55b9a09bbfd79ebd56ac9e70d596c2158fe086e8194ef7489a1b83a30a05b468",
+      "installation": {
+        "verification": "Both ordinary files verified with dd iflag=direct SHA-256",
+        "storage_connection": "safe unmount succeeded",
+        "transfer_note": "G3A fsync reported EIO; complete direct readback matched the expected hash"
+      },
+      "icon_source": "User-approved blue integral artwork; existing glyph reduced and panel positioned at (5,6)."
     }
   }
 }

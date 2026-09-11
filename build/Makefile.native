@@ -129,8 +129,8 @@ khicas50.ac2: khicasen.elf prizm.ld
 	$(OBJCOPY)  $(OBJFLAGS) -j .rominram khicasen.elf khicas50.ac2
 	/bin/cp  khicas50.ac2 /shared/tmp
 
-khicas50.g3a: khicasen.bin
-	mkg3a -n basic:Khicas50 -n internal:KHICAS50 -V 1.8.0 -i uns:khicasio.png -i sel:khicasio1.png $^ $@
+khicas50.g3a: khicasen.bin khicasio.png khicasio1.png
+	mkg3a -n basic:Cas50 -n internal:KHICAS50 -V 1.8.0 -i uns:khicasio.png -i sel:khicasio1.png $< $@
 	/bin/cp khicas50.g3a /shared/tmp
 
 emucasen.bin: khicasenm.elf prizmemu.ld
@@ -140,8 +140,8 @@ khicas50.882: khicasenm.elf prizmemu.ld
 	$(OBJCOPY)  $(OBJFLAGS) -j .rominram khicasenm.elf khicas50.882
 	/bin/cp  khicas50.882 ~/.wine/drive_c
 
-emucas50.g3a: emucasen.bin
-	mkg3a -n basic:Khicas50 -n internal:KHICAS50 -V 1.8.0 -i uns:khicasio.png -i sel:khicasio1.png $^ $@
+emucas50.g3a: emucasen.bin khicasio.png khicasio1.png
+	mkg3a -n basic:Cas50 -n internal:KHICAS50 -V 1.8.0 -i uns:khicasio.png -i sel:khicasio1.png $< $@
 	/bin/cp emucas50.g3a ~/.wine/drive_c
 
 clean:
