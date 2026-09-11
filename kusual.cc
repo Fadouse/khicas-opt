@@ -2321,6 +2321,10 @@ namespace giac {
     return symbolic(at_acos,e);
   }
   gen acos(const gen & e0,GIAC_CONTEXT){
+    // Keep symbolic periodic contacts visible to differentiation. Numeric
+    // arguments still use the principal-value evaluation below.
+    if(e0.is_symb_of_sommet(at_cos) && taille(e0,65)<=64 && !lidnt(e0).empty())
+      return symbolic(at_acos,e0);
     if ( (calc_mode(contextptr)==38 || !escape_real(contextptr) ) && !complex_mode(contextptr) && (e0.type<=_POLY) && (!is_positive(e0+1,contextptr) || !is_positive(1-e0,contextptr)))
       return gensizeerr(contextptr);
 #if 0

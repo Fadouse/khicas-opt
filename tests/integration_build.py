@@ -69,6 +69,9 @@ def derivative_source(ref='current'):
     out+='gen symb_prog3(const gen &,const gen &,const gen &);\n'
     out+=function(source(ref,'kusual.cc'),'  gen _abs(')
     out+=function(source(ref,'kusual.cc'),'  gen sqrt(const gen & e,GIAC_CONTEXT)')
+    out+=function(source(ref,'kusual.cc'),'  gen symb_acos(')
+    out+=function(source(ref,'kusual.cc'),'  static gen asinasln(')
+    out+=function(source(ref,'kusual.cc'),'  gen acos(const gen & e0,GIAC_CONTEXT)')
     out+='gen host_symb_derive(const gen &);\ngen host_symb_derive(const gen &,const gen &);\ngen host_symb_derive(const gen &,const gen &,const gen &);\n'
     for sig in ('   gen eval_before_diff(', '  bool depend(', '  static int count_noncst(', '  static bool derive_real_composition(', '  static bool derive_piecewise_regular(', '  static bool derive_root_product(', '  static int derive_piecewise_oscillation(', '  static gen derive_piecewise_joints(', '  static gen derive_SYMB(',
                 '  static gen derive_VECT(', '  gen derive(const gen & e,const identificateur & i,GIAC_CONTEXT)',

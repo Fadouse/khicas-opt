@@ -1,0 +1,24 @@
+{
+  "cases": [
+    {
+      "id": "PC12-I1",
+      "input": "simplify(integrate(x*atan(x)/(1+x^2)^2,x))",
+      "expected": "((x^2-1)*atan(x)+x)/(4*(1+x^2))",
+      "conditions": [
+        "x is any finite real number. atan is the real inverse tangent with values in (-pi/2,pi/2), with angles in radians.",
+        "The original integrand is smooth on the entire real axis. Return an explicit exact antiderivative on that whole connected domain, up to one global additive constant.",
+        "No unevaluated integral or numerical quadrature is an acceptable antiderivative."
+      ]
+    },
+    {
+      "id": "PC12-I2",
+      "input": "simplify(integrate(ln(x)/(sqrt(x)*(1+sqrt(x))^2),x))",
+      "expected": "2*sqrt(x)*ln(x)/(1+sqrt(x))-4*ln(1+sqrt(x))",
+      "conditions": [
+        "x is real and strictly positive, the entire real domain of the original integrand. ln is the real logarithm and sqrt is the nonnegative real square root.",
+        "Return an explicit exact primitive on (0,infinity), up to one global additive constant. Both the logarithm and the denominator exclude zero in the original expression.",
+        "Investigate the continuous extension of the displayed normalized primitive to zero separately; such an extension does not add zero to the integrand's domain or imply a finite endpoint slope."
+      ]
+    }
+  ]
+}

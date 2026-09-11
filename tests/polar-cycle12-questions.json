@@ -1,0 +1,130 @@
+{
+  "cases": [
+    {
+      "id": "PC12-I1",
+      "type": "integral",
+      "input": "simplify(integrate(x*atan(x)/(1+x^2)^2,x))",
+      "conditions": [
+        "x is any finite real number. atan is the real inverse tangent with values in (-pi/2,pi/2), with angles in radians.",
+        "The original integrand is smooth on the entire real axis. Return an explicit exact antiderivative on that whole connected domain, up to one global additive constant.",
+        "No unevaluated integral or numerical quadrature is an acceptable antiderivative."
+      ],
+      "expected": {
+        "expression": "((x^2-1)*atan(x)+x)/(4*(1+x^2))",
+        "properties": [
+          "Equivalent exact evaluable closed forms, with one global additive constant, are acceptable.",
+          "The derivative equals x*atan(x)/(1+x^2)^2 for every real x, including zero, and no real domain exclusions are introduced.",
+          "For the displayed normalization the primitive is odd, vanishes at zero, and is strictly increasing; its derivative vanishes only at zero.",
+          "Its limits at negative and positive infinity are -pi/8 and pi/8 respectively, so the convergent integral over the entire real axis is pi/4."
+        ]
+      },
+      "reason": "Integration by parts with u=atan(x) and dv=x/(1+x^2)^2 dx gives -atan(x)/(2*(1+x^2))+(1/2)*integral(1/(1+x^2)^2 dx). The identity d[x/(2*(1+x^2))+atan(x)/2]/dx=1/(1+x^2)^2 supplies that last primitive and yields the displayed expression. For an independent direct check, set N=(x^2-1)*atan(x)+x. Then N'=2*x*atan(x)+2*x^2/(1+x^2), and [N'*(1+x^2)-2*x*N]/[4*(1+x^2)^2]=x*atan(x)/(1+x^2)^2. The denominator is strictly positive everywhere, so this verification includes zero and establishes a global smooth primitive. Its numerator is odd and its denominator even. For x!=0, x and atan(x) have the same sign, so the derivative is positive, proving strict increase even though its value is zero at the single point zero. As x tends to either infinity, (x^2-1)/(1+x^2) tends to one and x/(1+x^2) tends to zero, while atan(x) tends to the corresponding signed pi/2. This proves the limits and the improper integral without numerical sampling."
+    },
+    {
+      "id": "PC12-I2",
+      "type": "integral",
+      "input": "simplify(integrate(ln(x)/(sqrt(x)*(1+sqrt(x))^2),x))",
+      "conditions": [
+        "x is real and strictly positive, the entire real domain of the original integrand. ln is the real logarithm and sqrt is the nonnegative real square root.",
+        "Return an explicit exact primitive on (0,infinity), up to one global additive constant. Both the logarithm and the denominator exclude zero in the original expression.",
+        "Investigate the continuous extension of the displayed normalized primitive to zero separately; such an extension does not add zero to the integrand's domain or imply a finite endpoint slope."
+      ],
+      "expected": {
+        "expression": "2*sqrt(x)*ln(x)/(1+sqrt(x))-4*ln(1+sqrt(x))",
+        "properties": [
+          "Return an explicit evaluable closed-form primitive without unevaluated integrate. Equivalent exact real forms and a global additive constant are acceptable.",
+          "The derivative equals ln(x)/(sqrt(x)*(1+sqrt(x))^2) on the entire open positive axis; there are no internal poles or branch changes.",
+          "For the displayed normalization the primitive tends to zero as x tends to zero from the right and as x tends to positive infinity. It decreases on (0,1), increases on (1,infinity), and has minimum -4*ln(2) at one.",
+          "If the normalized primitive is assigned value zero at the endpoint zero, its original right difference quotient tends to negative infinity. It has no finite right derivative there, and no two-sided real derivative is asserted.",
+          "The improper integral over (0,infinity) converges absolutely and equals zero. The original integrand remains undefined for x<=0."
+        ]
+      },
+      "reason": "The simultaneous requirements ln(x) defined and sqrt(x) nonzero give precisely x>0. Substitute t=sqrt(x)>0: dx=2*t dt and ln(x)=2*ln(t), so the integral is 4*integral(ln(t)/(1+t)^2 dt). Integration by parts gives -4*ln(t)/(1+t)+4*ln(t)-4*ln(1+t), namely H(t)=4*t*ln(t)/(1+t)-4*ln(1+t). Directly H'(t)=4*ln(t)/(1+t)^2, and multiplying by dt/dx=1/(2*t) yields the required integrand. Because t*ln(t) tends to zero and ln(1+t) tends to zero as t tends to zero, H tends to zero there. The alternative identity H(t)=-4*ln(1+1/t)-4*ln(t)/(1+t) proves its zero limit at positive infinity. For the extension F(0)=0, the actual right quotient is H(t)/t^2=4*ln(t)/(t*(1+t))-4*ln(1+t)/t^2. For 0<t<1 the second term is negative and the first tends to negative infinity, proving that the quotient tends to negative infinity, rather than merely observing that a formal derivative diverges. The integrand's sign is the sign of ln(x), proving the monotonicity and the exact minimum. Under the same substitution the absolute integral becomes 4*integral(abs(ln(t))/(1+t)^2 dt). On (0,1) it is bounded above by 4*abs(ln(t)), which is integrable; on (1,infinity) it is bounded above by 4*ln(t)/t^2, also integrable by integration by parts. Thus both improper endpoints converge absolutely, and the primitive's two zero limits prove total integral zero."
+    },
+    {
+      "id": "PC12-D1",
+      "type": "derivative",
+      "input": "simplify(diff(acos(cos(x))^2,x))",
+      "conditions": [
+        "x is any finite real number, in radians. acos is the real principal inverse cosine with range [0,pi].",
+        "The original function is defined and continuous on the entire real axis. Account for every contact x=k*pi, not just contacts in a single principal period.",
+        "piecewise uses first-true lazy selection. undef denotes absence of a finite two-sided derivative, not absence of the original function."
+      ],
+      "expected": {
+        "expression": "piecewise(cos(x)==1,0,cos(x)==-1,undef,2*acos(cos(x))*sin(x)/sqrt(1-cos(x)^2))",
+        "properties": [
+          "Return an exact derivative on the real axis excluding all odd integer multiples of pi, with derivative zero at every even integer multiple. Equivalent exact piecewise formulas with the same domain are acceptable.",
+          "At a=2*k*pi, the original function is locally (x-a)^2, so its two-sided derivative is zero and its derivative is continuous there. The singular factors in an unsimplified chain rule are removable at all these infinitely many contacts.",
+          "At b=(2*k+1)*pi, the original function is locally (pi-abs(x-b))^2. Its left derivative is 2*pi and its right derivative is -2*pi, so these are genuine corners.",
+          "On each interval ((2*k-1)*pi,(2*k+1)*pi), the derivative is exactly 2*(x-2*k*pi). The function and its derivative on its domain are 2*pi-periodic.",
+          "Neither the global replacement acos(cos(x))=x nor blanket exclusion or inclusion of every multiple of pi is valid."
+        ]
+      },
+      "reason": "The cosine takes real values in [-1,1], so principal acos and its square are continuous everywhere. When sin(x)!=0 the ordinary chain rule gives 2*acos(cos(x))*sin(x)/sqrt(1-cos(x)^2). For each integer k and h in (-pi,pi), cos(2*k*pi+h)=cos(h) and the principal-range definition gives acos(cos(h))=abs(h). Thus near a=2*k*pi the original squared function is h^2, and [f(a+h)-f(a)]/h=h tends to zero from both sides. In fact the derivative on this whole interval is 2*h, proving continuity at a and the stated interval formula. At b=(2*k+1)*pi and abs(h)<pi, cos(b+h)=-cos(h), so the same principal-range definition gives acos(cos(b+h))=pi-abs(h). Since f(b)=pi^2, its actual quotient is -2*pi*abs(h)/h+h. This tends to 2*pi on the left and -2*pi on the right. It proves genuine nondifferentiability at every odd contact using the selected function value. The even and odd contacts exhaust all zeros of sin(x); the regular chain rule applies elsewhere. Periodicity follows directly from the cosine and agrees with all local formulas."
+    },
+    {
+      "id": "PC12-D2",
+      "type": "derivative",
+      "input": "simplify(diff(atan(x+sqrt(1+x^2)),x))",
+      "conditions": [
+        "x is any finite real number. sqrt is the nonnegative real square root and atan is the real inverse tangent with range (-pi/2,pi/2).",
+        "The original function is smooth on the entire real axis. Preserve this whole domain, including the negative axis and zero.",
+        "All identities and comparisons are exact; subtraction cancellation in a floating-point evaluation is not a symbolic domain condition."
+      ],
+      "expected": {
+        "expression": "1/(2*(1+x^2))",
+        "properties": [
+          "Return the displayed derivative or an equivalent exact evaluable expression with no real domain holes.",
+          "The derivative is positive and even, equals 1/2 at zero, and is finite and smooth for every real x. There are no finite endpoints, corners, or exceptional derivative values.",
+          "The original function obeys atan(x+sqrt(1+x^2))=pi/4+atan(x)/2 on the entire real axis, and has range (0,pi/2).",
+          "A cancellation using x+sqrt(1+x^2) is valid even for negative x because that factor is strictly positive and never zero."
+        ]
+      },
+      "reason": "Put s=sqrt(1+x^2). Since s^2-x^2=1 and s>0, one has s>abs(x), so t=x+s>0 for every finite real x. Moreover (s+x)*(s-x)=1, which independently proves nonvanishing on the negative axis. Differentiation gives t'=1+x/s=t/s, and 1+t^2=1+x^2+2*x*s+s^2=2*s*(s+x)=2*s*t. Thus d[atan(t)]/dx=(t/s)/(2*s*t)=1/(2*s^2)=1/(2*(1+x^2)); all canceled factors have just been proved nonzero everywhere. This positive even rational function has the stated value and regularity. The difference atan(x+s)-atan(x)/2 has zero derivative on the connected real axis and value atan(1)=pi/4 at zero, proving the global identity with its correct constant. That identity and the real atan range establish the original range (0,pi/2). No branch jumps or excluded points occur."
+    },
+    {
+      "id": "PC12-S1",
+      "type": "simplify",
+      "input": "simplify(sqrt((x+y)^2)+sqrt((x-y)^2)-2*sqrt(x^2))",
+      "conditions": [
+        "x and y are any finite real numbers. Every square root is the nonnegative real square root.",
+        "The original expression is defined on the entire real plane, including both coordinate axes and the lines x=y and x=-y.",
+        "Determine an exact real simplification without assuming any signs or ordering of x and y."
+      ],
+      "expected": {
+        "expression": "piecewise(x^2>=y^2,0,2*(abs(y)-abs(x)))",
+        "properties": [
+          "Equivalent exact forms such as 2*max(abs(x),abs(y))-2*abs(x), 2*max(abs(y)-abs(x),0), or abs(x+y)+abs(x-y)-2*abs(x) are acceptable.",
+          "The result is nonnegative throughout the real plane. It is zero exactly when abs(x)>=abs(y), and equals 2*(abs(y)-abs(x)) otherwise.",
+          "It is continuous at all branch boundaries, is even in each variable separately, and obeys E(lambda*x,lambda*y)=abs(lambda)*E(x,y) for every real lambda.",
+          "There are no domain exclusions on the axes or boundary lines. In particular E(0,y)=2*abs(y) and E(x,0)=0.",
+          "Removing square roots of squares without absolute values, or using the zero branch everywhere by formal linear cancellation, is incorrect."
+        ]
+      },
+      "reason": "For real arguments sqrt(u^2)=abs(u), giving E=abs(x+y)+abs(x-y)-2*abs(x) on the entire real plane. To establish the two-variable reduction without sign assumptions, let A=abs(x+y)+abs(x-y), which is nonnegative. Then A^2=(x+y)^2+(x-y)^2+2*abs((x+y)*(x-y))=2*(x^2+y^2)+2*abs(x^2-y^2)=4*max(x^2,y^2). Taking the nonnegative square root yields A=2*max(abs(x),abs(y)). Subtracting 2*abs(x) proves the stated piecewise formula, its exact zero set, and positivity in the complementary region. On the boundary abs(x)=abs(y), both branches equal zero, so continuity follows also directly from the original continuous radicals. The max-and-absolute-value form proves separate evenness, the stated homogeneity, and the axis values. All original radicands are squares and hence nonnegative at every real pair, so no cancellation or branch selection may introduce a domain hole."
+    },
+    {
+      "id": "PC12-R1",
+      "type": "resource",
+      "input": "simplify(sum(ln((sqrt(1+(x+k)^2)+x+k)/(sqrt(1+(x+k-1)^2)+x+k-1)),k,1,16))",
+      "conditions": [
+        "x is any finite real number. sqrt is the nonnegative real square root and ln is strictly the real logarithm.",
+        "k runs over the 16 integers from 1 through 16. This is a fixed exact finite sum, not an infinite series or a symbolic-size workload.",
+        "Each invocation has a fixed 10-second external wall-clock timeout and a 65536-byte output cap. Use the existing configured finite CG50 stack, heap, and simplification limits without increasing them; do not retry with enlarged limits.",
+        "Exact retention of the compact original finite sum is acceptable. No expansion of all radicals, rationalization into large polynomial expressions, or forced evaluation of all summands is required.",
+        "The whole original real domain is the entire real axis, despite cancellation in sqrt(1+t^2)+t when a floating-point t is very negative."
+      ],
+      "expected": {
+        "expression": "ln((sqrt(1+(x+16)^2)+x+16)/(sqrt(1+x^2)+x))",
+        "properties": [
+          "Return the displayed compact exact logarithm, the equivalent difference ln(sqrt(1+(x+16)^2)+x+16)-ln(sqrt(1+x^2)+x), an equivalent exact compact expression, or retain the original finite sum exactly.",
+          "The original sum and the compact result are finite, real, smooth, and strictly positive for every finite real x. There are no excluded points or hidden real logarithm branch conditions.",
+          "The compact expression tends to zero at both ends of the real axis; its exact value is never zero at a finite real x.",
+          "No crash, stack overflow, timeout, output-cap overrun, runaway expansion, new domain hole, or undef on an allowed input is acceptable, and no resource limit may be increased.",
+          "Compact exact retention is valid for this finite resource case and does not relax either integral's explicit closed-form requirement. Numerical sampling or apparent floating-point cancellation does not establish the identity or its domain."
+        ]
+      },
+      "reason": "Define A(t)=sqrt(1+t^2)+t. Since sqrt(1+t^2)>abs(t), A(t)>0 for every real t; also A(t)*(sqrt(1+t^2)-t)=1. Thus every denominator and logarithm argument in the original finite sum is strictly positive, proving the entire real axis is the domain. The real logarithm rule ln(A(x+k)/A(x+k-1))=ln(A(x+k))-ln(A(x+k-1)) is valid for each of the sixteen terms. Adding these finitely many exact identities cancels the fifteen intermediate logarithms and leaves ln(A(x+16))-ln(A(x)), equal to the displayed logarithm of a positive quotient. For independent positivity and regularity checks, A'(t)=A(t)/sqrt(1+t^2)>0, so A(x+16)>A(x)>0 and the compact logarithm is smooth and strictly positive. Let L(t)=ln(A(t)); direct differentiation gives L'(t)=1/sqrt(1+t^2). The mean value theorem on [x,x+16] yields L(x+16)-L(x)=16/sqrt(1+c^2) for some c in that interval. As x tends to either infinity, abs(c) tends to infinity, proving both zero limits. The proof uses only exact positivity, sixteen-term telescoping, and differentiation of a single smooth function; it neither requires symbolic expansion of the sum nor relies on numerical sampling."
+    }
+  ]
+}

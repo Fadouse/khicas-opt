@@ -1,0 +1,757 @@
+{
+  "scope": "Actual repository integration/yderive/FXCG simplify on host dependencies; guarded 64 KiB stack, not SH4/MMU emulation.",
+  "corpus_sha256": "93c336ae7f198160832dbd7abf6af9597d806e653f3e625f6ebef70fe87e018f",
+  "probe_sha256": "1ffc0864cec299ae417debd5b32f0a39338df41f38f7ad5c9741706eca9a9f98",
+  "runs": [
+    {
+      "id": "PC1-I1",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate((3*x^2-1)*ln(abs(2*sin((x^3-x)/2))),x)",
+      "exit": 0,
+      "result": "-2*im(Li2(exp(2*i*(x^3-x)/2)))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00536953\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact canonical Clausen primitive; |1-exp(i*phi)|=2|sin(phi/2)|; chain factor phi' is multiplied, never divided. All sine-sign intervals and stationary points retained."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-I1",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate((3*x^2-1)*ln(abs(2*sin((x^3-x)/2))),x)",
+      "exit": 0,
+      "result": "-2*im(Li2(exp(2*i*(x^3-x)/2)))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00464915\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact canonical Clausen primitive; |1-exp(i*phi)|=2|sin(phi/2)|; chain factor phi' is multiplied, never divided. All sine-sign intervals and stationary points retained."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-I1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate((3*x^2-1)*ln(abs(2*sin((x^3-x)/2))),x))",
+      "exit": 0,
+      "result": "-im(Li2(exp(2*i*(x^3-x)/2)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00454343\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact canonical Clausen primitive; |1-exp(i*phi)|=2|sin(phi/2)|; chain factor phi' is multiplied, never divided. All sine-sign intervals and stationary points retained."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-I1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate((3*x^2-1)*ln(abs(2*sin((x^3-x)/2))),x))",
+      "exit": 0,
+      "result": "-im(Li2(exp(2*i*(x^3-x)/2)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00476373\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact canonical Clausen primitive; |1-exp(i*phi)|=2|sin(phi/2)|; chain factor phi' is multiplied, never divided. All sine-sign intervals and stationary points retained."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-I2",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(ln(1-2*exp(-3*i*x/2)),x)",
+      "exit": 0,
+      "result": "(-2*i)/3*Li2(2*exp((-3*i)*x/2))",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000384835\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact canonical principal Li2 primitive and logarithmic derivative z'/z=-3i/2. Valid on each arc excluding the principal cut, on both half-planes."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-I2",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(ln(1-2*exp(-3*i*x/2)),x)",
+      "exit": 0,
+      "result": "(-2*i)/3*Li2(2*exp((-3*i)*x/2))",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000382736\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact canonical principal Li2 primitive and logarithmic derivative z'/z=-3i/2. Valid on each arc excluding the principal cut, on both half-planes."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-I2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(ln(1-2*exp(-3*i*x/2)),x))",
+      "exit": 0,
+      "result": "(-2*i)*Li2(2*exp((-3*i)*x/2))/3",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000407496\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact canonical principal Li2 primitive and logarithmic derivative z'/z=-3i/2. Valid on each arc excluding the principal cut, on both half-planes."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-I2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(ln(1-2*exp(-3*i*x/2)),x))",
+      "exit": 0,
+      "result": "(-2*i)*Li2(2*exp((-3*i)*x/2))/3",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000396325\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact canonical principal Li2 primitive and logarithmic derivative z'/z=-3i/2. Valid on each arc excluding the principal cut, on both half-planes."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-I3",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(sin(x)*cos(x)/(sin(x)^4+3*sin(x)^2*cos(x)^2+2*cos(x)^4),x)",
+      "exit": 0,
+      "result": "-1/2*ln(-sin(x)^2+2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00247286\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative; denominator=(sin\u00b2+cos\u00b2)(sin\u00b2+2cos\u00b2)=1+cos\u00b2>=1 on the full real axis."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-I3",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(sin(x)*cos(x)/(sin(x)^4+3*sin(x)^2*cos(x)^2+2*cos(x)^4),x)",
+      "exit": 0,
+      "result": "-1/2*ln(-sin(x)^2+2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00229987\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative; denominator=(sin\u00b2+cos\u00b2)(sin\u00b2+2cos\u00b2)=1+cos\u00b2>=1 on the full real axis."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-I3",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(sin(x)*cos(x)/(sin(x)^4+3*sin(x)^2*cos(x)^2+2*cos(x)^4),x))",
+      "exit": 0,
+      "result": "-ln(-sin(x)^2+2)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00289519\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative; denominator=(sin\u00b2+cos\u00b2)(sin\u00b2+2cos\u00b2)=1+cos\u00b2>=1 on the full real axis."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-I3",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(sin(x)*cos(x)/(sin(x)^4+3*sin(x)^2*cos(x)^2+2*cos(x)^4),x))",
+      "exit": 0,
+      "result": "-ln(-sin(x)^2+2)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00241857\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative; denominator=(sin\u00b2+cos\u00b2)(sin\u00b2+2cos\u00b2)=1+cos\u00b2>=1 on the full real axis."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-I4",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(x/sqrt((x^2-4)^2),x)",
+      "exit": 0,
+      "result": "1/2*ln(abs(x^2-4))/sign(x^2-4)",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(x^2-4)]\nDiscontinuities at zeroes of x^2-4 were not checked\nPARSER_CALLS 1\nSECONDS 0.00089117\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact algebra on both signs of x\u00b2-c; all connected real intervals covered. Only the original excluded zeros of x\u00b2-c remain excluded."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-I4",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(x/sqrt((x^2-4)^2),x)",
+      "exit": 0,
+      "result": "1/2*ln(abs(x^2-4))/sign(x^2-4)",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(x^2-4)]\nDiscontinuities at zeroes of x^2-4 were not checked\nPARSER_CALLS 1\nSECONDS 0.00094985\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact algebra on both signs of x\u00b2-c; all connected real intervals covered. Only the original excluded zeros of x\u00b2-c remain excluded."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-I4",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(x/sqrt((x^2-4)^2),x))",
+      "exit": 0,
+      "result": "(x^2*ln(abs(x^2-4))-4*ln(abs(x^2-4)))/(2*abs(x^2-4))",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(x^2-4)]\nDiscontinuities at zeroes of x^2-4 were not checked\nPARSER_CALLS 1\nSECONDS 0.00174359\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact algebra on both signs of x\u00b2-c; all connected real intervals covered. Only the original excluded zeros of x\u00b2-c remain excluded."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-I4",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(x/sqrt((x^2-4)^2),x))",
+      "exit": 0,
+      "result": "(x^2*ln(abs(x^2-4))-4*ln(abs(x^2-4)))/(2*abs(x^2-4))",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(x^2-4)]\nDiscontinuities at zeroes of x^2-4 were not checked\nPARSER_CALLS 1\nSECONDS 0.00157313\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact algebra on both signs of x\u00b2-c; all connected real intervals covered. Only the original excluded zeros of x\u00b2-c remain excluded."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-D1",
+      "outer": false,
+      "stack": "normal",
+      "input": "diff(im(Li2(exp(i*(x^2-1)^2))),x)",
+      "exit": 0,
+      "result": "((4*x^3-2*2*x=0)? 0 : (-4*x^3+2*2*x)*ln(2*abs(sin((x^4-2*x^2+1)/2))))",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000413026\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact regular derivative and complete stationary zero locus {-1,0,1}; lazy zeros at \u00b11 agree with delta*log(delta) and a quadratic phase zero, hence derivative limit 0."
+      },
+      "pass": true,
+      "actual_endpoint_substitution": {
+        "-1": 0,
+        "1": 0
+      }
+    },
+    {
+      "id": "PC1-D1",
+      "outer": false,
+      "stack": "64",
+      "input": "diff(im(Li2(exp(i*(x^2-1)^2))),x)",
+      "exit": 0,
+      "result": "((4*x^3-2*2*x=0)? 0 : (-4*x^3+2*2*x)*ln(2*abs(sin((x^4-2*x^2+1)/2))))",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000406075\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact regular derivative and complete stationary zero locus {-1,0,1}; lazy zeros at \u00b11 agree with delta*log(delta) and a quadratic phase zero, hence derivative limit 0."
+      },
+      "pass": true,
+      "actual_endpoint_substitution": {
+        "-1": 0,
+        "1": 0
+      }
+    },
+    {
+      "id": "PC1-D1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(diff(im(Li2(exp(i*(x^2-1)^2))),x))",
+      "exit": 0,
+      "result": "((4*x^3-2*2*x=0)? 0 : (-4*x^3+2*2*x)*ln(2*abs(sin((x^4-2*x^2+1)/2))))",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000394116\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact regular derivative and complete stationary zero locus {-1,0,1}; lazy zeros at \u00b11 agree with delta*log(delta) and a quadratic phase zero, hence derivative limit 0."
+      },
+      "pass": true,
+      "actual_endpoint_substitution": {
+        "-1": 0,
+        "1": 0
+      }
+    },
+    {
+      "id": "PC1-D1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(diff(im(Li2(exp(i*(x^2-1)^2))),x))",
+      "exit": 0,
+      "result": "((4*x^3-2*2*x=0)? 0 : (-4*x^3+2*2*x)*ln(2*abs(sin((x^4-2*x^2+1)/2))))",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000442755\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact regular derivative and complete stationary zero locus {-1,0,1}; lazy zeros at \u00b11 agree with delta*log(delta) and a quadratic phase zero, hence derivative limit 0."
+      },
+      "pass": true,
+      "actual_endpoint_substitution": {
+        "-1": 0,
+        "1": 0
+      }
+    },
+    {
+      "id": "PC1-D2",
+      "outer": false,
+      "stack": "normal",
+      "input": "diff(Li2(sin(x)^2/(2+sin(x)^2)),x)",
+      "exit": 0,
+      "result": "(2*cos(x)*sin(x)*(2+sin(x)^2)-sin(x)^2*2*cos(x)*sin(x))/(2+sin(x)^2)^2*((sin(x)^2/(2+sin(x)^2)=0)? 1 : -ln(1-sin(x)^2/(2+sin(x)^2))/(sin(x)^2/(2+sin(x)^2)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000361157\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact Li2 chain rule with removable value dLi2/dz=1 at z=0; complete zeros k*pi, positive denominator and 0<=z<=1/3 prove the global real domain."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-D2",
+      "outer": false,
+      "stack": "64",
+      "input": "diff(Li2(sin(x)^2/(2+sin(x)^2)),x)",
+      "exit": 0,
+      "result": "(2*cos(x)*sin(x)*(2+sin(x)^2)-sin(x)^2*2*cos(x)*sin(x))/(2+sin(x)^2)^2*((sin(x)^2/(2+sin(x)^2)=0)? 1 : -ln(1-sin(x)^2/(2+sin(x)^2))/(sin(x)^2/(2+sin(x)^2)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000370856\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact Li2 chain rule with removable value dLi2/dz=1 at z=0; complete zeros k*pi, positive denominator and 0<=z<=1/3 prove the global real domain."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-D2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(diff(Li2(sin(x)^2/(2+sin(x)^2)),x))",
+      "exit": 0,
+      "result": "(2*cos(x)*sin(x)*(2+sin(x)^2)-sin(x)^2*2*cos(x)*sin(x))/(2+sin(x)^2)^2*((sin(x)^2/(2+sin(x)^2)=0)? 1 : -ln(1-sin(x)^2/(2+sin(x)^2))/(sin(x)^2/(2+sin(x)^2)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000518765\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact Li2 chain rule with removable value dLi2/dz=1 at z=0; complete zeros k*pi, positive denominator and 0<=z<=1/3 prove the global real domain."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-D2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(diff(Li2(sin(x)^2/(2+sin(x)^2)),x))",
+      "exit": 0,
+      "result": "(2*cos(x)*sin(x)*(2+sin(x)^2)-sin(x)^2*2*cos(x)*sin(x))/(2+sin(x)^2)^2*((sin(x)^2/(2+sin(x)^2)=0)? 1 : -ln(1-sin(x)^2/(2+sin(x)^2))/(sin(x)^2/(2+sin(x)^2)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000406065\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact Li2 chain rule with removable value dLi2/dz=1 at z=0; complete zeros k*pi, positive denominator and 0<=z<=1/3 prove the global real domain."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-D3",
+      "outer": false,
+      "stack": "normal",
+      "input": "diff(re(Li2(exp(i*(x^3-2*x)))),x)",
+      "exit": 0,
+      "result": "(3*x^2-2)*(x^3-2*x-2*pi*floor((x^3-2*x)/(2*pi))-pi)/2",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000375166\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact principal-argument sawtooth derivative on every 2*pi phase interval; floor handles negative periods. Phase cut points are excluded by the question."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-D3",
+      "outer": false,
+      "stack": "64",
+      "input": "diff(re(Li2(exp(i*(x^3-2*x)))),x)",
+      "exit": 0,
+      "result": "(3*x^2-2)*(x^3-2*x-2*pi*floor((x^3-2*x)/(2*pi))-pi)/2",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000489165\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact principal-argument sawtooth derivative on every 2*pi phase interval; floor handles negative periods. Phase cut points are excluded by the question."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-D3",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(diff(re(Li2(exp(i*(x^3-2*x)))),x))",
+      "exit": 0,
+      "result": "(-6*pi*x^2*floor((x^3-2*x)/(2*pi))-3*pi*x^2+4*pi*floor((x^3-2*x)/(2*pi))+2*pi+3*x^5-8*x^3+4*x)/2",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000868371\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact principal-argument sawtooth derivative on every 2*pi phase interval; floor handles negative periods. Phase cut points are excluded by the question."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-D3",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(diff(re(Li2(exp(i*(x^3-2*x)))),x))",
+      "exit": 0,
+      "result": "(-6*pi*x^2*floor((x^3-2*x)/(2*pi))-3*pi*x^2+4*pi*floor((x^3-2*x)/(2*pi))+2*pi+3*x^5-8*x^3+4*x)/2",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000841451\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact principal-argument sawtooth derivative on every 2*pi phase interval; floor handles negative periods. Phase cut points are excluded by the question."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-D4",
+      "outer": false,
+      "stack": "normal",
+      "input": "diff(sqrt((x^2-1)^2)/(x^2+1),x)",
+      "exit": 0,
+      "result": "((x=-1)? undef : ((x=1)? undef : -2*x/(x^2+1)^2*abs(x^2-1)+1/(x^2+1)*sign(x^2-1)*2*x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000516345\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact algebra on both signs of x\u00b2-c; all connected real intervals covered. Only the original excluded zeros of x\u00b2-c remain excluded."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-D4",
+      "outer": false,
+      "stack": "64",
+      "input": "diff(sqrt((x^2-1)^2)/(x^2+1),x)",
+      "exit": 0,
+      "result": "((x=-1)? undef : ((x=1)? undef : -2*x/(x^2+1)^2*abs(x^2-1)+1/(x^2+1)*sign(x^2-1)*2*x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000573454\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact algebra on both signs of x\u00b2-c; all connected real intervals covered. Only the original excluded zeros of x\u00b2-c remain excluded."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-D4",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(diff(sqrt((x^2-1)^2)/(x^2+1),x))",
+      "exit": 0,
+      "result": "((x=-1)? undef : ((x=1)? undef : -2*x/(x^2+1)^2*abs(x^2-1)+1/(x^2+1)*sign(x^2-1)*2*x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000521694\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact algebra on both signs of x\u00b2-c; all connected real intervals covered. Only the original excluded zeros of x\u00b2-c remain excluded."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-D4",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(diff(sqrt((x^2-1)^2)/(x^2+1),x))",
+      "exit": 0,
+      "result": "((x=-1)? undef : ((x=1)? undef : -2*x/(x^2+1)^2*abs(x^2-1)+1/(x^2+1)*sign(x^2-1)*2*x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000535044\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact algebra on both signs of x\u00b2-c; all connected real intervals covered. Only the original excluded zeros of x\u00b2-c remain excluded."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-S1",
+      "outer": false,
+      "stack": "normal",
+      "input": "(sin(x)^3*cos(x)+sin(x)*cos(x)^3)/(sin(x)^6+cos(x)^6)",
+      "exit": 0,
+      "result": "(sin(x)^3*cos(x)+sin(x)*cos(x)^3)/(sin(x)^6+cos(x)^6)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000291357\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact trig identity; sin^6+cos^6=1-3 sin\u00b2cos\u00b2>=1/4, so no real pole."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-S1",
+      "outer": false,
+      "stack": "64",
+      "input": "(sin(x)^3*cos(x)+sin(x)*cos(x)^3)/(sin(x)^6+cos(x)^6)",
+      "exit": 0,
+      "result": "(sin(x)^3*cos(x)+sin(x)*cos(x)^3)/(sin(x)^6+cos(x)^6)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000289937\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact trig identity; sin^6+cos^6=1-3 sin\u00b2cos\u00b2>=1/4, so no real pole."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-S1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify((sin(x)^3*cos(x)+sin(x)*cos(x)^3)/(sin(x)^6+cos(x)^6))",
+      "exit": 0,
+      "result": "cos(x)*sin(x)/(cos(x)^4-cos(x)^2*sin(x)^2+sin(x)^4)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000377256\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact trig identity; sin^6+cos^6=1-3 sin\u00b2cos\u00b2>=1/4, so no real pole."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-S1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify((sin(x)^3*cos(x)+sin(x)*cos(x)^3)/(sin(x)^6+cos(x)^6))",
+      "exit": 0,
+      "result": "cos(x)*sin(x)/(cos(x)^4-cos(x)^2*sin(x)^2+sin(x)^4)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000411446\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact trig identity; sin^6+cos^6=1-3 sin\u00b2cos\u00b2>=1/4, so no real pole."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-S2",
+      "outer": false,
+      "stack": "normal",
+      "input": "sqrt((x-2)^2*(x+1)^2)/sqrt((x-2)^2)",
+      "exit": 0,
+      "result": "sqrt((x-2)^2*(x+1)^2)/abs(x-2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000448845\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact polynomial factorization on all three sign intervals, including zero at -1; original denominator exclusion x=2 is retained."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-S2",
+      "outer": false,
+      "stack": "64",
+      "input": "sqrt((x-2)^2*(x+1)^2)/sqrt((x-2)^2)",
+      "exit": 0,
+      "result": "sqrt((x-2)^2*(x+1)^2)/abs(x-2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000491565\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact polynomial factorization on all three sign intervals, including zero at -1; original denominator exclusion x=2 is retained."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-S2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(sqrt((x-2)^2*(x+1)^2)/sqrt((x-2)^2))",
+      "exit": 0,
+      "result": "abs(x^2-x-2)/abs(x-2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00113879\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact polynomial factorization on all three sign intervals, including zero at -1; original denominator exclusion x=2 is retained."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-S2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(sqrt((x-2)^2*(x+1)^2)/sqrt((x-2)^2))",
+      "exit": 0,
+      "result": "abs(x^2-x-2)/abs(x-2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00127002\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact polynomial factorization on all three sign intervals, including zero at -1; original denominator exclusion x=2 is retained."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-R1",
+      "outer": false,
+      "stack": "normal",
+      "input": "sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(x)^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2)",
+      "exit": 0,
+      "result": "sqrt(1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+x^2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000339957\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact nested positive-radical identity, 18 levels."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-R1",
+      "outer": false,
+      "stack": "64",
+      "input": "sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(x)^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2)",
+      "exit": 0,
+      "result": "sqrt(1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+x^2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000329577\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact nested positive-radical identity, 18 levels."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-R1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(x)^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))",
+      "exit": 0,
+      "result": "sqrt(x^2+18)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000873721\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact nested positive-radical identity, 18 levels."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-R1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(sqrt(1+(x)^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))^2))",
+      "exit": 0,
+      "result": "sqrt(x^2+18)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00093319\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact nested positive-radical identity, 18 levels."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-R2",
+      "outer": false,
+      "stack": "normal",
+      "input": "((1+sin(x+1)^6+cos(x+1)^6)/(2+sin(x+1)^6+cos(x+1)^6))*((1+sin(x+2)^6+cos(x+2)^6)/(2+sin(x+2)^6+cos(x+2)^6))*((1+sin(x+3)^6+cos(x+3)^6)/(2+sin(x+3)^6+cos(x+3)^6))*((1+sin(x+4)^6+cos(x+4)^6)/(2+sin(x+4)^6+cos(x+4)^6))*((1+sin(x+5)^6+cos(x+5)^6)/(2+sin(x+5)^6+cos(x+5)^6))*((1+sin(x+6)^6+cos(x+6)^6)/(2+sin(x+6)^6+cos(x+6)^6))*((1+sin(x+7)^6+cos(x+7)^6)/(2+sin(x+7)^6+cos(x+7)^6))*((1+sin(x+8)^6+cos(x+8)^6)/(2+sin(x+8)^6+cos(x+8)^6))*((1+sin(x+9)^6+cos(x+9)^6)/(2+sin(x+9)^6+cos(x+9)^6))*((1+sin(x+10)^6+cos(x+10)^6)/(2+sin(x+10)^6+cos(x+10)^6))",
+      "exit": 0,
+      "result": "(1+sin(x+1)^6+cos(x+1)^6)/(2+sin(x+1)^6+cos(x+1)^6)*(1+sin(x+2)^6+cos(x+2)^6)/(2+sin(x+2)^6+cos(x+2)^6)*(1+sin(x+3)^6+cos(x+3)^6)/(2+sin(x+3)^6+cos(x+3)^6)*(1+sin(x+4)^6+cos(x+4)^6)/(2+sin(x+4)^6+cos(x+4)^6)*(1+sin(x+5)^6+cos(x+5)^6)/(2+sin(x+5)^6+cos(x+5)^6)*(1+sin(x+6)^6+cos(x+6)^6)/(2+sin(x+6)^6+cos(x+6)^6)*(1+sin(x+7)^6+cos(x+7)^6)/(2+sin(x+7)^6+cos(x+7)^6)*(1+sin(x+8)^6+cos(x+8)^6)/(2+sin(x+8)^6+cos(x+8)^6)*(1+sin(x+9)^6+cos(x+9)^6)/(2+sin(x+9)^6+cos(x+9)^6)*(1+sin(x+10)^6+cos(x+10)^6)/(2+sin(x+10)^6+cos(x+10)^6)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000379086\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact structural retention without distribution. Each factor has t=sin^6+cos^6 in [1/4,1], so (1+t)/(2+t) in [5/9,2/3]; finite positive product on all real x."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-R2",
+      "outer": false,
+      "stack": "64",
+      "input": "((1+sin(x+1)^6+cos(x+1)^6)/(2+sin(x+1)^6+cos(x+1)^6))*((1+sin(x+2)^6+cos(x+2)^6)/(2+sin(x+2)^6+cos(x+2)^6))*((1+sin(x+3)^6+cos(x+3)^6)/(2+sin(x+3)^6+cos(x+3)^6))*((1+sin(x+4)^6+cos(x+4)^6)/(2+sin(x+4)^6+cos(x+4)^6))*((1+sin(x+5)^6+cos(x+5)^6)/(2+sin(x+5)^6+cos(x+5)^6))*((1+sin(x+6)^6+cos(x+6)^6)/(2+sin(x+6)^6+cos(x+6)^6))*((1+sin(x+7)^6+cos(x+7)^6)/(2+sin(x+7)^6+cos(x+7)^6))*((1+sin(x+8)^6+cos(x+8)^6)/(2+sin(x+8)^6+cos(x+8)^6))*((1+sin(x+9)^6+cos(x+9)^6)/(2+sin(x+9)^6+cos(x+9)^6))*((1+sin(x+10)^6+cos(x+10)^6)/(2+sin(x+10)^6+cos(x+10)^6))",
+      "exit": 0,
+      "result": "(1+sin(x+1)^6+cos(x+1)^6)/(2+sin(x+1)^6+cos(x+1)^6)*(1+sin(x+2)^6+cos(x+2)^6)/(2+sin(x+2)^6+cos(x+2)^6)*(1+sin(x+3)^6+cos(x+3)^6)/(2+sin(x+3)^6+cos(x+3)^6)*(1+sin(x+4)^6+cos(x+4)^6)/(2+sin(x+4)^6+cos(x+4)^6)*(1+sin(x+5)^6+cos(x+5)^6)/(2+sin(x+5)^6+cos(x+5)^6)*(1+sin(x+6)^6+cos(x+6)^6)/(2+sin(x+6)^6+cos(x+6)^6)*(1+sin(x+7)^6+cos(x+7)^6)/(2+sin(x+7)^6+cos(x+7)^6)*(1+sin(x+8)^6+cos(x+8)^6)/(2+sin(x+8)^6+cos(x+8)^6)*(1+sin(x+9)^6+cos(x+9)^6)/(2+sin(x+9)^6+cos(x+9)^6)*(1+sin(x+10)^6+cos(x+10)^6)/(2+sin(x+10)^6+cos(x+10)^6)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000378366\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact structural retention without distribution. Each factor has t=sin^6+cos^6 in [1/4,1], so (1+t)/(2+t) in [5/9,2/3]; finite positive product on all real x."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-R2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(((1+sin(x+1)^6+cos(x+1)^6)/(2+sin(x+1)^6+cos(x+1)^6))*((1+sin(x+2)^6+cos(x+2)^6)/(2+sin(x+2)^6+cos(x+2)^6))*((1+sin(x+3)^6+cos(x+3)^6)/(2+sin(x+3)^6+cos(x+3)^6))*((1+sin(x+4)^6+cos(x+4)^6)/(2+sin(x+4)^6+cos(x+4)^6))*((1+sin(x+5)^6+cos(x+5)^6)/(2+sin(x+5)^6+cos(x+5)^6))*((1+sin(x+6)^6+cos(x+6)^6)/(2+sin(x+6)^6+cos(x+6)^6))*((1+sin(x+7)^6+cos(x+7)^6)/(2+sin(x+7)^6+cos(x+7)^6))*((1+sin(x+8)^6+cos(x+8)^6)/(2+sin(x+8)^6+cos(x+8)^6))*((1+sin(x+9)^6+cos(x+9)^6)/(2+sin(x+9)^6+cos(x+9)^6))*((1+sin(x+10)^6+cos(x+10)^6)/(2+sin(x+10)^6+cos(x+10)^6)))",
+      "exit": 0,
+      "result": "(1+sin(x+1)^6+cos(x+1)^6)/(2+sin(x+1)^6+cos(x+1)^6)*(1+sin(x+2)^6+cos(x+2)^6)/(2+sin(x+2)^6+cos(x+2)^6)*(1+sin(x+3)^6+cos(x+3)^6)/(2+sin(x+3)^6+cos(x+3)^6)*(1+sin(x+4)^6+cos(x+4)^6)/(2+sin(x+4)^6+cos(x+4)^6)*(1+sin(x+5)^6+cos(x+5)^6)/(2+sin(x+5)^6+cos(x+5)^6)*(1+sin(x+6)^6+cos(x+6)^6)/(2+sin(x+6)^6+cos(x+6)^6)*(1+sin(x+7)^6+cos(x+7)^6)/(2+sin(x+7)^6+cos(x+7)^6)*(1+sin(x+8)^6+cos(x+8)^6)/(2+sin(x+8)^6+cos(x+8)^6)*(1+sin(x+9)^6+cos(x+9)^6)/(2+sin(x+9)^6+cos(x+9)^6)*(1+sin(x+10)^6+cos(x+10)^6)/(2+sin(x+10)^6+cos(x+10)^6)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000446445\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact structural retention without distribution. Each factor has t=sin^6+cos^6 in [1/4,1], so (1+t)/(2+t) in [5/9,2/3]; finite positive product on all real x."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC1-R2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(((1+sin(x+1)^6+cos(x+1)^6)/(2+sin(x+1)^6+cos(x+1)^6))*((1+sin(x+2)^6+cos(x+2)^6)/(2+sin(x+2)^6+cos(x+2)^6))*((1+sin(x+3)^6+cos(x+3)^6)/(2+sin(x+3)^6+cos(x+3)^6))*((1+sin(x+4)^6+cos(x+4)^6)/(2+sin(x+4)^6+cos(x+4)^6))*((1+sin(x+5)^6+cos(x+5)^6)/(2+sin(x+5)^6+cos(x+5)^6))*((1+sin(x+6)^6+cos(x+6)^6)/(2+sin(x+6)^6+cos(x+6)^6))*((1+sin(x+7)^6+cos(x+7)^6)/(2+sin(x+7)^6+cos(x+7)^6))*((1+sin(x+8)^6+cos(x+8)^6)/(2+sin(x+8)^6+cos(x+8)^6))*((1+sin(x+9)^6+cos(x+9)^6)/(2+sin(x+9)^6+cos(x+9)^6))*((1+sin(x+10)^6+cos(x+10)^6)/(2+sin(x+10)^6+cos(x+10)^6)))",
+      "exit": 0,
+      "result": "(1+sin(x+1)^6+cos(x+1)^6)/(2+sin(x+1)^6+cos(x+1)^6)*(1+sin(x+2)^6+cos(x+2)^6)/(2+sin(x+2)^6+cos(x+2)^6)*(1+sin(x+3)^6+cos(x+3)^6)/(2+sin(x+3)^6+cos(x+3)^6)*(1+sin(x+4)^6+cos(x+4)^6)/(2+sin(x+4)^6+cos(x+4)^6)*(1+sin(x+5)^6+cos(x+5)^6)/(2+sin(x+5)^6+cos(x+5)^6)*(1+sin(x+6)^6+cos(x+6)^6)/(2+sin(x+6)^6+cos(x+6)^6)*(1+sin(x+7)^6+cos(x+7)^6)/(2+sin(x+7)^6+cos(x+7)^6)*(1+sin(x+8)^6+cos(x+8)^6)/(2+sin(x+8)^6+cos(x+8)^6)*(1+sin(x+9)^6+cos(x+9)^6)/(2+sin(x+9)^6+cos(x+9)^6)*(1+sin(x+10)^6+cos(x+10)^6)/(2+sin(x+10)^6+cos(x+10)^6)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000519985\nMAX_RSS_KB 66344\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact structural retention without distribution. Each factor has t=sin^6+cos^6 in [1/4,1], so (1+t)/(2+t) in [5/9,2/3]; finite positive product on all real x."
+      },
+      "pass": true
+    }
+  ],
+  "source_sha256": {
+    "yintg.cc": "1f2dbf27fbc725ed08af29bfa12d9380e6db16e1819a4ae1b95686d805c63757",
+    "zintgab.cc": "3b6fa78aba4d53b1a11479c33bacb4c85e3d6091389ef3073ec60085a7ae9448",
+    "ksubst.cc": "f3b1234d0ecc8bba6a68ecfff82ac5707f76a9c5fbd4f37594e2f59b9c69dbfe",
+    "yderive.cc": "0a122ce94586de273cb5feb174fbd5d635d13d9a6aaf31b537fa223f3a409582",
+    "dilogarithm.h": "ca822ef4c094a4ed1f4aecf7219011668735d86d259c51ec6304515f8fa84d7a",
+    "kconvert.cc": "eed558eb2f8ff62e0cf1e94fdbf8497954a35577e283a8d07283350e65b76003",
+    "equation_normalize.h": "4bfb644f0e18bb36e280ce8886c8ac12695c9aeeaef187ea3e5f967cd1642e37",
+    "kusual.cc": "fcc854a0d1f8ad6f64600674a584ed6d903d44c53fef1931b90904272df26681",
+    "zprog.cc": "513111030cf5233496da8c3efff53df9391f12d185254f314608600e13e5639e",
+    "conditional_eval.h": "f602bbce59fbcfcadb85a78ca5ba6a79cd56f643067f84d02a02a73a040f40c1"
+  },
+  "cases": [
+    {
+      "id": "PC1-I1",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC1-I2",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC1-I3",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC1-I4",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC1-D1",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC1-D2",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC1-D3",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC1-D4",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC1-S1",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC1-S2",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC1-R1",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC1-R2",
+      "all_four_pass": true
+    }
+  ]
+}

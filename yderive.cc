@@ -86,6 +86,24 @@ namespace giac {
   __attribute__((noinline,optimize("Os")))
 #endif
   static bool derive_real_composition(const symbolic &s,const identificateur &i,gen &result,GIAC_CONTEXT){
+    if((s.sommet==at_pow || s.sommet==at_acos) && angle_radian(contextptr) && !complex_mode(contextptr) && !complex_variables(contextptr)){
+      gen base(s),power=1;
+      if(s.sommet==at_pow && s.feuille.type==_VECT && s.feuille._VECTptr->size()==2){base=s.feuille[0];power=s.feuille[1];}
+      if(base.is_symb_of_sommet(at_acos) && base._SYMBptr->feuille.is_symb_of_sommet(at_cos) &&
+         power.type==_INT_ && power.val>=1 && power.val<=16){
+        gen wave=base._SYMBptr->feuille,phase=wave._SYMBptr->feuille;unsigned budget=64;equation_polynomial_budget bound;
+        if(taille(phase,33)<=32 && equation_polynomial_bound(phase,budget,0,bound) && is_zero(im(phase,contextptr))){
+          gen slope=derive(phase,i,contextptr);if(is_zero(slope)){result=0;return true;}
+          // At cos(phase)=1, the m-th power behaves like |delta phase|^m.
+          // Stationary polynomial phase makes either contact o(h), while
+          // nonstationary odd-pi contacts retain their nonzero-height cusp.
+          gen regular=power*pow(base,power-1,contextptr)*sin(phase,contextptr)*slope/sqrt(1-wave*wave,contextptr);
+          result=symbolic(at_when,makesequence(symb_equal(wave,1),power.val>1?gen(0):undef,symbolic(at_when,makesequence(symb_equal(wave,-1),undef,regular))));
+          if(!equation_rational(slope))result=symbolic(at_when,makesequence(symb_equal(slope,0),0,result));
+          return true;
+        }
+      }
+    }
     // Split a bounded real odd root into real root powers. Keep a
     // nonmultiple exponent together: root(v)^4 differentiates regularly at
     // v=0, whereas v*root(v) first creates a spurious zero denominator.

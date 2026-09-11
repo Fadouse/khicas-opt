@@ -1,0 +1,397 @@
+{
+  "scope": "Actual repository integration/yderive/FXCG simplify on host dependencies; guarded 64 KiB stack, not SH4/MMU emulation.",
+  "corpus_sha256": "9acf742426733a3a0b9874f332b021f6afed3dace157f86644694d5357652c94",
+  "probe_sha256": "81d5fc2aa876c2fa2ce284465e49ad6ce890e5f14876a93f6bf575396c9f2714",
+  "runs": [
+    {
+      "id": "PC12-I1",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(x*atan(x)/(1+x^2)^2,x)",
+      "exit": 0,
+      "result": "x/(4*(x^2+1))+1/4*atan(x)-1/2/(x^2+1)*atan(x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.0025113\nMAX_RSS_KB 20120\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact integration-by-parts primitive and rational derivative; 1+x\u00b2>0 gives whole-axis continuity, including zero. Limits of the odd primitive are \u00b1pi/8."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0"
+      }
+    },
+    {
+      "id": "PC12-I1",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(x*atan(x)/(1+x^2)^2,x)",
+      "exit": 0,
+      "result": "x/(4*(x^2+1))+1/4*atan(x)-1/2/(x^2+1)*atan(x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00243394\nMAX_RSS_KB 29848\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact integration-by-parts primitive and rational derivative; 1+x\u00b2>0 gives whole-axis continuity, including zero. Limits of the odd primitive are \u00b1pi/8."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0"
+      }
+    },
+    {
+      "id": "PC12-I1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(x*atan(x)/(1+x^2)^2,x))",
+      "exit": 0,
+      "result": "(x^2*atan(x)+x-atan(x))/(4*x^2+4)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00275764\nMAX_RSS_KB 29848\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact integration-by-parts primitive and rational derivative; 1+x\u00b2>0 gives whole-axis continuity, including zero. Limits of the odd primitive are \u00b1pi/8."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0"
+      }
+    },
+    {
+      "id": "PC12-I1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(x*atan(x)/(1+x^2)^2,x))",
+      "exit": 0,
+      "result": "(x^2*atan(x)+x-atan(x))/(4*x^2+4)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00333439\nMAX_RSS_KB 29848\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact integration-by-parts primitive and rational derivative; 1+x\u00b2>0 gives whole-axis continuity, including zero. Limits of the odd primitive are \u00b1pi/8."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0"
+      }
+    },
+    {
+      "id": "PC12-I2",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(ln(x)/(sqrt(x)*(1+sqrt(x))^2),x)",
+      "exit": 0,
+      "result": "2*(-1/(sqrt(x)+1)*ln(x)+2*(1/2*ln(abs(x))-ln(sqrt(x)+1)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00275481\nMAX_RSS_KB 29848\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact positive sqrt substitution and log|x|=log x only on original x>0. Endpoint extension has quotient F(u\u00b2)/u\u00b2 ->-infinity, not a finite derivative. Integrable |log u| at zero and log u/u\u00b2 at infinity prove absolute convergence."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "1": "-4*ln(2)"
+      }
+    },
+    {
+      "id": "PC12-I2",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(ln(x)/(sqrt(x)*(1+sqrt(x))^2),x)",
+      "exit": 0,
+      "result": "2*(-1/(sqrt(x)+1)*ln(x)+2*(1/2*ln(abs(x))-ln(sqrt(x)+1)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00310239\nMAX_RSS_KB 29848\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact positive sqrt substitution and log|x|=log x only on original x>0. Endpoint extension has quotient F(u\u00b2)/u\u00b2 ->-infinity, not a finite derivative. Integrable |log u| at zero and log u/u\u00b2 at infinity prove absolute convergence."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "1": "-4*ln(2)"
+      }
+    },
+    {
+      "id": "PC12-I2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(ln(x)/(sqrt(x)*(1+sqrt(x))^2),x))",
+      "exit": 0,
+      "result": "2*(-1/(sqrt(x)+1)*ln(x)+2*(1/2*ln(abs(x))-ln(sqrt(x)+1)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00272026\nMAX_RSS_KB 29848\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact positive sqrt substitution and log|x|=log x only on original x>0. Endpoint extension has quotient F(u\u00b2)/u\u00b2 ->-infinity, not a finite derivative. Integrable |log u| at zero and log u/u\u00b2 at infinity prove absolute convergence."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "1": "-4*ln(2)"
+      }
+    },
+    {
+      "id": "PC12-I2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(ln(x)/(sqrt(x)*(1+sqrt(x))^2),x))",
+      "exit": 0,
+      "result": "2*(-1/(sqrt(x)+1)*ln(x)+2*(1/2*ln(abs(x))-ln(sqrt(x)+1)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00278833\nMAX_RSS_KB 29848\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact positive sqrt substitution and log|x|=log x only on original x>0. Endpoint extension has quotient F(u\u00b2)/u\u00b2 ->-infinity, not a finite derivative. Integrable |log u| at zero and log u/u\u00b2 at infinity prove absolute convergence."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "1": "-4*ln(2)"
+      }
+    },
+    {
+      "id": "PC12-D1",
+      "outer": false,
+      "stack": "normal",
+      "input": "diff(acos(cos(x))^2,x)",
+      "exit": 0,
+      "result": "2*(-1)^(floor((pi/2-x)/pi+1/2))*(pi*(-1)^(floor((pi/2-x)/pi+1/2))*floor((pi/2-x)/pi+1/2)-1/2*pi*(-1)^(floor((pi/2-x)/pi+1/2))+1/2*pi+x*(-1)^(floor((pi/2-x)/pi+1/2)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00199108\nMAX_RSS_KB 29848\n",
+      "error": "Odd pi contacts must be excluded",
+      "pass": false
+    },
+    {
+      "id": "PC12-D1",
+      "outer": false,
+      "stack": "64",
+      "input": "diff(acos(cos(x))^2,x)",
+      "exit": 0,
+      "result": "2*(-1)^(floor((pi/2-x)/pi+1/2))*(pi*(-1)^(floor((pi/2-x)/pi+1/2))*floor((pi/2-x)/pi+1/2)-1/2*pi*(-1)^(floor((pi/2-x)/pi+1/2))+1/2*pi+x*(-1)^(floor((pi/2-x)/pi+1/2)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00196486\nMAX_RSS_KB 29848\n",
+      "error": "Odd pi contacts must be excluded",
+      "pass": false
+    },
+    {
+      "id": "PC12-D1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(diff(acos(cos(x))^2,x))",
+      "exit": 0,
+      "result": "2*pi*exp(i*pi*floor((pi-x)/pi))^2*floor((pi-x)/pi)-pi*exp(i*pi*floor((pi-x)/pi))^2+pi*exp(i*pi*floor((pi-x)/pi))+2*x*exp(i*pi*floor((pi-x)/pi))^2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00488274\nMAX_RSS_KB 29848\n",
+      "error": "Odd pi contacts must be excluded",
+      "pass": false
+    },
+    {
+      "id": "PC12-D1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(diff(acos(cos(x))^2,x))",
+      "exit": 0,
+      "result": "2*pi*exp(i*pi*floor((pi-x)/pi))^2*floor((pi-x)/pi)-pi*exp(i*pi*floor((pi-x)/pi))^2+pi*exp(i*pi*floor((pi-x)/pi))+2*x*exp(i*pi*floor((pi-x)/pi))^2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00509627\nMAX_RSS_KB 29848\n",
+      "error": "Odd pi contacts must be excluded",
+      "pass": false
+    },
+    {
+      "id": "PC12-D2",
+      "outer": false,
+      "stack": "normal",
+      "input": "diff(atan(x+sqrt(1+x^2)),x)",
+      "exit": 0,
+      "result": "(1+1/2*2*x*(sqrt(1+x^2))^-1)/(1+(x+sqrt(1+x^2))^2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000400486\nMAX_RSS_KB 29848\n",
+      "verification": {
+        "exact": true,
+        "method": "s=sqrt(1+x\u00b2)>|x|, t=s+x>0, t'=t/s, and 1+t\u00b2=2st. Cancellation is valid globally, including negative x; derivative 1/(2s\u00b2)."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "1/2",
+        "-1": "1/4"
+      }
+    },
+    {
+      "id": "PC12-D2",
+      "outer": false,
+      "stack": "64",
+      "input": "diff(atan(x+sqrt(1+x^2)),x)",
+      "exit": 0,
+      "result": "(1+1/2*2*x*(sqrt(1+x^2))^-1)/(1+(x+sqrt(1+x^2))^2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00090509\nMAX_RSS_KB 29848\n",
+      "verification": {
+        "exact": true,
+        "method": "s=sqrt(1+x\u00b2)>|x|, t=s+x>0, t'=t/s, and 1+t\u00b2=2st. Cancellation is valid globally, including negative x; derivative 1/(2s\u00b2)."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "1/2",
+        "-1": "1/4"
+      }
+    },
+    {
+      "id": "PC12-D2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(diff(atan(x+sqrt(1+x^2)),x))",
+      "exit": 0,
+      "result": "1/(2*x^2+2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00133004\nMAX_RSS_KB 29848\n",
+      "verification": {
+        "exact": true,
+        "method": "s=sqrt(1+x\u00b2)>|x|, t=s+x>0, t'=t/s, and 1+t\u00b2=2st. Cancellation is valid globally, including negative x; derivative 1/(2s\u00b2)."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "1/2",
+        "-1": "1/4"
+      }
+    },
+    {
+      "id": "PC12-D2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(diff(atan(x+sqrt(1+x^2)),x))",
+      "exit": 0,
+      "result": "1/(2*x^2+2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00159722\nMAX_RSS_KB 29848\n",
+      "verification": {
+        "exact": true,
+        "method": "s=sqrt(1+x\u00b2)>|x|, t=s+x>0, t'=t/s, and 1+t\u00b2=2st. Cancellation is valid globally, including negative x; derivative 1/(2s\u00b2)."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "1/2",
+        "-1": "1/4"
+      }
+    },
+    {
+      "id": "PC12-S1",
+      "outer": false,
+      "stack": "normal",
+      "input": "sqrt((x+y)^2)+sqrt((x-y)^2)-2*sqrt(x^2)",
+      "exit": 0,
+      "result": "abs(x+y)+abs(x-y)-2*abs(x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000560874\nMAX_RSS_KB 29848\n",
+      "verification": {
+        "exact": true,
+        "method": "All radicands are real squares. A=|x+y|+|x-y|>=0 has A\u00b2=2(x\u00b2+y\u00b2)+2|x\u00b2-y\u00b2|=4max(x\u00b2,y\u00b2), proving exact max formula, continuity and no domain exclusions."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC12-S1",
+      "outer": false,
+      "stack": "64",
+      "input": "sqrt((x+y)^2)+sqrt((x-y)^2)-2*sqrt(x^2)",
+      "exit": 0,
+      "result": "abs(x+y)+abs(x-y)-2*abs(x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000577884\nMAX_RSS_KB 29848\n",
+      "verification": {
+        "exact": true,
+        "method": "All radicands are real squares. A=|x+y|+|x-y|>=0 has A\u00b2=2(x\u00b2+y\u00b2)+2|x\u00b2-y\u00b2|=4max(x\u00b2,y\u00b2), proving exact max formula, continuity and no domain exclusions."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC12-S1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(sqrt((x+y)^2)+sqrt((x-y)^2)-2*sqrt(x^2))",
+      "exit": 0,
+      "result": "-2*abs(x)+abs(x+y)+abs(x-y)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000860051\nMAX_RSS_KB 29848\n",
+      "verification": {
+        "exact": true,
+        "method": "All radicands are real squares. A=|x+y|+|x-y|>=0 has A\u00b2=2(x\u00b2+y\u00b2)+2|x\u00b2-y\u00b2|=4max(x\u00b2,y\u00b2), proving exact max formula, continuity and no domain exclusions."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC12-S1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(sqrt((x+y)^2)+sqrt((x-y)^2)-2*sqrt(x^2))",
+      "exit": 0,
+      "result": "-2*abs(x)+abs(x+y)+abs(x-y)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000834551\nMAX_RSS_KB 29848\n",
+      "verification": {
+        "exact": true,
+        "method": "All radicands are real squares. A=|x+y|+|x-y|>=0 has A\u00b2=2(x\u00b2+y\u00b2)+2|x\u00b2-y\u00b2|=4max(x\u00b2,y\u00b2), proving exact max formula, continuity and no domain exclusions."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC12-R1",
+      "outer": false,
+      "stack": "normal",
+      "input": "sum(ln((sqrt(1+(x+k)^2)+x+k)/(sqrt(1+(x+k-1)^2)+x+k-1)),k,1,16)",
+      "exit": 0,
+      "result": "ln((sqrt(1+(x+1)^2)+x+1)/(sqrt(1+x^2)+x))+ln((sqrt(1+(x+10)^2)+x+10)/(sqrt(1+(x+9)^2)+x+9))+ln((sqrt(1+(x+11)^2)+x+11)/(sqrt(1+(x+10)^2)+x+10))+ln((sqrt(1+(x+12)^2)+x+12)/(sqrt(1+(x+11)^2)+x+11))+ln((sqrt(1+(x+13)^2)+x+13)/(sqrt(1+(x+12)^2)+x+12))+ln((sqrt(1+(x+14)^2)+x+14)/(sqrt(1+(x+13)^2)+x+13))+ln((sqrt(1+(x+15)^2)+x+15)/(sqrt(1+(x+14)^2)+x+14))+ln((sqrt(1+(x+16)^2)+x+16)/(sqrt(1+(x+15)^2)+x+15))+ln((sqrt(1+(x+2)^2)+x+2)/(sqrt(1+(x+1)^2)+x+1))+ln((sqrt(1+(x+3)^2)+x+3)/(sqrt(1+(x+2)^2)+x+2))+ln((sqrt(1+(x+4)^2)+x+4)/(sqrt(1+(x+3)^2)+x+3))+ln((sqrt(1+(x+5)^2)+x+5)/(sqrt(1+(x+4)^2)+x+4))+ln((sqrt(1+(x+6)^2)+x+6)/(sqrt(1+(x+5)^2)+x+5))+ln((sqrt(1+(x+7)^2)+x+7)/(sqrt(1+(x+6)^2)+x+6))+ln((sqrt(1+(x+8)^2)+x+8)/(sqrt(1+(x+7)^2)+x+7))+ln((sqrt(1+(x+9)^2)+x+9)/(sqrt(1+(x+8)^2)+x+8))",
+      "stderr": "PARSER_CALLS 3\nSECONDS 0.00129375\nMAX_RSS_KB 29848\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact retained 16-term sum; A(t)=sqrt(1+t\u00b2)+t>0 globally since A(t)(sqrt(1+t\u00b2)-t)=1. Each log quotient is a difference of real logs, so finite telescoping proves the compact target; A is increasing and L'=1/sqrt(1+t\u00b2), proving positivity and both zero limits."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC12-R1",
+      "outer": false,
+      "stack": "64",
+      "input": "sum(ln((sqrt(1+(x+k)^2)+x+k)/(sqrt(1+(x+k-1)^2)+x+k-1)),k,1,16)",
+      "exit": 0,
+      "result": "ln((sqrt(1+(x+1)^2)+x+1)/(sqrt(1+x^2)+x))+ln((sqrt(1+(x+10)^2)+x+10)/(sqrt(1+(x+9)^2)+x+9))+ln((sqrt(1+(x+11)^2)+x+11)/(sqrt(1+(x+10)^2)+x+10))+ln((sqrt(1+(x+12)^2)+x+12)/(sqrt(1+(x+11)^2)+x+11))+ln((sqrt(1+(x+13)^2)+x+13)/(sqrt(1+(x+12)^2)+x+12))+ln((sqrt(1+(x+14)^2)+x+14)/(sqrt(1+(x+13)^2)+x+13))+ln((sqrt(1+(x+15)^2)+x+15)/(sqrt(1+(x+14)^2)+x+14))+ln((sqrt(1+(x+16)^2)+x+16)/(sqrt(1+(x+15)^2)+x+15))+ln((sqrt(1+(x+2)^2)+x+2)/(sqrt(1+(x+1)^2)+x+1))+ln((sqrt(1+(x+3)^2)+x+3)/(sqrt(1+(x+2)^2)+x+2))+ln((sqrt(1+(x+4)^2)+x+4)/(sqrt(1+(x+3)^2)+x+3))+ln((sqrt(1+(x+5)^2)+x+5)/(sqrt(1+(x+4)^2)+x+4))+ln((sqrt(1+(x+6)^2)+x+6)/(sqrt(1+(x+5)^2)+x+5))+ln((sqrt(1+(x+7)^2)+x+7)/(sqrt(1+(x+6)^2)+x+6))+ln((sqrt(1+(x+8)^2)+x+8)/(sqrt(1+(x+7)^2)+x+7))+ln((sqrt(1+(x+9)^2)+x+9)/(sqrt(1+(x+8)^2)+x+8))",
+      "stderr": "PARSER_CALLS 3\nSECONDS 0.00124699\nMAX_RSS_KB 29848\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact retained 16-term sum; A(t)=sqrt(1+t\u00b2)+t>0 globally since A(t)(sqrt(1+t\u00b2)-t)=1. Each log quotient is a difference of real logs, so finite telescoping proves the compact target; A is increasing and L'=1/sqrt(1+t\u00b2), proving positivity and both zero limits."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC12-R1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(sum(ln((sqrt(1+(x+k)^2)+x+k)/(sqrt(1+(x+k-1)^2)+x+k-1)),k,1,16))",
+      "exit": 0,
+      "result": "ln((sqrt(1+(x+1)^2)+x+1)/(sqrt(1+x^2)+x))+ln((sqrt(1+(x+10)^2)+x+10)/(sqrt(1+(x+9)^2)+x+9))+ln((sqrt(1+(x+11)^2)+x+11)/(sqrt(1+(x+10)^2)+x+10))+ln((sqrt(1+(x+12)^2)+x+12)/(sqrt(1+(x+11)^2)+x+11))+ln((sqrt(1+(x+13)^2)+x+13)/(sqrt(1+(x+12)^2)+x+12))+ln((sqrt(1+(x+14)^2)+x+14)/(sqrt(1+(x+13)^2)+x+13))+ln((sqrt(1+(x+15)^2)+x+15)/(sqrt(1+(x+14)^2)+x+14))+ln((sqrt(1+(x+16)^2)+x+16)/(sqrt(1+(x+15)^2)+x+15))+ln((sqrt(1+(x+2)^2)+x+2)/(sqrt(1+(x+1)^2)+x+1))+ln((sqrt(1+(x+3)^2)+x+3)/(sqrt(1+(x+2)^2)+x+2))+ln((sqrt(1+(x+4)^2)+x+4)/(sqrt(1+(x+3)^2)+x+3))+ln((sqrt(1+(x+5)^2)+x+5)/(sqrt(1+(x+4)^2)+x+4))+ln((sqrt(1+(x+6)^2)+x+6)/(sqrt(1+(x+5)^2)+x+5))+ln((sqrt(1+(x+7)^2)+x+7)/(sqrt(1+(x+6)^2)+x+6))+ln((sqrt(1+(x+8)^2)+x+8)/(sqrt(1+(x+7)^2)+x+7))+ln((sqrt(1+(x+9)^2)+x+9)/(sqrt(1+(x+8)^2)+x+8))",
+      "stderr": "PARSER_CALLS 3\nSECONDS 0.00144685\nMAX_RSS_KB 29848\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact retained 16-term sum; A(t)=sqrt(1+t\u00b2)+t>0 globally since A(t)(sqrt(1+t\u00b2)-t)=1. Each log quotient is a difference of real logs, so finite telescoping proves the compact target; A is increasing and L'=1/sqrt(1+t\u00b2), proving positivity and both zero limits."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC12-R1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(sum(ln((sqrt(1+(x+k)^2)+x+k)/(sqrt(1+(x+k-1)^2)+x+k-1)),k,1,16))",
+      "exit": 0,
+      "result": "ln((sqrt(1+(x+1)^2)+x+1)/(sqrt(1+x^2)+x))+ln((sqrt(1+(x+10)^2)+x+10)/(sqrt(1+(x+9)^2)+x+9))+ln((sqrt(1+(x+11)^2)+x+11)/(sqrt(1+(x+10)^2)+x+10))+ln((sqrt(1+(x+12)^2)+x+12)/(sqrt(1+(x+11)^2)+x+11))+ln((sqrt(1+(x+13)^2)+x+13)/(sqrt(1+(x+12)^2)+x+12))+ln((sqrt(1+(x+14)^2)+x+14)/(sqrt(1+(x+13)^2)+x+13))+ln((sqrt(1+(x+15)^2)+x+15)/(sqrt(1+(x+14)^2)+x+14))+ln((sqrt(1+(x+16)^2)+x+16)/(sqrt(1+(x+15)^2)+x+15))+ln((sqrt(1+(x+2)^2)+x+2)/(sqrt(1+(x+1)^2)+x+1))+ln((sqrt(1+(x+3)^2)+x+3)/(sqrt(1+(x+2)^2)+x+2))+ln((sqrt(1+(x+4)^2)+x+4)/(sqrt(1+(x+3)^2)+x+3))+ln((sqrt(1+(x+5)^2)+x+5)/(sqrt(1+(x+4)^2)+x+4))+ln((sqrt(1+(x+6)^2)+x+6)/(sqrt(1+(x+5)^2)+x+5))+ln((sqrt(1+(x+7)^2)+x+7)/(sqrt(1+(x+6)^2)+x+6))+ln((sqrt(1+(x+8)^2)+x+8)/(sqrt(1+(x+7)^2)+x+7))+ln((sqrt(1+(x+9)^2)+x+9)/(sqrt(1+(x+8)^2)+x+8))",
+      "stderr": "PARSER_CALLS 3\nSECONDS 0.00152904\nMAX_RSS_KB 29848\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact retained 16-term sum; A(t)=sqrt(1+t\u00b2)+t>0 globally since A(t)(sqrt(1+t\u00b2)-t)=1. Each log quotient is a difference of real logs, so finite telescoping proves the compact target; A is increasing and L'=1/sqrt(1+t\u00b2), proving positivity and both zero limits."
+      },
+      "pass": true
+    }
+  ],
+  "cases": [
+    {
+      "id": "PC12-I1",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC12-I2",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC12-D1",
+      "all_four_pass": false
+    },
+    {
+      "id": "PC12-D2",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC12-S1",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC12-R1",
+      "all_four_pass": true
+    }
+  ]
+}

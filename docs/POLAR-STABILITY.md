@@ -169,3 +169,17 @@ ROM 2,065,112 / 2,065,152 B（余40 B），AC2 2,487,388 / 2,559,996 B（余72,6
 ROM使用2,064,552 B（余600 B），AC2使用2,494,744 B（余65,252 B），静态RAM与CAS堆不变。五次主机中位数最大约2.8 ms；没有本轮实机计时或安装，主机64 KiB保护栈不是SH4/MMU模拟。新增有界规则不等于一般超越零点或一般分段极限求解；首次有错题，继续全新题集，不进入最终性能代理验收。
 
 [首次](benchmarks/polar-cycle11-first-acceptance-2026a.json) · [修复后](benchmarks/polar-cycle11-fixed-acceptance-2026a.json) · [变体](benchmarks/periodic-isolated-guards-polar11-2026a.json) · [资源](benchmarks/resources-polar-cycle11-2026a.json) · [测量](benchmarks/polar-cycle11-performance-2026a.json) · [回归索引](benchmarks/polar-cycle11-regression-index-2026a.json)。
+
+## 第十二轮：主值反三角函数的周期接点
+
+标签 `checkpoint/polar-stability-cycle12-2026a`。全新6题首次5题完整通过，仅acos(cos(x))²的导数遗漏奇数倍pi的真实角点。两道新积分均已返回闭式；有理反三角复合导数、双变量绝对值化简和16项对数望远镜和也正确。资源题保留有界16项形式，独立用正实参数证明望远镜恒等式、全实域无洞和严格正值；不要求强制展开。
+
+符号acos(cos(phase))保留主值函数节点，使求导能看到周期接点，数值参数仍按主值计算。实多项式相位及1至16次正整数幂使用差商：偶数倍pi处m>1给零，m=1保留尖点；奇数倍pi处非驻点均不可导；多项式相位驻点的增量为O(h²)，两类接点都具有有限零导数。相位导数含符号参数时保留零斜率条件，避免参数退化出现除零。此规则不是任意非解析相位的一般极限算法。
+
+主机探针新增实际仓库acos实现；另以未改动335c00b源码构建实际acos基线，24项输出与原来主机acos基线逐字一致，确认周期错误属于旧实现而不是主机依赖差异。新增60项变式覆盖正负周期、平移、反向相位、幂次及相位驻点。
+
+修复后本轮24项、60项新变式、此前204项变体、旧114项边界检查、前十一轮304项、混合96项、极坐标60项、21项正式及7项补充回归均通过。积分清单669条：664精确、5导数采样。五次主机中位数最大约2.4 ms；失败的旧导数不作为有效加速比分母。主机64 KiB保护栈并非SH4/MMU模拟，本轮未安装实机。
+
+ROM余600 B，AC2使用2,496,104 B（余63,892 B），静态RAM和CAS堆不变。首次有错题，继续派发全新题库，不进入最终性能代理验收。
+
+[首次](benchmarks/polar-cycle12-first-acceptance-2026a.json) · [旧版实际acos](benchmarks/polar-cycle12-baseline-actual-acos-runs-2026a.json) · [修复后](benchmarks/polar-cycle12-fixed-acceptance-2026a.json) · [变式](benchmarks/periodic-acos-guards-polar12-2026a.json) · [资源](benchmarks/resources-polar-cycle12-2026a.json) · [测量](benchmarks/polar-cycle12-performance-2026a.json) · [回归索引](benchmarks/polar-cycle12-regression-index-2026a.json)。
