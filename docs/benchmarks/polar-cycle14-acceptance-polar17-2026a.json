@@ -1,0 +1,510 @@
+{
+  "scope": "Actual repository integration/yderive/FXCG simplify on host dependencies; guarded 64 KiB stack, not SH4/MMU emulation.",
+  "corpus_sha256": "c35e414360b08fa290c196e9055eeded89126dfeb1780e8cd3552acdc1a1e0c5",
+  "probe_sha256": "e0bc8d28da9701bee6d98cc0c373fad65566336bcd001d011ddca744770283e1",
+  "runs": [
+    {
+      "id": "PC14-I1",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(1/(x^4+4),x)",
+      "exit": 0,
+      "result": "-1/16*ln(x^2-4^(1/4)*sqrt(2)*x+4^(1/4)*4^(1/4))+1/8*atan((x-sqrt(2)/2*4^(1/4))/(sqrt(2)/2*4^(1/4)))+1/16*ln(x^2+4^(1/4)*sqrt(2)*x+4^(1/4)*4^(1/4))+1/8*atan((x-(-sqrt(2))/2*4^(1/4))/(sqrt(2)/2*4^(1/4)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00144167\nMAX_RSS_KB 66480\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact rational partial fractions; both quadratic log arguments are (x\u00b11)\u00b2+1>0, and separate real atan terms are continuous globally. Zero normalization and whole-line domain are retained."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC14-I1",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(1/(x^4+4),x)",
+      "exit": 0,
+      "result": "-1/16*ln(x^2-4^(1/4)*sqrt(2)*x+4^(1/4)*4^(1/4))+1/8*atan((x-sqrt(2)/2*4^(1/4))/(sqrt(2)/2*4^(1/4)))+1/16*ln(x^2+4^(1/4)*sqrt(2)*x+4^(1/4)*4^(1/4))+1/8*atan((x-(-sqrt(2))/2*4^(1/4))/(sqrt(2)/2*4^(1/4)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00143603\nMAX_RSS_KB 66480\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact rational partial fractions; both quadratic log arguments are (x\u00b11)\u00b2+1>0, and separate real atan terms are continuous globally. Zero normalization and whole-line domain are retained."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC14-I1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(1/(x^4+4),x))",
+      "exit": 0,
+      "result": "-1/16*ln(x^2-4^(1/4)*sqrt(2)*x+4^(1/4)*4^(1/4))+1/8*atan((x-sqrt(2)/2*4^(1/4))/(sqrt(2)/2*4^(1/4)))+1/16*ln(x^2+4^(1/4)*sqrt(2)*x+4^(1/4)*4^(1/4))+1/8*atan((x-(-sqrt(2))/2*4^(1/4))/(sqrt(2)/2*4^(1/4)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00105536\nMAX_RSS_KB 66480\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact rational partial fractions; both quadratic log arguments are (x\u00b11)\u00b2+1>0, and separate real atan terms are continuous globally. Zero normalization and whole-line domain are retained."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC14-I1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(1/(x^4+4),x))",
+      "exit": 0,
+      "result": "-1/16*ln(x^2-4^(1/4)*sqrt(2)*x+4^(1/4)*4^(1/4))+1/8*atan((x-sqrt(2)/2*4^(1/4))/(sqrt(2)/2*4^(1/4)))+1/16*ln(x^2+4^(1/4)*sqrt(2)*x+4^(1/4)*4^(1/4))+1/8*atan((x-(-sqrt(2))/2*4^(1/4))/(sqrt(2)/2*4^(1/4)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.0014901\nMAX_RSS_KB 66480\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact rational partial fractions; both quadratic log arguments are (x\u00b11)\u00b2+1>0, and separate real atan terms are continuous globally. Zero normalization and whole-line domain are retained."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC14-I2",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(1/(2+sin(x))^2,x)",
+      "exit": 0,
+      "result": "2/3*(x+2*atan(cos(x)/(2+sqrt(3)+sin(x))))/sqrt(3)+cos(x)/(2+sin(x))/3",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00108522\nMAX_RSS_KB 66480\n",
+      "verification": {
+        "exact": true,
+        "method": "c=2+sqrt3>1 and c\u00b2+1=4c give J'=1/(2+sin x); derivative of cos/(2+sin x) is -(2sin x+1)/(2+sin x)\u00b2. All denominators positive globally, including every half-angle chart boundary."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC14-I2",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(1/(2+sin(x))^2,x)",
+      "exit": 0,
+      "result": "2/3*(x+2*atan(cos(x)/(2+sqrt(3)+sin(x))))/sqrt(3)+cos(x)/(2+sin(x))/3",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00129035\nMAX_RSS_KB 66480\n",
+      "verification": {
+        "exact": true,
+        "method": "c=2+sqrt3>1 and c\u00b2+1=4c give J'=1/(2+sin x); derivative of cos/(2+sin x) is -(2sin x+1)/(2+sin x)\u00b2. All denominators positive globally, including every half-angle chart boundary."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC14-I2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(1/(2+sin(x))^2,x))",
+      "exit": 0,
+      "result": "2/3*(x+2*atan(cos(x)/(2+sqrt(3)+sin(x))))/sqrt(3)+cos(x)/(2+sin(x))/3",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00103094\nMAX_RSS_KB 66480\n",
+      "verification": {
+        "exact": true,
+        "method": "c=2+sqrt3>1 and c\u00b2+1=4c give J'=1/(2+sin x); derivative of cos/(2+sin x) is -(2sin x+1)/(2+sin x)\u00b2. All denominators positive globally, including every half-angle chart boundary."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC14-I2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(1/(2+sin(x))^2,x))",
+      "exit": 0,
+      "result": "2/3*(x+2*atan(cos(x)/(2+sqrt(3)+sin(x))))/sqrt(3)+cos(x)/(2+sin(x))/3",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000969546\nMAX_RSS_KB 66480\n",
+      "verification": {
+        "exact": true,
+        "method": "c=2+sqrt3>1 and c\u00b2+1=4c give J'=1/(2+sin x); derivative of cos/(2+sin x) is -(2sin x+1)/(2+sin x)\u00b2. All denominators positive globally, including every half-angle chart boundary."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC14-D1",
+      "outer": false,
+      "stack": "normal",
+      "input": "diff(acos(cos(x^2)),x)",
+      "exit": 0,
+      "result": "((2*x=0)? 0 : ((cos(x^2)=1)? undef : ((cos(x^2)=-1)? undef : sin(x^2)*2*x/sqrt(1-cos(x^2)*cos(x^2)))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000354155\nMAX_RSS_KB 66480\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact regular chain rule. At nonzero a\u00b2=k*pi, original increment is (-1)^k |2ah+h\u00b2| and opposite quotient limits give corners. At zero f(h)=h\u00b2, quotient h->0, proving the stationary finite derivative."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0",
+        "sqrt(pi)": "undef",
+        "-sqrt(2*pi)": "undef"
+      }
+    },
+    {
+      "id": "PC14-D1",
+      "outer": false,
+      "stack": "64",
+      "input": "diff(acos(cos(x^2)),x)",
+      "exit": 0,
+      "result": "((2*x=0)? 0 : ((cos(x^2)=1)? undef : ((cos(x^2)=-1)? undef : sin(x^2)*2*x/sqrt(1-cos(x^2)*cos(x^2)))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000336505\nMAX_RSS_KB 66480\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact regular chain rule. At nonzero a\u00b2=k*pi, original increment is (-1)^k |2ah+h\u00b2| and opposite quotient limits give corners. At zero f(h)=h\u00b2, quotient h->0, proving the stationary finite derivative."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0",
+        "sqrt(pi)": "undef",
+        "-sqrt(2*pi)": "undef"
+      }
+    },
+    {
+      "id": "PC14-D1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(diff(acos(cos(x^2)),x))",
+      "exit": 0,
+      "result": "((2*x=0)? 0 : ((cos(x^2)=1)? undef : ((cos(x^2)=-1)? undef : sin(x^2)*2*x/sqrt(1-cos(x^2)*cos(x^2)))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000538452\nMAX_RSS_KB 66480\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact regular chain rule. At nonzero a\u00b2=k*pi, original increment is (-1)^k |2ah+h\u00b2| and opposite quotient limits give corners. At zero f(h)=h\u00b2, quotient h->0, proving the stationary finite derivative."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0",
+        "sqrt(pi)": "undef",
+        "-sqrt(2*pi)": "undef"
+      }
+    },
+    {
+      "id": "PC14-D1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(diff(acos(cos(x^2)),x))",
+      "exit": 0,
+      "result": "((2*x=0)? 0 : ((cos(x^2)=1)? undef : ((cos(x^2)=-1)? undef : sin(x^2)*2*x/sqrt(1-cos(x^2)*cos(x^2)))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000338695\nMAX_RSS_KB 66480\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact regular chain rule. At nonzero a\u00b2=k*pi, original increment is (-1)^k |2ah+h\u00b2| and opposite quotient limits give corners. At zero f(h)=h\u00b2, quotient h->0, proving the stationary finite derivative."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0",
+        "sqrt(pi)": "undef",
+        "-sqrt(2*pi)": "undef"
+      }
+    },
+    {
+      "id": "PC14-D2",
+      "outer": false,
+      "stack": "normal",
+      "input": "diff(ln((exp(x)-1)/x),x)",
+      "exit": 0,
+      "result": "exp(x)/(exp(x)-1)-1/x",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000303526\nMAX_RSS_KB 66480\n",
+      "verification": {
+        "exact": true,
+        "method": "The unsplit log quotient is positive on both x!=0 components. Exact derivative preserves x=0 exclusion. Taylor of the original quotient gives 1+h/2+O(h\u00b2), and log(1+r)/r->1 proves the separately assigned extension slope 1/2."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "undef"
+      }
+    },
+    {
+      "id": "PC14-D2",
+      "outer": false,
+      "stack": "64",
+      "input": "diff(ln((exp(x)-1)/x),x)",
+      "exit": 0,
+      "result": "exp(x)/(exp(x)-1)-1/x",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000312075\nMAX_RSS_KB 66480\n",
+      "verification": {
+        "exact": true,
+        "method": "The unsplit log quotient is positive on both x!=0 components. Exact derivative preserves x=0 exclusion. Taylor of the original quotient gives 1+h/2+O(h\u00b2), and log(1+r)/r->1 proves the separately assigned extension slope 1/2."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "undef"
+      }
+    },
+    {
+      "id": "PC14-D2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(diff(ln((exp(x)-1)/x),x))",
+      "exit": 0,
+      "result": "(x*exp(x)-exp(x)+1)/(x*exp(x)-x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000595321\nMAX_RSS_KB 66480\n",
+      "verification": {
+        "exact": true,
+        "method": "The unsplit log quotient is positive on both x!=0 components. Exact derivative preserves x=0 exclusion. Taylor of the original quotient gives 1+h/2+O(h\u00b2), and log(1+r)/r->1 proves the separately assigned extension slope 1/2."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "undef"
+      }
+    },
+    {
+      "id": "PC14-D2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(diff(ln((exp(x)-1)/x),x))",
+      "exit": 0,
+      "result": "(x*exp(x)-exp(x)+1)/(x*exp(x)-x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000552872\nMAX_RSS_KB 66480\n",
+      "verification": {
+        "exact": true,
+        "method": "The unsplit log quotient is positive on both x!=0 components. Exact derivative preserves x=0 exclusion. Taylor of the original quotient gives 1+h/2+O(h\u00b2), and log(1+r)/r->1 proves the separately assigned extension slope 1/2."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "undef"
+      }
+    },
+    {
+      "id": "PC14-S1",
+      "outer": false,
+      "stack": "normal",
+      "input": "ln(sqrt((x-y)^2)/(x+y))-(ln((x-y)^2)-ln((x+y)^2))/2",
+      "exit": 0,
+      "result": "ln(abs(x-y)/(x+y))-(ln((x-y)^2)-ln((x+y)^2))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000558692\nMAX_RSS_KB 66480\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact retention with sqrt((x-y)\u00b2)=|x-y|. Square logs require x!=y and x!=-y; the positive root quotient additionally requires x+y>0. On exactly that domain positive logarithm identities cancel, retaining both signs of x-y."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC14-S1",
+      "outer": false,
+      "stack": "64",
+      "input": "ln(sqrt((x-y)^2)/(x+y))-(ln((x-y)^2)-ln((x+y)^2))/2",
+      "exit": 0,
+      "result": "ln(abs(x-y)/(x+y))-(ln((x-y)^2)-ln((x+y)^2))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000538933\nMAX_RSS_KB 66480\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact retention with sqrt((x-y)\u00b2)=|x-y|. Square logs require x!=y and x!=-y; the positive root quotient additionally requires x+y>0. On exactly that domain positive logarithm identities cancel, retaining both signs of x-y."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC14-S1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(ln(sqrt((x-y)^2)/(x+y))-(ln((x-y)^2)-ln((x+y)^2))/2)",
+      "exit": 0,
+      "result": "ln(abs(x-y)/(x+y))-(ln((x-y)^2)-ln((x+y)^2))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000550382\nMAX_RSS_KB 66480\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact retention with sqrt((x-y)\u00b2)=|x-y|. Square logs require x!=y and x!=-y; the positive root quotient additionally requires x+y>0. On exactly that domain positive logarithm identities cancel, retaining both signs of x-y."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC14-S1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(ln(sqrt((x-y)^2)/(x+y))-(ln((x-y)^2)-ln((x+y)^2))/2)",
+      "exit": 0,
+      "result": "ln(abs(x-y)/(x+y))-(ln((x-y)^2)-ln((x+y)^2))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000546932\nMAX_RSS_KB 66480\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact retention with sqrt((x-y)\u00b2)=|x-y|. Square logs require x!=y and x!=-y; the positive root quotient additionally requires x+y>0. On exactly that domain positive logarithm identities cancel, retaining both signs of x-y."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC14-R1",
+      "outer": false,
+      "stack": "normal",
+      "input": "sum(1/((x+k)*(x+k+1)),k,0,19)",
+      "exit": 0,
+      "result": "piecewise(x<-20,20/(x^2+20*x),x>0,20/(x^2+20*x),x=(floor(x)),undef,20/(x^2+20*x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000424574\nMAX_RSS_KB 66480\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact finite telescope with the inherited domain. The bounded integer-membership guard excludes precisely the 21 original zeros 0,-1,...,-20; on its complement the sum telescopes to 1/x-1/(x+20). Every canceled interior hole remains undefined."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "undef",
+        "-1": "undef",
+        "-2": "undef",
+        "-3": "undef",
+        "-4": "undef",
+        "-5": "undef",
+        "-6": "undef",
+        "-7": "undef",
+        "-8": "undef",
+        "-9": "undef",
+        "-10": "undef",
+        "-11": "undef",
+        "-12": "undef",
+        "-13": "undef",
+        "-14": "undef",
+        "-15": "undef",
+        "-16": "undef",
+        "-17": "undef",
+        "-18": "undef",
+        "-19": "undef",
+        "-20": "undef",
+        "1": "20/21"
+      }
+    },
+    {
+      "id": "PC14-R1",
+      "outer": false,
+      "stack": "64",
+      "input": "sum(1/((x+k)*(x+k+1)),k,0,19)",
+      "exit": 0,
+      "result": "piecewise(x<-20,20/(x^2+20*x),x>0,20/(x^2+20*x),x=(floor(x)),undef,20/(x^2+20*x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000454484\nMAX_RSS_KB 66480\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact finite telescope with the inherited domain. The bounded integer-membership guard excludes precisely the 21 original zeros 0,-1,...,-20; on its complement the sum telescopes to 1/x-1/(x+20). Every canceled interior hole remains undefined."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "undef",
+        "-1": "undef",
+        "-2": "undef",
+        "-3": "undef",
+        "-4": "undef",
+        "-5": "undef",
+        "-6": "undef",
+        "-7": "undef",
+        "-8": "undef",
+        "-9": "undef",
+        "-10": "undef",
+        "-11": "undef",
+        "-12": "undef",
+        "-13": "undef",
+        "-14": "undef",
+        "-15": "undef",
+        "-16": "undef",
+        "-17": "undef",
+        "-18": "undef",
+        "-19": "undef",
+        "-20": "undef",
+        "1": "20/21"
+      }
+    },
+    {
+      "id": "PC14-R1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(sum(1/((x+k)*(x+k+1)),k,0,19))",
+      "exit": 0,
+      "result": "piecewise(x<-20,20/(x^2+20*x),x>0,20/(x^2+20*x),x=(floor(x)),undef,20/(x^2+20*x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000402085\nMAX_RSS_KB 66480\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact finite telescope with the inherited domain. The bounded integer-membership guard excludes precisely the 21 original zeros 0,-1,...,-20; on its complement the sum telescopes to 1/x-1/(x+20). Every canceled interior hole remains undefined."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "undef",
+        "-1": "undef",
+        "-2": "undef",
+        "-3": "undef",
+        "-4": "undef",
+        "-5": "undef",
+        "-6": "undef",
+        "-7": "undef",
+        "-8": "undef",
+        "-9": "undef",
+        "-10": "undef",
+        "-11": "undef",
+        "-12": "undef",
+        "-13": "undef",
+        "-14": "undef",
+        "-15": "undef",
+        "-16": "undef",
+        "-17": "undef",
+        "-18": "undef",
+        "-19": "undef",
+        "-20": "undef",
+        "1": "20/21"
+      }
+    },
+    {
+      "id": "PC14-R1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(sum(1/((x+k)*(x+k+1)),k,0,19))",
+      "exit": 0,
+      "result": "piecewise(x<-20,20/(x^2+20*x),x>0,20/(x^2+20*x),x=(floor(x)),undef,20/(x^2+20*x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000441854\nMAX_RSS_KB 66480\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact finite telescope with the inherited domain. The bounded integer-membership guard excludes precisely the 21 original zeros 0,-1,...,-20; on its complement the sum telescopes to 1/x-1/(x+20). Every canceled interior hole remains undefined."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "undef",
+        "-1": "undef",
+        "-2": "undef",
+        "-3": "undef",
+        "-4": "undef",
+        "-5": "undef",
+        "-6": "undef",
+        "-7": "undef",
+        "-8": "undef",
+        "-9": "undef",
+        "-10": "undef",
+        "-11": "undef",
+        "-12": "undef",
+        "-13": "undef",
+        "-14": "undef",
+        "-15": "undef",
+        "-16": "undef",
+        "-17": "undef",
+        "-18": "undef",
+        "-19": "undef",
+        "-20": "undef",
+        "1": "20/21"
+      }
+    }
+  ],
+  "source_sha256": {
+    "yintg.cc": "8e20afc2971c9b46ecae8c0cf200654c72fb7716371171dfe5a7d9e097fa78cc",
+    "zintgab.cc": "3b6fa78aba4d53b1a11479c33bacb4c85e3d6091389ef3073ec60085a7ae9448",
+    "ksubst.cc": "3e305a07314cbcc25d97946a7dbd20644d14c9c58e415cee8b254ff5342a12ec",
+    "yderive.cc": "48dd879a6d7c50b721a5260631c7d8f9c831e089b5dd45980cd9a7b2c01c271a",
+    "dilogarithm.h": "ca822ef4c094a4ed1f4aecf7219011668735d86d259c51ec6304515f8fa84d7a",
+    "kconvert.cc": "eed558eb2f8ff62e0cf1e94fdbf8497954a35577e283a8d07283350e65b76003",
+    "equation_normalize.h": "4bfb644f0e18bb36e280ce8886c8ac12695c9aeeaef187ea3e5f967cd1642e37",
+    "kusual.cc": "0a169f2a44b187b4310bde6f73bf03a0e593c5e00212a9d54ef6bd420420743d",
+    "zusual.cc": "89491d75065f7b0e19386226ef35ca467ae11b0a1f0948b7187a8118a5512f58",
+    "zprog.cc": "baf6570eac3b985e50bb2bbf8a3bbc47b72b34ce6835ce2f7a873185a7efe499",
+    "conditional_eval.h": "763e56cb14146b9e45728c4fa245f7fe4506a8eea4041cbaf98b927ea15e27a2"
+  },
+  "cases": [
+    {
+      "id": "PC14-I1",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC14-I2",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC14-D1",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC14-D2",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC14-S1",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC14-R1",
+      "all_four_pass": true
+    }
+  ]
+}

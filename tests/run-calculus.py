@@ -27,6 +27,8 @@ parser.add_argument('--corpus', type=Path, default=ROOT/'tests/calculus-corpus.j
 parser.add_argument('--timeout', type=float, default=10)
 parser.add_argument('--report', type=Path, required=True)
 parser.add_argument('--strict', action='store_true')
+parser.add_argument('--require-solved', action='store_true',
+                    help='Fail on unresolved/error results; retain exact versus sampled validation labels')
 parser.add_argument('--target-simplify', action='store_true', help='Include repository FXCG simplification entry points')
 parser.add_argument('--only', help='Comma-separated problem IDs')
 args = parser.parse_args()
@@ -112,4 +114,7 @@ with tempfile.TemporaryDirectory(prefix='khicas-calculus-') as tmp:
             args.report.write_text(json.dumps(report, indent=2, ensure_ascii=False)+'\n')
         print(ref, dict(Counter(row['status'] for row in rows)), flush=True)
 if args.strict and any(row['status'] != 'exact' for row in report['runs']['current']):
+    raise SystemExit(1)
+if args.require_solved and any(row['status'] not in ('exact', 'sampled', 'numeric_constant')
+                               for row in report['runs']['current']):
     raise SystemExit(1)

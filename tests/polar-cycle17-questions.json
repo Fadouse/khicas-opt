@@ -1,0 +1,121 @@
+{
+  "cases": [
+    {
+      "id": "PC17-I1",
+      "type": "integral",
+      "input": "simplify(integrate(ln(x)/(1+x)^2,x,0,1))",
+      "conditions": [
+        "x is finite real and ln is the strictly real logarithm. Determine the complete original real domain independently of the integration interval.",
+        "Interpret the lower endpoint as the improper limit from positive x. Require an explicit exact value, not an unevaluated integral or numerical approximation."
+      ],
+      "expected": {
+        "expression": "-ln(2)",
+        "properties": [
+          "The complete original integrand domain is (0,infinity). Zero is excluded and the integrand tends to negative infinity there; no value at zero is assigned.",
+          "The improper integral converges absolutely and equals -ln(2). The upper endpoint x=1 is regular and the integrand is zero there.",
+          "An exact primitive on x>0 is x*ln(x)/(1+x)-ln(1+x), whose right limit at zero is zero. This limiting value does not extend the original integrand's domain."
+        ]
+      },
+      "reason": "The original logarithm requires x>0; this condition also makes (1+x)^2 positive, so it is necessary and sufficient for the full real domain. For 0<x<=1, abs(ln(x)/(1+x)^2)<=-ln(x). The comparison function has integral from delta to 1 equal to 1+delta*ln(delta)-delta, tending to 1: writing delta=exp(-t) gives delta*ln(delta)=-t*exp(-t)->0. Hence the original improper integral is absolutely convergent. On x>0 integration by parts gives -ln(x)/(1+x)+integrate(1/(x*(1+x)),x); the identity 1/(x*(1+x))=1/x-1/(1+x) yields F=x*ln(x)/(1+x)-ln(1+x). Direct differentiation gives F'=ln(x)/(1+x)^2. F(1)=-ln(2), while the established x*ln(x)->0 and continuity of ln(1+x) give F(0+)=0. The fundamental theorem on [delta,1] followed by delta tending to zero proves the answer without assigning the original logarithm a value at zero."
+    },
+    {
+      "id": "PC17-I2",
+      "type": "integral",
+      "input": "simplify(integrate(x/(sqrt(1+x)+sqrt(1-x)),x))",
+      "conditions": [
+        "x is finite real and each sqrt is the nonnegative real square root. Determine and retain the complete original domain, including any allowed endpoints.",
+        "Require an explicit exact primitive on the connected original domain, up to one additive constant, with ordinary derivative equality on its interior and one-sided derivative equality at its endpoints. An unevaluated integral is not acceptable.",
+        "No extension outside the original real domain is requested. piecewise selects its first true branch lazily."
+      ],
+      "expected": {
+        "expression": "piecewise(x<-1,undef,x>1,undef,((1+x)*sqrt(1+x)+(1-x)*sqrt(1-x))/3)",
+        "properties": [
+          "The exact original domain is [-1,1]. Its denominator is strictly positive everywhere on that closed interval.",
+          "The displayed normalization is even, with F(0)=2/3 and F(-1)=F(1)=2*sqrt(2)/3. The original integrand is odd and has values -1/sqrt(2) and 1/sqrt(2) at -1 and 1.",
+          "The primitive's right derivative at -1 is -1/sqrt(2) and its left derivative at 1 is 1/sqrt(2). These are one-sided derivatives on the original domain; no ordinary two-sided endpoint derivatives are asserted.",
+          "Rationalizing must not introduce an artificial exclusion at x=0, where the original integrand is defined and equals zero."
+        ]
+      },
+      "reason": "The two square roots require 1+x>=0 and 1-x>=0, exactly -1<=x<=1. They cannot both vanish because their radicands sum to 2, so their sum is strictly positive on that entire interval. Put a=sqrt(1+x), b=sqrt(1-x). Since (a-b)*(a+b)=2*x and a+b>0, the original integrand equals (a-b)/2, including at x=0, without dividing by x. Termwise integration gives F=((1+x)^(3/2)+(1-x)^(3/2))/3, interpreted as the displayed nonnegative-root products. Differentiation on (-1,1) yields (a-b)/2. At x=1 set h=-s with s>0. The original primitive quotient is [((2-s)^(3/2)-2^(3/2))+s^(3/2)]/(-3*s); the first term tends to sqrt(2)/2 by differentiability of t^(3/2) at t=2 and the second is -sqrt(s)/3->0. Thus F'(1-)=1/sqrt(2). Evenness makes the corresponding original quotient at -1 the negative of this one, giving F'(-1+)=-1/sqrt(2). Direct substitution proves the normalization values and the original integrand endpoint values. All calculations stay within [-1,1]."
+    },
+    {
+      "id": "PC17-D1",
+      "type": "derivative",
+      "input": "simplify(diff(asin(sqrt(x))^2,x))",
+      "conditions": [
+        "x is finite real, sqrt is the nonnegative real square root, and asin takes real values in [-pi/2,pi/2].",
+        "Determine the exact ordinary two-sided derivative domain and separately report the original one-sided endpoint difference quotients. Do not silently replace an ordinary derivative by a one-sided derivative.",
+        "No extension beyond the original function's domain is allowed. piecewise selects its first true branch lazily."
+      ],
+      "expected": {
+        "expression": "piecewise(x<=0,undef,x>=1,undef,asin(sqrt(x))/(sqrt(x)*sqrt(1-x)))",
+        "properties": [
+          "The exact original function domain is [0,1], with f(0)=0 and f(1)=pi^2/4. The ordinary two-sided derivative domain is exactly (0,1).",
+          "The original right difference quotient at zero tends to 1, despite the interior derivative formula presenting a 0/0 form there. This is a finite right derivative, not an ordinary two-sided derivative.",
+          "The original left difference quotient at one tends to positive infinity, so no finite left derivative exists there.",
+          "The derivative is positive on (0,1), with value pi/2 at x=1/2. No value outside [0,1] may be used in an endpoint proof."
+        ]
+      },
+      "reason": "The square root requires x>=0 and its value must be at most 1 for real asin, giving exactly [0,1]. On (0,1) the chain rule gives asin(sqrt(x))/(sqrt(x)*sqrt(1-x)). For the actual quotient at zero, h>0 gives (f(h)-f(0))/h=(asin(sqrt(h))/sqrt(h))^2. Put t=asin(sqrt(h)); this is (t/sin(t))^2->1 by sin(t)/t->1. At one write h=-sin(t)^2 with t tending to zero through positive values. Then sqrt(1+h)=cos(t) and asin(cos(t))=pi/2-t, so the original quotient is [(-pi*t+t^2)/(-sin(t)^2)]=t*(pi-t)/sin(t)^2->positive infinity. These substitutions use the assigned endpoint values and only points in the original domain. Neither endpoint has a two-sided neighborhood in that domain, so neither has an ordinary two-sided derivative; all interior points do. Positivity and the value at one half follow directly from the formula and asin(1/sqrt(2))=pi/4."
+    },
+    {
+      "id": "PC17-D2",
+      "type": "derivative",
+      "input": "simplify(diff(ln(1+abs(x))-abs(x)/(1+abs(x)),x))",
+      "conditions": [
+        "x is finite real and ln is the strictly real logarithm. Determine the ordinary two-sided derivative on the complete original domain.",
+        "At x=0 use the original difference quotient with the original assigned value f(0)=0. The nondifferentiability of abs alone does not decide differentiability of the whole expression."
+      ],
+      "expected": {
+        "expression": "x/(1+abs(x))^2",
+        "properties": [
+          "The original function and its ordinary derivative are defined on all of R. The derivative at zero is exactly zero and the displayed expression directly supplies that value.",
+          "The original function is even and nonnegative, vanishing only at zero. Its derivative is odd, continuous, negative for x<0 and positive for x>0.",
+          "The derivative values at -1 and 1 are -1/4 and 1/4. No division by abs(x) or sign-dependent rule may create a derivative-domain hole at zero."
+        ]
+      },
+      "reason": "For every real x, 1+abs(x)>=1, so the logarithm and original denominator are both defined. Write H(t)=ln(1+t)-t/(1+t) for t>=0. H(0)=0 and H'(t)=t/(1+t)^2; on either open half-line the chain rule therefore gives sign(x)*abs(x)/(1+abs(x))^2=x/(1+abs(x))^2. To settle zero independently of this formula, the fundamental theorem gives H(t)=integrate(s/(1+s)^2,s,0,t). For t>=0 its integrand is nonnegative and at most s, whence 0<=H(t)<=t^2/2, with strict positivity when t>0. Thus the absolute value of the original quotient [f(h)-f(0)]/h=H(abs(h))/h is at most abs(h)/2 and tends to zero from both sides. The displayed derivative is continuous at zero and elsewhere because its denominator is at least 1. Evenness of H(abs(x)), oddness and signs of the derivative, and its two stated sample values now follow directly."
+    },
+    {
+      "id": "PC17-S1",
+      "type": "simplify",
+      "input": "simplify(sqrt(1+sin(x))/sqrt(1-sin(x))-(1+sin(x))/cos(x))",
+      "conditions": [
+        "x is finite real, angles are in radians, and sqrt denotes the nonnegative real square root. Every original quotient must be defined.",
+        "Return an exact simplification together with the complete original real domain, or an equivalent guarded expression. piecewise selects its first true branch lazily.",
+        "This generalizes sqrt(A plus or minus A*sin(x)) to a quotient whose correct sign varies periodically and whose original excluded points must survive simplification."
+      ],
+      "expected": {
+        "expression": "piecewise(cos(x)==0,undef,cos(x)>0,0,-2*(1+sin(x))/cos(x))",
+        "properties": [
+          "The exact original domain is cos(x)!=0, equivalently R excluding pi/2+k*pi for every integer k. All excluded points remain undefined, including those with sin(x)=-1.",
+          "The value is zero where cos(x)>0 and -2*(1+sin(x))/cos(x), which is strictly positive, where cos(x)<0. The domain and value have period 2*pi.",
+          "The globally valid first quotient on the original domain is (1+sin(x))/abs(cos(x)); replacing abs(cos(x)) by cos(x) everywhere is incorrect.",
+          "At x=0 and x=2*pi the answer is zero, while at x=pi it is 2. Both x=pi/2 and x=3*pi/2 are excluded even if some cancelled form has a finite limit there."
+        ]
+      },
+      "reason": "Both radicands are nonnegative for every real x. The first denominator requires sin(x)!=1 and the second requires cos(x)!=0. The second requirement already excludes sin(x)=1, so the full original domain is exactly cos(x)!=0. On that domain -1<sin(x)<1 and therefore 1+sin(x)>0. Multiplying the first quotient's numerator and denominator by sqrt(1+sin(x)), valid here, gives (1+sin(x))/sqrt((1-sin(x))*(1+sin(x)))=(1+sin(x))/sqrt(cos(x)^2)=(1+sin(x))/abs(cos(x)). Subtracting the signed original quotient gives zero when cosine is positive and -2*(1+sin(x))/cos(x) when cosine is negative. This proves its strict positivity on the latter intervals. The real zeros of cosine prove the complete excluded set; in particular sin(x)=-1 does not rescue the original 0/0 second quotient. The usual sine and cosine periods give period 2*pi, and direct substitution proves the three allowed values."
+    },
+    {
+      "id": "PC17-R1",
+      "type": "resource",
+      "input": "simplify(product(1+x^(2^k),k,0,9))",
+      "conditions": [
+        "x is finite real. The original product has exactly 10 factors, indexed by k=0 through 9; its largest individual exponent is the fixed integer 512.",
+        "Each invocation has a fixed 10-second external wall-clock timeout and a 65536-byte output cap. Preserve all existing configured finite CG50 stack, heap and simplification budgets; do not enlarge limits or retry with enlarged limits.",
+        "Return a compact exact result or retain the original compact finite product exactly. Expanding its degree-1023 polynomial is not required. piecewise selects its first true branch lazily."
+      ],
+      "expected": {
+        "expression": "piecewise(x==1,1024,(1-x^1024)/(1-x))",
+        "properties": [
+          "The complete original domain is all of R. The displayed exact quotient with its x=1 guard equals the product everywhere on that domain.",
+          "The original values at x=0, x=1 and x=-1 are 1, 1024 and 0. A bare quotient introducing a hole at x=1 is unacceptable.",
+          "An equivalent compact exact representation, including retention of the original finite product, is acceptable. No floating-point replacement or truncated expansion is acceptable.",
+          "No crash, stack overflow, timeout, output-cap overrun, runaway expansion or undef at an allowed point is acceptable. Existing resource budgets must not increase.",
+          "Compact exact retention is specific to the resource case and does not relax either integral's explicit closed-form requirement."
+        ]
+      },
+      "reason": "All ten factors use fixed positive integer powers, hence are polynomials defined at every real x, including zero. The difference-of-squares identity (1-u)*(1+u)=1-u^2 gives, by induction on n, (1-x)*product(1+x^(2^k),k,0,n-1)=1-x^(2^n). For n=10 this gives the stated quotient whenever x!=1. At x=1 each original factor equals 2, so the actual original value is 2^10=1024, proving the guarded identity without extending a quotient by fiat. At x=0 all factors are 1, and at x=-1 the k=0 factor is zero. The degree is the sum 1+2+...+512=1023. This finite algebraic proof needs no expansion into 1024 monomials, uses no variable division at x=1, and supplies a compact exact answer within the stated fixed-size mathematical task."
+    }
+  ]
+}

@@ -73,14 +73,14 @@ def derivative_source(ref='current'):
     out+=function(source(ref,'zusual.cc'),'  static gen asinasln(')
     out+=function(source(ref,'zusual.cc'),'  gen acos(const gen & e0,GIAC_CONTEXT)')
     out+='gen host_symb_derive(const gen &);\ngen host_symb_derive(const gen &,const gen &);\ngen host_symb_derive(const gen &,const gen &,const gen &);\n'
-    for sig in ('   gen eval_before_diff(', '  bool depend(', '  static int count_noncst(', '  static bool derive_real_composition(', '  static bool derive_piecewise_regular(', '  static bool derive_root_product(', '  static int derive_piecewise_oscillation(', '  static gen derive_piecewise_joints(', '  static gen derive_guarded_sum(', '  static gen derive_SYMB(',
+    for sig in ('   gen eval_before_diff(', '  bool depend(', '  static int count_noncst(', '  static bool derive_real_composition(', '  static bool derive_piecewise_regular(', '  static bool derive_root_product(', '  static int derive_piecewise_oscillation(', '  static gen derive_piecewise_joints(', '  static gen derive_guarded_sum(', '  static bool derive_nonnegative_polynomial(', '  static bool derive_abs_analytic(', '  static bool derive_abs_composition(', '  static gen derive_SYMB(',
                 '  static gen derive_VECT(', '  gen derive(const gen & e,const identificateur & i,GIAC_CONTEXT)',
                 '  static gen _VECTderive(', '  static gen derivesymb(',
                 '  gen derive(const gen & e,const gen & vars,GIAC_CONTEXT)',
                 '  gen derive(const gen & e,const gen & vars,const gen & nderiv,GIAC_CONTEXT)',
                 '  gen symb_derive(const gen & a)', '  gen symb_derive(const gen & a,const gen & b)',
                 '  gen symb_derive(const gen & a,const gen & b,const gen &c)', '  gen _derive(', '  gen _diff('):
-        if sig not in s and sig in ('  static bool derive_real_composition(', '  static bool derive_piecewise_regular(', '  static bool derive_root_product(', '  static int derive_piecewise_oscillation(', '  static gen derive_piecewise_joints(', '  static gen derive_guarded_sum('):continue
+        if sig not in s and sig in ('  static bool derive_real_composition(', '  static bool derive_piecewise_regular(', '  static bool derive_root_product(', '  static int derive_piecewise_oscillation(', '  static gen derive_piecewise_joints(', '  static gen derive_guarded_sum(', '  static bool derive_nonnegative_polynomial(', '  static bool derive_abs_analytic(', '  static bool derive_abs_composition('):continue
         out+=function(s,sig).replace('symb_derive(', 'host_symb_derive(').replace('symb_plus(v)', 'symbolic(at_plus,gen(v,_SEQ__VECT))')
     return out+'}\n'
 
@@ -96,6 +96,8 @@ def build(directory, ref='current', target_simplify=False, target_derive=False):
         (directory / 'integration_guard.h').write_text(source(ref, 'integration_guard.h'))
     if '#include "dilogarithm.h"' in text:
         (directory / 'dilogarithm.h').write_text(source(ref, 'dilogarithm.h'))
+    if '#include "equation_normalize.h"' in text:
+        (directory/'equation_normalize.h').write_text(source(ref,'equation_normalize.h'))
     syms = source(ref, 'ysym2poly.cc')
     normalized = '#include "giacPCH.h"\nnamespace giac {\n'
     for sig in ('  static bool sort_func(', '  static vecteur sort1(',

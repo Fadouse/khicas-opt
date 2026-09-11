@@ -1,0 +1,23 @@
+{
+  "cases": [
+    {
+      "id": "PC17-I1",
+      "input": "simplify(integrate(ln(x)/(1+x)^2,x,0,1))",
+      "expected": "-ln(2)",
+      "conditions": [
+        "x is finite real and ln is the strictly real logarithm. Determine the complete original real domain independently of the integration interval.",
+        "Interpret the lower endpoint as the improper limit from positive x. Require an explicit exact value, not an unevaluated integral or numerical approximation."
+      ]
+    },
+    {
+      "id": "PC17-I2",
+      "input": "simplify(integrate(x/(sqrt(1+x)+sqrt(1-x)),x))",
+      "expected": "piecewise(x<-1,undef,x>1,undef,((1+x)*sqrt(1+x)+(1-x)*sqrt(1-x))/3)",
+      "conditions": [
+        "x is finite real and each sqrt is the nonnegative real square root. Determine and retain the complete original domain, including any allowed endpoints.",
+        "Require an explicit exact primitive on the connected original domain, up to one additive constant, with ordinary derivative equality on its interior and one-sided derivative equality at its endpoints. An unevaluated integral is not acceptable.",
+        "No extension outside the original real domain is requested. piecewise selects its first true branch lazily."
+      ]
+    }
+  ]
+}

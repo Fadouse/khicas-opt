@@ -4,6 +4,7 @@ int confirm(const char * msg1,const char * msg2,bool acexit=false);
 // #define LOGINT
 #if defined(FXCG) || defined(KHICAS_TEST_INTEGRATION_LIMITS)
 #include "integration_guard.h"
+#include "equation_normalize.h"
 namespace giac { integration_guard *integration_guard::active_=0; }
 #endif
 
@@ -3381,11 +3382,14 @@ namespace giac {
     res=(A1*J+B1)/slope;return true;
   }
 
+  static bool integrate_affine_radical(const gen &,const gen &,gen &,GIAC_CONTEXT);
+
 #if defined(__GNUC__) && !defined(__clang__)
   __attribute__((noinline,optimize("Os")))
 #endif
   static bool integrate_compact_primitive(const gen &input,const gen &x,gen &res,GIAC_CONTEXT){
     if (taille(input,129)>128 || complex_mode(contextptr) || complex_variables(contextptr)) return false;
+    if(integrate_affine_radical(input,x,res,contextptr))return true;
     gen e=integration_syntax(input,contextptr),c=integration_coefficient(e,x,contextptr);
     gen p;
     if(integration_resource_rational(c) && integrate_global_trig_power(e,x,p,contextptr)){res=c*p;return true;}
@@ -6525,6 +6529,94 @@ namespace giac {
     res=answer;return true;
   }
 
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static bool integration_polynomial_radical(const gen &C,const gen &A,const gen &x,bool inverse,gen &res,GIAC_CONTEXT){
+    unsigned budget=128;equation_polynomial_budget cb,ab;
+    if(!equation_polynomial_bound(C,budget,0,cb) || cb.degree>8 ||
+       !equation_polynomial_bound(A,budget,0,ab) || ab.degree>1 ||
+       cb.numerator_bits+10*(ab.numerator_bits+ab.denominator_bits)>2048 ||
+       cb.denominator_bits+10*(ab.numerator_bits+ab.denominator_bits)>2048)return false;
+    vecteur variables=lvar(C);if(variables.size() && (variables.size()!=1 || variables[0]!=x))return false;
+    gen a,b;if(!is_linear_wrt(A,x,a,b,contextptr) || !integration_rational(a) || !integration_rational(b))return false;
+    sparse_poly1 polynomial;budget=256;
+    if(!integration_finite_poly_terms(C,x,polynomial,budget,0,contextptr))return false;
+    if(is_zero(a)){
+      if(!is_strictly_positive(b,contextptr))return false;
+      gen P=0;for(unsigned j=0;j<polynomial.size();++j){int n=polynomial[j].exponent.val+1;P+=polynomial[j].coeff*pow(x,n)/gen(n);}
+      gen root=sqrt(b,contextptr);res=inverse?P/root:P*root;return true;
+    }
+    // Translate C(x) to C((u-b)/a) with bounded binomial convolution.
+    // Degree<=8 needs only nine rational coefficients, never a root search.
+    vecteur coefficients(9,0);
+    for(unsigned j=0;j<polynomial.size();++j){
+      int n=polynomial[j].exponent.val;
+      gen scale=polynomial[j].coeff/pow(a,n),choose=1;
+      for(int k=0;k<=n;++k){
+        // This is a polynomial coefficient, whose constant monomial is 1.
+        // Sending a zero translation through numeric 0^0 yields undef.
+        coefficients[k]+=scale*choose*(n==k?gen(1):pow(-b,n-k));
+        if(k<n)choose=choose*gen(n-k)/gen(k+1);
+      }
+    }
+    gen P=0;
+    for(int k=8;k>=0;--k){
+      P=P*A+2*coefficients[k]/gen(2*k+(inverse?1:3));
+    }
+    res=sqrt(A,contextptr)*(inverse?P:A*P)/a;return true;
+  }
+
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static bool integrate_affine_radical(const gen &input,const gen &x,gen &res,GIAC_CONTEXT){
+    if(taille(input,129)>128 || complex_mode(contextptr) || complex_variables(contextptr))return false;
+    gen f=integration_syntax(input,contextptr),C=1,root,A;int mode=0;
+    vecteur factors=f.is_symb_of_sommet(at_prod)?*f._SYMBptr->feuille._VECTptr:makevecteur(f);
+    for(unsigned j=0;j<factors.size();++j){
+      const gen &v=factors[j];gen rad;int candidate=0;
+      if(integration_square_root(v,rad))candidate=1;
+      else if(v.is_symb_of_sommet(at_inv)){
+        if(integration_square_root(v._SYMBptr->feuille,rad))candidate=2;
+        else if(v._SYMBptr->feuille.is_symb_of_sommet(at_plus) && v._SYMBptr->feuille._SYMBptr->feuille.type==_VECT && v._SYMBptr->feuille._SYMBptr->feuille._VECTptr->size()==2)candidate=3;
+      }
+      if(candidate){if(mode)return false;mode=candidate;root=v;A=rad;}
+      else {
+        unsigned budget=128;equation_polynomial_budget bound;
+        if(!equation_polynomial_bound(v,budget,0,bound) || bound.degree>9)return false;
+        C=C*v;
+      }
+    }
+    if(!mode || is_zero(C))return false;
+    if(mode<3)return integration_polynomial_radical(C,A,x,mode==2,res,contextptr);
+    const vecteur &terms=*root._SYMBptr->feuille._SYMBptr->feuille._VECTptr;
+    gen U=terms[0],V=terms[1],c=equation_numeric_factor(U),d=equation_numeric_factor(V),B;
+    if(!integration_rational(c) || !integration_rational(d) || !is_strictly_positive(c*d,contextptr) ||
+       !integration_square_root(U,A) || !integration_square_root(V,B))return false;
+    gen aa,ab,ba,bb;unsigned budget=128;equation_polynomial_budget bound;
+    if(!equation_polynomial_bound(A,budget,0,bound) || bound.degree>1 || !equation_polynomial_bound(B,budget,0,bound) || bound.degree>1 ||
+       !is_linear_wrt(A,x,aa,ab,contextptr) || !is_linear_wrt(B,x,ba,bb,contextptr) ||
+       !integration_rational(aa) || !integration_rational(ab) || !integration_rational(ba) || !integration_rational(bb))return false;
+    // Verify a nonempty real interior before any conjugate reduction.
+    if((is_zero(aa) && !is_strictly_positive(ab,contextptr)) || (is_zero(ba) && !is_strictly_positive(bb,contextptr)))return false;
+    if(is_strictly_positive(-aa*ba,contextptr)){
+      gen lower=is_strictly_positive(aa,contextptr)?-ab/aa:-bb/ba;
+      gen upper=is_strictly_positive(aa,contextptr)?-bb/ba:-ab/aa;
+      if(!is_strictly_positive(upper-lower,contextptr))return false;
+    }
+    // Same-sign root coefficients and no common radicand zero prove the
+    // original denominator nonzero throughout its complete real domain.
+    if(is_zero(aa*bb-ba*ab) && !(is_zero(aa) && is_strictly_positive(ab,contextptr)) && !(is_zero(ba) && is_strictly_positive(bb,contextptr)))return false;
+    gen delta=ratnormal(c*c*A-d*d*B,contextptr);if(is_zero(delta))return false;
+    budget=128;if(!equation_polynomial_bound(C,budget,0,bound) || bound.degree>9)return false;
+    gen quotient=ratnormal(C/delta,contextptr),left,right;
+    // Polynomial divisibility removes only a conjugate's artificial zero;
+    // original denominator zeros were ruled out above, not canceled away.
+    if(!integration_polynomial_radical(quotient,A,x,false,left,contextptr) || !integration_polynomial_radical(quotient,B,x,false,right,contextptr))return false;
+    res=c*left-d*right;return true;
+  }
+
   static bool integration_finite_elementary_bound(const gen &g,GIAC_CONTEXT){
     if(taille(g,33)>32)return false;
     if(g.is_symb_of_sommet(at_exp) && integration_rational(g._SYMBptr->feuille))return true;
@@ -8266,6 +8358,103 @@ namespace giac {
   // Split a bounded number of affine absolute values at exact rational
   // breakpoints. Each open segment then has a fixed sign, and the normal
   // definite integrator still checks its endpoint limits and singularities.
+  // Bounded structural affine extraction in an exact atom. This never
+  // differentiates the expression or evaluates a user-defined function.
+  static bool integration_affine_atom(const gen &g,const gen &atom,gen &a,gen &b,unsigned &budget,unsigned depth){
+    if(!budget || depth>12)return false;--budget;
+    if(g==atom){a=1;b=0;return true;}
+    if(!contains(g,atom)){a=0;b=g;return true;}
+    if(g.type!=_SYMB)return false;
+    const gen &f=g._SYMBptr->feuille;
+    if(g.is_symb_of_sommet(at_neg)){
+      if(!integration_affine_atom(f,atom,a,b,budget,depth+1))return false;a=-a;b=-b;return true;
+    }
+    if(f.type!=_VECT)return false;const vecteur &v=*f._VECTptr;
+    if(g.is_symb_of_sommet(at_division) && v.size()==2 && !contains(v[1],atom)){
+      if(!integration_affine_atom(v[0],atom,a,b,budget,depth+1))return false;a=a/v[1];b=b/v[1];return true;
+    }
+    bool product=g.is_symb_of_sommet(at_prod);
+    if(!product && !g.is_symb_of_sommet(at_plus))return false;
+    a=0;b=product?1:0;
+    for(unsigned j=0;j<v.size();++j){
+      gen c,d;if(!integration_affine_atom(v[j],atom,c,d,budget,depth+1))return false;
+      if(product){if(!is_zero(a) && !is_zero(c))return false;a=a*d+b*c;b=b*d;}
+      else {a+=c;b+=d;}
+    }
+    return true;
+  }
+
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static bool integration_log_endpoint(const gen &g,const gen &x,const gen &point,int direction,gen &result,GIAC_CONTEXT){
+    if(complex_mode(contextptr) || complex_variables(contextptr) || !integration_rational(point) || (direction!=1 && direction!=-1) ||
+       taille(g,129)>128 || has_i(g) || !has_op(g,*at_ln))return false;
+    vecteur logs=lop(g,at_ln);if(logs.empty() || logs.size()>4)return false;
+    vecteur variables=lvar(g),powers=lop(g,at_pow);
+    for(unsigned j=0;j<variables.size();++j)if(variables[j]!=x && !equalposcomp(logs,variables[j]))return false;
+    for(unsigned j=0;j<powers.size();++j){const gen &f=powers[j]._SYMBptr->feuille;if(f.type!=_VECT || f._VECTptr->size()!=2 || f[1].type!=_INT_ || f[1].val < -16 || f[1].val>16)return false;}
+    gen singular=symbolic(at_ln,gen(direction)*(x-point));bool found=false;vecteur replacements;
+    for(unsigned j=0;j<logs.size();++j){
+      gen u=logs[j]._SYMBptr->feuille;bool magnitude=u.is_symb_of_sommet(at_abs);
+      if(magnitude)u=gen(u._SYMBptr->feuille);
+      else if(u.is_symb_of_sommet(at_prod) && u._SYMBptr->feuille.type==_VECT && has_op(u,*at_abs)){
+        // Evaluation extracts |c| from abs(c*u). Recognize the same real
+        // logarithm after that canonicalization, only for a positive scale.
+        const vecteur &f=*u._SYMBptr->feuille._VECTptr;gen scale=1,inner;
+        for(unsigned k=0;k<f.size();++k){
+          if(integration_rational(f[k]))scale=scale*f[k];
+          else if(!magnitude && f[k].is_symb_of_sommet(at_abs)){magnitude=true;inner=f[k]._SYMBptr->feuille;}
+          else return false;
+        }
+        if(!magnitude || !is_strictly_positive(scale,contextptr))return false;
+        u=scale*inner;
+      }
+      gen a,b;unsigned budget=64;
+      if(!integration_affine_atom(u,x,a,b,budget,0) || !integration_rational(a) || !integration_rational(b))return false;
+      gen value=a*point+b;
+      if(is_zero(value)){
+        if(is_zero(a) || (!magnitude && !is_strictly_positive(a*gen(direction),contextptr)))return false;
+        // All vanishing affine logs on this side share ln|x-point|.
+        // Collect coefficients before classifying infinity-infinity.
+        replacements.push_back(singular+ln(is_strictly_positive(a,contextptr)?a:-a,contextptr));found=true;
+      }
+      else {
+        bool positive=is_strictly_positive(value,contextptr);
+        if(!positive && !magnitude)return false;
+        replacements.push_back(symbolic(at_ln,positive?u:-u));
+      }
+    }
+    gen rewritten=quotesubst(g,logs,replacements,contextptr);
+    gen R=0,S=rewritten,log_coefficient=0;
+    if(found){
+      unsigned budget=128;if(!integration_affine_atom(rewritten,singular,R,S,budget,0))return false;
+      vecteur rv=lvar(R);if(rv.size() && (rv.size()!=1 || rv[0]!=x))return false;
+      R=ratnormal(R,contextptr);
+      gen nd=fxnd(R),den=eval(subst(nd[1],x,point,false,contextptr),1,contextptr);
+      if(!integration_rational(den) || is_zero(den))return false;
+      gen value=eval(subst(R,x,point,false,contextptr),1,contextptr);
+      if(!integration_rational(value))return false;
+      // Analytic R with R(point)=0 is O(h), and h*ln|h| -> 0.
+      // A nonzero coefficient instead gives a genuinely infinite limit.
+      log_coefficient=value;
+    }
+    gen nd=fxnd(S),den=eval(subst(nd[1],x,point,false,contextptr),1,contextptr);
+    if(!integration_rational(den) || is_zero(den))return false;
+    result=eval(subst(S,x,point,false,contextptr),1,contextptr);
+    if(is_undef(result) || is_inf(result))return false;
+    if(!is_zero(log_coefficient))result=is_strictly_positive(log_coefficient,contextptr)?minus_inf:plus_inf;
+    return true;
+  }
+
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static gen integration_primitive_limit(const gen &g,const gen &x,const gen &point,int direction,GIAC_CONTEXT){
+    gen value;if(integration_log_endpoint(g,x,point,direction,value,contextptr))return value;
+    return limit(g,*x._IDNTptr,point,direction,contextptr);
+  }
+
   static bool integrate_affine_abs(const gen &f,const gen &x,gen lo,gen hi,gen &res,GIAC_CONTEXT){
     unsigned budget=3;
     if (!is_constant_wrt(lo,x,contextptr) || !small_polynomial(lo,x,budget)) return false;
@@ -8810,7 +8999,7 @@ namespace giac {
       primitive=integrate_chknum(v[0],x,rem,contextptr);
       primitive=eval(primitive,1,contextptr);
       restorepurge(xval,x,contextptr);
-      res=limit(primitive,*x._IDNTptr,borne_sup,-1,contextptr)-limit(primitive,*x._IDNTptr,borne_inf,1,contextptr);
+      res=integration_primitive_limit(primitive,x,borne_sup,-1,contextptr)-integration_primitive_limit(primitive,x,borne_inf,1,contextptr);
     }
     else {
       if ( (desordonne=is_greater(borne_inf,borne_sup,contextptr) )){
@@ -8819,11 +9008,11 @@ namespace giac {
 	primitive=integrate_chknum(v[0],x,rem,contextptr);
 	primitive=eval(primitive,1,contextptr);
 	restorepurge(xval,x,contextptr);
-	res=limit(primitive,*x._IDNTptr,borne_sup,1,contextptr)-limit(primitive,*x._IDNTptr,borne_inf,-1,contextptr) ;
+	res=integration_primitive_limit(primitive,x,borne_sup,1,contextptr)-integration_primitive_limit(primitive,x,borne_inf,-1,contextptr) ;
       }
       else {
 	primitive=integrate_chknum(v[0],x,rem,contextptr);
-	res=limit(primitive,*x._IDNTptr,borne_sup,0,contextptr)-limit(primitive,*x._IDNTptr,borne_inf,0,contextptr);
+	res=integration_primitive_limit(primitive,x,borne_sup,0,contextptr)-integration_primitive_limit(primitive,x,borne_inf,0,contextptr);
       }
     }
 #else
@@ -8834,8 +9023,8 @@ namespace giac {
 	primitive=integrate_chknum(v[0],x,rem,contextptr);
 	primitive=eval(primitive,1,contextptr);
 	restorepurge(xval,x,contextptr);
-	gen ri=limit(primitive,*x._IDNTptr,borne_inf,1,contextptr);
-	gen rs=limit(primitive,*x._IDNTptr,borne_sup,-1,contextptr);
+	gen ri=integration_primitive_limit(primitive,x,borne_inf,1,contextptr);
+	gen rs=integration_primitive_limit(primitive,x,borne_sup,-1,contextptr);
 	res=rs-ri;
       }
       else {
@@ -8845,11 +9034,11 @@ namespace giac {
 	  primitive=integrate_chknum(v[0],x,rem,contextptr);
 	  primitive=eval(primitive,1,contextptr);
 	  restorepurge(xval,x,contextptr);
-	  res=limit(primitive,*x._IDNTptr,borne_sup,1,contextptr)-limit(primitive,*x._IDNTptr,borne_inf,-1,contextptr) ;
+	  res=integration_primitive_limit(primitive,x,borne_sup,1,contextptr)-integration_primitive_limit(primitive,x,borne_inf,-1,contextptr) ;
 	}
 	else {
 	  primitive=integrate_chknum(v[0],x,rem,contextptr);
-	  res=limit(primitive,*x._IDNTptr,borne_sup,0,contextptr)-limit(primitive,*x._IDNTptr,borne_inf,0,contextptr);
+	  res=integration_primitive_limit(primitive,x,borne_sup,0,contextptr)-integration_primitive_limit(primitive,x,borne_inf,0,contextptr);
 	}
       }
     } catch (std::runtime_error & e){

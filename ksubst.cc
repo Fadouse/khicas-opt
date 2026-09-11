@@ -2388,7 +2388,7 @@ namespace giac {
   // are atoms: their arguments are inspected only to find nested Psi nodes.
   // This bounds the check itself and avoids allocating an expanded expression.
   static unsigned simplify_special_terms(const gen &g,bool &psi,unsigned &budget,unsigned depth){
-    if(!budget || depth>32){budget=0;return 65;}
+    if(!budget || depth>32){budget=0;return 257;}
     --budget;
     if(g.is_symb_of_sommet(at_Psi)){psi=true;return 1;}
     if(g.is_symb_of_sommet(at_atan) || g.is_symb_of_sommet(at_asin) || g.is_symb_of_sommet(at_acos) || g.is_symb_of_sommet(at_abs))psi=true;
@@ -2403,7 +2403,7 @@ namespace giac {
         unsigned next=simplify_special_terms(v[i],psi,budget,depth+1);
         if(next>count)count=next;
       }
-      return !budget?65:count;
+      return !budget?257:count;
     }
     if(g.type!=_SYMB)return 1;
     const gen &f=g._SYMBptr->feuille;
@@ -2415,7 +2415,7 @@ namespace giac {
     if(g.is_symb_of_sommet(at_pow) && v.size()==2 && v[1].type==_INT_ && v[1].val>=0){
       unsigned base=simplify_special_terms(v[0],psi,budget,depth+1),count=1;
       if(base<=1)return base;
-      for(int k=0;k<v[1].val;++k){count*=base;if(count>=65)return 65;}
+      for(int k=0;k<v[1].val;++k){count*=base;if(count>=257)return 257;}
       return count;
     }
     bool product=g.is_symb_of_sommet(at_prod),sum=g.is_symb_of_sommet(at_plus);
@@ -2423,9 +2423,9 @@ namespace giac {
     for(unsigned i=0;i<v.size() && budget;++i){
       unsigned next=simplify_special_terms(v[i],psi,budget,depth+1);
       if(product)count=count*next;else if(sum)count+=next;else if(next>count)count=next;
-      if(count>65)count=65;
+      if(count>257)count=257;
     }
-    return !budget?65:count;
+    return !budget?257:count;
   }
   static gen simplify_special_core(const gen & e_orig,GIAC_CONTEXT){
     // An unresolved integral is an opaque atom, as in simplifier(). Avoid
@@ -2610,20 +2610,10 @@ namespace giac {
 
     if (e.type==_FRAC)
       return _evalc(e_orig,contextptr);
-    vecteur vsign=lop(e,at_sign);
-    vecteur vabs=lop(e,at_abs),vs1,vs2;
-    for (int i=0;i<int(vabs.size());++i){
-      vabs[i]=vabs[i]._SYMBptr->feuille;
-    }
-    for (int i=0;i<int(vsign.size());++i){
-      gen arg=vsign[i]._SYMBptr->feuille;
-      if (equalposcomp(vabs,arg)){
-	vs1.push_back(symbolic(at_sign,arg));
-	vs2.push_back(symbolic(at_abs,arg)/arg);
-      }
-    }
-    if (!vs1.empty())
-      e=subst(e,vs1,vs2,false,contextptr);
+    // sign(u) is defined at zero. Replacing it by abs(u)/u creates a
+    // new hole, even when a vanishing smooth factor removes the cusp.
+    // Keep sign as an exact atom while simplifying the surrounding algebra.
+    vecteur vabs;
     // ratnormal added for E:=2*exp(t/25)/(19+exp(t/25)); F:=simplifier(int(E,t)); 
     // M:=(1/50)*int(E,t,50,100); simplify(M)
     vecteur lnv=lop(e,at_ln);
@@ -2937,10 +2927,12 @@ namespace giac {
     bool psi=false;unsigned budget=2048;
     unsigned terms=simplify_special_terms(e_orig,psi,budget,0);
     if(!budget)return e_orig;
+    // Saturate at 257 so the existing 64-term special-function gate and
+    // a 256-term general distribution gate share one bounded traversal.
     // Multivariate normalization can expand short nested powers into
     // thousands of monomials. Keep the same 64-term distribution budget
     // before constructing polynomial coefficient arrays.
-    if(terms>64 && lidnt(e_orig).size()>1)return e_orig;
+    if(terms>64 && (lidnt(e_orig).size()>1 || terms>256))return e_orig;
     if(terms>64){
       if(contains(e_orig,*at_sqrt))return e_orig;
       vecteur roots=lop(e_orig,at_pow);
@@ -3181,6 +3173,20 @@ namespace giac {
         }
       }
       if(square && quotient)return true;
+    }
+    // Half-angle root quotients retain periodic domain information in abs.
+    // Conjugate rationalization can cancel a separate cosine denominator.
+    if(has_op(args,*at_abs) && (has_op(args,*at_sin) || has_op(args,*at_cos))){
+      vecteur inverses=lop(args,at_inv),divisions=lop(args,at_division);
+      for(unsigned j=0;j<inverses.size();++j){
+        const gen &den=inverses[j]._SYMBptr->feuille;
+        if(has_op(den,*at_sin) || has_op(den,*at_cos))return true;
+      }
+      for(unsigned j=0;j<divisions.size();++j){
+        const gen &f=divisions[j]._SYMBptr->feuille;
+        if(f.type==_VECT && f._VECTptr->size()==2 &&
+           (has_op(f[1],*at_sin) || has_op(f[1],*at_cos)))return true;
+      }
     }
     // Rationalizing a trig atan argument can multiply numerator and
     // denominator by a vanishing conjugate, adding holes to a global chart.

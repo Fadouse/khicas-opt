@@ -1,0 +1,366 @@
+{
+  "scope": "Direct contract checks of actual endpoint proof helper; DEFER must preserve the generic fallback, not return a guessed finite value.",
+  "source_sha256": "8e20afc2971c9b46ecae8c0cf200654c72fb7716371171dfe5a7d9e097fa78cc",
+  "runs": [
+    {
+      "input": "x*ln(x)",
+      "point": 0,
+      "direction": 1,
+      "expected": "0",
+      "exit": 0,
+      "result": "ACCEPT 0",
+      "passed": true
+    },
+    {
+      "input": "ln(x)-ln(x)/(1+x)-ln(1+x)",
+      "point": 0,
+      "direction": 1,
+      "expected": "0",
+      "exit": 0,
+      "result": "ACCEPT 0",
+      "passed": true
+    },
+    {
+      "input": "-ln(x)",
+      "point": 0,
+      "direction": 1,
+      "expected": "+infinity",
+      "exit": 0,
+      "result": "ACCEPT +infinity",
+      "passed": true
+    },
+    {
+      "input": "ln(x)",
+      "point": 0,
+      "direction": 1,
+      "expected": "-infinity",
+      "exit": 0,
+      "result": "ACCEPT -infinity",
+      "passed": true
+    },
+    {
+      "input": "ln(x)+1/x",
+      "point": 0,
+      "direction": 1,
+      "expected": null,
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    },
+    {
+      "input": "ln(x)-1/x",
+      "point": 0,
+      "direction": 1,
+      "expected": null,
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    },
+    {
+      "input": "ln(x)-ln(2*x)",
+      "point": 0,
+      "direction": 1,
+      "expected": "-ln(2)",
+      "exit": 0,
+      "result": "ACCEPT -ln(2)",
+      "passed": true
+    },
+    {
+      "input": "ln(abs(x))-ln(abs(-3*x))",
+      "point": 0,
+      "direction": -1,
+      "expected": "-ln(3)",
+      "exit": 0,
+      "result": "ACCEPT -ln(3)",
+      "passed": true
+    },
+    {
+      "input": "ln(abs(x))-ln(abs(-3*x))",
+      "point": 0,
+      "direction": 1,
+      "expected": "-ln(3)",
+      "exit": 0,
+      "result": "ACCEPT -ln(3)",
+      "passed": true
+    },
+    {
+      "input": "ln(-x)-ln(x)",
+      "point": 0,
+      "direction": 1,
+      "expected": null,
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    },
+    {
+      "input": "ln(x)*ln(1+x)",
+      "point": 0,
+      "direction": 1,
+      "expected": null,
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    },
+    {
+      "input": "x*ln(-x)",
+      "point": 0,
+      "direction": -1,
+      "expected": "0",
+      "exit": 0,
+      "result": "ACCEPT 0",
+      "passed": true
+    },
+    {
+      "input": "x*ln(-x)",
+      "point": 0,
+      "direction": 1,
+      "expected": null,
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    },
+    {
+      "input": "x*ln(x^2)",
+      "point": 0,
+      "direction": 1,
+      "expected": null,
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    },
+    {
+      "input": "x*ln(a*x)",
+      "point": 0,
+      "direction": 1,
+      "expected": null,
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    },
+    {
+      "input": "sin(1/x)*ln(x)",
+      "point": 0,
+      "direction": 1,
+      "expected": null,
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    },
+    {
+      "input": "x^2*ln(x)/(1+x^2)",
+      "point": 0,
+      "direction": 1,
+      "expected": "0",
+      "exit": 0,
+      "result": "ACCEPT 0",
+      "passed": true
+    },
+    {
+      "input": "ln(x)/(x-1)",
+      "point": 0,
+      "direction": 1,
+      "expected": "+infinity",
+      "exit": 0,
+      "result": "ACCEPT +infinity",
+      "passed": true
+    },
+    {
+      "input": "ln(x)/ln(2)",
+      "point": 0,
+      "direction": 1,
+      "expected": null,
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    },
+    {
+      "input": "ln(x)",
+      "point": 1,
+      "direction": 1,
+      "expected": "0",
+      "exit": 0,
+      "result": "ACCEPT 0",
+      "passed": true
+    },
+    {
+      "input": "ln(x)",
+      "point": -1,
+      "direction": 1,
+      "expected": null,
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    },
+    {
+      "input": "ln(x)",
+      "point": 0,
+      "direction": 0,
+      "expected": null,
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    },
+    {
+      "input": "ln(x)+ln(x+1)/x",
+      "point": 0,
+      "direction": 1,
+      "expected": null,
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    },
+    {
+      "input": "ln(abs(x-(-2)))-ln(abs(-5*(x-(-2))))",
+      "point": -2,
+      "direction": -1,
+      "expected": "-ln(5)",
+      "exit": 0,
+      "result": "ACCEPT -ln(5)",
+      "passed": true
+    },
+    {
+      "input": "ln(abs(x-(-2)))-ln(abs(-5*(x-(-2))))",
+      "point": -2,
+      "direction": 1,
+      "expected": "-ln(5)",
+      "exit": 0,
+      "result": "ACCEPT -ln(5)",
+      "passed": true
+    },
+    {
+      "input": "ln(abs(x-(-2)))-ln(abs(2*(x-(-2))))",
+      "point": -2,
+      "direction": -1,
+      "expected": "-ln(2)",
+      "exit": 0,
+      "result": "ACCEPT -ln(2)",
+      "passed": true
+    },
+    {
+      "input": "ln(abs(x-(-2)))-ln(abs(2*(x-(-2))))",
+      "point": -2,
+      "direction": 1,
+      "expected": "-ln(2)",
+      "exit": 0,
+      "result": "ACCEPT -ln(2)",
+      "passed": true
+    },
+    {
+      "input": "ln(abs(x-(0)))-ln(abs(-5*(x-(0))))",
+      "point": 0,
+      "direction": -1,
+      "expected": "-ln(5)",
+      "exit": 0,
+      "result": "ACCEPT -ln(5)",
+      "passed": true
+    },
+    {
+      "input": "ln(abs(x-(0)))-ln(abs(-5*(x-(0))))",
+      "point": 0,
+      "direction": 1,
+      "expected": "-ln(5)",
+      "exit": 0,
+      "result": "ACCEPT -ln(5)",
+      "passed": true
+    },
+    {
+      "input": "ln(abs(x-(0)))-ln(abs(2*(x-(0))))",
+      "point": 0,
+      "direction": -1,
+      "expected": "-ln(2)",
+      "exit": 0,
+      "result": "ACCEPT -ln(2)",
+      "passed": true
+    },
+    {
+      "input": "ln(abs(x-(0)))-ln(abs(2*(x-(0))))",
+      "point": 0,
+      "direction": 1,
+      "expected": "-ln(2)",
+      "exit": 0,
+      "result": "ACCEPT -ln(2)",
+      "passed": true
+    },
+    {
+      "input": "ln(abs(x-(3)))-ln(abs(-5*(x-(3))))",
+      "point": 3,
+      "direction": -1,
+      "expected": "-ln(5)",
+      "exit": 0,
+      "result": "ACCEPT -ln(5)",
+      "passed": true
+    },
+    {
+      "input": "ln(abs(x-(3)))-ln(abs(-5*(x-(3))))",
+      "point": 3,
+      "direction": 1,
+      "expected": "-ln(5)",
+      "exit": 0,
+      "result": "ACCEPT -ln(5)",
+      "passed": true
+    },
+    {
+      "input": "ln(abs(x-(3)))-ln(abs(2*(x-(3))))",
+      "point": 3,
+      "direction": -1,
+      "expected": "-ln(2)",
+      "exit": 0,
+      "result": "ACCEPT -ln(2)",
+      "passed": true
+    },
+    {
+      "input": "ln(abs(x-(3)))-ln(abs(2*(x-(3))))",
+      "point": 3,
+      "direction": 1,
+      "expected": "-ln(2)",
+      "exit": 0,
+      "result": "ACCEPT -ln(2)",
+      "passed": true
+    },
+    {
+      "input": "ln(-2*abs(x))",
+      "point": 0,
+      "direction": 1,
+      "expected": null,
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    },
+    {
+      "input": "ln(abs(x)*abs(x+1))",
+      "point": 0,
+      "direction": 1,
+      "expected": null,
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    },
+    {
+      "input": "ln(abs(x))-ln(abs(x-1))",
+      "point": 0,
+      "direction": 1,
+      "expected": "-infinity",
+      "exit": 0,
+      "result": "ACCEPT -infinity",
+      "passed": true
+    },
+    {
+      "input": "ln(abs(x))-ln(abs(x-1))",
+      "point": 0,
+      "direction": -1,
+      "expected": "-infinity",
+      "exit": 0,
+      "result": "ACCEPT -infinity",
+      "passed": true
+    },
+    {
+      "input": "ln(x)-ln(2*x)+1/x",
+      "point": 0,
+      "direction": 1,
+      "expected": null,
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    }
+  ]
+}

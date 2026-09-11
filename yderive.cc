@@ -271,13 +271,16 @@ namespace giac {
   __attribute__((noinline,optimize("Os")))
 #endif
   static bool derive_root_product(const gen &g,const identificateur &i,gen &result,GIAC_CONTEXT){
-    if(taille(g,97)>96 || complex_mode(contextptr) || complex_variables(contextptr) ||
-       (!has_op(g,*at_abs) && !has_op(g,*at_surd) && !has_op(g,*at_NTHROOT) && !has_op(g,*at_sqrt) && !has_op(g,*at_pow)))return false;
-    vecteur roots=mergevecteur(mergevecteur(lop(g,at_surd),lop(g,at_NTHROOT)),mergevecteur(lop(g,at_sqrt),lop(g,at_pow)));
-    roots=mergevecteur(roots,lop(g,at_abs));
+    if(!g.is_symb_of_sommet(at_prod) || g._SYMBptr->feuille.type!=_VECT ||
+       taille(g,97)>96 || complex_mode(contextptr) || complex_variables(contextptr))return false;
+    // Only a direct factor can match C*root(Q); nested root enumeration
+    // repeatedly scanned the same tree and deepened heuristic derivatives.
+    const vecteur &roots=*g._SYMBptr->feuille._VECTptr;
     gen x(i);
     for(unsigned j=0;j<roots.size();++j){
-      const gen &root=roots[j],f=root._SYMBptr->feuille;gen Q,n=2;bool absolute=root.is_symb_of_sommet(at_abs);
+      const gen &root=roots[j];
+      if(root.type!=_SYMB || !(root.is_symb_of_sommet(at_abs) || root.is_symb_of_sommet(at_sqrt) || root.is_symb_of_sommet(at_pow) || root.is_symb_of_sommet(at_surd) || root.is_symb_of_sommet(at_NTHROOT)))continue;
+      const gen &f=root._SYMBptr->feuille;gen Q,n=2;bool absolute=root.is_symb_of_sommet(at_abs);
       if(absolute){Q=f;n=1;}
       else if(root.is_symb_of_sommet(at_sqrt))Q=f;
       else if(f.type==_VECT && f._VECTptr->size()==2){
@@ -287,9 +290,18 @@ namespace giac {
       else continue;
       if(n.type!=_INT_ || n.val<1 || n.val>9 || (n.val!=2 && n.val%2==0))continue;
       unsigned budget=128;equation_polynomial_budget bound;
-      gen C,L;
+      // This helper is entered only for a product. Extract its exact root
+      // factor structurally: asking is_linear_wrt(g,root) differentiates
+      // again and can recursively re-enter root analysis on other radicals.
+      if(!g.is_symb_of_sommet(at_prod) || g._SYMBptr->feuille.type!=_VECT)continue;
+      const vecteur &factors=*g._SYMBptr->feuille._VECTptr;
+      gen C=1;unsigned copies=0;bool independent=true;
+      for(unsigned k=0;k<factors.size();++k){
+        if(factors[k]==root)++copies;
+        else {if(contains(factors[k],root)){independent=false;break;}C=C*factors[k];}
+      }
+      if(copies!=1 || !independent || has_i(C) || taille(C,49)>48)continue;
       if(absolute && angle_radian(contextptr) && (Q.is_symb_of_sommet(at_sin) || Q.is_symb_of_sommet(at_cos))){
-        if(!is_linear_wrt(g,root,C,L,contextptr) || !is_zero(L) || has_i(C) || taille(C,49)>48)continue;
         gen a,b;if(!is_linear_wrt(Q._SYMBptr->feuille,x,a,b,contextptr) || !equation_rational(a) || is_zero(a) || !equation_rational(b))continue;
         // Polynomial amplitudes and log of a strictly positive quadratic
         // are analytic globally. At every simple trig zero, C*|Q| has
@@ -313,7 +325,6 @@ namespace giac {
       }
       if(!equation_polynomial_bound(Q,budget,0,bound) || bound.degree>2 || !bound.degree)continue;
       vecteur variables=lvar(Q);if(variables.size()!=1 || variables[0]!=x)continue;
-      if(!is_linear_wrt(g,root,C,L,contextptr) || !is_zero(L) || has_i(C) || taille(C,49)>48)continue;
       gen dQ=derive(Q,i,contextptr),a,b,c;vecteur points;
       if(is_linear_wrt(Q,x,a,b,contextptr) && equation_rational(a) && equation_rational(b) && !is_zero(a))points.push_back(-b/a);
       else {
@@ -497,7 +508,94 @@ namespace giac {
     return result;
   }
 
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static bool derive_nonnegative_polynomial(const gen &g,const gen &t,unsigned &budget,unsigned depth){
+    if(!budget || depth>12)return false;--budget;
+    if(g==t)return true;
+    if(equation_rational(g))return is_zero(g) || is_strictly_positive(g,context0);
+    if(g.type!=_SYMB || g._SYMBptr->feuille.type!=_VECT)return false;
+    const vecteur &v=*g._SYMBptr->feuille._VECTptr;
+    if(g.is_symb_of_sommet(at_pow))return v.size()==2 && v[1].type==_INT_ && v[1].val>=0 && v[1].val<=16 && derive_nonnegative_polynomial(v[0],t,budget,depth+1);
+    if(!g.is_symb_of_sommet(at_plus) && !g.is_symb_of_sommet(at_prod))return false;
+    for(unsigned j=0;j<v.size();++j)if(!derive_nonnegative_polynomial(v[j],t,budget,depth+1))return false;
+    return true;
+  }
+
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static bool derive_abs_analytic(const gen &g,const gen &t,unsigned &budget,unsigned depth,GIAC_CONTEXT){
+    if(!budget || depth>12)return false;--budget;
+    if(g==t || equation_rational(g))return true;
+    if(g.type!=_SYMB)return false;
+    const gen &f=g._SYMBptr->feuille;gen positive;
+    if(g.is_symb_of_sommet(at_inv) || g.is_symb_of_sommet(at_ln))positive=f;
+    else if(g.is_symb_of_sommet(at_pow) && f.type==_VECT && f._VECTptr->size()==2 && f[1].type==_INT_ && f[1].val>=-16 && f[1].val<=16){
+      if(f[1].val<0)positive=f[0];else return derive_abs_analytic(f[0],t,budget,depth+1,contextptr);
+    }
+    else if(g.is_symb_of_sommet(at_division) && f.type==_VECT && f._VECTptr->size()==2){
+      if(!derive_abs_analytic(f[0],t,budget,depth+1,contextptr))return false;positive=f[1];
+    }
+    else if(g.is_symb_of_sommet(at_neg) || g.is_symb_of_sommet(at_exp))return derive_abs_analytic(f,t,budget,depth+1,contextptr);
+    else if((g.is_symb_of_sommet(at_plus) || g.is_symb_of_sommet(at_prod)) && f.type==_VECT){
+      for(unsigned j=0;j<f._VECTptr->size();++j)if(!derive_abs_analytic(f[j],t,budget,depth+1,contextptr))return false;
+      return true;
+    }
+    else return false;
+    // Nonnegative polynomial coefficients and a strictly positive constant
+    // prove every denominator/log argument positive for all t>=0.
+    if(!derive_nonnegative_polynomial(positive,t,budget,depth+1))return false;
+    gen value=eval(subst(positive,t,0,false,contextptr),1,contextptr);
+    return equation_rational(value) && is_strictly_positive(value,contextptr);
+  }
+
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static bool derive_abs_composition(const gen &g,const identificateur &i,gen &result,GIAC_CONTEXT){
+    if(complex_mode(contextptr) || complex_variables(contextptr) || taille(g,97)>96 || !has_op(g,*at_abs))return false;
+    vecteur roots=lop(g,at_abs);if(roots.size()!=1)return false;
+    const gen &root=roots[0],&Q=root._SYMBptr->feuille;gen x(i);
+    unsigned budget=96;equation_polynomial_budget bound;
+    if(!equation_polynomial_bound(Q,budget,0,bound) || !bound.degree || bound.degree>8)return false;
+    vecteur variables=lvar(Q);if(variables.size()!=1 || variables[0]!=x)return false;
+    gen t(identificateur(" abs_contact_t"));
+    if(contains(g,t) || eval(t,1,contextptr)!=t)return false;
+    gen H=quotesubst(g,root,t,contextptr);
+    // Evaluation may already have changed |Q|^(2m) into Q^(2m).
+    // Recover only this proved even-power identity before checking whether
+    // all variable dependence really passes through the one absolute value.
+    vecteur powers=lop(H,at_pow);
+    for(unsigned j=0;j<powers.size();++j){
+      const gen &p=powers[j]._SYMBptr->feuille;
+      if(p.type==_VECT && p._VECTptr->size()==2 && p[0]==Q && p[1].type==_INT_ && p[1].val>0 && p[1].val<=16 && p[1].val%2==0)
+        H=quotesubst(H,powers[j],pow(t,p[1],contextptr),contextptr);
+    }
+    if(contains(H,x))return false;
+    budget=128;if(!derive_abs_analytic(H,t,budget,0,contextptr))return false;
+    // Analyticity already proves every denominator is nonzero at zero.
+    // Evaluate the slope directly; common-denominator normalization here
+    // expands sums of independent rational terms without aiding the proof.
+    gen dH=derive(H,*t._IDNTptr,contextptr);
+    gen slope=eval(subst(dH,t,0,false,contextptr),1,contextptr);
+    bool flat=is_zero(slope);
+    if(!flat && !is_strictly_positive(slope,contextptr) && !is_strictly_positive(-slope,contextptr))return false;
+    gen dQ=derive(Q,i,contextptr);
+    result=quotesubst(dH,t,root,contextptr)*symbolic(at_sign,Q)*dQ;
+    // H is analytic on [0,infinity). H'(0)=0 implies H(|Q|)-H(0)
+    // =O(Q²), hence every polynomial zero is differentiable. Otherwise a
+    // stationary Q zero still has derivative zero; simple zeros are cusps.
+    if(!flat){
+      gen contact=equation_rational(dQ)?(is_zero(dQ)?gen(0):undef):gen(symbolic(at_when,makesequence(symb_equal(dQ,0),0,undef)));
+      result=symbolic(at_when,makesequence(symb_equal(Q,0),contact,result));
+    }
+    return true;
+  }
+
   static gen derive_SYMB(const gen &g_orig,const identificateur & i,GIAC_CONTEXT){
+    gen abs_composed;if(derive_abs_composition(g_orig,i,abs_composed,contextptr))return abs_composed;
     const symbolic & s = *g_orig._SYMBptr;
     if (s.sommet==at_pnt){
       gen f=g_orig._SYMBptr->feuille;

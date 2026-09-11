@@ -1,0 +1,185 @@
+{
+  "scope": "Isolated production rule acceptance/deferral with independent exact differentiation; full integration paths are tested separately.",
+  "source_sha256": {
+    "yintg.cc": "8e20afc2971c9b46ecae8c0cf200654c72fb7716371171dfe5a7d9e097fa78cc",
+    "equation_normalize.h": "4bfb644f0e18bb36e280ce8886c8ac12695c9aeeaef187ea3e5f967cd1642e37"
+  },
+  "runs": [
+    {
+      "input": "x/(sqrt(1+x)+sqrt(1-x))",
+      "expected_accept": true,
+      "reason": "conjugate zero is artificial",
+      "exit": 0,
+      "result": "ACCEPT sqrt(1+x)*(1+x)/3+sqrt(1-x)*(1-x)/3",
+      "passed": true
+    },
+    {
+      "input": "(4*(3*x+4)-9*(2-x))/(2*sqrt(3*x+4)+3*sqrt(2-x))",
+      "expected_accept": true,
+      "reason": "weighted positive roots",
+      "exit": 0,
+      "result": "ACCEPT 2*sqrt(3*x+4)*(3*x+4)*2/3/3+3*sqrt(2-x)*(2-x)*2/3",
+      "passed": true
+    },
+    {
+      "input": "(4*(3*x+4)-9*(2-x))/(-2*sqrt(3*x+4)-3*sqrt(2-x))",
+      "expected_accept": true,
+      "reason": "weighted negative roots",
+      "exit": 0,
+      "result": "ACCEPT -2*sqrt(3*x+4)*(3*x+4)*2/3/3-3*sqrt(2-x)*(2-x)*2/3",
+      "passed": true
+    },
+    {
+      "input": "(x^8+1)*sqrt(2*x+3)",
+      "expected_accept": true,
+      "reason": "maximum accepted degree",
+      "exit": 0,
+      "result": "ACCEPT sqrt(2*x+3)*(2*x+3)*((((((((1/2432*(2*x+3)-3/272)*(2*x+3)+21/160)*(2*x+3)-189/208)*(2*x+3)+2835/704)*(2*x+3)-189/16)*(2*x+3)+729/32)*(2*x+3)-2187/80)*(2*x+3)+6817/384)/2",
+      "passed": true
+    },
+    {
+      "input": "(x^3+1)/sqrt(3-2*x)",
+      "expected_accept": true,
+      "reason": "negative slope",
+      "exit": 0,
+      "result": "ACCEPT -sqrt(3-2*x)*(((9/20-1/28*(3-2*x))*(3-2*x)-9/4)*(3-2*x)+35/4)/2",
+      "passed": true
+    },
+    {
+      "input": "sqrt(2)",
+      "expected_accept": true,
+      "reason": "constant positive radicand",
+      "exit": 0,
+      "result": "ACCEPT x*sqrt(2)",
+      "passed": true
+    },
+    {
+      "input": "sqrt(x)",
+      "expected_accept": true,
+      "reason": "zero translation constant monomial",
+      "exit": 0,
+      "result": "ACCEPT sqrt(x)*x*2/3",
+      "passed": true
+    },
+    {
+      "input": "x^3/sqrt(-2*x)",
+      "expected_accept": true,
+      "reason": "zero translation and negative slope",
+      "exit": 0,
+      "result": "ACCEPT -sqrt(-2*x)/28*2*x*2*x*2*x/2",
+      "passed": true
+    },
+    {
+      "input": "x/(sqrt(1+x)-sqrt(1-x))",
+      "expected_accept": false,
+      "reason": "original denominator has zero",
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    },
+    {
+      "input": "x/(sqrt(x)+sqrt(2*x))",
+      "expected_accept": false,
+      "reason": "common zero remains excluded",
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    },
+    {
+      "input": "1/(sqrt(x)+sqrt(-x-1))",
+      "expected_accept": false,
+      "reason": "empty real domain",
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    },
+    {
+      "input": "1/(sqrt(x)+sqrt(-x))",
+      "expected_accept": false,
+      "reason": "no real interior",
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    },
+    {
+      "input": "1/(sqrt(x+1)+sqrt(1-x))",
+      "expected_accept": false,
+      "reason": "conjugate divisor does not divide numerator",
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    },
+    {
+      "input": "(x^9+1)*sqrt(x+1)",
+      "expected_accept": false,
+      "reason": "degree exceeds bounded algorithm",
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    },
+    {
+      "input": "sqrt(x^2+1)",
+      "expected_accept": false,
+      "reason": "non-affine radicand",
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    },
+    {
+      "input": "sqrt(a*x+1)",
+      "expected_accept": false,
+      "reason": "unknown parameter sign",
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    },
+    {
+      "input": "y*sqrt(x+1)",
+      "expected_accept": false,
+      "reason": "additional variable",
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    },
+    {
+      "input": "sqrt(-2)",
+      "expected_accept": false,
+      "reason": "complex radicand",
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    },
+    {
+      "input": "sin(x)*sqrt(x+1)",
+      "expected_accept": false,
+      "reason": "non-polynomial numerator",
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    },
+    {
+      "input": "sqrt(x+1)*sqrt(x+2)",
+      "expected_accept": false,
+      "reason": "two direct radical factors",
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    },
+    {
+      "input": "1/(x*sqrt(x+1))",
+      "expected_accept": false,
+      "reason": "rational coefficient has a pole",
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    },
+    {
+      "input": "(2^4096)*sqrt(x+1)",
+      "expected_accept": false,
+      "reason": "coefficient bit budget",
+      "exit": 0,
+      "result": "DEFER",
+      "passed": true
+    }
+  ]
+}
