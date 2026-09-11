@@ -3339,6 +3339,40 @@ namespace giac {
     gen e=integration_syntax(input,contextptr),c=integration_coefficient(e,x,contextptr);
     gen p;
     if (!is_undef(c) && !is_inf(c) && integrate_high_frequency_trig(e,x,p,contextptr)){res=c*p;return true;}
+    // Real logarithms of C*sqrt(Q)+L, with Q-(L/C)^2 a positive
+    // constant, give a globally regular inverse-hyperbolic substitution.
+    // Match its derivative rather than entering a general algebraic search.
+    if(angle_radian(contextptr) && has_op(e,*at_ln) && taille(e,97)<=96 && taille(c,17)<=16 && !contains(c,x) &&
+       integration_resource_rational(normal(c*c,contextptr)) && is_zero(im(c,contextptr))){
+      vecteur logs=lop(e,at_ln);
+      if(logs.size()==1 && e.is_symb_of_sommet(at_prod) && e._SYMBptr->feuille.type==_VECT){
+        gen t=logs[0],arg=t._SYMBptr->feuille;
+        vecteur roots=mergevecteur(lop(arg,at_sqrt),lop(arg,at_pow));
+        for(unsigned j=0;j<roots.size();++j){
+          gen Q;
+          if(roots[j].is_symb_of_sommet(at_sqrt))Q=roots[j]._SYMBptr->feuille;
+          else {const gen &f=roots[j]._SYMBptr->feuille;if(f.type!=_VECT || f._VECTptr->size()!=2 || f[1]!=gen(1)/2)continue;Q=f[0];}
+          sparse_poly1 polynomial;
+          if(!small_sparse_polynomial(Q,x,polynomial,contextptr) || polynomial.empty() || polynomial.front().exponent.val>2)continue;
+          gen C,L,a,b;
+          if(!is_linear_wrt(arg,roots[j],C,L,contextptr) || taille(C,17)>16 || contains(C,x) || !integration_resource_rational(normal(C*C,contextptr)) || !is_strictly_positive(C,contextptr) ||
+             !is_linear_wrt(L,x,a,b,contextptr) || !integration_resource_rational(a) || !integration_resource_rational(b))continue;
+          gen gap=normal(Q-pow(L/C,2),contextptr);
+          if(!integration_resource_rational(gap) || !is_strictly_positive(gap,contextptr))continue;
+          const vecteur &factors=*e._SYMBptr->feuille._VECTptr;
+          for(unsigned k=0;k<factors.size();++k){
+            gen den,A,B;
+            if(!integration_power(factors[k],den,-1) || !is_linear_wrt(den,pow(t,2),B,A,contextptr) ||
+               !integration_resource_rational(A) || !integration_resource_rational(B) || !is_strictly_positive(A,contextptr) || !is_strictly_positive(B,contextptr))continue;
+            gen weight=1;for(unsigned h=0;h<factors.size();++h)if(h!=k)weight=weight*factors[h];
+            gen dt=derive(t,x,contextptr);if(is_zero(dt) || taille(dt,97)>96)continue;
+            gen scale=normal(c*weight/dt,contextptr);
+            if(taille(scale,17)>16 || contains(scale,x) || !integration_resource_rational(normal(scale*scale,contextptr)) || !is_zero(im(scale,contextptr)))continue;
+            res=scale*atan(t*sqrt(B/A,contextptr),contextptr)/sqrt(A*B,contextptr);return true;
+          }
+        }
+      }
+    }
     if (!integration_rational(c)) return false;
     // A power of a Mobius map divided by the product of its two
     // affine factors: R'/R=det/(A*B). Read only small sparse polynomials

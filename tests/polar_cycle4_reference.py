@@ -1,9 +1,14 @@
 """Independent root-substitution, piecewise and complex-cut proofs."""
+import re
 import sympy as s
 from mixed_reference import x,parse,equal,local
 Root=s.Function('RealRoot')
 def verify(case,printed):
  ident=case['id']
+ if ident=='PC4-D2' and printed.startswith('(('):
+  match=re.fullmatch(r'\(\(x=0\)\? undef : (piecewise\(.*\))\)',printed)
+  assert match,'Only the independently excluded corner x=0 may be rejected'
+  printed=match[1]
  assert not any(word in printed for word in ('undef','integrate(','diff(')),printed[:200]
  if ident=='PC4-R1':
   assert len(printed)<4096,'Runaway expansion: %d output characters from a 93-character input'%len(printed)

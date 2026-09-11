@@ -1,0 +1,561 @@
+{
+  "scope": "Repository integration, normalization and FXCG simplification entry points; other dependencies host Giac, not a CG50 emulator or hardware timings",
+  "validation": "Printed target results independently checked in a separate host-Giac process",
+  "corpus_sha256": "976c08a687455e7fad76e7755de91b0e72c1db23dbf14c8b3e492222edb945cd",
+  "validation_probe_sha256": "389931bcb1768f94a589ce5b4cdc1422b9629a9e2b5e3281dab7e775beb834a4",
+  "source_sha256": {
+    "yintg.cc": "bee106b787a1fa85b0d0d1242fbd0909b3f3549b88b7719950e46e99423d50c5",
+    "zintgab.cc": "3b6fa78aba4d53b1a11479c33bacb4c85e3d6091389ef3073ec60085a7ae9448",
+    "ysym2poly.cc": "ca2e4abe3652bf6314e38703100426e6996b3d272ad6f6215d469acf7ecb979c",
+    "ksubst.cc": "63d5ae1bca57dffcedf4810b52c970518aa8696946dec41646d45ef784188d24",
+    "integration_guard.h": "5f4bfda11a19fdf8b4b41da6bb037f602dd741ec1f3492066abab251e85d48a9",
+    "equation_normalize.h": "4bfb644f0e18bb36e280ce8886c8ac12695c9aeeaef187ea3e5f967cd1642e37",
+    "dilogarithm.h": "ca822ef4c094a4ed1f4aecf7219011668735d86d259c51ec6304515f8fa84d7a"
+  },
+  "runs": [
+    {
+      "id": "C8-quadratic-asinh-parts-01",
+      "input": "integrate((2*x+1)*asinh(x^2+x+1),x)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(x^2+x+1)*asinh(x^2+x+1)-sqrt((x^2+x+1)^2+1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00215763\nMAX_RSS_KB 24244\n",
+      "host_seconds": 0.00215763,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24244,
+      "result_characters": 44,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000287946\nMAX_RSS_KB 24244\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-quadratic-asinh-parts-01",
+      "input": "integrate((2*x+1)*asinh(x^2+x+1),x)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(x^2+x+1)*asinh(x^2+x+1)-sqrt((x^2+x+1)^2+1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00242605\nMAX_RSS_KB 24244\n",
+      "host_seconds": 0.00242605,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24244,
+      "result_characters": 44,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000285306\nMAX_RSS_KB 24244\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-quadratic-asinh-parts-01",
+      "input": "simplify(integrate((2*x+1)*asinh(x^2+x+1),x))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "x^2*ln(sqrt(x^4+2*x^3+3*x^2+2*x+2)+x^2+x+1)+x*ln(sqrt(x^4+2*x^3+3*x^2+2*x+2)+x^2+x+1)-sqrt(x^4+2*x^3+3*x^2+2*x+2)+ln(sqrt(x^4+2*x^3+3*x^2+2*x+2)+x^2+x+1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00312269\nMAX_RSS_KB 24244\n",
+      "host_seconds": 0.00312269,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24244,
+      "result_characters": 153,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000688141\nMAX_RSS_KB 24244\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-quadratic-asinh-parts-01",
+      "input": "simplify(integrate((2*x+1)*asinh(x^2+x+1),x))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "x^2*ln(sqrt(x^4+2*x^3+3*x^2+2*x+2)+x^2+x+1)+x*ln(sqrt(x^4+2*x^3+3*x^2+2*x+2)+x^2+x+1)-sqrt(x^4+2*x^3+3*x^2+2*x+2)+ln(sqrt(x^4+2*x^3+3*x^2+2*x+2)+x^2+x+1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00386115\nMAX_RSS_KB 24244\n",
+      "host_seconds": 0.00386115,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24244,
+      "result_characters": 153,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000307305\nMAX_RSS_KB 24244\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-composed-binomial-parts-boundary-01",
+      "input": "integrate((2*x+1)*(x^2+x)^63*(1+(x^2+x)^32)^1024,x)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(-(1+(x^2+x)^32)^1025/1025+(1+(x^2+x)^32)^1026/1026)/32",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000344935\nMAX_RSS_KB 24244\n",
+      "host_seconds": 0.000344935,
+      "parser_calls": 1,
+      "host_max_rss_kb": 24244,
+      "result_characters": 55,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK_METHOD exact whole-power identity against independently proved generic binomial primitive\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-composed-binomial-parts-boundary-01",
+      "input": "integrate((2*x+1)*(x^2+x)^63*(1+(x^2+x)^32)^1024,x)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(-(1+(x^2+x)^32)^1025/1025+(1+(x^2+x)^32)^1026/1026)/32",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000624971\nMAX_RSS_KB 62220\n",
+      "host_seconds": 0.000624971,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62220,
+      "result_characters": 55,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK_METHOD exact whole-power identity against independently proved generic binomial primitive\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-composed-binomial-parts-boundary-01",
+      "input": "simplify(integrate((2*x+1)*(x^2+x)^63*(1+(x^2+x)^32)^1024,x))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(-(1+(x^2+x)^32)^1025/1025+(1+(x^2+x)^32)^1026/1026)/32",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000558982\nMAX_RSS_KB 62220\n",
+      "host_seconds": 0.000558982,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62220,
+      "result_characters": 55,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK_METHOD exact whole-power identity against independently proved generic binomial primitive\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-composed-binomial-parts-boundary-01",
+      "input": "simplify(integrate((2*x+1)*(x^2+x)^63*(1+(x^2+x)^32)^1024,x))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(-(1+(x^2+x)^32)^1025/1025+(1+(x^2+x)^32)^1026/1026)/32",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000626672\nMAX_RSS_KB 62476\n",
+      "host_seconds": 0.000626672,
+      "parser_calls": 1,
+      "host_max_rss_kb": 62476,
+      "result_characters": 55,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK_METHOD exact whole-power identity against independently proved generic binomial primitive\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-exponential-beta-boundary-01",
+      "input": "integrate(exp(-2*x)*(1-exp(-x))^4096,x,0,+infinity)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "1/16789506",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000326975\nMAX_RSS_KB 64012\n",
+      "host_seconds": 0.000326975,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64012,
+      "result_characters": 10,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000244356\nMAX_RSS_KB 64012\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-exponential-beta-boundary-01",
+      "input": "integrate(exp(-2*x)*(1-exp(-x))^4096,x,0,+infinity)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "1/16789506",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000545532\nMAX_RSS_KB 64012\n",
+      "host_seconds": 0.000545532,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64012,
+      "result_characters": 10,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000531463\nMAX_RSS_KB 64012\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-exponential-beta-boundary-01",
+      "input": "simplify(integrate(exp(-2*x)*(1-exp(-x))^4096,x,0,+infinity))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "1/16789506",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000367945\nMAX_RSS_KB 64012\n",
+      "host_seconds": 0.000367945,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64012,
+      "result_characters": 10,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000245127\nMAX_RSS_KB 64012\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-exponential-beta-boundary-01",
+      "input": "simplify(integrate(exp(-2*x)*(1-exp(-x))^4096,x,0,+infinity))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "1/16789506",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000351725\nMAX_RSS_KB 64012\n",
+      "host_seconds": 0.000351725,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64012,
+      "result_characters": 10,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000244777\nMAX_RSS_KB 64012\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-laplace-erf-square-root-01",
+      "input": "integrate(exp(-x)*erf(sqrt(x)),x,0,+infinity)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "1/sqrt(2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000357285\nMAX_RSS_KB 64012\n",
+      "host_seconds": 0.000357285,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64012,
+      "result_characters": 9,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000253136\nMAX_RSS_KB 64012\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-laplace-erf-square-root-01",
+      "input": "integrate(exp(-x)*erf(sqrt(x)),x,0,+infinity)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "1/sqrt(2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000545092\nMAX_RSS_KB 64012\n",
+      "host_seconds": 0.000545092,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64012,
+      "result_characters": 9,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000258927\nMAX_RSS_KB 64012\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-laplace-erf-square-root-01",
+      "input": "simplify(integrate(exp(-x)*erf(sqrt(x)),x,0,+infinity))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "sqrt(2)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000574493\nMAX_RSS_KB 64012\n",
+      "host_seconds": 0.000574493,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64012,
+      "result_characters": 9,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000260366\nMAX_RSS_KB 64012\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-laplace-erf-square-root-01",
+      "input": "simplify(integrate(exp(-x)*erf(sqrt(x)),x,0,+infinity))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "sqrt(2)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000583802\nMAX_RSS_KB 64012\n",
+      "host_seconds": 0.000583802,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64012,
+      "result_characters": 9,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000394344\nMAX_RSS_KB 64012\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-atan-log-cauchy-moment-01",
+      "input": "integrate(atan(x)*ln(x)/(1+x^2),x,0,1)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "7*Zeta(3)/16-pi*(Psi(1/4,1)-Psi(3/4,1))/16/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000371265\nMAX_RSS_KB 64012\n",
+      "host_seconds": 0.000371265,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64012,
+      "result_characters": 44,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000276417\nMAX_RSS_KB 64012\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-atan-log-cauchy-moment-01",
+      "input": "integrate(atan(x)*ln(x)/(1+x^2),x,0,1)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "7*Zeta(3)/16-pi*(Psi(1/4,1)-Psi(3/4,1))/16/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000363585\nMAX_RSS_KB 64012\n",
+      "host_seconds": 0.000363585,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64012,
+      "result_characters": 44,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000284416\nMAX_RSS_KB 64012\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-atan-log-cauchy-moment-01",
+      "input": "simplify(integrate(atan(x)*ln(x)/(1+x^2),x,0,1))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(-Psi(1/4,1)*pi+Psi(3/4,1)*pi+28*Zeta(3))/64",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000500683\nMAX_RSS_KB 64012\n",
+      "host_seconds": 0.000500683,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64012,
+      "result_characters": 44,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000277836\nMAX_RSS_KB 64012\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-atan-log-cauchy-moment-01",
+      "input": "simplify(integrate(atan(x)*ln(x)/(1+x^2),x,0,1))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(-Psi(1/4,1)*pi+Psi(3/4,1)*pi+28*Zeta(3))/64",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000519073\nMAX_RSS_KB 64012\n",
+      "host_seconds": 0.000519073,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64012,
+      "result_characters": 44,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000278046\nMAX_RSS_KB 64012\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-opposite-trig-logarithm-product-01",
+      "input": "integrate(ln(1+sin(x))*ln(1-sin(x)),x,0,pi/2)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "pi/2*(ln(2)*ln(2)-pi*pi/6)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000357436\nMAX_RSS_KB 64012\n",
+      "host_seconds": 0.000357436,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64012,
+      "result_characters": 26,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000278176\nMAX_RSS_KB 64012\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-opposite-trig-logarithm-product-01",
+      "input": "integrate(ln(1+sin(x))*ln(1-sin(x)),x,0,pi/2)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "pi/2*(ln(2)*ln(2)-pi*pi/6)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000353305\nMAX_RSS_KB 64012\n",
+      "host_seconds": 0.000353305,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64012,
+      "result_characters": 26,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000308226\nMAX_RSS_KB 64012\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-opposite-trig-logarithm-product-01",
+      "input": "simplify(integrate(ln(1+sin(x))*ln(1-sin(x)),x,0,pi/2))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(-pi^3+6*pi*ln(2)^2)/12",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000513783\nMAX_RSS_KB 64012\n",
+      "host_seconds": 0.000513783,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64012,
+      "result_characters": 23,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000270217\nMAX_RSS_KB 64012\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-opposite-trig-logarithm-product-01",
+      "input": "simplify(integrate(ln(1+sin(x))*ln(1-sin(x)),x,0,pi/2))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(-pi^3+6*pi*ln(2)^2)/12",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00102805\nMAX_RSS_KB 64012\n",
+      "host_seconds": 0.00102805,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64012,
+      "result_characters": 23,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000277056\nMAX_RSS_KB 64012\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-atan-square-cauchy-square-01",
+      "input": "integrate(atan(x)^2/(1+x^2)^2,x,0,+infinity)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(pi^3-6*pi)/48",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000389105\nMAX_RSS_KB 64012\n",
+      "host_seconds": 0.000389105,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64012,
+      "result_characters": 14,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000261516\nMAX_RSS_KB 64012\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-atan-square-cauchy-square-01",
+      "input": "integrate(atan(x)^2/(1+x^2)^2,x,0,+infinity)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(pi^3-6*pi)/48",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000374925\nMAX_RSS_KB 64012\n",
+      "host_seconds": 0.000374925,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64012,
+      "result_characters": 14,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000265776\nMAX_RSS_KB 64012\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-atan-square-cauchy-square-01",
+      "input": "simplify(integrate(atan(x)^2/(1+x^2)^2,x,0,+infinity))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(pi^3-6*pi)/48",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000454114\nMAX_RSS_KB 64012\n",
+      "host_seconds": 0.000454114,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64012,
+      "result_characters": 14,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000260617\nMAX_RSS_KB 64012\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-atan-square-cauchy-square-01",
+      "input": "simplify(integrate(atan(x)^2/(1+x^2)^2,x,0,+infinity))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(pi^3-6*pi)/48",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000459123\nMAX_RSS_KB 64012\n",
+      "host_seconds": 0.000459123,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64012,
+      "result_characters": 14,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000264366\nMAX_RSS_KB 64012\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gaussian-log-square-moment-01",
+      "input": "integrate(exp(-x^2)*ln(x)^2,x,0,+infinity)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(2*euler_gamma^2*sqrt(pi)+4*euler_gamma*sqrt(pi)*ln(4)+pi^2*sqrt(pi)+2*sqrt(pi)*ln(4)^2)/16",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000443804\nMAX_RSS_KB 64012\n",
+      "host_seconds": 0.000443804,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64012,
+      "result_characters": 91,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000298406\nMAX_RSS_KB 64012\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gaussian-log-square-moment-01",
+      "input": "integrate(exp(-x^2)*ln(x)^2,x,0,+infinity)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(2*euler_gamma^2*sqrt(pi)+4*euler_gamma*sqrt(pi)*ln(4)+pi^2*sqrt(pi)+2*sqrt(pi)*ln(4)^2)/16",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000451674\nMAX_RSS_KB 64012\n",
+      "host_seconds": 0.000451674,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64012,
+      "result_characters": 91,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000293785\nMAX_RSS_KB 64012\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gaussian-log-square-moment-01",
+      "input": "simplify(integrate(exp(-x^2)*ln(x)^2,x,0,+infinity))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(2*euler_gamma^2*sqrt(pi)+4*euler_gamma*sqrt(pi)*ln(4)+pi^2*sqrt(pi)+2*sqrt(pi)*ln(4)^2)/16",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00126104\nMAX_RSS_KB 64012\n",
+      "host_seconds": 0.00126104,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64012,
+      "result_characters": 91,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000305675\nMAX_RSS_KB 64012\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gaussian-log-square-moment-01",
+      "input": "simplify(integrate(exp(-x^2)*ln(x)^2,x,0,+infinity))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(2*euler_gamma^2*sqrt(pi)+4*euler_gamma*sqrt(pi)*ln(4)+pi^2*sqrt(pi)+2*sqrt(pi)*ln(4)^2)/16",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00123601\nMAX_RSS_KB 64012\n",
+      "host_seconds": 0.00123601,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64012,
+      "result_characters": 91,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000298526\nMAX_RSS_KB 64012\nCHECK exact\n"
+      },
+      "status": "exact"
+    }
+  ]
+}

@@ -1,0 +1,144 @@
+{
+  "scope": "Repository integration/normalization and FXCG simplify entry points; other dependencies are host Giac. A guarded pthread stack excludes dynamic-loader startup; not CG50 memory or timing.",
+  "validation_probe_sha256": "389931bcb1768f94a589ce5b4cdc1422b9629a9e2b5e3281dab7e775beb834a4",
+  "source_sha256": {
+    "yintg.cc": "bee106b787a1fa85b0d0d1242fbd0909b3f3549b88b7719950e46e99423d50c5",
+    "zintgab.cc": "3b6fa78aba4d53b1a11479c33bacb4c85e3d6091389ef3073ec60085a7ae9448",
+    "ysym2poly.cc": "ca2e4abe3652bf6314e38703100426e6996b3d272ad6f6215d469acf7ecb979c",
+    "ksubst.cc": "63d5ae1bca57dffcedf4810b52c970518aa8696946dec41646d45ef784188d24",
+    "integration_guard.h": "5f4bfda11a19fdf8b4b41da6bb037f602dd741ec1f3492066abab251e85d48a9",
+    "equation_normalize.h": "4bfb644f0e18bb36e280ce8886c8ac12695c9aeeaef187ea3e5f967cd1642e37",
+    "dilogarithm.h": "ca822ef4c094a4ed1f4aecf7219011668735d86d259c51ec6304515f8fa84d7a"
+  },
+  "runs": [
+    {
+      "id": "reported",
+      "input": "simplify(integrate(3*ln(sin(2*x)),x))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "((-3*i)*pi^2+6*i*pi*x+3*i*pi*abs(2*x-2*pi*floor(2*x/(2*pi))-pi)-12*x*ln(2)-3*im(Li2(exp(2*i*2*x))))/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000418635\nMAX_RSS_KB 65580\n"
+    },
+    {
+      "id": "reported",
+      "input": "simplify(integrate(3*ln(sin(2*x)),x))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "((-3*i)*pi^2+6*i*pi*x+3*i*pi*abs(2*x-2*pi*floor(2*x/(2*pi))-pi)-12*x*ln(2)-3*im(Li2(exp(2*i*2*x))))/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000433365\nMAX_RSS_KB 65580\n"
+    },
+    {
+      "id": "implicit-products",
+      "input": "simplify(integrate(3ln(sin(2x))))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "((-3*i)*pi^2+6*i*pi*x+3*i*pi*abs(2*x-2*pi*floor(2*x/(2*pi))-pi)-12*x*ln(2)-3*im(Li2(exp(2*i*2*x))))/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000418784\nMAX_RSS_KB 65580\n"
+    },
+    {
+      "id": "implicit-products",
+      "input": "simplify(integrate(3ln(sin(2x))))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "((-3*i)*pi^2+6*i*pi*x+3*i*pi*abs(2*x-2*pi*floor(2*x/(2*pi))-pi)-12*x*ln(2)-3*im(Li2(exp(2*i*2*x))))/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000446654\nMAX_RSS_KB 65580\n"
+    },
+    {
+      "id": "cosine-shift",
+      "input": "simplify(integrate(ln(cos(3*x+1)),x))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "((-i)*pi^2+6*i*pi*x+2*i*pi*abs(3*x+1+pi/2-2*pi*floor((3*x+1+pi/2)/(2*pi))-pi)+2*i*pi-12*x*ln(2)-2*im(Li2(exp(2*i*(3*x+1+pi/2)))))/12",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000394794\nMAX_RSS_KB 65580\n"
+    },
+    {
+      "id": "cosine-shift",
+      "input": "simplify(integrate(ln(cos(3*x+1)),x))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "((-i)*pi^2+6*i*pi*x+2*i*pi*abs(3*x+1+pi/2-2*pi*floor((3*x+1+pi/2)/(2*pi))-pi)+2*i*pi-12*x*ln(2)-2*im(Li2(exp(2*i*(3*x+1+pi/2)))))/12",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000804339\nMAX_RSS_KB 65580\n"
+    },
+    {
+      "id": "absolute-log",
+      "input": "simplify(integrate(ln(abs(sin(2*x))),x))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(-4*x*ln(2)-im(Li2(exp(2*i*2*x))))/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00230199\nMAX_RSS_KB 65580\n"
+    },
+    {
+      "id": "absolute-log",
+      "input": "simplify(integrate(ln(abs(sin(2*x))),x))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(-4*x*ln(2)-im(Li2(exp(2*i*2*x))))/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00252213\nMAX_RSS_KB 65580\n"
+    },
+    {
+      "id": "closed-absolute-derivative",
+      "input": "simplify(diff(simplify(integrate(ln(abs(sin(x))),x)),x)-ln(abs(sin(x))))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "0",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00206852\nMAX_RSS_KB 65580\n"
+    },
+    {
+      "id": "closed-absolute-derivative",
+      "input": "simplify(diff(simplify(integrate(ln(abs(sin(x))),x)),x)-ln(abs(sin(x))))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "0",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00219399\nMAX_RSS_KB 65580\n"
+    },
+    {
+      "id": "elementary-log",
+      "input": "simplify(diff(integrate(ln(x),x),x)-ln(x))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "0",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000362625\nMAX_RSS_KB 65580\n"
+    },
+    {
+      "id": "elementary-log",
+      "input": "simplify(diff(integrate(ln(x),x),x)-ln(x))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "0",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000388185\nMAX_RSS_KB 65580\n"
+    },
+    {
+      "id": "definite-log-sine",
+      "input": "simplify(integrate(3*ln(sin(2*x)),x,0,pi/2)+3*pi*ln(2)/2)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "0",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000351665\nMAX_RSS_KB 65580\n"
+    },
+    {
+      "id": "definite-log-sine",
+      "input": "simplify(integrate(3*ln(sin(2*x)),x,0,pi/2)+3*pi*ln(2)/2)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "0",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000390685\nMAX_RSS_KB 65580\n"
+    },
+    {
+      "id": "weighted-definite",
+      "input": "simplify(integrate(x*ln(sin(x)),x,0,pi)+pi^2*ln(2)/2)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "0",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000375905\nMAX_RSS_KB 65580\n"
+    },
+    {
+      "id": "weighted-definite",
+      "input": "simplify(integrate(x*ln(sin(x)),x,0,pi)+pi^2*ln(2)/2)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "0",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000413764\nMAX_RSS_KB 65580\n"
+    }
+  ],
+  "stale_trig_count_checked_access": "passed (0, 1 and 2 actual trig nodes)"
+}

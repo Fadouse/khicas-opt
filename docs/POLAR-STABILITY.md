@@ -81,3 +81,17 @@ ROM 2,064,136 / 2,065,152 B（余1,016 B），AC2 2,473,692 / 2,559,996 B（余8
 ROM余872 B，AC2余84,420 B。复合求导辅助函数位于AC2，大小3,844 B、编译器单帧344 B；主递归求导单帧248 B。单帧数字不是完整调用链峰值。静态RAM与CAS堆不变。首次仍有错题，继续全新题集，尚不进入最终性能代理验收。
 
 [最初探针](benchmarks/polar-cycle5-first-acceptance-2026a.json) · [实际平方根旧版复核](benchmarks/polar-cycle5-baseline-actual-sqrt-acceptance-2026a.json) · [修复后](benchmarks/polar-cycle5-fixed-acceptance-2026a.json) · [变体](benchmarks/polar-cycle5-root-guards-2026a.json) · [资源](benchmarks/resources-polar-cycle5-2026a.json) · [测量](benchmarks/polar-cycle5-performance-2026a.json)。
+
+## 第六轮：全局对数换元、分式内层与真实折点
+
+标签 `checkpoint/polar-stability-cycle6-2026a`。新6题首次3题完整通过。未解的对数/平方根积分、实根内层分式的可去导数零点、分段函数真实不可导点均完成修复，出题代理交付后结束。
+
+积分规则先证明 `C*sqrt(Q)+L` 全局为正：C>0且 `Q-(L/C)^2` 为正的常量；再匹配对数导数和正的二次分母，避免通用代数搜索。平移、正负斜率、二次分母系数及系统提取的常量根式系数均已验证。比例必须在语法上不含积分变量，不用“导数为零”误认分段符号函数为常量。
+
+实根有理式求导的内层扩展为有界实有理函数，通过分子/分母多项式预算检查；化简保留根内的分式，避免换成主值复幂。分段导数对有序有理阈值和局部解析的有界分支比较两侧函数值、导数值，明确将真实折点或跳跃处置为undef，同时保留光滑拼接。该检查不宣称覆盖任意逻辑条件、无穷振荡或无法证明局部解析的分支；不调用通用极限搜索。
+
+本轮24项、前5轮160项、旧混合96项、极坐标60项、原70项边界补测、新44项结构变体、21项正式回归及7项补充任务通过。旧第四轮的真折点x=0现在也明确拒绝，独立证明原有的域外排除仍保持。通过积分清单657条：652精确、5导数采样；本轮5次主机中位数最大约3.3 ms。主机检查仍不是SH4/MMU或实机测量。
+
+ROM 2,064,760 / 2,065,152 B（余392 B），AC2 2,480,500 / 2,559,996 B（余79,496 B），静态RAM与CAS堆不变。新分段检查辅助函数放置在AC2并核对链接地址。首次有错题，下一步仍需全新题集首次完整通过，才进入最终性能代理验收。
+
+[首次](benchmarks/polar-cycle6-first-acceptance-2026a.json) · [修复后](benchmarks/polar-cycle6-fixed-acceptance-2026a.json) · [变体](benchmarks/polar-cycle6-root-guards-2026a.json) · [资源](benchmarks/resources-polar-cycle6-2026a.json) · [测量](benchmarks/polar-cycle6-performance-2026a.json)。

@@ -38,11 +38,13 @@ for c in cases:
      row['actual_endpoint_substitution']={str(point):0 for point in points}
     values={'PC4-I2':{2:'0'},'PC4-D1':{0:'0',1:'1',-1:'-1'},'PC4-D2':{-1:'-1',1:'2',2:'2'},'PC4-S1':{0:'2*i*pi'}}.get(c['id'],{})
     values.update({'PC5-I1':{0:'sqrt(3)*pi/6'},'PC5-I2':{-1:'-pi/4',1:'-pi/4'},'PC5-D1':{0:'0'},'PC5-D2':{-1:'-1/2',0:'-1',1:'-1/4',2:'7/4'},'PC5-S1':{1:'0'}}.get(c['id'],{}))
+    values.update({'PC6-I1':{2:'0'},'PC6-I2':{0:'0'},'PC6-D1':{2:'0'},'PC6-D2':{-2:'0',0:'2/9',1:'undef',2:'4'},'PC6-S1':{1:'0'}}.get(c['id'],{}))
     if values:
      from mixed_reference import parse,equal
      for point,expected in values.items():
       r=subprocess.run([str(a.probe),'eval(subst('+expression+',x='+str(point)+'))'],capture_output=True,text=True,env=env,timeout=12)
-      assert r.returncode==0 and equal(parse(r.stdout.strip()),parse(expected)),(point,r.stdout,r.stderr)
+      if expected=='undef':assert r.returncode==3 and r.stdout.strip()=='undef',(point,r.stdout,r.stderr)
+      else:assert r.returncode==0 and equal(parse(r.stdout.strip()),parse(expected)),(point,r.stdout,r.stderr)
      row['actual_boundary_substitution']=values
    except Exception as e:row.update(error=str(e),**{'pass':False})
    rows.append(row);a.report.write_text(json.dumps(report,indent=2)+'\n')

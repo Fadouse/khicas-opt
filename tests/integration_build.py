@@ -70,14 +70,14 @@ def derivative_source(ref='current'):
     out+=function(source(ref,'kusual.cc'),'  gen _abs(')
     out+=function(source(ref,'kusual.cc'),'  gen sqrt(const gen & e,GIAC_CONTEXT)')
     out+='gen host_symb_derive(const gen &);\ngen host_symb_derive(const gen &,const gen &);\ngen host_symb_derive(const gen &,const gen &,const gen &);\n'
-    for sig in ('   gen eval_before_diff(', '  bool depend(', '  static int count_noncst(', '  static bool derive_real_composition(', '  static gen derive_SYMB(',
+    for sig in ('   gen eval_before_diff(', '  bool depend(', '  static int count_noncst(', '  static bool derive_real_composition(', '  static bool derive_piecewise_regular(', '  static gen derive_piecewise_joints(', '  static gen derive_SYMB(',
                 '  static gen derive_VECT(', '  gen derive(const gen & e,const identificateur & i,GIAC_CONTEXT)',
                 '  static gen _VECTderive(', '  static gen derivesymb(',
                 '  gen derive(const gen & e,const gen & vars,GIAC_CONTEXT)',
                 '  gen derive(const gen & e,const gen & vars,const gen & nderiv,GIAC_CONTEXT)',
                 '  gen symb_derive(const gen & a)', '  gen symb_derive(const gen & a,const gen & b)',
                 '  gen symb_derive(const gen & a,const gen & b,const gen &c)', '  gen _derive(', '  gen _diff('):
-        if sig not in s and sig=='  static bool derive_real_composition(':continue
+        if sig not in s and sig in ('  static bool derive_real_composition(', '  static bool derive_piecewise_regular(', '  static gen derive_piecewise_joints('):continue
         out+=function(s,sig).replace('symb_derive(', 'host_symb_derive(').replace('symb_plus(v)', 'symbolic(at_plus,gen(v,_SEQ__VECT))')
     return out+'}\n'
 

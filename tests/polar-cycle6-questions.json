@@ -1,0 +1,125 @@
+{
+  "cases": [
+    {
+      "id": "PC6-I1",
+      "type": "integral",
+      "input": "simplify(integrate(surd(x-2,3)^2/(1+surd(x-2,3)^2)^2,x))",
+      "conditions": [
+        "x is real, including x=2; surd(x-2,3) is the real cube root on both sides of its moving zero.",
+        "An explicit exact antiderivative differentiable on the entire real axis is required. atan is the principal real inverse tangent."
+      ],
+      "expected": {
+        "expression": "3*surd(x-2,3)-9*atan(surd(x-2,3))/2+3*surd(x-2,3)/(2*(1+surd(x-2,3)^2))",
+        "properties": [
+          "Return a closed-form exact antiderivative without unevaluated integrate; equivalent evaluable closed forms and additive constants are acceptable.",
+          "The primitive must be defined and differentiable at x=2 with derivative zero, despite singular derivatives of individual cube-root terms.",
+          "Keep the real cube root for x<2. No real pole or artificial interval exclusion is allowed.",
+          "Exact retention of the integrand or an unevaluated integral does not solve this case."
+        ]
+      },
+      "reason": "Put u=surd(x-2,3), so x=2+u^3. Away from u=0 the transformed integrand is 3*u^4/(1+u^2)^2=3-6/(1+u^2)+3/(1+u^2)^2. Integrating with integral(1/(1+u^2)^2,u)=u/(2*(1+u^2))+atan(u)/2 gives the displayed formula. All denominators are positive. Its value at u=0 is zero, and its local expansion is 3*u^5/5+O(u^7), obtained by integrating 3*u^4+O(u^6). At x=2+h set v=surd(h,3); the original primitive's difference quotient is 3*v^2/5+O(v^4), tending to zero from both sides. This establishes the derivative at the moving root independently of the singular chain factor."
+    },
+    {
+      "id": "PC6-I2",
+      "type": "integral",
+      "input": "simplify(integrate(1/(sqrt(x^2+4)*(1+ln((x+sqrt(x^2+4))/2)^2)),x))",
+      "conditions": [
+        "x is any finite real number, including zero; sqrt is the nonnegative real square root and ln is real on its strictly positive argument.",
+        "An explicit exact antiderivative valid on the entire real axis is required; atan is the principal real inverse tangent."
+      ],
+      "expected": {
+        "expression": "atan(ln((x+sqrt(x^2+4))/2))",
+        "properties": [
+          "Return a closed-form exact antiderivative without unevaluated integrate; equivalent evaluable closed forms and additive constants are acceptable.",
+          "The result is real and differentiable for negative, zero, and positive x. Its derivative at zero is 1/2.",
+          "The displayed zero-normalized primitive is odd and lies strictly between -pi/2 and pi/2; these properties apply after removing any additive constant.",
+          "Do not replace sqrt(x^2+4) by x or abs(x), or introduce a sign-dependent logarithm branch.",
+          "Safe retention of an unevaluated integral does not count as an answer."
+        ]
+      },
+      "reason": "Let s=sqrt(x^2+4). Since s>|x|, (x+s)/2 is positive for every real x. For t=ln((x+s)/2), direct differentiation gives t'=(1+x/s)/(x+s)=1/s; thus d[atan(t)]/dx=1/(s*(1+t^2)), exactly the integrand. Equivalently x=2*sinh(t) converts dx/s to dt and gives integral(1/(1+t^2),t). At zero s=2 and t=0, so the derivative is 1/2. The identity ((s+x)/2)*((s-x)/2)=1 proves t(-x)=-t(x), hence oddness of the zero-normalized primitive. Positivity and the derivative calculation hold globally without exclusions or branch gluing."
+    },
+    {
+      "id": "PC6-D1",
+      "type": "derivative",
+      "input": "simplify(diff(surd((x-2)/(x+1),5)^6/(1+surd((x-2)/(x+1),5)^2)^2,x))",
+      "conditions": [
+        "x is real and x!=-1; x=2 is included. surd denotes the real fifth root of the rational inner function.",
+        "The original function has value zero at x=2 and is undefined at x=-1. Its outer denominator is strictly positive wherever the inner rational expression is defined."
+      ],
+      "expected": {
+        "expression": "6*surd((x-2)/(x+1),5)*(3+surd((x-2)/(x+1),5)^2)/(5*(x+1)^2*(1+surd((x-2)/(x+1),5)^2)^3)",
+        "properties": [
+          "Return an explicit exact derivative on the entire original domain, including value zero at x=2; equivalent evaluable forms are acceptable.",
+          "Do not leave a residual division by a vanishing fifth root at x=2.",
+          "Independently establish differentiability at x=2 from the original function's two-sided difference quotient.",
+          "Keep x=-1 excluded. Preserve real roots on -1<x<2, where the fifth root and derivative are negative."
+        ]
+      },
+      "reason": "For x!=-1,2 set u=surd((x-2)/(x+1),5). Then du/dx=3/(5*(x+1)^2*u^4), while d[u^6/(1+u^2)^2]/du=2*u^5*(3+u^2)/(1+u^2)^3. Their product cancels to the displayed derivative. To prove the omitted root point independently, write x=2+h and v=surd(h/(3+h),5). Since F(2)=0 and v^5=h/(3+h), the difference quotient F(2+h)/h equals v/((3+h)*(1+v^2)^2). This tends to zero from both sides as h tends to zero. The displayed formula is also defined with value zero there. The rational inner expression remains undefined at -1, so no extension at that point is claimed."
+    },
+    {
+      "id": "PC6-D2",
+      "type": "derivative",
+      "input": "simplify(diff(piecewise(x<-2,sqrt(1+(x+2)^2)-1,x<=0,(x+2)^2/(2+(x+2)^2),x<=1,2/3+2*x/9+x^2,17/9+4*(x-1)),x))",
+      "conditions": [
+        "x is real. The original function includes all three joining points -2, 0, and 1.",
+        "piecewise selects the first true condition and otherwise its final default. sqrt is the nonnegative real square root.",
+        "The derivative domain must exclude the true nondifferentiable point x=1, while retaining x=-2 and x=0."
+      ],
+      "expected": {
+        "expression": "piecewise(x<-2,(x+2)/sqrt(1+(x+2)^2),x<=0,4*(x+2)/(2+(x+2)^2)^2,x<1,2/9+2*x,x>1,4,undef)",
+        "properties": [
+          "Return an explicit exact derivative for every real x except 1; equivalent formulas with an explicit exclusion of x=1 are acceptable.",
+          "The derivative equals zero at -2 and 2/9 at zero. Prove these values using two-sided difference quotients of the original piecewise function.",
+          "At x=1 the original function is continuous but its left and right difference quotients tend to 20/9 and 4. A finite derivative there is incorrect.",
+          "Differentiating the branch selected at an equality alone is insufficient to establish differentiability of the full function."
+        ]
+      },
+      "reason": "Interior differentiation gives the four displayed formulas. At -2 the original value is zero. For h<0 the quotient (sqrt(1+h^2)-1)/h=h/(sqrt(1+h^2)+1) tends to zero; for h>0 it is h/(2+h^2), also tending to zero. At zero the original value is 2/3. For h<0 sufficiently small, [(h+2)^2/(2+(h+2)^2)-2/3]/h=(h+4)/(3*(h^2+4*h+6)), which tends to 2/9. For h>0 it is 2/9+h, with the same limit. At one the common function value is 17/9; the left quotient is 20/9+h and the right quotient is 4. Hence one is a genuine corner and must be excluded from the derivative domain. All selected branches are smooth in their interiors and have positive radical or rational denominators, so there are no additional nondifferentiable points."
+    },
+    {
+      "id": "PC6-S1",
+      "type": "simplify",
+      "input": "simplify(ln(sqrt((ln(x)+i*pi)^2))-ln(ln(x)+i*pi))",
+      "conditions": [
+        "x is real and strictly positive, including x=1. The inner ln(x) is real.",
+        "The outer logarithms are principal complex logarithms with argument in (-pi,pi]; sqrt is the principal complex square root, including sqrt(-pi^2)=i*pi.",
+        "All outer logarithm arguments are nonzero. Branch boundary values must be evaluated exactly, without assuming continuity across a cut."
+      ],
+      "expected": {
+        "expression": "piecewise(x>=1,0,-i*pi)",
+        "properties": [
+          "Return a strictly equivalent exact expression on x>0. Equivalent evaluable forms, including exact retention of the original expression, are acceptable.",
+          "The value is -i*pi for 0<x<1 and zero for x>=1.",
+          "At x=1 the exact value is zero, whereas the limit from below is -i*pi; preserve this principal-branch jump.",
+          "Neither sqrt(w^2)=w nor ln(sqrt(w^2))=ln(w) is a global complex identity. Do not erase the outer principal logarithms by an unconditional power rule."
+        ]
+      },
+      "reason": "Put a=ln(x), w=a+i*pi, and theta=Arg(w), which lies strictly between zero and pi. For a>0 the principal square root of w^2 is w, giving zero. For a<0 it is -w, whose argument is theta-pi. Since |-w|=|w|, the real parts of the two outer logarithms cancel and their imaginary parts differ by -pi, giving -i*pi. At a=0 the radicand is -pi^2 and its principal root is +i*pi=w, so the exact value is zero. This is a nested principal-logarithm test: taking half of an unadjusted logarithm of w^2 would lose the argument wrap. None of w, -w, or the selected square root is zero."
+    },
+    {
+      "id": "PC6-R1",
+      "type": "resource",
+      "input": "simplify(sqrt(1+((1+(x-y)^2+(y-z)^2+(z-x)^2)^4*(1+(x+y+z)^2)^3/(1+(x*y+y*z+z*x)^2)^2)^6)/(1+((1+(x-y)^2+(y-z)^2+(z-x)^2)^4*(1+(x+y+z)^2)^3/(1+(x*y+y*z+z*x)^2)^2)^6))",
+      "conditions": [
+        "x, y, and z are arbitrary finite real numbers; sqrt is the nonnegative real square root.",
+        "Use the existing finite CG50 stack, heap, and simplification budgets without increasing them.",
+        "This is bounded simplification of a compact multivariate rational expression. Unnecessary polynomial expansion of the powered sums or denominator is prohibited; exact retention is allowed."
+      ],
+      "expected": {
+        "expression": "1/sqrt(1+((1+(x-y)^2+(y-z)^2+(z-x)^2)^4*(1+(x+y+z)^2)^3/(1+(x*y+y*z+z*x)^2)^2)^6)",
+        "properties": [
+          "Exact retention of the original compact expression is acceptable; any rewrite must be mathematically equivalent for all allowed inputs.",
+          "The result is real, finite, and strictly between zero and one, with value 1/sqrt(2) at the origin. A global upper bound of 1/sqrt(2) is not asserted.",
+          "The result is invariant under every permutation of x, y, z and simultaneous sign reversal.",
+          "On x=y=z=t the result equals 1/sqrt(1+(1+9*t^2)^18/(1+9*t^4)^12). On (x,y,z)=(t,-t,0) it equals 1/sqrt(1+(1+6*t^2)^24/(1+t^4)^12).",
+          "No crash, stack overflow, runaway expansion, undef, or newly introduced real pole is acceptable.",
+          "Point values, symmetries, and one-dimensional restrictions are necessary checks, not sufficient proofs of equivalence. Preserve the compact input or justify each rewrite exactly.",
+          "Retention counts as success for this resource case, not for the exact integrals."
+        ]
+      },
+      "reason": "Let A=1+(x-y)^2+(y-z)^2+(z-x)^2, B=1+(x+y+z)^2, C=1+(x*y+y*z+z*x)^2, and P=A^4*B^3/C^2. All three bases are at least one, so P is positive and finite for finite real inputs; Q=1+P^6>1. The identity sqrt(Q)/Q=1/sqrt(Q) gives the displayed compact rewrite and a result in (0,1). At the origin A=B=C=P=1. Each base is symmetric under permutations and invariant under simultaneous sign reversal. On the diagonal A=1, B=1+9*t^2, C=1+9*t^4; on (t,-t,0), A=1+6*t^2, B=1, C=1+t^4. Substitution gives the stated restrictions without distributing any power. In particular P tends to zero along the diagonal as |t| grows, so the result tends to one and the previous all-product upper bound 1/sqrt(2) cannot be carried over to this rational structure."
+    }
+  ]
+}

@@ -1,0 +1,457 @@
+{
+  "scope": "Actual repository integration/yderive/FXCG simplify on host dependencies; guarded 64 KiB stack, not SH4/MMU emulation.",
+  "corpus_sha256": "90e02cc99a0c40763012015dd0bec393d4a50b5c387def74efbf2ec174808cfb",
+  "probe_sha256": "9b85d02b1bf9a3d1d448685caf4a3fc9f75a17e71bfe03165040882fb664954d",
+  "runs": [
+    {
+      "id": "PC5-I1",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(surd(x,3)/(1+x),x)",
+      "exit": 0,
+      "result": "3*(surd(x,3)-1/3*ln(abs(surd(x,3)+1))+1/6*ln((surd(x,3))^2-(surd(x,3))+1)-1/sqrt(3)*atan((2*surd(x,3)-1)/sqrt(3)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00130845\nMAX_RSS_KB 65932\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact real-root partial fractions; positive quadratic (u-1/2)^2+3/4 and both real log signs. Difference quotient at x=0 is zero; only x=-1 excluded."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "sqrt(3)*pi/6"
+      }
+    },
+    {
+      "id": "PC5-I1",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(surd(x,3)/(1+x),x)",
+      "exit": 0,
+      "result": "3*(surd(x,3)-1/3*ln(abs(surd(x,3)+1))+1/6*ln((surd(x,3))^2-(surd(x,3))+1)-1/sqrt(3)*atan((2*surd(x,3)-1)/sqrt(3)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.0020451\nMAX_RSS_KB 65932\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact real-root partial fractions; positive quadratic (u-1/2)^2+3/4 and both real log signs. Difference quotient at x=0 is zero; only x=-1 excluded."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "sqrt(3)*pi/6"
+      }
+    },
+    {
+      "id": "PC5-I1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(surd(x,3)/(1+x),x))",
+      "exit": 0,
+      "result": "(6*surd(x,3)*sqrt(3)+sqrt(3)*ln((surd(x,3))^2-(surd(x,3))+1)-2*sqrt(3)*ln(abs(surd(x,3)+1))-6*atan((2*surd(x,3)-1)/sqrt(3)))/(2*sqrt(3))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00129759\nMAX_RSS_KB 65932\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact real-root partial fractions; positive quadratic (u-1/2)^2+3/4 and both real log signs. Difference quotient at x=0 is zero; only x=-1 excluded."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "sqrt(3)*pi/6"
+      }
+    },
+    {
+      "id": "PC5-I1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(surd(x,3)/(1+x),x))",
+      "exit": 0,
+      "result": "(6*surd(x,3)*sqrt(3)+sqrt(3)*ln((surd(x,3))^2-(surd(x,3))+1)-2*sqrt(3)*ln(abs(surd(x,3)+1))-6*atan((2*surd(x,3)-1)/sqrt(3)))/(2*sqrt(3))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00136342\nMAX_RSS_KB 65932\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact real-root partial fractions; positive quadratic (u-1/2)^2+3/4 and both real log signs. Difference quotient at x=0 is zero; only x=-1 excluded."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "sqrt(3)*pi/6"
+      }
+    },
+    {
+      "id": "PC5-I2",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(ln(abs(x))/(x*(1+ln(abs(x))^4)),x)",
+      "exit": 0,
+      "result": "i/4*ln(ln(x*sign(x))^2+i)+(-i)/4*ln(ln(x*sign(x))^2-i)",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(x)]\nPARSER_CALLS 1\nSECONDS 0.0304874\nMAX_RSS_KB 65932\n",
+      "verification": {
+        "exact": true,
+        "method": "t=ln|x| and dt=dx/x on both half-lines. Exact transformed derivative. Complex-log arguments t\u00b2\u00b1i never touch a cut and are conjugates, so this real primitive differs from atan(t\u00b2)/2 only by -pi/4; \u00b11 are regular."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "-pi/4",
+        "1": "-pi/4"
+      }
+    },
+    {
+      "id": "PC5-I2",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(ln(abs(x))/(x*(1+ln(abs(x))^4)),x)",
+      "exit": 0,
+      "result": "i/4*ln(ln(x*sign(x))^2+i)+(-i)/4*ln(ln(x*sign(x))^2-i)",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(x)]\nPARSER_CALLS 1\nSECONDS 0.0330596\nMAX_RSS_KB 65932\n",
+      "verification": {
+        "exact": true,
+        "method": "t=ln|x| and dt=dx/x on both half-lines. Exact transformed derivative. Complex-log arguments t\u00b2\u00b1i never touch a cut and are conjugates, so this real primitive differs from atan(t\u00b2)/2 only by -pi/4; \u00b11 are regular."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "-pi/4",
+        "1": "-pi/4"
+      }
+    },
+    {
+      "id": "PC5-I2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(ln(abs(x))/(x*(1+ln(abs(x))^4)),x))",
+      "exit": 0,
+      "result": "(i*ln(ln(x*sign(x))^2+i)+(-i)*ln(ln(x*sign(x))^2-i))/4",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(x)]\nPARSER_CALLS 1\nSECONDS 0.0312079\nMAX_RSS_KB 65932\n",
+      "verification": {
+        "exact": true,
+        "method": "t=ln|x| and dt=dx/x on both half-lines. Exact transformed derivative. Complex-log arguments t\u00b2\u00b1i never touch a cut and are conjugates, so this real primitive differs from atan(t\u00b2)/2 only by -pi/4; \u00b11 are regular."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "-pi/4",
+        "1": "-pi/4"
+      }
+    },
+    {
+      "id": "PC5-I2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(ln(abs(x))/(x*(1+ln(abs(x))^4)),x))",
+      "exit": 0,
+      "result": "(i*ln(ln(x*sign(x))^2+i)+(-i)*ln(ln(x*sign(x))^2-i))/4",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(x)]\nPARSER_CALLS 1\nSECONDS 0.0321588\nMAX_RSS_KB 65932\n",
+      "verification": {
+        "exact": true,
+        "method": "t=ln|x| and dt=dx/x on both half-lines. Exact transformed derivative. Complex-log arguments t\u00b2\u00b1i never touch a cut and are conjugates, so this real primitive differs from atan(t\u00b2)/2 only by -pi/4; \u00b11 are regular."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "-pi/4",
+        "1": "-pi/4"
+      }
+    },
+    {
+      "id": "PC5-D1",
+      "outer": false,
+      "stack": "normal",
+      "input": "diff(surd(x,3)^4/(1+surd(x,3)^2),x)",
+      "exit": 0,
+      "result": "surd(x,3)*(4+2*(surd(x,3))^2)/(3*(1+(surd(x,3))^2)^2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000349215\nMAX_RSS_KB 65932\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact real-root rational identity for x!=0. Original difference quotient u/(1+u\u00b2) tends to zero; actual zero substitution verifies removable denominator was eliminated."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0"
+      }
+    },
+    {
+      "id": "PC5-D1",
+      "outer": false,
+      "stack": "64",
+      "input": "diff(surd(x,3)^4/(1+surd(x,3)^2),x)",
+      "exit": 0,
+      "result": "surd(x,3)*(4+2*(surd(x,3))^2)/(3*(1+(surd(x,3))^2)^2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000378374\nMAX_RSS_KB 65932\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact real-root rational identity for x!=0. Original difference quotient u/(1+u\u00b2) tends to zero; actual zero substitution verifies removable denominator was eliminated."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0"
+      }
+    },
+    {
+      "id": "PC5-D1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(diff(surd(x,3)^4/(1+surd(x,3)^2),x))",
+      "exit": 0,
+      "result": "(2*x^3*(surd(x,3))^2-2*x^2*surd(x,3)+8*x*(surd(x,3))^2-6*x+4*surd(x,3))/(3*x^4+6*x^2+3)",
+      "stderr": "Temporary replacing surd/NTHROOT by fractional powers\nPARSER_CALLS 1\nSECONDS 0.00116432\nMAX_RSS_KB 65932\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact real-root rational identity for x!=0. Original difference quotient u/(1+u\u00b2) tends to zero; actual zero substitution verifies removable denominator was eliminated."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0"
+      }
+    },
+    {
+      "id": "PC5-D1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(diff(surd(x,3)^4/(1+surd(x,3)^2),x))",
+      "exit": 0,
+      "result": "(2*x^3*(surd(x,3))^2-2*x^2*surd(x,3)+8*x*(surd(x,3))^2-6*x+4*surd(x,3))/(3*x^4+6*x^2+3)",
+      "stderr": "Temporary replacing surd/NTHROOT by fractional powers\nPARSER_CALLS 1\nSECONDS 0.00104967\nMAX_RSS_KB 65932\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact real-root rational identity for x!=0. Original difference quotient u/(1+u\u00b2) tends to zero; actual zero substitution verifies removable denominator was eliminated."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0"
+      }
+    },
+    {
+      "id": "PC5-D2",
+      "outer": false,
+      "stack": "normal",
+      "input": "diff(piecewise(x<0,ln(1-x),x<=1,-x/(1+x),-1/2-(x-1)/4+(x-1)^2),x)",
+      "exit": 0,
+      "result": "piecewise(0>x,-1/(1-x),x<=1,-(1+x-x)/(1+x)^2,-1/4+2*(x-1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000435054\nMAX_RSS_KB 65932\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact open-region derivatives; original one-sided difference quotients agree at 0 (-1) and 1 (-1/4). Actual substitution checks inactive poles and logarithm branches."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "-1/2",
+        "0": "-1",
+        "1": "-1/4",
+        "2": "7/4"
+      }
+    },
+    {
+      "id": "PC5-D2",
+      "outer": false,
+      "stack": "64",
+      "input": "diff(piecewise(x<0,ln(1-x),x<=1,-x/(1+x),-1/2-(x-1)/4+(x-1)^2),x)",
+      "exit": 0,
+      "result": "piecewise(0>x,-1/(1-x),x<=1,-(1+x-x)/(1+x)^2,-1/4+2*(x-1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000510233\nMAX_RSS_KB 65932\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact open-region derivatives; original one-sided difference quotients agree at 0 (-1) and 1 (-1/4). Actual substitution checks inactive poles and logarithm branches."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "-1/2",
+        "0": "-1",
+        "1": "-1/4",
+        "2": "7/4"
+      }
+    },
+    {
+      "id": "PC5-D2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(diff(piecewise(x<0,ln(1-x),x<=1,-x/(1+x),-1/2-(x-1)/4+(x-1)^2),x))",
+      "exit": 0,
+      "result": "piecewise(0>x,-1/(1-x),x<=1,-(1+x-x)/(1+x)^2,-1/4+2*(x-1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000438014\nMAX_RSS_KB 65932\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact open-region derivatives; original one-sided difference quotients agree at 0 (-1) and 1 (-1/4). Actual substitution checks inactive poles and logarithm branches."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "-1/2",
+        "0": "-1",
+        "1": "-1/4",
+        "2": "7/4"
+      }
+    },
+    {
+      "id": "PC5-D2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(diff(piecewise(x<0,ln(1-x),x<=1,-x/(1+x),-1/2-(x-1)/4+(x-1)^2),x))",
+      "exit": 0,
+      "result": "piecewise(0>x,-1/(1-x),x<=1,-(1+x-x)/(1+x)^2,-1/4+2*(x-1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000491063\nMAX_RSS_KB 65932\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact open-region derivatives; original one-sided difference quotients agree at 0 (-1) and 1 (-1/4). Actual substitution checks inactive poles and logarithm branches."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "-1/2",
+        "0": "-1",
+        "1": "-1/4",
+        "2": "7/4"
+      }
+    },
+    {
+      "id": "PC5-S1",
+      "outer": false,
+      "stack": "normal",
+      "input": "sqrt((ln(x)+i*pi)^2)-ln(x)-i*pi",
+      "exit": 0,
+      "result": "sqrt((ln(x)+i*pi)^2)-ln(x)-i*pi",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000301216\nMAX_RSS_KB 65932\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact retained principal square root. For t=ln(x)>0 principal root is t+i*pi, for t<0 it is -t-i*pi; at t=0 sqrt(-pi\u00b2)=i*pi. Boundary value 0 and lower-side jump -2*i*pi are preserved."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "1": "0"
+      }
+    },
+    {
+      "id": "PC5-S1",
+      "outer": false,
+      "stack": "64",
+      "input": "sqrt((ln(x)+i*pi)^2)-ln(x)-i*pi",
+      "exit": 0,
+      "result": "sqrt((ln(x)+i*pi)^2)-ln(x)-i*pi",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000321186\nMAX_RSS_KB 65932\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact retained principal square root. For t=ln(x)>0 principal root is t+i*pi, for t<0 it is -t-i*pi; at t=0 sqrt(-pi\u00b2)=i*pi. Boundary value 0 and lower-side jump -2*i*pi are preserved."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "1": "0"
+      }
+    },
+    {
+      "id": "PC5-S1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(sqrt((ln(x)+i*pi)^2)-ln(x)-i*pi)",
+      "exit": 0,
+      "result": "sqrt((ln(x)+i*pi)^2)-ln(x)-i*pi",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000321815\nMAX_RSS_KB 65932\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact retained principal square root. For t=ln(x)>0 principal root is t+i*pi, for t<0 it is -t-i*pi; at t=0 sqrt(-pi\u00b2)=i*pi. Boundary value 0 and lower-side jump -2*i*pi are preserved."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "1": "0"
+      }
+    },
+    {
+      "id": "PC5-S1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(sqrt((ln(x)+i*pi)^2)-ln(x)-i*pi)",
+      "exit": 0,
+      "result": "sqrt((ln(x)+i*pi)^2)-ln(x)-i*pi",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000314665\nMAX_RSS_KB 65932\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact retained principal square root. For t=ln(x)>0 principal root is t+i*pi, for t<0 it is -t-i*pi; at t=0 sqrt(-pi\u00b2)=i*pi. Boundary value 0 and lower-side jump -2*i*pi are preserved."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "1": "0"
+      }
+    },
+    {
+      "id": "PC5-R1",
+      "outer": false,
+      "stack": "normal",
+      "input": "1/sqrt(1+((1+(x-y)^2+(y-z)^2)^5*(1+(x+y)^2+(y+z)^2)^4)^6)",
+      "exit": 0,
+      "result": "1/sqrt(1+((1+(x-y)^2+(y-z)^2)^5*(1+(x+y)^2+(y+z)^2)^4)^6)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000303986\nMAX_RSS_KB 65932\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact structural preservation. Both powered bases are >=1; reciprocal radicand >=2, equality only at origin. Squared linear forms prove simultaneous reversal and coordinate-reversal symmetry, and the diagonal restriction."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC5-R1",
+      "outer": false,
+      "stack": "64",
+      "input": "1/sqrt(1+((1+(x-y)^2+(y-z)^2)^5*(1+(x+y)^2+(y+z)^2)^4)^6)",
+      "exit": 0,
+      "result": "1/sqrt(1+((1+(x-y)^2+(y-z)^2)^5*(1+(x+y)^2+(y+z)^2)^4)^6)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000297266\nMAX_RSS_KB 65932\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact structural preservation. Both powered bases are >=1; reciprocal radicand >=2, equality only at origin. Squared linear forms prove simultaneous reversal and coordinate-reversal symmetry, and the diagonal restriction."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC5-R1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(1/sqrt(1+((1+(x-y)^2+(y-z)^2)^5*(1+(x+y)^2+(y+z)^2)^4)^6))",
+      "exit": 0,
+      "result": "1/sqrt(1+((1+(x-y)^2+(y-z)^2)^5*(1+(x+y)^2+(y+z)^2)^4)^6)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000321756\nMAX_RSS_KB 65932\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact structural preservation. Both powered bases are >=1; reciprocal radicand >=2, equality only at origin. Squared linear forms prove simultaneous reversal and coordinate-reversal symmetry, and the diagonal restriction."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC5-R1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(1/sqrt(1+((1+(x-y)^2+(y-z)^2)^5*(1+(x+y)^2+(y+z)^2)^4)^6))",
+      "exit": 0,
+      "result": "1/sqrt(1+((1+(x-y)^2+(y-z)^2)^5*(1+(x+y)^2+(y+z)^2)^4)^6)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000337576\nMAX_RSS_KB 65932\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact structural preservation. Both powered bases are >=1; reciprocal radicand >=2, equality only at origin. Squared linear forms prove simultaneous reversal and coordinate-reversal symmetry, and the diagonal restriction."
+      },
+      "pass": true
+    }
+  ],
+  "source_sha256": {
+    "yintg.cc": "bee106b787a1fa85b0d0d1242fbd0909b3f3549b88b7719950e46e99423d50c5",
+    "zintgab.cc": "3b6fa78aba4d53b1a11479c33bacb4c85e3d6091389ef3073ec60085a7ae9448",
+    "ksubst.cc": "63d5ae1bca57dffcedf4810b52c970518aa8696946dec41646d45ef784188d24",
+    "yderive.cc": "b3c22ab5505ac81cb1d7387c6425fb32046eda0b8e7e216591d744d4b934171a",
+    "dilogarithm.h": "ca822ef4c094a4ed1f4aecf7219011668735d86d259c51ec6304515f8fa84d7a",
+    "kconvert.cc": "eed558eb2f8ff62e0cf1e94fdbf8497954a35577e283a8d07283350e65b76003",
+    "equation_normalize.h": "4bfb644f0e18bb36e280ce8886c8ac12695c9aeeaef187ea3e5f967cd1642e37",
+    "kusual.cc": "573c67c28e9d83215bd76907e84f883e4fabf10acabc5b7e3186cbf7dad83960",
+    "zprog.cc": "513111030cf5233496da8c3efff53df9391f12d185254f314608600e13e5639e",
+    "conditional_eval.h": "f602bbce59fbcfcadb85a78ca5ba6a79cd56f643067f84d02a02a73a040f40c1"
+  },
+  "cases": [
+    {
+      "id": "PC5-I1",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC5-I2",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC5-D1",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC5-D2",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC5-S1",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC5-R1",
+      "all_four_pass": true
+    }
+  ]
+}

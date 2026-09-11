@@ -3147,6 +3147,18 @@ namespace giac {
     // A conditional value is a lazy branch boundary. Evaluating or
     // normalizing both branches can enter an undefined Gamma/log branch.
     if(args.is_symb_of_sommet(at_when) || args.is_symb_of_sommet(at_piecewise))return args;
+    // Rational inner arguments of real roots must not be replaced by a
+    // principal complex power during algebraic normalization.
+    if(taille(args,257)<=256 && (has_op(args,*at_surd) || has_op(args,*at_NTHROOT))){
+      vecteur roots=mergevecteur(lop(args,at_surd),lop(args,at_NTHROOT));
+      for(unsigned j=0;j<roots.size();++j){
+        const gen &f=roots[j]._SYMBptr->feuille;
+        if(f.type==_VECT && f._VECTptr->size()==2){
+          const gen &u=f[roots[j].is_symb_of_sommet(at_NTHROOT)?1:0];
+          if(has_op(u,*at_inv) || has_op(u,*at_division))return args;
+        }
+      }
+    }
     // surd2pow's algebraic surrogate may be assumed nonnegative while a
     // real odd root changes sign. Keep real logarithm magnitudes intact.
     if(taille(args,129)<=128 && contains(args,*at_ln) && contains(args,*at_abs) &&

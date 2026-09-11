@@ -105,7 +105,13 @@ namespace giac {
             const gen &rf=root._SYMBptr->feuille;bool nth=root.is_symb_of_sommet(at_NTHROOT);
             gen u=rf[nth?1:0],n=rf[nth?0:1],a,b;
             if(n.type==_INT_ && n.val>=3 && n.val<=9 && n.val%2 && m.val>=n.val &&
-               is_linear_wrt(u,gen(i),a,b,contextptr) && equation_rational(a) && equation_rational(b) && !is_zero(a)){
+               taille(u,33)<=32 && !has_i(u)){
+              vecteur variables=lvar(u);if(variables.size()!=1 || variables[0]!=gen(i))return false;
+              vecteur powers=lop(u,at_pow);
+              for(unsigned j=0;j<powers.size();++j){const gen &v=powers[j]._SYMBptr->feuille;if(v.type!=_VECT || v._VECTptr->size()!=2 || v[1].type!=_INT_ || v[1].val < -8 || v[1].val>8)return false;}
+              gen nd=fxnd(u);unsigned budget=64;equation_polynomial_budget nb,db;
+              if(nd.type!=_VECT || nd._VECTptr->size()!=2 || !equation_polynomial_bound(nd[0],budget,0,nb) || !equation_polynomial_bound(nd[1],budget,0,db))return false;
+              a=ratnormal(derive(u,i,contextptr),contextptr);
               for(int k=1;k<=8;++k){
                 gen power=pow(root,k),A,B;
                 if(!is_linear_wrt(den,power,B,A,contextptr) || !equation_rational(A) || !equation_rational(B) || is_zero(A))continue;
@@ -151,6 +157,77 @@ namespace giac {
       }
     }
     return false;
+  }
+
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static bool derive_piecewise_regular(const gen &g,const gen &x,const gen &point,gen &value,unsigned &budget,unsigned depth,GIAC_CONTEXT){
+    if(!budget || depth>8)return false;
+    --budget;
+    if(g==x){value=point;return true;}
+    equation_polynomial_budget bound;
+    if(equation_rational_budget(g,bound)){value=g;return true;}
+    if(g.type!=_SYMB)return false;
+    const unary_function_ptr &op=g._SYMBptr->sommet;const gen &f=g._SYMBptr->feuille;
+    gen a,b;
+    if(f.type!=_VECT){
+      if(!derive_piecewise_regular(f,x,point,a,budget,depth+1,contextptr))return false;
+      if(op==at_neg){value=-a;return true;}
+      if(op==at_inv && equation_rational(a) && !is_zero(a)){value=gen(1)/a;return true;}
+      if((op==at_sqrt || op==at_ln) && equation_rational(a) && is_strictly_positive(a,contextptr)){
+        value=op==at_sqrt?sqrt(a,contextptr):ln(a,contextptr);return true;
+      }
+      return false;
+    }
+    const vecteur &v=*f._VECTptr;if(v.empty() || v.size()>8)return false;
+    if(op==at_plus || op==at_prod){
+      value=op==at_prod?1:0;
+      for(unsigned j=0;j<v.size();++j){
+        if(!derive_piecewise_regular(v[j],x,point,a,budget,depth+1,contextptr))return false;
+        value=op==at_prod?value*a:value+a;
+      }
+      return true;
+    }
+    if(v.size()!=2 || !derive_piecewise_regular(v[0],x,point,a,budget,depth+1,contextptr))return false;
+    if(op==at_pow){
+      if(v[1].type!=_INT_ || v[1].val < -8 || v[1].val>8)return false;
+      if(v[1].val<0 && (!equation_rational(a) || is_zero(a)))return false;
+      value=pow(a,v[1],contextptr);return true;
+    }
+    if(op==at_division && derive_piecewise_regular(v[1],x,point,b,budget,depth+1,contextptr) && equation_rational(b) && !is_zero(b)){
+      value=a/b;return true;
+    }
+    return false;
+  }
+
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static gen derive_piecewise_joints(const vecteur &original,const vecteur &derivatives,const gen &x,gen result,GIAC_CONTEXT){
+    if(original.size()<3 || original.size()>9 || original.size()%2==0)return result;
+    vecteur points;
+    for(unsigned j=0;j<original.size()/2;++j){
+      const gen &condition=original[2*j];
+      if(condition.type!=_SYMB || condition._SYMBptr->feuille.type!=_VECT || condition._SYMBptr->feuille._VECTptr->size()!=2)return result;
+      const gen &f=condition._SYMBptr->feuille;const unary_function_ptr &op=condition._SYMBptr->sommet;
+      gen point;
+      if((op==at_inferieur_strict || op==at_inferieur_egal) && f[0]==x)point=f[1];
+      else if((op==at_superieur_strict || op==at_superieur_egal) && f[1]==x)point=f[0];
+      else return result;
+      if(!equation_rational(point) || (!points.empty() && !is_strictly_positive(point-points.back(),contextptr)))return result;
+      points.push_back(point);
+    }
+    for(unsigned j=0;j<points.size();++j){
+      gen left,right,dl,dr;unsigned budget=192;
+      if(!derive_piecewise_regular(original[2*j+1],x,points[j],left,budget,0,contextptr) ||
+         !derive_piecewise_regular(original[2*j+2<original.size()-1?2*j+3:original.size()-1],x,points[j],right,budget,0,contextptr) ||
+         !derive_piecewise_regular(derivatives[2*j+1],x,points[j],dl,budget,0,contextptr) ||
+         !derive_piecewise_regular(derivatives[2*j+2<derivatives.size()-1?2*j+3:derivatives.size()-1],x,points[j],dr,budget,0,contextptr))continue;
+      if(equation_rational(left) && equation_rational(right) && equation_rational(dl) && equation_rational(dr) && (left!=right || dl!=dr))
+        result=symbolic(at_when,makesequence(symb_equal(x,points[j]),undef,result));
+    }
+    return result;
   }
 
   static gen derive_SYMB(const gen &g_orig,const identificateur & i,GIAC_CONTEXT){
@@ -401,7 +478,7 @@ namespace giac {
 	  gen & tmp=v[vs-1];
 	  tmp=derive(eval_before_diff(tmp,gen(i),contextptr),i,contextptr);
 	}
-	return symbolic(s.sommet,gen(v,s.feuille.subtype));
+	return derive_piecewise_joints(*s.feuille._VECTptr,v,gen(i),symbolic(s.sommet,gen(v,s.feuille.subtype)),contextptr);
       }
       if (vs==2 && s.sommet==at_NTHROOT){
 	gen base = v[1],exponent=inv(v[0],contextptr);

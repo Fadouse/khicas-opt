@@ -1,0 +1,1037 @@
+{
+  "scope": "Repository integration, normalization and FXCG simplification entry points; other dependencies host Giac, not a CG50 emulator or hardware timings",
+  "validation": "Printed target results independently checked in a separate host-Giac process",
+  "corpus_sha256": "07f93f1f83939afd460974b58812c3a5d29d05fe35eeb790854cedc4a3a93ec0",
+  "validation_probe_sha256": "389931bcb1768f94a589ce5b4cdc1422b9629a9e2b5e3281dab7e775beb834a4",
+  "source_sha256": {
+    "yintg.cc": "bee106b787a1fa85b0d0d1242fbd0909b3f3549b88b7719950e46e99423d50c5",
+    "zintgab.cc": "3b6fa78aba4d53b1a11479c33bacb4c85e3d6091389ef3073ec60085a7ae9448",
+    "ysym2poly.cc": "ca2e4abe3652bf6314e38703100426e6996b3d272ad6f6215d469acf7ecb979c",
+    "ksubst.cc": "63d5ae1bca57dffcedf4810b52c970518aa8696946dec41646d45ef784188d24",
+    "integration_guard.h": "5f4bfda11a19fdf8b4b41da6bb037f602dd741ec1f3492066abab251e85d48a9",
+    "equation_normalize.h": "4bfb644f0e18bb36e280ce8886c8ac12695c9aeeaef187ea3e5f967cd1642e37",
+    "dilogarithm.h": "ca822ef4c094a4ed1f4aecf7219011668735d86d259c51ec6304515f8fa84d7a"
+  },
+  "runs": [
+    {
+      "id": "C8-gamma-01",
+      "input": "integrate(exp(-x^2)*ln(x)^2,x,0,+infinity)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(2*euler_gamma^2*sqrt(pi)+4*euler_gamma*sqrt(pi)*ln(4)+pi^2*sqrt(pi)+2*sqrt(pi)*ln(4)^2)/16",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000443714\nMAX_RSS_KB 64056\n",
+      "host_seconds": 0.000443714,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64056,
+      "result_characters": 91,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000291526\nMAX_RSS_KB 64056\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-01",
+      "input": "integrate(exp(-x^2)*ln(x)^2,x,0,+infinity)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(2*euler_gamma^2*sqrt(pi)+4*euler_gamma*sqrt(pi)*ln(4)+pi^2*sqrt(pi)+2*sqrt(pi)*ln(4)^2)/16",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000440224\nMAX_RSS_KB 64056\n",
+      "host_seconds": 0.000440224,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64056,
+      "result_characters": 91,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000295076\nMAX_RSS_KB 64056\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-01",
+      "input": "simplify(integrate(exp(-x^2)*ln(x)^2,x,0,+infinity))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(2*euler_gamma^2*sqrt(pi)+4*euler_gamma*sqrt(pi)*ln(4)+pi^2*sqrt(pi)+2*sqrt(pi)*ln(4)^2)/16",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00145735\nMAX_RSS_KB 64056\n",
+      "host_seconds": 0.00145735,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64056,
+      "result_characters": 91,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000289666\nMAX_RSS_KB 64056\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-01",
+      "input": "simplify(integrate(exp(-x^2)*ln(x)^2,x,0,+infinity))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(2*euler_gamma^2*sqrt(pi)+4*euler_gamma*sqrt(pi)*ln(4)+pi^2*sqrt(pi)+2*sqrt(pi)*ln(4)^2)/16",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.0013526\nMAX_RSS_KB 64056\n",
+      "host_seconds": 0.0013526,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64056,
+      "result_characters": 91,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000336765\nMAX_RSS_KB 64056\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-02",
+      "input": "integrate(exp(-x),x,0,+infinity)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "1",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000328715\nMAX_RSS_KB 64312\n",
+      "host_seconds": 0.000328715,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64312,
+      "result_characters": 1,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000233067\nMAX_RSS_KB 64312\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-02",
+      "input": "integrate(exp(-x),x,0,+infinity)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "1",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000316066\nMAX_RSS_KB 64312\n",
+      "host_seconds": 0.000316066,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64312,
+      "result_characters": 1,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000235507\nMAX_RSS_KB 64312\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-02",
+      "input": "simplify(integrate(exp(-x),x,0,+infinity))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "1",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000292946\nMAX_RSS_KB 64312\n",
+      "host_seconds": 0.000292946,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64312,
+      "result_characters": 1,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000232687\nMAX_RSS_KB 64312\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-02",
+      "input": "simplify(integrate(exp(-x),x,0,+infinity))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "1",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000299926\nMAX_RSS_KB 64312\n",
+      "host_seconds": 0.000299926,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64312,
+      "result_characters": 1,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000418745\nMAX_RSS_KB 64312\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-03",
+      "input": "integrate(exp(-2*x^2),x,0,+infinity)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "sqrt(pi)/(2*sqrt(2))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000338706\nMAX_RSS_KB 64312\n",
+      "host_seconds": 0.000338706,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64312,
+      "result_characters": 20,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000273356\nMAX_RSS_KB 64312\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-03",
+      "input": "integrate(exp(-2*x^2),x,0,+infinity)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "sqrt(pi)/(2*sqrt(2))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000324825\nMAX_RSS_KB 64312\n",
+      "host_seconds": 0.000324825,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64312,
+      "result_characters": 20,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000284336\nMAX_RSS_KB 64312\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-03",
+      "input": "simplify(integrate(exp(-2*x^2),x,0,+infinity))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "sqrt(2)*sqrt(pi)/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00103794\nMAX_RSS_KB 64312\n",
+      "host_seconds": 0.00103794,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64312,
+      "result_characters": 18,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000270876\nMAX_RSS_KB 64312\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-03",
+      "input": "simplify(integrate(exp(-2*x^2),x,0,+infinity))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "sqrt(2)*sqrt(pi)/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00100241\nMAX_RSS_KB 64312\n",
+      "host_seconds": 0.00100241,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64312,
+      "result_characters": 18,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000275076\nMAX_RSS_KB 64312\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-04",
+      "input": "integrate(exp(-x)*ln(x),x,0,+infinity)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-euler_gamma",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000334525\nMAX_RSS_KB 64312\n",
+      "host_seconds": 0.000334525,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64312,
+      "result_characters": 12,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000238057\nMAX_RSS_KB 64312\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-04",
+      "input": "integrate(exp(-x)*ln(x),x,0,+infinity)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-euler_gamma",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000329566\nMAX_RSS_KB 64312\n",
+      "host_seconds": 0.000329566,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64312,
+      "result_characters": 12,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000244647\nMAX_RSS_KB 64312\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-04",
+      "input": "simplify(integrate(exp(-x)*ln(x),x,0,+infinity))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-euler_gamma",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000362645\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.000362645,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 12,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000294576\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-04",
+      "input": "simplify(integrate(exp(-x)*ln(x),x,0,+infinity))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-euler_gamma",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000379735\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.000379735,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 12,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000240436\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-05",
+      "input": "integrate(exp(-x)*ln(x)^2,x,0,+infinity)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(6*euler_gamma^2+pi^2)/6",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000379735\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.000379735,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 24,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000261996\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-05",
+      "input": "integrate(exp(-x)*ln(x)^2,x,0,+infinity)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(6*euler_gamma^2+pi^2)/6",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000378774\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.000378774,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 24,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000263917\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-05",
+      "input": "simplify(integrate(exp(-x)*ln(x)^2,x,0,+infinity))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(6*euler_gamma^2+pi^2)/6",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000467663\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.000467663,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 24,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000266526\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-05",
+      "input": "simplify(integrate(exp(-x)*ln(x)^2,x,0,+infinity))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(6*euler_gamma^2+pi^2)/6",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000459384\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.000459384,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 24,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000285166\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-06",
+      "input": "integrate(exp(-x)*ln(x)^3,x,0,+infinity)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(-2*euler_gamma^3-euler_gamma*pi^2-4*Zeta(3))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000404485\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.000404485,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 47,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.00069915\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-06",
+      "input": "integrate(exp(-x)*ln(x)^3,x,0,+infinity)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(-2*euler_gamma^3-euler_gamma*pi^2-4*Zeta(3))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000425054\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.000425054,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 47,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000276646\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-06",
+      "input": "simplify(integrate(exp(-x)*ln(x)^3,x,0,+infinity))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(-2*euler_gamma^3-euler_gamma*pi^2-4*Zeta(3))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000507753\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.000507753,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 47,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000274346\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-06",
+      "input": "simplify(integrate(exp(-x)*ln(x)^3,x,0,+infinity))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(-2*euler_gamma^3-euler_gamma*pi^2-4*Zeta(3))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000508273\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.000508273,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 47,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000278297\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-07",
+      "input": "integrate(exp(-x)*ln(x)^4,x,0,+infinity)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(20*euler_gamma^4+20*euler_gamma^2*pi^2+160*euler_gamma*Zeta(3)+3*pi^4)/20",
+      "stderr": "  ***   Warning: not enough memory, new PARI stack 536870912\nPARSER_CALLS 1\nSECONDS 0.00196695\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.00196695,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 74,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000286236\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-07",
+      "input": "integrate(exp(-x)*ln(x)^4,x,0,+infinity)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(20*euler_gamma^4+20*euler_gamma^2*pi^2+160*euler_gamma*Zeta(3)+3*pi^4)/20",
+      "stderr": "  ***   Warning: not enough memory, new PARI stack 536870912\nPARSER_CALLS 1\nSECONDS 0.00160734\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.00160734,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 74,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000277096\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-07",
+      "input": "simplify(integrate(exp(-x)*ln(x)^4,x,0,+infinity))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(20*euler_gamma^4+20*euler_gamma^2*pi^2+160*euler_gamma*Zeta(3)+3*pi^4)/20",
+      "stderr": "  ***   Warning: not enough memory, new PARI stack 536870912\nPARSER_CALLS 1\nSECONDS 0.00171837\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.00171837,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 74,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000281946\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-07",
+      "input": "simplify(integrate(exp(-x)*ln(x)^4,x,0,+infinity))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(20*euler_gamma^4+20*euler_gamma^2*pi^2+160*euler_gamma*Zeta(3)+3*pi^4)/20",
+      "stderr": "  ***   Warning: not enough memory, new PARI stack 536870912\nPARSER_CALLS 1\nSECONDS 0.00170548\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.00170548,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 74,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000278877\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-08",
+      "input": "integrate(x^3*exp(-x^2)*ln(x),x,0,+infinity)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(-euler_gamma+1)/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000377565\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.000377565,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 18,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000255957\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-08",
+      "input": "integrate(x^3*exp(-x^2)*ln(x),x,0,+infinity)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(-euler_gamma+1)/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000370095\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.000370095,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 18,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000260096\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-08",
+      "input": "simplify(integrate(x^3*exp(-x^2)*ln(x),x,0,+infinity))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(-euler_gamma+1)/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000428474\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.000428474,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 18,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000291996\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-08",
+      "input": "simplify(integrate(x^3*exp(-x^2)*ln(x),x,0,+infinity))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(-euler_gamma+1)/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000496193\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.000496193,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 18,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000479014\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-09",
+      "input": "integrate(exp(-2*x^2)*ln(3*x^2)^2,x,0,+infinity)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(2*euler_gamma^2*sqrt(pi)+4*euler_gamma*sqrt(pi)*ln(2)-4*euler_gamma*sqrt(pi)*ln(3)+4*euler_gamma*sqrt(pi)*ln(4)+pi^2*sqrt(pi)+2*sqrt(pi)*ln(2)^2-4*sqrt(pi)*ln(2)*ln(3)+4*sqrt(pi)*ln(2)*ln(4)+2*sqrt(pi)*ln(3)^2-4*sqrt(pi)*ln(3)*ln(4)+2*sqrt(pi)*ln(4)^2)/(4*sqrt(2))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000514633\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.000514633,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 265,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000328625\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-09",
+      "input": "integrate(exp(-2*x^2)*ln(3*x^2)^2,x,0,+infinity)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(2*euler_gamma^2*sqrt(pi)+4*euler_gamma*sqrt(pi)*ln(2)-4*euler_gamma*sqrt(pi)*ln(3)+4*euler_gamma*sqrt(pi)*ln(4)+pi^2*sqrt(pi)+2*sqrt(pi)*ln(2)^2-4*sqrt(pi)*ln(2)*ln(3)+4*sqrt(pi)*ln(2)*ln(4)+2*sqrt(pi)*ln(3)^2-4*sqrt(pi)*ln(3)*ln(4)+2*sqrt(pi)*ln(4)^2)/(4*sqrt(2))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000494064\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.000494064,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 265,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000316345\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-09",
+      "input": "simplify(integrate(exp(-2*x^2)*ln(3*x^2)^2,x,0,+infinity))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(2*euler_gamma^2*sqrt(2)*sqrt(pi)+12*euler_gamma*sqrt(2)*sqrt(pi)*ln(2)-4*euler_gamma*sqrt(2)*sqrt(pi)*ln(3)+sqrt(2)*sqrt(pi)*pi^2+18*sqrt(2)*sqrt(pi)*ln(2)^2-12*sqrt(2)*sqrt(pi)*ln(2)*ln(3)+2*sqrt(2)*sqrt(pi)*ln(3)^2)/8",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00246482\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.00246482,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 220,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000318706\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-09",
+      "input": "simplify(integrate(exp(-2*x^2)*ln(3*x^2)^2,x,0,+infinity))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(2*euler_gamma^2*sqrt(2)*sqrt(pi)+12*euler_gamma*sqrt(2)*sqrt(pi)*ln(2)-4*euler_gamma*sqrt(2)*sqrt(pi)*ln(3)+sqrt(2)*sqrt(pi)*pi^2+18*sqrt(2)*sqrt(pi)*ln(2)^2-12*sqrt(2)*sqrt(pi)*ln(2)*ln(3)+2*sqrt(2)*sqrt(pi)*ln(3)^2)/8",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00238257\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.00238257,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 220,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000319876\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-10",
+      "input": "integrate(exp(-sqrt(x))*ln(x)^2,x,0,+infinity)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(24*euler_gamma^2-48*euler_gamma+4*pi^2)/3",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000445014\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.000445014,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 42,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000271757\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-10",
+      "input": "integrate(exp(-sqrt(x))*ln(x)^2,x,0,+infinity)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(24*euler_gamma^2-48*euler_gamma+4*pi^2)/3",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00075535\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.00075535,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 42,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000281076\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-10",
+      "input": "simplify(integrate(exp(-sqrt(x))*ln(x)^2,x,0,+infinity))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(24*euler_gamma^2-48*euler_gamma+4*pi^2)/3",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000522173\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.000522173,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 42,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000274786\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-10",
+      "input": "simplify(integrate(exp(-sqrt(x))*ln(x)^2,x,0,+infinity))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(24*euler_gamma^2-48*euler_gamma+4*pi^2)/3",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00106511\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.00106511,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 42,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000271276\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-11",
+      "input": "integrate(x^(1/3)*exp(-x^(2/3))*ln(x),x,0,+infinity)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(-9*euler_gamma+9)/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000395064\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.000395064,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 20,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000266307\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-11",
+      "input": "integrate(x^(1/3)*exp(-x^(2/3))*ln(x),x,0,+infinity)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(-9*euler_gamma+9)/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000393315\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.000393315,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 20,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000265166\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-11",
+      "input": "simplify(integrate(x^(1/3)*exp(-x^(2/3))*ln(x),x,0,+infinity))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(-9*euler_gamma+9)/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000444144\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.000444144,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 20,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000259157\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-11",
+      "input": "simplify(integrate(x^(1/3)*exp(-x^(2/3))*ln(x),x,0,+infinity))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(-9*euler_gamma+9)/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000564612\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.000564612,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 20,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000262347\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-12",
+      "input": "integrate(exp(-x^2)*ln(1/x)^3,x,0,+infinity)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(2*euler_gamma^3*sqrt(pi)+6*euler_gamma^2*sqrt(pi)*ln(4)+3*euler_gamma*pi^2*sqrt(pi)+6*euler_gamma*sqrt(pi)*ln(4)^2+3*pi^2*sqrt(pi)*ln(4)+28*Zeta(3)*sqrt(pi)+2*sqrt(pi)*ln(4)^3)/32",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000484823\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.000484823,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 180,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000301546\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-12",
+      "input": "integrate(exp(-x^2)*ln(1/x)^3,x,0,+infinity)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(2*euler_gamma^3*sqrt(pi)+6*euler_gamma^2*sqrt(pi)*ln(4)+3*euler_gamma*pi^2*sqrt(pi)+6*euler_gamma*sqrt(pi)*ln(4)^2+3*pi^2*sqrt(pi)*ln(4)+28*Zeta(3)*sqrt(pi)+2*sqrt(pi)*ln(4)^3)/32",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000468934\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.000468934,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 180,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000314426\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-12",
+      "input": "simplify(integrate(exp(-x^2)*ln(1/x)^3,x,0,+infinity))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(2*euler_gamma^3*sqrt(pi)+6*euler_gamma^2*sqrt(pi)*ln(4)+3*euler_gamma*pi^2*sqrt(pi)+6*euler_gamma*sqrt(pi)*ln(4)^2+3*pi^2*sqrt(pi)*ln(4)+28*Zeta(3)*sqrt(pi)+2*sqrt(pi)*ln(4)^3)/32",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.0018215\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.0018215,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 180,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000307406\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-12",
+      "input": "simplify(integrate(exp(-x^2)*ln(1/x)^3,x,0,+infinity))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(2*euler_gamma^3*sqrt(pi)+6*euler_gamma^2*sqrt(pi)*ln(4)+3*euler_gamma*pi^2*sqrt(pi)+6*euler_gamma*sqrt(pi)*ln(4)^2+3*pi^2*sqrt(pi)*ln(4)+28*Zeta(3)*sqrt(pi)+2*sqrt(pi)*ln(4)^3)/32",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00202002\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.00202002,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 180,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000314895\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-13",
+      "input": "integrate(ln(x)^2/exp(2*x),x,0,+infinity)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(6*euler_gamma^2+12*euler_gamma*ln(2)+pi^2+6*ln(2)^2)/12",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000424834\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.000424834,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 56,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000280676\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-13",
+      "input": "integrate(ln(x)^2/exp(2*x),x,0,+infinity)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(6*euler_gamma^2+12*euler_gamma*ln(2)+pi^2+6*ln(2)^2)/12",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000437954\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.000437954,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 56,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000282646\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-13",
+      "input": "simplify(integrate(ln(x)^2/exp(2*x),x,0,+infinity))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(6*euler_gamma^2+12*euler_gamma*ln(2)+pi^2+6*ln(2)^2)/12",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000589591\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.000589591,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 56,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000290866\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-13",
+      "input": "simplify(integrate(ln(x)^2/exp(2*x),x,0,+infinity))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(6*euler_gamma^2+12*euler_gamma*ln(2)+pi^2+6*ln(2)^2)/12",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000907837\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.000907837,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 56,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000276237\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-14",
+      "input": "integrate(exp(-x)*ln(x)/3,x,0,+infinity)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-1/3*euler_gamma",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000335365\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.000335365,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 16,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000261056\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-14",
+      "input": "integrate(exp(-x)*ln(x)/3,x,0,+infinity)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-1/3*euler_gamma",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000679921\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.000679921,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 16,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000272296\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-14",
+      "input": "simplify(integrate(exp(-x)*ln(x)/3,x,0,+infinity))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-euler_gamma/3",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000399125\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.000399125,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 14,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000257916\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-14",
+      "input": "simplify(integrate(exp(-x)*ln(x)/3,x,0,+infinity))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-euler_gamma/3",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000439684\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.000439684,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 14,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000258777\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-15",
+      "input": "integrate(x^15*exp(-x),x,0,+infinity)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "1307674368000",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000332856\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.000332856,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 13,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000240367\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-15",
+      "input": "integrate(x^15*exp(-x),x,0,+infinity)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "1307674368000",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000362846\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.000362846,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 13,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000243476\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-15",
+      "input": "simplify(integrate(x^15*exp(-x),x,0,+infinity))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "1307674368000",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000341096\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.000341096,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 13,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000242757\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "C8-gamma-15",
+      "input": "simplify(integrate(x^15*exp(-x),x,0,+infinity))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "1307674368000",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000332525\nMAX_RSS_KB 64568\n",
+      "host_seconds": 0.000332525,
+      "parser_calls": 1,
+      "host_max_rss_kb": 64568,
+      "result_characters": 13,
+      "validation": {
+        "exit": 0,
+        "stderr": "PARSER_CALLS 1\nSECONDS 0.000234567\nMAX_RSS_KB 64568\nCHECK exact\n"
+      },
+      "status": "exact"
+    }
+  ]
+}

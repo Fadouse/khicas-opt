@@ -100,6 +100,8 @@ SECTIONS
     yintg.o(.text.*integrate_dilog_primitive*)
     yintg.o(.text.*integrate_log_trig_primitive*)
     yderive.o(.text.*derive_real_composition*)
+    yderive.o(.text.*derive_piecewise_regular*)
+    yderive.o(.text.*derive_piecewise_joints*)
     yintg.o(.text.*integrate_dilog_definite*)
     yintg.o(.text.*integrate_compact_definite*)
 		yintg.o(.text.*integrate_real_root*)

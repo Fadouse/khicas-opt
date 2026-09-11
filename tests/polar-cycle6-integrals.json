@@ -1,0 +1,22 @@
+{
+  "cases": [
+    {
+      "id": "PC6-I1",
+      "input": "simplify(integrate(surd(x-2,3)^2/(1+surd(x-2,3)^2)^2,x))",
+      "expected": "3*surd(x-2,3)-9*atan(surd(x-2,3))/2+3*surd(x-2,3)/(2*(1+surd(x-2,3)^2))",
+      "conditions": [
+        "x is real, including x=2; surd(x-2,3) is the real cube root on both sides of its moving zero.",
+        "An explicit exact antiderivative differentiable on the entire real axis is required. atan is the principal real inverse tangent."
+      ]
+    },
+    {
+      "id": "PC6-I2",
+      "input": "simplify(integrate(1/(sqrt(x^2+4)*(1+ln((x+sqrt(x^2+4))/2)^2)),x))",
+      "expected": "atan(ln((x+sqrt(x^2+4))/2))",
+      "conditions": [
+        "x is any finite real number, including zero; sqrt is the nonnegative real square root and ln is real on its strictly positive argument.",
+        "An explicit exact antiderivative valid on the entire real axis is required; atan is the principal real inverse tangent."
+      ]
+    }
+  ]
+}
