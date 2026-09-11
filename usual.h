@@ -512,6 +512,8 @@ namespace giac {
   extern const unary_function_ptr * const  at_Ei ;
   extern const unary_function_ptr * const  at_Ei_f ;
   extern const unary_function_ptr * const at_Li2;
+  extern const unary_function_ptr * const at_EllipticF;
+  gen _EllipticF(const gen &,GIAC_CONTEXT);
   gen _Li2(const gen &,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_LambertW;
   extern const unary_function_ptr * const  at_LambertWs;

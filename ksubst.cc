@@ -3270,6 +3270,37 @@ namespace giac {
 #if defined(__GNUC__) && !defined(__clang__)
   __attribute__((noinline,optimize("Os")))
 #endif
+  static bool simplify_minmax_clamp(const gen &g,gen &result,GIAC_CONTEXT){
+    if(complex_mode(contextptr) || complex_variables(contextptr) || !g.is_symb_of_sommet(at_plus) || taille(g,65)>64)return false;
+    const gen &terms=g._SYMBptr->feuille;
+    if(terms.type!=_VECT || terms._VECTptr->size()!=2)return false;
+    gen left=terms[0],right=terms[1],cl=equation_numeric_factor(left),cr=equation_numeric_factor(right);
+    if(left.is_symb_of_sommet(at_min)){gen tmp=left;left=right;right=tmp;tmp=cl;cl=cr;cr=tmp;}
+    if(!left.is_symb_of_sommet(at_max) || !right.is_symb_of_sommet(at_min) ||
+       !equation_rational(cl) || is_zero(cl) || cl!=-cr)return false;
+    const gen &lv=left._SYMBptr->feuille,&rv=right._SYMBptr->feuille;
+    if(lv.type!=_VECT || rv.type!=_VECT || lv._VECTptr->size()!=2 || rv._VECTptr->size()!=2)return false;
+    for(unsigned j=0;j<2;++j)for(unsigned k=0;k<2;++k){
+      if(!lv[j].is_symb_of_sommet(at_min) || !rv[k].is_symb_of_sommet(at_max))continue;
+      const gen &inner=lv[j]._SYMBptr->feuille,&other=rv[k]._SYMBptr->feuille;
+      if(inner.type!=_VECT || other.type!=_VECT || inner._VECTptr->size()!=2 || other._VECTptr->size()!=2)continue;
+      gen a=lv[1-j],b=rv[1-k];
+      for(unsigned l=0;l<2;++l)for(unsigned m=0;m<2;++m){
+        if(inner[l]!=b || other[m]!=a || inner[1-l]!=other[1-m])continue;
+        unsigned budget=96;equation_polynomial_budget bound;gen vars=makevecteur(a,b,inner[1-l]);bool real=true;
+        for(unsigned n=0;n<3;++n)if(!equation_polynomial_bound(vars[n],budget,0,bound) || bound.degree>8 || bound.terms>32 || !is_zero(im(vars[n],contextptr)))real=false;
+        if(!real)continue;
+        // For a<=b both clamp orders agree. For a>b they are the
+        // constants a and b, regardless of the middle argument.
+        result=cl*(a-b+symbolic(at_abs,a-b))/2;return true;
+      }
+    }
+    return false;
+  }
+
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
   static bool simplify_conjugate_roots(const gen &g,gen &result,GIAC_CONTEXT){
     if(complex_mode(contextptr) || complex_variables(contextptr) || !g.is_symb_of_sommet(at_plus) || taille(g,97)>96)return false;
     const gen &f=g._SYMBptr->feuille;
@@ -3315,7 +3346,7 @@ namespace giac {
     // A conditional value is a lazy branch boundary. Evaluating or
     // normalizing both branches can enter an undefined Gamma/log branch.
     if(args.is_symb_of_sommet(at_when) || args.is_symb_of_sommet(at_piecewise))return args;
-    gen atan_addition;if(simplify_conjugate_roots(args,atan_addition,contextptr) || simplify_atan_addition(args,atan_addition,contextptr))return atan_addition;
+    gen atan_addition;if(simplify_minmax_clamp(args,atan_addition,contextptr) || simplify_conjugate_roots(args,atan_addition,contextptr) || simplify_atan_addition(args,atan_addition,contextptr))return atan_addition;
     if(simplify_root_domain(args))return args;
     // surd2pow's algebraic surrogate may be assumed nonnegative while a
     // real odd root changes sign. Keep real logarithm magnitudes intact.

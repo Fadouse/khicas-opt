@@ -1,0 +1,162 @@
+{
+  "source_sha256": {
+    "yintg.cc": "36fa02fc17cc96593e894990b20f928e0ceac5e062e01e0e8129dbde4f824f09",
+    "zintgab.cc": "e6c56eebc5d302929dbb949c3222ccec1fd9c2c175439db479ba0012fdec52ea",
+    "ksubst.cc": "c20b73a141a0fd0ac0b16862b159108c5d97fa7d2c8c0f87d733f6681ce46271",
+    "yderive.cc": "52ac806200fb03bb99a77eb22c66b51aba995ec2e9bedb54d6ff95d2b893586b",
+    "dilogarithm.h": "ca822ef4c094a4ed1f4aecf7219011668735d86d259c51ec6304515f8fa84d7a",
+    "kconvert.cc": "0c15955e3b6d3522589469c404dadd6ef9bd3699bab02a5ccb871fa256ed5934",
+    "equation_normalize.h": "4bfb644f0e18bb36e280ce8886c8ac12695c9aeeaef187ea3e5f967cd1642e37",
+    "kusual.cc": "0a169f2a44b187b4310bde6f73bf03a0e593c5e00212a9d54ef6bd420420743d",
+    "zusual.cc": "41d3a4d321ed94b43ee468701dbb59ee6a73fdf4e4158f3bc75dba957df51a35",
+    "zprog.cc": "baf6570eac3b985e50bb2bbf8a3bbc47b72b34ce6835ce2f7a873185a7efe499",
+    "conditional_eval.h": "88f50b7ad755c1befed6806207567f1450f0e8941b493aea5d28bdd511f94b09",
+    "zvecteur.cc": "17c430cfed0e2fbda09813cb0d677042252a93017d740406c1e09aa42d758104",
+    "determinant_small.h": "3ccfffb425a9441b519004be8577a8691dce8e6410ab24a90bd1ab35836eb670",
+    "logarithmic_span.h": "5775e7ca93212d1a699058a509cff64a10ca72ee0da9b850ec92e7032377cbc0",
+    "elliptic_first.h": "55d2350050d140ad87f61ee493ef73d51a723d1298311b6b5263d350875a3f35",
+    "ksymbolic.cc": "269fccbccdc7ed89752c6e212efe1513494949478561e5524aa0dca9eada654d"
+  },
+  "corpus_sha256": "49ef0f984d5694d308ac1b1a3cc6cea94fe241040be6e1d679d736da2d706c56",
+  "provenance": [
+    "polar-cycle11-acceptance-polar21-2026a"
+  ],
+  "runs": [
+    {
+      "id": "PC11-I1",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(exp(2*x)/(exp(2*x)+exp(x)+1),x)",
+      "exit": 0,
+      "result": "1/2*ln(exp(x)^2+exp(x)+1)-1/sqrt(3)*atan((2*exp(x)+1)/sqrt(3))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.0011442\nMAX_RSS_KB 67188\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact t=exp(x)>0 rational substitution; t²+t+1=(t+1/2)²+3/4>0. Real log and atan are continuous globally, so no variable additive jump."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC11-I1",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(exp(2*x)/(exp(2*x)+exp(x)+1),x)",
+      "exit": 0,
+      "result": "1/2*ln(exp(x)^2+exp(x)+1)-1/sqrt(3)*atan((2*exp(x)+1)/sqrt(3))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00112833\nMAX_RSS_KB 67188\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact t=exp(x)>0 rational substitution; t²+t+1=(t+1/2)²+3/4>0. Real log and atan are continuous globally, so no variable additive jump."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC11-I1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(exp(2*x)/(exp(2*x)+exp(x)+1),x))",
+      "exit": 0,
+      "result": "1/2*ln(exp(x)^2+exp(x)+1)-1/sqrt(3)*atan((2*exp(x)+1)/sqrt(3))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00108558\nMAX_RSS_KB 67188\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact t=exp(x)>0 rational substitution; t²+t+1=(t+1/2)²+3/4>0. Real log and atan are continuous globally, so no variable additive jump."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC11-I1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(exp(2*x)/(exp(2*x)+exp(x)+1),x))",
+      "exit": 0,
+      "result": "1/2*ln(exp(x)^2+exp(x)+1)-1/sqrt(3)*atan((2*exp(x)+1)/sqrt(3))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.0011065\nMAX_RSS_KB 67188\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact t=exp(x)>0 rational substitution; t²+t+1=(t+1/2)²+3/4>0. Real log and atan are continuous globally, so no variable additive jump."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC11-I2",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(sqrt(x^2-1)/x,x)",
+      "exit": 0,
+      "result": "sqrt(x^2-1)-atan(sqrt(x^2-1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00145694\nMAX_RSS_KB 67188\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative on both |x|>1 components. G(u)=u-atan(u)=O(u³), while |x|-1=u²/(sqrt(1+u²)+1), proves continuous endpoint values and both one-sided slopes zero. No continuation to |x|<1 is asserted."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "0",
+        "1": "0"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC11-I2",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(sqrt(x^2-1)/x,x)",
+      "exit": 0,
+      "result": "sqrt(x^2-1)-atan(sqrt(x^2-1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00147511\nMAX_RSS_KB 67188\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative on both |x|>1 components. G(u)=u-atan(u)=O(u³), while |x|-1=u²/(sqrt(1+u²)+1), proves continuous endpoint values and both one-sided slopes zero. No continuation to |x|<1 is asserted."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "0",
+        "1": "0"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC11-I2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(sqrt(x^2-1)/x,x))",
+      "exit": 0,
+      "result": "sqrt(x^2-1)-atan(sqrt(x^2-1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00197003\nMAX_RSS_KB 67188\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative on both |x|>1 components. G(u)=u-atan(u)=O(u³), while |x|-1=u²/(sqrt(1+u²)+1), proves continuous endpoint values and both one-sided slopes zero. No continuation to |x|<1 is asserted."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "0",
+        "1": "0"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC11-I2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(sqrt(x^2-1)/x,x))",
+      "exit": 0,
+      "result": "sqrt(x^2-1)-atan(sqrt(x^2-1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00193075\nMAX_RSS_KB 67188\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative on both |x|>1 components. G(u)=u-atan(u)=O(u³), while |x|-1=u²/(sqrt(1+u²)+1), proves continuous endpoint values and both one-sided slopes zero. No continuation to |x|<1 is asserted."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "0",
+        "1": "0"
+      },
+      "status": "exact"
+    }
+  ]
+}

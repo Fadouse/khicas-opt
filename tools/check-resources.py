@@ -48,6 +48,11 @@ if 'inline bool logarithmic_span_entire(' in (d/'logarithmic_span.h').read_text(
     hits=re.findall(r'^([0-9a-f]+)\s+.*?\bF\s+(\S+)\s+([0-9a-f]+)\s+giac::logarithmic_span_entire\(',symbols,re.M)
     assert len(hits)==1,'COMDAT must retain exactly one shared proof walker'
     shared_walkers['logarithmic_span_entire']={'copies':len(hits),'address':hits[0][0],'code_bytes':int(hits[0][2],16)}
+for name in ('determinant_atoms','determinant_polynomial_bound','determinant_fraction'):
+    if not re.search(r'inline (?:bool|vecteur) '+name+r'\(', (d/'determinant_small.h').read_text()):continue
+    hits=re.findall(r'^([0-9a-f]+)\s+.*?\bF\s+(\S+)\s+([0-9a-f]+)\s+giac::'+name+r'\(',symbols,re.M)
+    assert len(hits)==1 and hits[0][1]=='.rominram','Shared fraction walker must be linked once in AC2: '+name
+    shared_walkers[name]={'copies':1,'address':hits[0][0],'code_bytes':int(hits[0][2],16)}
 # The calculator links zusual, so host extraction and provenance must use
 # this implementation rather than the parallel, unlinked kusual copy.
 assert 'zusual.o' in (d/'Makefile').read_text()
@@ -86,9 +91,10 @@ report={'scope':'SH4 linker/binary capacity and single compiler stack frames; no
         'moved_conditional_helpers':{name:moved[name] for name in conditional_helpers},
         'moved_simplify_helpers':{name:moved[name] for name in simplify_helpers},
         'derivative_frames':[r for r in frames if 'derive' in r['function']],
+        'checkpoint21_frames':[r for r in frames if any(name+'(' in r['function'] for name in ('_integrate_','intgab','intgab_r','integrate_affine_trig_square','integrate_affine_trig_square_interval','integrate_quadratic_affine_root','integrate_elliptic_quartic','elliptic_first_rf','_EllipticF','derive_squared_affine_radical','derive_minmax_contact','simplify_minmax_clamp','curve_quadratic_image'))],
         'largest_single_frames':sorted(frames,key=lambda v:v['bytes'],reverse=True)[:30],
         'integration_helper_frames':[r for r in frames if any(name+'(' in r['function'] for name in selectors)],
-        'sha256':{name:hashlib.sha256((d/name).read_bytes()).hexdigest() for name in ('khicas50.g3a','khicas50.ac2','khicasen.elf','prizm.ld','main.cc','kglobal.cc','static_lexer_.h','static_lexer.h','static_extern.h','usual.h','dilogarithm.h','yderive.cc','zmaple.cc','yintg.cc','zintgab.cc','ksubst.cc','equation_normalize.h','parametric_display.h','kconvert.cc','zprog.cc','kusual.cc','zusual.cc','conditional_eval.h','input_lexer.cc','input_lexer.ll','zvecteur.cc','determinant_small.h','logarithmic_span.h') if (d/name).exists()}}
+        'sha256':{name:hashlib.sha256((d/name).read_bytes()).hexdigest() for name in ('khicas50.g3a','khicas50.ac2','khicasen.elf','prizm.ld','main.cc','kglobal.cc','static_lexer_.h','static_lexer.h','static_extern.h','usual.h','dilogarithm.h','yderive.cc','zmaple.cc','yintg.cc','zintgab.cc','ksubst.cc','equation_normalize.h','parametric_display.h','kconvert.cc','zprog.cc','kusual.cc','zusual.cc','conditional_eval.h','input_lexer.cc','input_lexer.ll','zvecteur.cc','determinant_small.h','logarithmic_span.h','elliptic_first.h','ksymbolic.cc') if (d/name).exists()}}
 a.report.write_text(json.dumps(report,indent=2,ensure_ascii=False)+'\n')
 for name,row in report['regions'].items():
     print(f"{name}: {row['used_bytes']} / {row['capacity_bytes']} bytes; {row['remaining_bytes']} free")

@@ -1,6 +1,7 @@
 // -*- mode:text -*-
 {"Ci",0,0,9,13},
 {"Ei",0,0,9,13},
+{"EllipticF",0,0,9,13},
 {"GF",0,0,9,13},
 #ifdef RELEASE
 {"Heaviside",0,0,9,13},

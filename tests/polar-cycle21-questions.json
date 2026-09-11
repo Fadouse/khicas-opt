@@ -1,0 +1,288 @@
+{
+  "cases": [
+    {
+      "id": "PC21-I1",
+      "type": "integral",
+      "input": "simplify(integrate(abs(x-a),x,0,1))",
+      "conditions": [
+        "a is any real parameter; x is a real integration variable.",
+        "No assumption that the moving zero x=a belongs to [0,1]."
+      ],
+      "expected": {
+        "expression": "piecewise(a<=0,1/2-a,a<1,a^2-a+1/2,a-1/2)",
+        "properties": [
+          "The integral exists for every real a. At a=0 and a=1 its value is 1/2.",
+          "As a function of a it is continuously differentiable: derivative -1 for a<=0, 2*a-1 for 0<a<1, and 1 for a>=1. Its second derivative does not exist at a=0 or a=1."
+        ],
+        "proof": [
+          "If a<=0, abs(x-a)=x-a on [0,1]. If a>=1, abs(x-a)=a-x there. These yield the two affine branches.",
+          "For 0<a<1 split the integral at a: integral_0^a(a-x) dx + integral_a^1(x-a) dx = a^2/2+(1-a)^2/2.",
+          "At a=0 the original result difference quotient is -1 for negative h, and -1+h for positive h; both tend to -1. At a=1 it is 1+h for negative h and 1 for positive h; both tend to 1. Thus the branch joins are not justified merely by substituting into an interior formula."
+        ]
+      },
+      "counterexamples": [
+        {
+          "claim": "a^2-a+1/2 for every real a",
+          "witness": "a=2 gives integral_0^1(2-x) dx=3/2, whereas that expression gives 5/2."
+        },
+        {
+          "claim": "The outer affine branch applies throughout 0<a<1.",
+          "witness": "a=1/2 gives 1/4, rather than either affine continuation (both zero)."
+        }
+      ],
+      "novelty": "A moving absolute-value zero crosses both fixed integration endpoints. This requires parameter-dependent interval partition, rather than the quadratic-denominator discriminant split in cycle20 or changing constants in a fixed absolute-value integral.",
+      "reason": "Checks all parameter regimes and the first-order matching at both transitions with only three finite branches.",
+      "resource_limits": {
+        "target": "CG50; limits are requested test specifications, not measured results",
+        "max_output_ast_nodes": 512,
+        "max_rewrite_steps": 4096,
+        "max_additional_symbolic_workspace_bytes": 262144,
+        "max_recursion_depth": 64,
+        "requirements": [
+          "Use a bounded number of symbolic branches; do not enumerate sample grids or integer ranges.",
+          "No unbounded series expansion, numerical quadrature, or general transcendental root search."
+        ]
+      }
+    },
+    {
+      "id": "PC21-I2",
+      "type": "integral",
+      "input": "simplify(integrate(1/sqrt(1-x^4),x))",
+      "conditions": [
+        "x is real; sqrt denotes the nonnegative real square root.",
+        "The original real integrand domain is exactly -1<x<1. EllipticF(phi,m) below uses the parameter m, not the modulus k."
+      ],
+      "expected": {
+        "expression": "EllipticF(asin(x),-1)+C",
+        "properties": [
+          "EllipticF(phi,m) := integral_0^phi (1-m*sin(u)^2)^(-1/2) du; this definition fixes the real branch and parameter convention.",
+          "One arbitrary constant suffices on the single connected original domain (-1,1).",
+          "An equivalent exact answer is x*hypergeom([1/4,1/2],[5/4],x^4)+C. A named elliptic or hypergeometric node is permitted; elementary output is not required.",
+          "The primitive extends continuously to x=1 and x=-1 with values C+K(-1) and C-K(-1), respectively, where K(-1)=sqrt(pi)*Gamma(1/4)/(4*Gamma(3/4)). Neither endpoint belongs to the original integrand domain."
+        ],
+        "proof": [
+          "Put u=asin(x), so u lies in (-pi/2,pi/2), cos(u)>0, and dx=cos(u) du. Then sqrt(1-x^4)=cos(u)*sqrt(1+sin(u)^2), yielding EllipticF(u,-1).",
+          "Direct differentiation gives 1/(sqrt(1-x^2)*sqrt(1+x^2))=1/sqrt(1-x^4) on the full real domain.",
+          "For the endpoint value, set v=x^4 in integral_0^1(1-x^4)^(-1/2) dx to obtain B(1/4,1/2)/4.",
+          "Writing x=1-h with h>0, 1-x^4=4*h+O(h^2), so F(1)-F(1-h)=sqrt(h)+O(h^(3/2)). The left original difference quotient of the continuous extension tends to +infinity. Oddness gives the same positive infinite right quotient at x=-1. There is no finite endpoint derivative, and no real continuation of the original integrand to abs(x)>1."
+        ]
+      },
+      "counterexamples": [
+        {
+          "claim": "asin(x) is an antiderivative.",
+          "witness": "At x=1/2 its derivative is 2/sqrt(3), while the required value is 4/sqrt(15)."
+        },
+        {
+          "claim": "EllipticF(asin(x),1) is the same parameter convention.",
+          "witness": "Its derivative on (-1,1) is 1/(1-x^2), giving 4/3 at x=1/2 instead of 4/sqrt(15)."
+        }
+      ],
+      "novelty": "A nonsingular quartic radical leads to a genus-one elliptic integral. Unlike earlier rationalizable quadratic radicals and reciprocal-quartic substitutions, the task explicitly permits and defines a non-elementary exact result.",
+      "reason": "Checks bounded recognition of a special-function normal form, a precise elliptic parameter convention, and both integrable but derivative-singular endpoints.",
+      "resource_limits": {
+        "target": "CG50; limits are requested test specifications, not measured results",
+        "max_output_ast_nodes": 512,
+        "max_rewrite_steps": 4096,
+        "max_additional_symbolic_workspace_bytes": 262144,
+        "max_recursion_depth": 64,
+        "requirements": [
+          "Use a bounded number of symbolic branches; do not enumerate sample grids or integer ranges.",
+          "No unbounded series expansion, numerical quadrature, or general transcendental root search.",
+          "Keep EllipticF or hypergeom as one exact special-function node; do not evaluate its infinite defining series."
+        ]
+      }
+    },
+    {
+      "id": "PC21-D1",
+      "type": "derivative",
+      "input": "simplify(diff(max(x^2,a*x),x))",
+      "conditions": [
+        "x and a are real; a is held fixed during differentiation.",
+        "max is the real pointwise maximum. Derivative means the ordinary two-sided finite derivative."
+      ],
+      "expected": {
+        "expression": "piecewise(a==0,2*x,x*(x-a)>0,2*x,x*(x-a)<0,a,undef)",
+        "properties": [
+          "For a=0 the original function equals x^2 on all of R and is differentiable everywhere.",
+          "For a!=0 the exact differentiability domain is R excluding {0,a}; both excluded points remain in the original function domain.",
+          "The derivative is 2*x where x^2>a*x, and a where x^2<a*x."
+        ],
+        "proof": [
+          "Subtract the two candidates: x^2-a*x=x*(x-a). Its strict sign determines the active branch; no ordering assumption about 0 and a is needed.",
+          "At x=0 and a!=0 the original difference quotient is max(h^2,a*h)/h. Its left limit is min(0,a), and its right limit is max(0,a), which are distinct.",
+          "At x=a and a!=0 subtract f(a)=a^2. The numerator becomes max(2*a*h+h^2,a*h). After division by h the left limit is min(2*a,a), and the right limit is max(2*a,a), which are distinct.",
+          "At a=0 the two intersections merge; the original quotient at x=0 is h^2/h=h and tends to zero. It is therefore incorrect to retain a nondifferentiable point just because the nondegenerate branches had two corners."
+        ]
+      },
+      "counterexamples": [
+        {
+          "claim": "diff(max(x^2,a*x),x)=max(2*x,a).",
+          "witness": "At a=1,x=-1 the original function locally equals x^2 and has derivative -2, but max(-2,1)=1."
+        },
+        {
+          "claim": "The equality set is always nondifferentiable.",
+          "witness": "At a=0,x=0 the function is x^2 and its derivative is zero."
+        }
+      ],
+      "novelty": "Competing smooth branches meet at two parameter-dependent points which coalesce into a smooth tangency at a=0. This is active-branch selection and collision of corners, rather than a shifted piecewise join or an absolute-value chain rule at fixed roots.",
+      "reason": "Demands a correct parameter-degenerate case and computes both corner slopes from the unmodified function.",
+      "resource_limits": {
+        "target": "CG50; limits are requested test specifications, not measured results",
+        "max_output_ast_nodes": 512,
+        "max_rewrite_steps": 4096,
+        "max_additional_symbolic_workspace_bytes": 262144,
+        "max_recursion_depth": 64,
+        "requirements": [
+          "Use a bounded number of symbolic branches; do not enumerate sample grids or integer ranges.",
+          "No unbounded series expansion, numerical quadrature, or general transcendental root search."
+        ]
+      }
+    },
+    {
+      "id": "PC21-D2",
+      "type": "derivative",
+      "input": "simplify(diff(sqrt(x^2*(x-1)),x))",
+      "conditions": [
+        "x is real and sqrt is the nonnegative real square root.",
+        "The exact original real domain is {0} union [1,+infinity).",
+        "At an isolated domain point an ordinary derivative, including a domain-relative derivative, is not assigned: a difference-quotient limit must have the base point as an accumulation point of its domain."
+      ],
+      "expected": {
+        "expression": "piecewise(x>1,(3*x-2)/(2*sqrt(x-1)),undef)",
+        "properties": [
+          "Finite derivatives exist exactly on (1,+infinity).",
+          "x=0 is an isolated defined point of the original function, not a removable hole or a differentiable zero.",
+          "At x=1 the right difference quotient tends to +infinity; no finite one-sided derivative exists. Points outside {0} union [1,+infinity) are not in the original real function domain."
+        ],
+        "proof": [
+          "For x!=0 the factor x^2 is positive, so real square-root admissibility requires x>=1. At x=0 the radicand is zero and the original value is defined. This proves the entire domain, including its isolated component.",
+          "For x>1, x is positive and the function is x*sqrt(x-1), whose derivative is sqrt(x-1)+x/(2*sqrt(x-1))=(3*x-2)/(2*sqrt(x-1)).",
+          "At x=1 and h>0 the original quotient is sqrt((1+h)^2*h)/h=(1+h)/sqrt(h), which tends to +infinity.",
+          "At x=0 the original function value is zero, but there are no distinct domain points within distance less than 1. There is consequently no sequence of admissible nonzero increments tending to zero and no derivative value determined by the original quotient."
+        ]
+      },
+      "counterexamples": [
+        {
+          "claim": "The original domain is [1,+infinity), obtained by cancelling x^2 in the radicand inequality.",
+          "witness": "x=0 gives sqrt(0)=0 and must remain a defined isolated input."
+        },
+        {
+          "claim": "The derivative at x=0 is zero because the function value is zero or because an empty neighborhood imposes no slopes.",
+          "witness": "Any proposed slope would satisfy that vacuous condition; this is why a derivative limit at an isolated point is not defined."
+        }
+      ],
+      "novelty": "The real radical domain has a genuinely isolated component. Earlier radical endpoint problems had intervals or half-lines, so endpoint substitution alone did not have to distinguish a defined isolated point from an accumulation boundary.",
+      "reason": "Checks domain topology before formal differentiation, alongside an explicit infinite endpoint difference quotient.",
+      "resource_limits": {
+        "target": "CG50; limits are requested test specifications, not measured results",
+        "max_output_ast_nodes": 512,
+        "max_rewrite_steps": 4096,
+        "max_additional_symbolic_workspace_bytes": 262144,
+        "max_recursion_depth": 64,
+        "requirements": [
+          "Use a bounded number of symbolic branches; do not enumerate sample grids or integer ranges.",
+          "No unbounded series expansion, numerical quadrature, or general transcendental root search."
+        ]
+      }
+    },
+    {
+      "id": "PC21-S1",
+      "type": "simplify",
+      "input": "simplify(max(a,min(x,b))-min(b,max(x,a)))",
+      "conditions": [
+        "x, a and b are arbitrary real numbers.",
+        "No prior ordering of the putative lower and upper thresholds a and b is allowed."
+      ],
+      "expected": {
+        "expression": "(a-b+abs(a-b))/2",
+        "properties": [
+          "Equivalent form: max(a-b,0). The result is independent of x.",
+          "The original and simplified expressions are defined on all of R^3, including a=b and x=a or x=b."
+        ],
+        "proof": [
+          "If a<=b, for x<a both nested expressions equal a; for a<=x<=b both equal x; for x>b both equal b. Their difference is zero in every subcase.",
+          "If a>b, min(x,b)<=b<a makes max(a,min(x,b))=a. Also max(x,a)>=a>b makes min(b,max(x,a))=b. Their difference is a-b for every x.",
+          "At a=b both nested expressions identically equal a, hence their difference is exactly zero, agreeing with both limiting parameter branches. Threshold contacts x=a and x=b preserve equality by direct evaluation; no excluded denominators or logarithm branches are introduced."
+        ]
+      },
+      "counterexamples": [
+        {
+          "claim": "Both expressions are the same clamp, so the result is always zero.",
+          "witness": "a=2,b=-1,x=3 gives 2-(-1)=3."
+        },
+        {
+          "claim": "The result is abs(a-b).",
+          "witness": "a=-1,b=2,x=0 gives 0, whereas abs(a-b)=3."
+        }
+      ],
+      "novelty": "An order-lattice identity compares two saturation orders when thresholds may be reversed. This uses finite inequality partition and absorption rather than the old logarithm, trigonometric principal-branch, radical or telescoping simplifications.",
+      "reason": "Provides a short exact normal form while preserving all equality and reversed-order parameter cases.",
+      "resource_limits": {
+        "target": "CG50; limits are requested test specifications, not measured results",
+        "max_output_ast_nodes": 512,
+        "max_rewrite_steps": 4096,
+        "max_additional_symbolic_workspace_bytes": 262144,
+        "max_recursion_depth": 64,
+        "requirements": [
+          "Use a bounded number of symbolic branches; do not enumerate sample grids or integer ranges.",
+          "No unbounded series expansion, numerical quadrature, or general transcendental root search."
+        ]
+      }
+    },
+    {
+      "id": "PC21-P1",
+      "type": "polar",
+      "input": "param2polar([a*t/(1+t^2),a*t^2/(1+t^2)],t,[r,theta])",
+      "conditions": [
+        "a is any fixed real parameter and t ranges over all finite real numbers.",
+        "Polar convention: r>=0 and 0<=theta<2*pi. Every angle at r=0 represents the origin.",
+        "Conversion must preserve the exact image of the parametrization; its closure is not an acceptable substitute."
+      ],
+      "expected": {
+        "expression": "(r==0) or (r>0 and r==a*sin(theta) and cos(theta)!=0)",
+        "properties": [
+          "The stated polar coordinate conditions always include r>=0 and 0<=theta<2*pi.",
+          "If a=0 the image is exactly the origin; every finite t maps to it.",
+          "If a>0 the nonzero branch is r=a*sin(theta), 0<theta<pi, theta!=pi/2.",
+          "If a<0 the nonzero branch is r=a*sin(theta), pi<theta<2*pi, theta!=3*pi/2.",
+          "For a!=0 the Cartesian image is the circle x^2+y^2=a*y with the single point (0,a) removed; the origin is attained at t=0.",
+          "Every admitted nonzero polar point has the finite inverse parameter t=tan(theta). An implicit Boolean polar relation is compact and complete; a single unqualified r(theta) equation is not complete."
+        ],
+        "proof": [
+          "Direct substitution gives x^2+y^2=a^2*t^2/(1+t^2)=a*y. For a!=0 and t!=0, x=a*t/(1+t^2) is nonzero. Thus r>0, r=a*sin(theta), and cos(theta)=x/r is nonzero. t=0 gives the origin.",
+          "Conversely, let r>0, r=a*sin(theta), and cos(theta)!=0. Put t=tan(theta), which is finite. Then a*t/(1+t^2)=a*sin(theta)*cos(theta)=r*cos(theta), and a*t^2/(1+t^2)=a*sin(theta)^2=r*sin(theta). Every allowed polar point is therefore attained.",
+          "For a!=0, x=0 at a finite parameter forces t=0 and y=0, so (0,a) is never attained. As t tends to either infinity, the parametrization tends to (0,a); taking an image closure would incorrectly add this point.",
+          "At a=0 direct evaluation of the original parametrization gives (0,0) for every t. One must handle this before division by a. At a!=0,t=0 the radius vanishes and the angle becomes arbitrary, so the origin must be represented independently of the nonzero angular branch."
+        ]
+      },
+      "counterexamples": [
+        {
+          "claim": "The complete output is simply r=a*sin(theta), r>=0.",
+          "witness": "For a=2, theta=pi/2 this includes (r,theta)=(2,pi/2), namely (0,2), which no finite t attains."
+        },
+        {
+          "claim": "Only 0<theta<pi is needed.",
+          "witness": "For a=-2,t=1 the input is (-1,-1), with r=sqrt(2),theta=5*pi/4."
+        },
+        {
+          "claim": "The nonzero branch with cos(theta)!=0 already handles a=0.",
+          "witness": "At a=0 it is empty, whereas the exact image is the origin."
+        }
+      ],
+      "novelty": "A rational parametrization has a missing limit point which algebraic elimination would fill, and the entire image collapses when a=0. This is exact-image preservation, unlike earlier Cartesian polynomial polar conversions where every zero of the input equation was already present.",
+      "reason": "Checks branch coverage, parameter degeneration, the origin, and the distinction between the image of finite parameters and its closure.",
+      "resource_limits": {
+        "target": "CG50; limits are requested test specifications, not measured results",
+        "max_output_ast_nodes": 512,
+        "max_rewrite_steps": 4096,
+        "max_additional_symbolic_workspace_bytes": 262144,
+        "max_recursion_depth": 64,
+        "requirements": [
+          "Use a bounded number of symbolic branches; do not enumerate sample grids or integer ranges.",
+          "No unbounded series expansion, numerical quadrature, or general transcendental root search.",
+          "Degree-two identities and explicit inverse t=tan(theta) suffice; no general resultant or closure-only elimination."
+        ]
+      }
+    }
+  ]
+}

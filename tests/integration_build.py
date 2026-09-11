@@ -42,7 +42,8 @@ def special_source(directory):
     directory.mkdir(parents=True,exist_ok=True)
     (directory/'dilogarithm.h').write_bytes((ROOT/'dilogarithm.h').read_bytes())
     path=directory/'special.cc'
-    path.write_text('#include "giacPCH.h"\n#include "dilogarithm.h"\n')
+    (directory/'elliptic_first.h').write_bytes((ROOT/'elliptic_first.h').read_bytes())
+    path.write_text('#include "giacPCH.h"\n#include "dilogarithm.h"\n#include "elliptic_first.h"\n')
     return path
 
 def build_validation_probe(directory):
@@ -74,7 +75,7 @@ def derivative_source(ref='current'):
         for sig in ('  gen _when(', '  gen _piecewise('):
             out+=function(source(ref,'zprog.cc'),sig)
     if '#include "logarithmic_span.h"' in s:out=out.replace('#include "equation_normalize.h"','#include "equation_normalize.h"\n#include "logarithmic_span.h"')
-    out+='extern const unary_function_ptr * const at_Li2;\n'
+    out+='extern const unary_function_ptr * const at_Li2;\nextern const unary_function_ptr * const at_EllipticF;\n'
     out+='gen symb_prog3(const gen &,const gen &,const gen &);\n'
     out+=function(source(ref,'zusual.cc'),'  gen _abs(')
     out+=function(source(ref,'zusual.cc'),'  gen sqrt(const gen & e,GIAC_CONTEXT)')
@@ -83,7 +84,7 @@ def derivative_source(ref='current'):
     out+=function(source(ref,'zusual.cc'),'  gen acos(const gen & e0,GIAC_CONTEXT)')
     out+='static gen derive_SYMB(const gen &,const identificateur &,GIAC_CONTEXT);\n'
     out+='gen host_symb_derive(const gen &);\ngen host_symb_derive(const gen &,const gen &);\ngen host_symb_derive(const gen &,const gen &,const gen &);\n'
-    for sig in ('   gen eval_before_diff(', '  bool depend(', '  static int count_noncst(', '  static bool derive_real_composition(', '  static bool derive_piecewise_regular(', '  static bool derive_root_product(', '  static int derive_piecewise_oscillation(', '  static gen derive_piecewise_joints(', '  static gen derive_guarded_sum(', '  static bool derive_nonnegative_polynomial(', '  static bool derive_abs_analytic(', '  static bool derive_abs_composition(', '  static bool derive_magnitude_polynomial(', '  static bool derive_abs_power(', '  static bool derive_positive_part_power(', '  static bool derive_norm_cusp(', '  static bool derive_floor_phase(', '  static bool derive_floor_parts(', '  static gen derive_floor_periodic(', '  static bool derive_floor_weight(', '  static bool derive_floor_accumulation(', '  static gen derive_symbolic_plus(', '  static gen derive_symbolic_prod(', '  static gen derive_symbolic_pow(', '  static gen derive_symbolic_inv(', '  static gen derive_symbolic_other(', '  static gen derive_symbolic_point(', '  static bool derive_symbolic_dilog(', '  static gen derive_SYMB(',
+    for sig in ('   gen eval_before_diff(', '  bool depend(', '  static int count_noncst(', '  static bool derive_real_composition(', '  static bool derive_piecewise_regular(', '  static bool derive_root_product(', '  static int derive_piecewise_oscillation(', '  static gen derive_piecewise_joints(', '  static gen derive_guarded_sum(', '  static bool derive_nonnegative_polynomial(', '  static bool derive_abs_analytic(', '  static bool derive_abs_composition(', '  static bool derive_magnitude_polynomial(', '  static bool derive_abs_power(', '  static bool derive_positive_part_power(', '  static bool derive_norm_cusp(', '  static bool derive_squared_affine_radical(', '  static bool derive_minmax_contact(', '  static bool derive_floor_phase(', '  static bool derive_floor_parts(', '  static gen derive_floor_periodic(', '  static bool derive_floor_weight(', '  static bool derive_floor_accumulation(', '  static gen derive_symbolic_plus(', '  static gen derive_symbolic_prod(', '  static gen derive_symbolic_pow(', '  static gen derive_symbolic_inv(', '  static gen derive_symbolic_other(', '  static gen derive_symbolic_point(', '  static bool derive_symbolic_dilog(', '  static gen derive_SYMB(',
                 '  static gen derive_VECT(', '  gen derive(const gen & e,const identificateur & i,GIAC_CONTEXT)',
                 '  static gen _VECTderive(', '  static gen derivesymb(',
                 '  gen derive(const gen & e,const gen & vars,GIAC_CONTEXT)',
@@ -92,6 +93,7 @@ def derivative_source(ref='current'):
                 '  gen symb_derive(const gen & a,const gen & b,const gen &c)', '  gen _derive(', '  gen _diff('):
         if sig not in s and sig in ('  static bool derive_real_composition(', '  static bool derive_piecewise_regular(', '  static bool derive_root_product(', '  static int derive_piecewise_oscillation(', '  static gen derive_piecewise_joints(', '  static gen derive_guarded_sum(', '  static bool derive_nonnegative_polynomial(', '  static bool derive_abs_analytic(', '  static bool derive_abs_composition('):continue
         if 'derive_symbolic_' in sig and sig not in s:continue
+        if ('derive_minmax_contact(' in sig or 'derive_squared_affine_radical(' in sig) and sig not in s:continue
         out+=function(s,sig).replace('symb_derive(', 'host_symb_derive(').replace('symb_plus(v)', 'symbolic(at_plus,gen(v,_SEQ__VECT))')
     return out+'}\n'
 
@@ -105,6 +107,8 @@ def build(directory, ref='current', target_simplify=False, target_derive=False):
     (directory / 'zintgab.cc').write_text(source(ref, 'zintgab.cc'))
     if '#include "integration_guard.h"' in text:
         (directory / 'integration_guard.h').write_text(source(ref, 'integration_guard.h'))
+    if '#include "elliptic_first.h"' in text:
+        (directory / 'elliptic_first.h').write_text(source(ref, 'elliptic_first.h'))
     if '#include "dilogarithm.h"' in text:
         (directory / 'dilogarithm.h').write_text(source(ref, 'dilogarithm.h'))
     if '#include "equation_normalize.h"' in text:
@@ -136,6 +140,7 @@ def build(directory, ref='current', target_simplify=False, target_derive=False):
                 simplified+=function(s,'  static bool simplify_preflight(')+function(s,'  static gen simplify_shallow_leaf(')
             simplified+=function(s, '  static unsigned simplify_special_terms(')
             simplified+=function(s, '  static gen simplify_special_core(')
+        if '  static bool simplify_minmax_clamp(' in s:simplified+=function(s,'  static bool simplify_minmax_clamp(')
         if '  static bool simplify_conjugate_roots(' in s:simplified+=function(s,'  static bool simplify_conjugate_roots(')
         if '  static bool simplify_atan_addition(' in s:simplified+=function(s,'  static bool simplify_atan_addition(')
         if '  static bool simplify_root_domain(' in s:simplified+=function(s,'  static bool simplify_root_domain(')
@@ -160,6 +165,11 @@ def build(directory, ref='current', target_simplify=False, target_derive=False):
         matrix_source+=function(source(ref,'zvecteur.cc'),'  gen _det(')
         (directory/'matrix.cc').write_text(matrix_source+'}\n')
         extra.append(str(directory/'matrix.cc'))
+    if 'sommet==at_EllipticF' in source(ref,'ksymbolic.cc'):
+        numeric='#include "giacPCH.h"\n#include "plot.h"\nnamespace giac {\nextern const unary_function_ptr * const at_EllipticF;\ngen _EllipticF(const gen &,GIAC_CONTEXT);\n'
+        numeric+=function(source(ref,'ksymbolic.cc'),'  gen symbolic::evalf(')
+        (directory/'numeric_evalf.cc').write_text(numeric+'}\n')
+        extra.append(str(directory/'numeric_evalf.cc'))
     flags, libs = compiler_options()
     exe = directory / 'probe'
     subprocess.run(flags + ['-DKHICAS_TEST_INTEGRATION_LIMITS', str(directory / 'yintg.cc'),

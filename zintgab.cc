@@ -585,6 +585,10 @@ namespace giac {
     return res;
   }
 
+  // Residue/singularity orchestration, not a numerical inner loop.
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
   bool intgab_r(const gen & g0,const gen & x,const gen & a,const gen & b,bool rational,gen & res,GIAC_CONTEXT){
     gen g(g0);
     // check if g may be integrated using the residue formula
@@ -939,6 +943,11 @@ namespace giac {
     return true;
   }
 
+  // Symbolic definite-integration dispatch: keep code and call frames
+  // compact while arithmetic kernels retain their own optimization.
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
   static bool intgab(const gen & g0,const gen & x,const gen & a,const gen & b,gen & res,bool nonrecursive,GIAC_CONTEXT){
     if (x.type!=_IDNT)
       return false;

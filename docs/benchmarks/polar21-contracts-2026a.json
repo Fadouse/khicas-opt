@@ -1,0 +1,688 @@
+{
+  "scope": "Extracted production helpers: acceptance/defer is not a guarantee about legacy fallback. RF uses actual production double arithmetic independently of gen tagged-number storage; 70-digit independent references and invalid-domain rejection.",
+  "source_sha256": {
+    "yintg.cc": "36fa02fc17cc96593e894990b20f928e0ceac5e062e01e0e8129dbde4f824f09",
+    "yderive.cc": "52ac806200fb03bb99a77eb22c66b51aba995ec2e9bedb54d6ff95d2b893586b",
+    "ksubst.cc": "c20b73a141a0fd0ac0b16862b159108c5d97fa7d2c8c0f87d733f6681ce46271",
+    "elliptic_first.h": "55d2350050d140ad87f61ee493ef73d51a723d1298311b6b5263d350875a3f35",
+    "equation_normalize.h": "4bfb644f0e18bb36e280ce8886c8ac12695c9aeeaef187ea3e5f967cd1642e37"
+  },
+  "runs": [
+    {
+      "kind": "elliptic",
+      "input": "1/sqrt(1-x^4)",
+      "complex_mode": false,
+      "expected_accept": true,
+      "result": "ACCEPT",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "kind": "elliptic",
+      "input": "1/sqrt(2-3*(x-1)^4)",
+      "complex_mode": false,
+      "expected_accept": false,
+      "result": "DEFER",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "kind": "elliptic",
+      "input": "1/sqrt(-3*x^4+12*x^3-18*x^2+12*x-1)",
+      "complex_mode": false,
+      "expected_accept": true,
+      "result": "ACCEPT",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "kind": "elliptic",
+      "input": "1/sqrt(1+x^2-x^4)",
+      "complex_mode": false,
+      "expected_accept": true,
+      "result": "ACCEPT",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "kind": "elliptic",
+      "input": "1/sqrt(1+x^4)",
+      "complex_mode": false,
+      "expected_accept": false,
+      "result": "DEFER",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "kind": "elliptic",
+      "input": "1/sqrt(x^4-1)",
+      "complex_mode": false,
+      "expected_accept": false,
+      "result": "DEFER",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "kind": "elliptic",
+      "input": "1/sqrt(-x^4)",
+      "complex_mode": false,
+      "expected_accept": false,
+      "result": "DEFER",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "kind": "elliptic",
+      "input": "1/sqrt(a-x^4)",
+      "complex_mode": false,
+      "expected_accept": false,
+      "result": "DEFER",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "kind": "elliptic",
+      "input": "1/sqrt(1+x-x^4)",
+      "complex_mode": false,
+      "expected_accept": false,
+      "result": "DEFER",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "kind": "elliptic",
+      "input": "1/sqrt(1-x^8)",
+      "complex_mode": false,
+      "expected_accept": false,
+      "result": "DEFER",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "kind": "elliptic",
+      "input": "1/sqrt(1-x^4)",
+      "complex_mode": true,
+      "expected_accept": false,
+      "result": "DEFER",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "kind": "minmax",
+      "input": "max(x^2,a*x)",
+      "complex_mode": false,
+      "expected_accept": true,
+      "result": "ACCEPT",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "kind": "minmax",
+      "input": "min((x-1)^2,0)",
+      "complex_mode": false,
+      "expected_accept": true,
+      "result": "ACCEPT",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "kind": "minmax",
+      "input": "max(x^3,-x^3)",
+      "complex_mode": false,
+      "expected_accept": true,
+      "result": "ACCEPT",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "kind": "minmax",
+      "input": "max(x^8,0)",
+      "complex_mode": false,
+      "expected_accept": true,
+      "result": "ACCEPT",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "kind": "minmax",
+      "input": "max(x^9,0)",
+      "complex_mode": false,
+      "expected_accept": false,
+      "result": "DEFER",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "kind": "minmax",
+      "input": "max(x,1/x)",
+      "complex_mode": false,
+      "expected_accept": false,
+      "result": "DEFER",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "kind": "minmax",
+      "input": "max(sin(x),x)",
+      "complex_mode": false,
+      "expected_accept": false,
+      "result": "DEFER",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "kind": "minmax",
+      "input": "max(i*x,x)",
+      "complex_mode": false,
+      "expected_accept": false,
+      "result": "DEFER",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "kind": "minmax",
+      "input": "max(x,a,b)",
+      "complex_mode": false,
+      "expected_accept": false,
+      "result": "DEFER",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "kind": "minmax",
+      "input": "max(x^2,a*x)",
+      "complex_mode": true,
+      "expected_accept": false,
+      "result": "DEFER",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "kind": "radical",
+      "input": "sqrt(x^2*(x-1))",
+      "complex_mode": false,
+      "expected_accept": true,
+      "result": "ACCEPT",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "kind": "radical",
+      "input": "sqrt(x^2*(x+1))",
+      "complex_mode": false,
+      "expected_accept": true,
+      "result": "ACCEPT",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "kind": "radical",
+      "input": "sqrt(x^3)",
+      "complex_mode": false,
+      "expected_accept": true,
+      "result": "ACCEPT",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "kind": "radical",
+      "input": "sqrt((2*x-1)^2*(3-2*x))",
+      "complex_mode": false,
+      "expected_accept": true,
+      "result": "ACCEPT",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "kind": "radical",
+      "input": "sqrt(x^2)",
+      "complex_mode": false,
+      "expected_accept": false,
+      "result": "DEFER",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "kind": "radical",
+      "input": "sqrt(x^4*(x-1))",
+      "complex_mode": false,
+      "expected_accept": false,
+      "result": "DEFER",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "kind": "radical",
+      "input": "sqrt(x^2*(x^2+1))",
+      "complex_mode": false,
+      "expected_accept": false,
+      "result": "DEFER",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "kind": "radical",
+      "input": "sqrt(x^2*(a*x+1))",
+      "complex_mode": false,
+      "expected_accept": false,
+      "result": "DEFER",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "kind": "radical",
+      "input": "sqrt(sin(x)^2*(x-1))",
+      "complex_mode": false,
+      "expected_accept": false,
+      "result": "DEFER",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "kind": "radical",
+      "input": "sqrt(x^2*(x-1))",
+      "complex_mode": true,
+      "expected_accept": false,
+      "result": "DEFER",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "kind": "clamp",
+      "input": "max(a,min(x,b))-min(b,max(x,a))",
+      "complex_mode": false,
+      "expected_accept": true,
+      "result": "ACCEPT",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "kind": "clamp",
+      "input": "min(b,x)",
+      "complex_mode": false,
+      "expected_accept": false,
+      "result": "DEFER",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "kind": "clamp",
+      "input": "max(a,min(x,b))+min(b,max(x,a))",
+      "complex_mode": false,
+      "expected_accept": false,
+      "result": "DEFER",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "kind": "clamp",
+      "input": "max(a,min(x,b))-min(b,max(x,c))",
+      "complex_mode": false,
+      "expected_accept": false,
+      "result": "DEFER",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "kind": "clamp",
+      "input": "max(a,min(sin(x),b))-min(b,max(sin(x),a))",
+      "complex_mode": false,
+      "expected_accept": false,
+      "result": "DEFER",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "kind": "clamp",
+      "input": "max(a,min(x,b))-min(b,max(x,a))",
+      "complex_mode": true,
+      "expected_accept": false,
+      "result": "DEFER",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "kind": "rf",
+      "arguments": [
+        1e-100,
+        1e-100,
+        1e-100
+      ],
+      "result": "ACCEPT 1.0000000000000001e+50",
+      "exit": 0,
+      "passed": true,
+      "expected": "99999999999999999000405009869855834005464124972537.41817801773501721522"
+    },
+    {
+      "kind": "rf",
+      "arguments": [
+        1,
+        1,
+        1
+      ],
+      "result": "ACCEPT 1",
+      "exit": 0,
+      "passed": true,
+      "expected": "1.0"
+    },
+    {
+      "kind": "rf",
+      "arguments": [
+        1e+100,
+        1e+100,
+        1e+100
+      ],
+      "result": "ACCEPT 9.9999999999999989e-51",
+      "exit": 0,
+      "passed": true,
+      "expected": "9.999999999999999920485544451200410714201891901331238422160715660689713e-51"
+    },
+    {
+      "kind": "rf",
+      "arguments": [
+        0.0,
+        1e-100,
+        1e-100
+      ],
+      "result": "ACCEPT 1.5707963267948968e+50",
+      "exit": 0,
+      "passed": true,
+      "expected": "157079632679489660352972030384963748160289409797264.9838848455581583978"
+    },
+    {
+      "kind": "rf",
+      "arguments": [
+        0,
+        1,
+        1
+      ],
+      "result": "ACCEPT 1.5707963267948968",
+      "exit": 0,
+      "passed": true,
+      "expected": "1.570796326794896619231321691639751442098584699687552910487472296153908"
+    },
+    {
+      "kind": "rf",
+      "arguments": [
+        0.0,
+        1e+100,
+        1e+100
+      ],
+      "result": "ACCEPT 1.5707963267948966e-50",
+      "exit": 0,
+      "passed": true,
+      "expected": "1.570796326794896606741220221324703396478521341850411046448184713805997e-50"
+    },
+    {
+      "kind": "rf",
+      "arguments": [
+        0.0,
+        1e-106,
+        1e-100
+      ],
+      "result": "ACCEPT 8.2940514636154385e+50",
+      "exit": 0,
+      "passed": true,
+      "expected": "829405146361543994186630135067216561695744131221519.0388003944827246902"
+    },
+    {
+      "kind": "rf",
+      "arguments": [
+        0,
+        1e-06,
+        1
+      ],
+      "result": "ACCEPT 8.294051463615439",
+      "exit": 0,
+      "passed": true,
+      "expected": "8.294051463615440007941386504875139374863358163282771256000489934275141"
+    },
+    {
+      "kind": "rf",
+      "arguments": [
+        0.0,
+        1e+94,
+        1e+100
+      ],
+      "result": "ACCEPT 8.2940514636154386e-50",
+      "exit": 0,
+      "passed": true,
+      "expected": "8.294051463615439917207833958558373458375511242793156385688060818237691e-50"
+    },
+    {
+      "kind": "rf",
+      "arguments": [
+        1e-112,
+        1e-106,
+        1e-100
+      ],
+      "result": "ACCEPT 8.2930519632843065e+50",
+      "exit": 0,
+      "passed": true,
+      "expected": "829305196328430458864526080347948556463405079610060.8894397827755531428"
+    },
+    {
+      "kind": "rf",
+      "arguments": [
+        1e-12,
+        1e-06,
+        1
+      ],
+      "result": "ACCEPT 8.2930519632843058",
+      "exit": 0,
+      "passed": true,
+      "expected": "8.293051963284304654702085492609514088337300959566714206723925739619234"
+    },
+    {
+      "kind": "rf",
+      "arguments": [
+        1e+88,
+        1e+94,
+        1e+100
+      ],
+      "result": "ACCEPT 8.2930519632843056e-50",
+      "exit": 0,
+      "passed": true,
+      "expected": "8.293051963284304564019407836500081192503026846595792396822156947473769e-50"
+    },
+    {
+      "kind": "rf",
+      "arguments": [
+        1e-100,
+        2e-100,
+        3e-100
+      ],
+      "result": "ACCEPT 7.2694593546890804e+49",
+      "exit": 0,
+      "passed": true,
+      "expected": "72694593546890819127305547411797472918987520361815.84257634929121721221"
+    },
+    {
+      "kind": "rf",
+      "arguments": [
+        1,
+        2,
+        3
+      ],
+      "result": "ACCEPT 0.72694593546890818",
+      "exit": 0,
+      "passed": true,
+      "expected": "0.7269459354689081985395706260198918144378638787227794197453170988453123"
+    },
+    {
+      "kind": "rf",
+      "arguments": [
+        1e+100,
+        2e+100,
+        3.0000000000000002e+100
+      ],
+      "result": "ACCEPT 7.2694593546890809e-51",
+      "exit": 0,
+      "passed": true,
+      "expected": "7.269459354689081833548303924282020345248296705655947734063280235514638e-51"
+    },
+    {
+      "kind": "rf",
+      "arguments": [
+        3e-100,
+        2e-100,
+        1e-100
+      ],
+      "result": "ACCEPT 7.2694593546890804e+49",
+      "exit": 0,
+      "passed": true,
+      "expected": "72694593546890819127305547411797472918987520361815.84257634929121721221"
+    },
+    {
+      "kind": "rf",
+      "arguments": [
+        3,
+        2,
+        1
+      ],
+      "result": "ACCEPT 0.72694593546890818",
+      "exit": 0,
+      "passed": true,
+      "expected": "0.7269459354689081985395706260198918144378638787227794197453170988453123"
+    },
+    {
+      "kind": "rf",
+      "arguments": [
+        3.0000000000000002e+100,
+        2e+100,
+        1e+100
+      ],
+      "result": "ACCEPT 7.2694593546890809e-51",
+      "exit": 0,
+      "passed": true,
+      "expected": "7.269459354689081833548303924282020345248296705655947734063280235514638e-51"
+    },
+    {
+      "kind": "rf",
+      "arguments": [
+        0.0,
+        1e-100,
+        1e-97
+      ],
+      "result": "ACCEPT 1.5309005346141951e+49",
+      "exit": 0,
+      "passed": true,
+      "expected": "15309005346141948020349648845261905850501704206370.31455968261366832073"
+    },
+    {
+      "kind": "rf",
+      "arguments": [
+        0,
+        1,
+        1000
+      ],
+      "result": "ACCEPT 0.15309005346141952",
+      "exit": 0,
+      "passed": true,
+      "expected": "0.1530900534614194827206924307621881605964458525966664582263921175481171"
+    },
+    {
+      "kind": "rf",
+      "arguments": [
+        0.0,
+        1e+100,
+        1e+103
+      ],
+      "result": "ACCEPT 1.5309005346141949e-51",
+      "exit": 0,
+      "passed": true,
+      "expected": "1.530900534614194823532695043642788568792241125876206834531420714358705e-51"
+    },
+    {
+      "kind": "rf",
+      "arguments": [
+        1e-200,
+        1e-100,
+        1.0
+      ],
+      "result": "ACCEPT 116.5155490108222",
+      "exit": 0,
+      "passed": true,
+      "expected": "116.5155490108221748097380870758331218063012087352203725273259269408181"
+    },
+    {
+      "kind": "rf",
+      "arguments": [
+        1e-100,
+        1,
+        1e+100
+      ],
+      "result": "ACCEPT 1.1651554901082219e-48",
+      "exit": 0,
+      "passed": true,
+      "expected": "1.165155490108221739012184382755145448877366663325574088750219353239266e-48"
+    },
+    {
+      "kind": "rf",
+      "arguments": [
+        1.0,
+        1e+100,
+        1e+200
+      ],
+      "result": "ACCEPT 1.1651554901082219e-98",
+      "exit": 0,
+      "passed": true,
+      "expected": "1.165155490108221765599300936549168176948901760151544024934666863892263e-98"
+    },
+    {
+      "kind": "rf-reject",
+      "arguments": [
+        "-1",
+        "1",
+        "1"
+      ],
+      "result": "DEFER",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "kind": "rf-reject",
+      "arguments": [
+        "0",
+        "0",
+        "1"
+      ],
+      "result": "DEFER",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "kind": "rf-reject",
+      "arguments": [
+        "0",
+        "0",
+        "0"
+      ],
+      "result": "DEFER",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "kind": "rf-reject",
+      "arguments": [
+        "inf",
+        "1",
+        "1"
+      ],
+      "result": "DEFER",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "kind": "rf-reject",
+      "arguments": [
+        "nan",
+        "1",
+        "1"
+      ],
+      "result": "DEFER",
+      "exit": 0,
+      "passed": true
+    }
+  ]
+}

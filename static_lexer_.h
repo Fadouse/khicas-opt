@@ -1,6 +1,7 @@
 // -*- mode:text -*-
 at_Ci,
 at_Ei,
+at_EllipticF,
 at_GF,
 #ifdef RELEASE
 at_Heaviside,

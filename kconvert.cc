@@ -9,6 +9,7 @@
 #include "derive.h"
 #include "lin.h"
 #include "equation_normalize.h"
+#include "determinant_small.h"
 
 namespace giac {
 
@@ -675,6 +676,82 @@ gen _polar2param(const gen &args,GIAC_CONTEXT) {
   return out;
 }
 
+#if defined(__GNUC__) && !defined(__clang__)
+__attribute__((noinline,optimize("Os")))
+#endif
+static bool curve_quadratic_image(const vecteur &p,const gen &t,const gen &rt,gen &result,GIAC_CONTEXT){
+  if(complex_mode(contextptr) || complex_variables(contextptr) || taille(gen(p),97)>96)return false;
+  gen N[2],D[2];unsigned budget=192;equation_polynomial_budget bound;
+  vecteur excluded;
+  for(unsigned j=0;j<2;++j){
+    vecteur vars=lvar(p[j]);for(unsigned k=0;k<vars.size();++k)if(vars[k].type!=_IDNT)return false;
+    vecteur powers=lop(p[j],at_pow);
+    for(unsigned k=0;k<powers.size();++k){const gen &f=powers[k]._SYMBptr->feuille;if(f.type!=_VECT || f._VECTptr->size()!=2 || f[1].type!=_INT_ || f[1].val < -2 || f[1].val>2)return false;if(f[1].val<0)excluded.push_back(f[0]);}
+    vecteur invs=mergevecteur(lop(p[j],at_inv),lop(p[j],at_division));
+    for(unsigned k=0;k<invs.size();++k)excluded.push_back(invs[k].is_symb_of_sommet(at_inv)?invs[k]._SYMBptr->feuille:invs[k]._SYMBptr->feuille[1]);
+    if(!determinant_fraction(p[j],N[j],D[j],budget,0))return false;
+    if(!equation_polynomial_bound(N[j],budget,0,bound) || bound.degree>4 || bound.terms>16 ||
+       !equation_polynomial_bound(D[j],budget,0,bound) || bound.degree>2 || bound.terms>4)return false;
+  }
+  if(excluded.size()>4)return false;
+  gen den=D[0]==D[1]?D[0]:D[0]*D[1];budget=128;
+  if(!equation_polynomial_bound(den,budget,0,bound) || bound.degree>2)return false;
+  vecteur vars=lidnt(den);if(!vars.empty() && (vars.size()!=1 || vars[0]!=t))return false;
+  for(unsigned j=0;j<excluded.size();++j){
+    if(!equation_polynomial_bound(excluded[j],budget,0,bound) || bound.degree>2)return false;
+    gen quotient=ratnormal(den/excluded[j],contextptr);
+    if(!equation_polynomial_bound(quotient,budget,0,bound))return false;
+  }
+  gen rows[3]={ratnormal(N[0]*(den/D[0]),contextptr),ratnormal(N[1]*(den/D[1]),contextptr),den};
+  gen M[3][3],adj[3][3];
+  for(unsigned j=0;j<3;++j){
+    for(unsigned k=0;k<3;++k)M[j][k]=_coeff(makesequence(rows[j],t,int(2-k)),contextptr);
+    if(!is_zero(ratnormal(rows[j]-M[j][0]*t*t-M[j][1]*t-M[j][2],contextptr)))return false;
+    for(unsigned k=0;k<3;++k)if(contains(M[j][k],t) || !is_zero(im(M[j][k],contextptr)))return false;
+  }
+  for(unsigned j=0;j<3;++j)for(unsigned k=0;k<3;++k)
+    adj[j][k]=ratnormal(M[(k+1)%3][(j+1)%3]*M[(k+2)%3][(j+2)%3]-M[(k+1)%3][(j+2)%3]*M[(k+2)%3][(j+1)%3],contextptr);
+  gen det=ratnormal(M[0][0]*adj[0][0]+M[0][1]*adj[1][0]+M[0][2]*adj[2][0],contextptr);
+  if(is_zero(det))return false;
+  gen parameter,root,point;bool degenerates=false;
+  if(!equation_rational(det)){
+    // A single repeated rational parameter root can collapse the whole
+    // parametrization to a point. Prove that case before dividing by det.
+    vars=lidnt(det);budget=128;
+    if(vars.size()!=1 || !equation_polynomial_bound(det,budget,0,bound) || bound.degree>4)return false;
+    parameter=vars[0];int degree=int(bound.degree);
+    gen leading=_coeff(makesequence(det,parameter,degree),contextptr);
+    if(!equation_rational(leading) || is_zero(leading))return false;
+    root=-_coeff(makesequence(det,parameter,degree-1),contextptr)/(gen(degree)*leading);
+    if(!equation_rational(root) || !is_zero(ratnormal(det-leading*pow(parameter-root,degree,contextptr),contextptr)))return false;
+    gen sample,divisor;
+    for(int n=0;n<3;++n){sample=n-1;divisor=eval(subst(den,t,sample,false,contextptr),1,contextptr);if(equation_rational(divisor) && !is_zero(divisor))break;}
+    if(!equation_rational(divisor) || is_zero(divisor))return false;
+    gen c[2];
+    for(unsigned j=0;j<2;++j){
+      gen numerator=ratnormal(subst(rows[j],parameter,root,false,contextptr),contextptr);
+      c[j]=ratnormal(subst(numerator,t,sample,false,contextptr)/divisor,contextptr);
+      if(!is_zero(ratnormal(numerator-c[j]*den,contextptr)))return false;
+    }
+    point=is_zero(c[0]) && is_zero(c[1])?symb_equal(rt[0],0):
+      symb_and(symb_equal(rt[0]*cos(rt[1],contextptr),c[0]),symb_equal(rt[0]*sin(rt[1],contextptr),c[1]));
+    degenerates=true;
+  }
+  gen xy=makevecteur(gen(identificateur(" khicas_curve_x")),gen(identificateur(" khicas_curve_y")));
+  gen q[3];for(unsigned j=0;j<3;++j)q[j]=adj[j][0]*xy[0]+adj[j][1]*xy[1]+adj[j][2];
+  // q=adj(M)*(x,y,1). A finite parameter exists iff q2!=0 and
+  // q0*q2=q1²; then t=q1/q2 and den(t)=det(M)/q2!=0.
+  gen residual=ratnormal((q[0]*q[2]-q[1]*q[1])/det,contextptr);
+  gen chart=_cart2polar(makesequence(symb_equal(residual,0),xy,rt),contextptr);
+  if(is_undef(chart))return false;
+  gen origin=ratnormal(subst(residual,xy,makevecteur(0,0),false,contextptr),contextptr);
+  chart=symbolic(at_when,makesequence(symb_equal(rt[0],0),is_zero(origin)?symb_equal(rt[0],0):symb_equal(origin,0),chart));
+  gen exclusion=ratnormal(subst(q[2],xy,makevecteur(rt[0]*cos(rt[1],contextptr),rt[0]*sin(rt[1],contextptr)),false,contextptr),contextptr);
+  result=symbolic(at_when,makesequence(symb_equal(exclusion,0),undef,chart));
+  if(degenerates)result=symbolic(at_when,makesequence(symb_equal(parameter,root),point,result));
+  return true;
+}
+
 gen _param2polar(const gen &args,GIAC_CONTEXT) {
   if (args.type==_STRNG && args.subtype==-1) return args;
   if (args.type!=_VECT || (args._VECTptr->size()!=2 && args._VECTptr->size()!=3))
@@ -692,6 +769,7 @@ gen _param2polar(const gen &args,GIAC_CONTEXT) {
     const vecteur &rt=*v[2]._VECTptr;
     if (depends(v[0],rt[0]) || depends(v[0],rt[1]))
       return gensizeerr("Output coordinates already occur in input");
+    gen image;if(curve_quadratic_image(p,v[1],v[2],image,contextptr))return image;
     gen xy=makevecteur(gen(identificateur(" khicas_curve_x")),gen(identificateur(" khicas_curve_y")));
     gen cart=_param2cart(makesequence(v[0],v[1],xy),contextptr);
     if (is_undef(cart)) return cart;

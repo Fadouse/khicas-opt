@@ -883,6 +883,12 @@ namespace giac {
       return sto(e,feuille._VECTptr->back(),contextptr);
     }
     gen ans;
+    // Preserve an exact elliptic parameter until 1-m is formed. Rounding
+    // m first loses relative accuracy near the logarithmic singularity.
+    if(sommet==at_EllipticF && feuille.type==_VECT && feuille._VECTptr->size()==2){
+      ans=_EllipticF(makesequence(feuille[0].evalf(level,contextptr),feuille[1].eval(level,contextptr)),contextptr);
+      last=save_last;lastarg=save_lastarg;return ans;
+    }
     if (sommet==at_plus){
       if (feuille.type!=_VECT){
 	if (feuille.type==_IDNT && !strcmp(feuille._IDNTptr->id_name,string_infinity))

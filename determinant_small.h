@@ -5,7 +5,7 @@ namespace giac {
 #if defined(__GNUC__) && !defined(__clang__)
 __attribute__((noinline,optimize("Os")))
 #endif
-static vecteur determinant_atoms(const gen &g){
+inline vecteur determinant_atoms(const gen &g){
   vecteur powers=lop(g,at_pow),atoms;
   for(unsigned j=0;j<powers.size();++j){
     const gen &f=powers[j]._SYMBptr->feuille;
@@ -21,7 +21,7 @@ static vecteur determinant_atoms(const gen &g){
 #if defined(__GNUC__) && !defined(__clang__)
 __attribute__((noinline,optimize("Os")))
 #endif
-static bool determinant_polynomial_bound(const gen &g,unsigned &budget,unsigned depth,equation_polynomial_budget &out){
+inline bool determinant_polynomial_bound(const gen &g,unsigned &budget,unsigned depth,equation_polynomial_budget &out){
   unsigned trial=budget;
   if(equation_polynomial_bound(g,trial,depth,out) && out.terms<=16){budget=trial;return true;}
   if(!budget || depth>8)return false;--budget;
@@ -60,7 +60,7 @@ static gen determinant_polynomial_normal(const gen &g,GIAC_CONTEXT){
 #if defined(__GNUC__) && !defined(__clang__)
 __attribute__((noinline,optimize("Os")))
 #endif
-static bool determinant_fraction(const gen &g,gen &num,gen &den,unsigned &budget,unsigned depth){
+inline bool determinant_fraction(const gen &g,gen &num,gen &den,unsigned &budget,unsigned depth){
   if(!budget || depth>8)return false;--budget;
   unsigned trial=128;equation_polynomial_budget bound;
   if(determinant_polynomial_bound(g,trial,0,bound) && bound.degree<=16 && bound.terms<=64){num=g;den=1;return true;}

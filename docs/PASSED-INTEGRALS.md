@@ -1,8 +1,8 @@
 # 已通过的积分题目列表
 
-验证源码：`checkpoint/polar-stability-cycle20-2026a`。
-正式题库与用户题目共 **686 条通过记录**：**681 条精确验证、5 条导数采样通过、0 条数值常量检查通过**。
-保留各题库的编号和重复项；仅去除输入空白后有 663 种输入文本，这不是数学意义的去重。
+验证源码：`checkpoint/polar-stability-cycle21-2026a`。
+正式题库与用户题目共 **690 条通过记录**：**685 条精确验证、5 条导数采样通过、0 条数值常量检查通过**。
+保留各题库的编号和重复项；仅去除输入空白后有 667 种输入文本，这不是数学意义的去重。
 
 “核对参考结果”来自已验证题库，用于阅读和比对，并不保证与计算器实际打印的写法相同。
 不定积分省略积分常数；实根、对数和反三角函数须遵守原题定义域。采样检查不能代替完整符号证明。
@@ -11,9 +11,27 @@
 本表列出完整的正式积分题库；其他算法参数变体、拒绝非法输入、方程转换和崩溃保护回归另见 [当前验收报告](USER-ACCEPTANCE-MATRIX.md)。
 安全保留未求出的积分不计入本表。后续新题只有完成验证后才应追加。
 
+## 极坐标优化第二十一轮积分（2 条）
+
+[原题与定义域](../tests/polar-cycle21-integrals.json) · [实际输出和验证记录](benchmarks/polar-cycle21-integrals-polar21-2026a.json)
+
+| 编号 | 可输入的题目 | 核对参考结果 | 验证 |
+| --- | --- | --- | --- |
+| `PC21-I1` | `simplify(integrate(abs(x-a),x,0,1))` | `piecewise(a<=0,1/2-a,a<1,a^2-a+1/2,a-1/2)` | 精确验证 |
+| `PC21-I2` | `simplify(integrate(1/sqrt(1-x^4),x))` | `EllipticF(asin(x),-1)` | 精确验证 |
+
+## 用户新增崩溃积分（2 条）
+
+[原题与定义域](../tests/user-crashes-polar21-integrals.json) · [实际输出和验证记录](benchmarks/user-crashes-polar21-integrals-2026a.json)
+
+| 编号 | 可输入的题目 | 核对参考结果 | 验证 |
+| --- | --- | --- | --- |
+| `PC21-USER1` | `integrate(x/sin(x)^2,x,pi/4,pi/2)` | `pi/4+ln(2)/2` | 精确验证 |
+| `PC21-USER2` | `integrate(1/(sqrt(x + 1)*(x^2 + 1)),x,0,+infinity)` | `-sqrt(2)*(atan((2 - sqrt(2 + 2*sqrt(2)))/sqrt(-2 + 2*sqrt(2))) + atan((2 + sqrt(2 + 2*sqrt(2)))/sqrt(-2 + 2*sqrt(2))))/(2*sqrt(-2 + 2*sqrt(2))) - sqrt(2)*ln((1 + sqrt(2) + sqrt(2 + 2*sqrt(2)))/(-sqrt(2 + 2*sqrt(2)) + 1 + sqrt(2)))/(4*sqrt(2 + 2*sqrt(2))) + sqrt(2)*pi/(2*sqrt(-2 + 2*sqrt(2)))` | 精确验证 |
+
 ## 极坐标优化第二十轮积分（2 条）
 
-[原题与定义域](../tests/polar-cycle20-integrals.json) · [实际输出和验证记录](benchmarks/polar-cycle20-integrals-polar20-2026a.json)
+[原题与定义域](../tests/polar-cycle20-integrals.json) · [实际输出和验证记录](benchmarks/polar-cycle20-integrals-polar21-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -22,7 +40,7 @@
 
 ## 极坐标优化第十九轮积分（2 条）
 
-[原题与定义域](../tests/polar-cycle19-integrals.json) · [实际输出和验证记录](benchmarks/polar-cycle19-integrals-polar20-2026a.json)
+[原题与定义域](../tests/polar-cycle19-integrals.json) · [实际输出和验证记录](benchmarks/polar-cycle19-integrals-polar21-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -31,7 +49,7 @@
 
 ## 极坐标优化第十八轮积分（2 条）
 
-[原题与定义域](../tests/polar-cycle18-integrals.json) · [实际输出和验证记录](benchmarks/polar-cycle18-integrals-polar20-2026a.json)
+[原题与定义域](../tests/polar-cycle18-integrals.json) · [实际输出和验证记录](benchmarks/polar-cycle18-integrals-polar21-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -40,7 +58,7 @@
 
 ## 极坐标优化第十七轮积分（2 条）
 
-[原题与定义域](../tests/polar-cycle17-integrals.json) · [实际输出和验证记录](benchmarks/polar-cycle17-integrals-polar20-2026a.json)
+[原题与定义域](../tests/polar-cycle17-integrals.json) · [实际输出和验证记录](benchmarks/polar-cycle17-integrals-polar21-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -49,7 +67,7 @@
 
 ## 极坐标优化第十六轮积分（含一题历史回归）（3 条）
 
-[原题与定义域](../tests/polar-cycle16-integrals.json) · [实际输出和验证记录](benchmarks/polar-cycle16-integrals-polar20-2026a.json)
+[原题与定义域](../tests/polar-cycle16-integrals.json) · [实际输出和验证记录](benchmarks/polar-cycle16-integrals-polar21-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -59,7 +77,7 @@
 
 ## 极坐标优化第十五轮新增积分（2 条）
 
-[原题与定义域](../tests/polar-cycle15-integrals.json) · [实际输出和验证记录](benchmarks/polar-cycle15-integrals-polar20-2026a.json)
+[原题与定义域](../tests/polar-cycle15-integrals.json) · [实际输出和验证记录](benchmarks/polar-cycle15-integrals-polar21-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -68,7 +86,7 @@
 
 ## 极坐标优化第十四轮新增积分（2 条）
 
-[原题与定义域](../tests/polar-cycle14-integrals.json) · [实际输出和验证记录](benchmarks/polar-cycle14-integrals-polar20-2026a.json)
+[原题与定义域](../tests/polar-cycle14-integrals.json) · [实际输出和验证记录](benchmarks/polar-cycle14-integrals-polar21-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -77,7 +95,7 @@
 
 ## 极坐标优化第十三轮新增积分（2 条）
 
-[原题与定义域](../tests/polar-cycle13-integrals.json) · [实际输出和验证记录](benchmarks/polar-cycle13-integrals-polar20-2026a.json)
+[原题与定义域](../tests/polar-cycle13-integrals.json) · [实际输出和验证记录](benchmarks/polar-cycle13-integrals-polar21-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -86,7 +104,7 @@
 
 ## 极坐标优化第十二轮新增积分（2 条）
 
-[原题与定义域](../tests/polar-cycle12-integrals.json) · [实际输出和验证记录](benchmarks/polar-cycle12-integrals-polar20-2026a.json)
+[原题与定义域](../tests/polar-cycle12-integrals.json) · [实际输出和验证记录](benchmarks/polar-cycle12-integrals-polar21-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -95,7 +113,7 @@
 
 ## 极坐标优化第十一轮新增积分（2 条）
 
-[原题与定义域](../tests/polar-cycle11-integrals.json) · [实际输出和验证记录](benchmarks/polar-cycle11-integrals-polar20-2026a.json)
+[原题与定义域](../tests/polar-cycle11-integrals.json) · [实际输出和验证记录](benchmarks/polar-cycle11-integrals-polar21-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -104,7 +122,7 @@
 
 ## 极坐标优化第十轮新增积分（2 条）
 
-[原题与定义域](../tests/polar-cycle10-integrals.json) · [实际输出和验证记录](benchmarks/polar-cycle10-integrals-polar20-2026a.json)
+[原题与定义域](../tests/polar-cycle10-integrals.json) · [实际输出和验证记录](benchmarks/polar-cycle10-integrals-polar21-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -113,7 +131,7 @@
 
 ## 极坐标优化第九轮新增积分（2 条）
 
-[原题与定义域](../tests/polar-cycle9-integrals.json) · [实际输出和验证记录](benchmarks/polar-cycle9-integrals-polar20-2026a.json)
+[原题与定义域](../tests/polar-cycle9-integrals.json) · [实际输出和验证记录](benchmarks/polar-cycle9-integrals-polar21-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -122,7 +140,7 @@
 
 ## 极坐标优化第八轮新增积分（2 条）
 
-[原题与定义域](../tests/polar-cycle8-integrals.json) · [实际输出和验证记录](benchmarks/polar-cycle8-integrals-polar20-2026a.json)
+[原题与定义域](../tests/polar-cycle8-integrals.json) · [实际输出和验证记录](benchmarks/polar-cycle8-integrals-polar21-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -131,7 +149,7 @@
 
 ## 极坐标优化第七轮新增积分（2 条）
 
-[原题与定义域](../tests/polar-cycle7-integrals.json) · [实际输出和验证记录](benchmarks/polar-cycle7-integrals-polar20-2026a.json)
+[原题与定义域](../tests/polar-cycle7-integrals.json) · [实际输出和验证记录](benchmarks/polar-cycle7-integrals-polar21-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -140,7 +158,7 @@
 
 ## 极坐标优化第六轮新增积分（2 条）
 
-[原题与定义域](../tests/polar-cycle6-integrals.json) · [实际输出和验证记录](benchmarks/polar-cycle6-integrals-polar20-2026a.json)
+[原题与定义域](../tests/polar-cycle6-integrals.json) · [实际输出和验证记录](benchmarks/polar-cycle6-integrals-polar21-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -149,7 +167,7 @@
 
 ## 极坐标优化第五轮新增积分（2 条）
 
-[原题与定义域](../tests/polar-cycle5-integrals.json) · [实际输出和验证记录](benchmarks/polar-cycle5-integrals-polar20-2026a.json)
+[原题与定义域](../tests/polar-cycle5-integrals.json) · [实际输出和验证记录](benchmarks/polar-cycle5-integrals-polar21-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -158,7 +176,7 @@
 
 ## 极坐标优化第四轮新增积分（2 条）
 
-[原题与定义域](../tests/polar-cycle4-integrals.json) · [实际输出和验证记录](benchmarks/polar-cycle4-integrals-polar20-2026a.json)
+[原题与定义域](../tests/polar-cycle4-integrals.json) · [实际输出和验证记录](benchmarks/polar-cycle4-integrals-polar21-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -167,7 +185,7 @@
 
 ## 极坐标优化第三轮新增积分（3 条）
 
-[原题与定义域](../tests/polar-cycle3-integrals.json) · [实际输出和验证记录](benchmarks/polar-cycle3-integrals-polar20-2026a.json)
+[原题与定义域](../tests/polar-cycle3-integrals.json) · [实际输出和验证记录](benchmarks/polar-cycle3-integrals-polar21-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -177,7 +195,7 @@
 
 ## 极坐标优化第二轮新增积分（3 条）
 
-[原题与定义域](../tests/polar-cycle2-integrals.json) · [实际输出和验证记录](benchmarks/polar-cycle2-integrals-polar20-2026a.json)
+[原题与定义域](../tests/polar-cycle2-integrals.json) · [实际输出和验证记录](benchmarks/polar-cycle2-integrals-polar21-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -187,7 +205,7 @@
 
 ## 极坐标优化首轮新增积分（4 条）
 
-[原题与定义域](../tests/polar-cycle1-integrals.json) · [实际输出和验证记录](benchmarks/polar-cycle1-integrals-polar20-2026a.json)
+[原题与定义域](../tests/polar-cycle1-integrals.json) · [实际输出和验证记录](benchmarks/polar-cycle1-integrals-polar21-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -198,7 +216,7 @@
 
 ## 用户原始 8 题（8 条）
 
-[原题与定义域](../tests/user-integrals.json) · [实际输出和验证记录](benchmarks/user-eight-cycle8-polar20-2026a.json)
+[原题与定义域](../tests/user-integrals.json) · [实际输出和验证记录](benchmarks/user-eight-cycle8-polar21-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -213,7 +231,7 @@
 
 ## 用户追加 2 题（2 条）
 
-[原题与定义域](../tests/user-extra-integrals.json) · [实际输出和验证记录](benchmarks/user-extra-cycle8-polar20-2026a.json)
+[原题与定义域](../tests/user-extra-integrals.json) · [实际输出和验证记录](benchmarks/user-extra-cycle8-polar21-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -222,7 +240,7 @@
 
 ## 用户追加 5 题（5 条）
 
-[原题与定义域](../tests/user-challenge-integrals.json) · [实际输出和验证记录](benchmarks/user-challenge-cycle8-polar20-2026a.json)
+[原题与定义域](../tests/user-challenge-integrals.json) · [实际输出和验证记录](benchmarks/user-challenge-cycle8-polar21-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -234,7 +252,7 @@
 
 ## MIT / Princeton 题库（168 条）
 
-[原题与定义域](../tests/calculus-corpus.json) · [实际输出和验证记录](benchmarks/calculus-cycle8-polar20-2026a.json)
+[原题与定义域](../tests/calculus-corpus.json) · [实际输出和验证记录](benchmarks/calculus-cycle8-polar21-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -409,7 +427,7 @@
 
 ## 独立泛化题库（152 条）
 
-[原题与定义域](../tests/generalization-corpus.json) · [实际输出和验证记录](benchmarks/generalization-cycle8-polar20-2026a.json)
+[原题与定义域](../tests/generalization-corpus.json) · [实际输出和验证记录](benchmarks/generalization-cycle8-polar21-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -568,7 +586,7 @@
 
 ## 第二轮泛化题库（61 条）
 
-[原题与定义域](../tests/generalization-cycle2.json) · [实际输出和验证记录](benchmarks/cycle2-cycle8-polar20-2026a.json)
+[原题与定义域](../tests/generalization-cycle2.json) · [实际输出和验证记录](benchmarks/cycle2-cycle8-polar21-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -636,7 +654,7 @@
 
 ## 第三轮泛化题库（30 条）
 
-[原题与定义域](../tests/generalization-cycle3.json) · [实际输出和验证记录](benchmarks/cycle3-cycle8-polar20-2026a.json)
+[原题与定义域](../tests/generalization-cycle3.json) · [实际输出和验证记录](benchmarks/cycle3-cycle8-polar21-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -673,7 +691,7 @@
 
 ## 第四轮泛化题库（16 条）
 
-[原题与定义域](../tests/generalization-cycle4.json) · [实际输出和验证记录](benchmarks/cycle4-cycle8-polar20-2026a.json)
+[原题与定义域](../tests/generalization-cycle4.json) · [实际输出和验证记录](benchmarks/cycle4-cycle8-polar21-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -696,7 +714,7 @@
 
 ## 第五轮泛化题库（8 条）
 
-[原题与定义域](../tests/generalization-cycle5.json) · [实际输出和验证记录](benchmarks/cycle5-cycle8-stack-polar20-2026a.json)
+[原题与定义域](../tests/generalization-cycle5.json) · [实际输出和验证记录](benchmarks/cycle5-cycle8-stack-polar21-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -711,7 +729,7 @@
 
 ## 第六轮泛化题库（8 条）
 
-[原题与定义域](../tests/generalization-cycle6.json) · [实际输出和验证记录](benchmarks/cycle6-cycle8-stack-polar20-2026a.json)
+[原题与定义域](../tests/generalization-cycle6.json) · [实际输出和验证记录](benchmarks/cycle6-cycle8-stack-polar21-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -726,7 +744,7 @@
 
 ## 第七轮泛化题库（8 条）
 
-[原题与定义域](../tests/generalization-cycle7.json) · [实际输出和验证记录](benchmarks/cycle7-cycle8-stack-polar20-2026a.json)
+[原题与定义域](../tests/generalization-cycle7.json) · [实际输出和验证记录](benchmarks/cycle7-cycle8-stack-polar21-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -741,7 +759,7 @@
 
 ## 第八轮泛化题库（8 条）
 
-[原题与定义域](../tests/generalization-cycle8.json) · [实际输出和验证记录](benchmarks/cycle8-stack-polar20-2026a.json)
+[原题与定义域](../tests/generalization-cycle8.json) · [实际输出和验证记录](benchmarks/cycle8-stack-polar21-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -756,7 +774,7 @@
 
 ## 基础有限区间积分（14 条）
 
-[原题与定义域](../tests/basic-finite-integrals.json) · [实际输出和验证记录](benchmarks/basic-finite-cycle8-polar20-2026a.json)
+[原题与定义域](../tests/basic-finite-integrals.json) · [实际输出和验证记录](benchmarks/basic-finite-cycle8-polar21-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -777,7 +795,7 @@
 
 ## 误差函数与分母对数变体（15 条）
 
-[原题与定义域](../tests/cycle7-tail-mellin.json) · [实际输出和验证记录](benchmarks/cycle7-tail-mellin-cycle8-stack-polar20-2026a.json)
+[原题与定义域](../tests/cycle7-tail-mellin.json) · [实际输出和验证记录](benchmarks/cycle7-tail-mellin-cycle8-stack-polar21-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -799,7 +817,7 @@
 
 ## Gamma 对数矩变体（15 条）
 
-[原题与定义域](../tests/cycle8-gamma-log.json) · [实际输出和验证记录](benchmarks/cycle8-gamma-log-stack-polar20-2026a.json)
+[原题与定义域](../tests/cycle8-gamma-log.json) · [实际输出和验证记录](benchmarks/cycle8-gamma-log-stack-polar21-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -821,7 +839,7 @@
 
 ## 用户 A1–F6 全模式通过项（34 条）
 
-[原题与定义域](../tests/user-acceptance-passed-dilog.json) · [实际输出和验证记录](benchmarks/user-acceptance-passed-polar20-2026a.json)
+[原题与定义域](../tests/user-acceptance-passed-dilog.json) · [实际输出和验证记录](benchmarks/user-acceptance-passed-polar21-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -862,7 +880,7 @@
 
 ## 用户前五道未解题（5 条）
 
-[原题与定义域](../tests/user-reported-five-gaps.json) · [实际输出和验证记录](benchmarks/user-reported-five-gaps-polar20-2026a.json)
+[原题与定义域](../tests/user-reported-five-gaps.json) · [实际输出和验证记录](benchmarks/user-reported-five-gaps-polar21-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -874,7 +892,7 @@
 
 ## 验收错题结构变体（33 条）
 
-[原题与定义域](../tests/user-matrix-next.json) · [实际输出和验证记录](benchmarks/user-matrix-next-polar20-2026a.json)
+[原题与定义域](../tests/user-matrix-next.json) · [实际输出和验证记录](benchmarks/user-matrix-next-polar21-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -914,7 +932,7 @@
 
 ## Li2 换元与端点变体（29 条）
 
-[原题与定义域](../tests/dilogarithm-corpus.json) · [实际输出和验证记录](benchmarks/dilogarithm-corpus-polar20-2026a.json)
+[原题与定义域](../tests/dilogarithm-corpus.json) · [实际输出和验证记录](benchmarks/dilogarithm-corpus-polar21-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -950,7 +968,7 @@
 
 ## 三角对数与主值分支（14 条）
 
-[原题与定义域](../tests/trig-log-corpus.json) · [实际输出和验证记录](benchmarks/trig-log-corpus-polar20-2026a.json)
+[原题与定义域](../tests/trig-log-corpus.json) · [实际输出和验证记录](benchmarks/trig-log-corpus-polar21-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -971,7 +989,7 @@
 
 ## 混合首轮新增积分（4 条）
 
-[原题与定义域](../tests/mixed-round1-integrals.json) · [实际输出和验证记录](benchmarks/mixed1-integrals-polar20-2026a.json)
+[原题与定义域](../tests/mixed-round1-integrals.json) · [实际输出和验证记录](benchmarks/mixed1-integrals-polar21-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |
@@ -982,7 +1000,7 @@
 
 ## 混合第二轮新增积分（4 条）
 
-[原题与定义域](../tests/mixed-round2-integrals.json) · [实际输出和验证记录](benchmarks/mixed2-integrals-polar20-2026a.json)
+[原题与定义域](../tests/mixed-round2-integrals.json) · [实际输出和验证记录](benchmarks/mixed2-integrals-polar21-2026a.json)
 
 | 编号 | 可输入的题目 | 核对参考结果 | 验证 |
 | --- | --- | --- | --- |

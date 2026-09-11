@@ -1,0 +1,22 @@
+{
+  "cases": [
+    {
+      "id": "PC21-I1",
+      "input": "simplify(integrate(abs(x-a),x,0,1))",
+      "expected": "piecewise(a<=0,1/2-a,a<1,a^2-a+1/2,a-1/2)",
+      "conditions": [
+        "a is any real parameter; x is a real integration variable.",
+        "No assumption that the moving zero x=a belongs to [0,1]."
+      ]
+    },
+    {
+      "id": "PC21-I2",
+      "input": "simplify(integrate(1/sqrt(1-x^4),x))",
+      "expected": "EllipticF(asin(x),-1)",
+      "conditions": [
+        "x is real; sqrt denotes the nonnegative real square root.",
+        "The original real integrand domain is exactly -1<x<1. EllipticF(phi,m) below uses the parameter m, not the modulus k."
+      ]
+    }
+  ]
+}

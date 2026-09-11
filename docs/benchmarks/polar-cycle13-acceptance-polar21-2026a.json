@@ -1,0 +1,428 @@
+{
+  "scope": "Actual repository integration/yderive/FXCG simplify on host dependencies; guarded 64 KiB stack, not SH4/MMU emulation.",
+  "corpus_sha256": "dcac300641f3052377543b82289067709f02a7bbe22e2346edd10a81bb3d5d42",
+  "probe_sha256": "deac2b97c4489559d0f66dc25f934389d3d7aa31e80d758a8a29f192a7e3545e",
+  "runs": [
+    {
+      "id": "PC13-I1",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(x^2/sqrt(x^2+4),x)",
+      "exit": 0,
+      "result": "2/4*x*sqrt(x^2+4)+2*ln(sqrt(x^2+4)-x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00411599\nMAX_RSS_KB 67272\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative; sqrt(x\u00b2+4)\u00b1x>0 and their product is four. Printed primitive differs from the reference only by 2log2 globally, so its alternative positive log is valid also on the negative axis."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC13-I1",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(x^2/sqrt(x^2+4),x)",
+      "exit": 0,
+      "result": "2/4*x*sqrt(x^2+4)+2*ln(sqrt(x^2+4)-x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00347342\nMAX_RSS_KB 67272\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative; sqrt(x\u00b2+4)\u00b1x>0 and their product is four. Printed primitive differs from the reference only by 2log2 globally, so its alternative positive log is valid also on the negative axis."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC13-I1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(x^2/sqrt(x^2+4),x))",
+      "exit": 0,
+      "result": "2/4*x*sqrt(x^2+4)+2*ln(sqrt(x^2+4)-x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00346671\nMAX_RSS_KB 67272\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative; sqrt(x\u00b2+4)\u00b1x>0 and their product is four. Printed primitive differs from the reference only by 2log2 globally, so its alternative positive log is valid also on the negative axis."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC13-I1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(x^2/sqrt(x^2+4),x))",
+      "exit": 0,
+      "result": "2/4*x*sqrt(x^2+4)+2*ln(sqrt(x^2+4)-x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00340856\nMAX_RSS_KB 67272\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative; sqrt(x\u00b2+4)\u00b1x>0 and their product is four. Printed primitive differs from the reference only by 2log2 globally, so its alternative positive log is valid also on the negative axis."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC13-I2",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(1/(2+cos(x)),x)",
+      "exit": 0,
+      "result": "(x-2*atan(sin(x)/(2+sqrt(3)+cos(x))))/sqrt(3)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000933929\nMAX_RSS_KB 67272\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact atan argument identity with a denominator proved nonzero for all cos(x) in [-1,1]. For c=2+sqrt3, c\u00b2+1=4c gives global derivative 1/(2+cos x); oddness, period increment and all k*pi values follow without inverse-tangent jump corrections."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC13-I2",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(1/(2+cos(x)),x)",
+      "exit": 0,
+      "result": "(x-2*atan(sin(x)/(2+sqrt(3)+cos(x))))/sqrt(3)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000739651\nMAX_RSS_KB 67272\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact atan argument identity with a denominator proved nonzero for all cos(x) in [-1,1]. For c=2+sqrt3, c\u00b2+1=4c gives global derivative 1/(2+cos x); oddness, period increment and all k*pi values follow without inverse-tangent jump corrections."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC13-I2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(1/(2+cos(x)),x))",
+      "exit": 0,
+      "result": "(x-2*atan(sin(x)/(2+sqrt(3)+cos(x))))/sqrt(3)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000712451\nMAX_RSS_KB 67272\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact atan argument identity with a denominator proved nonzero for all cos(x) in [-1,1]. For c=2+sqrt3, c\u00b2+1=4c gives global derivative 1/(2+cos x); oddness, period increment and all k*pi values follow without inverse-tangent jump corrections."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC13-I2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(1/(2+cos(x)),x))",
+      "exit": 0,
+      "result": "(x-2*atan(sin(x)/(2+sqrt(3)+cos(x))))/sqrt(3)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000730882\nMAX_RSS_KB 67272\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact atan argument identity with a denominator proved nonzero for all cos(x) in [-1,1]. For c=2+sqrt3, c\u00b2+1=4c gives global derivative 1/(2+cos x); oddness, period increment and all k*pi values follow without inverse-tangent jump corrections."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC13-D1",
+      "outer": false,
+      "stack": "normal",
+      "input": "diff(sin(x)*abs(sin(2*x))+cos(x),x)",
+      "exit": 0,
+      "result": "((sin(2*x)=0)? ((sin(x)=0)? 0 : undef) : cos(x)*abs(sin(2*x))+sin(x)*sign(sin(2*x))*2*cos(2*x))-sin(x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00168976\nMAX_RSS_KB 67272\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact product rule off contacts. At k*pi, original quotient sin(h)|sin2h|/h+(cos h-1)/h tends to zero. At pi/2+k*pi its two limits are -3(-1)^k and (-1)^k, including the smooth cosine summand. Guards cover both infinite families."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0",
+        "pi": "0",
+        "pi/2": "undef",
+        "-pi/2": "undef"
+      }
+    },
+    {
+      "id": "PC13-D1",
+      "outer": false,
+      "stack": "64",
+      "input": "diff(sin(x)*abs(sin(2*x))+cos(x),x)",
+      "exit": 0,
+      "result": "((sin(2*x)=0)? ((sin(x)=0)? 0 : undef) : cos(x)*abs(sin(2*x))+sin(x)*sign(sin(2*x))*2*cos(2*x))-sin(x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00179796\nMAX_RSS_KB 67272\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact product rule off contacts. At k*pi, original quotient sin(h)|sin2h|/h+(cos h-1)/h tends to zero. At pi/2+k*pi its two limits are -3(-1)^k and (-1)^k, including the smooth cosine summand. Guards cover both infinite families."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0",
+        "pi": "0",
+        "pi/2": "undef",
+        "-pi/2": "undef"
+      }
+    },
+    {
+      "id": "PC13-D1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(diff(sin(x)*abs(sin(2*x))+cos(x),x))",
+      "exit": 0,
+      "result": "-sin(x)+((sin(2*x)=0)? ((sin(x)=0)? 0 : undef) : cos(x)*abs(sin(2*x))+sin(x)*sign(sin(2*x))*2*cos(2*x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00168666\nMAX_RSS_KB 67272\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact product rule off contacts. At k*pi, original quotient sin(h)|sin2h|/h+(cos h-1)/h tends to zero. At pi/2+k*pi its two limits are -3(-1)^k and (-1)^k, including the smooth cosine summand. Guards cover both infinite families."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0",
+        "pi": "0",
+        "pi/2": "undef",
+        "-pi/2": "undef"
+      }
+    },
+    {
+      "id": "PC13-D1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(diff(sin(x)*abs(sin(2*x))+cos(x),x))",
+      "exit": 0,
+      "result": "-sin(x)+((sin(2*x)=0)? ((sin(x)=0)? 0 : undef) : cos(x)*abs(sin(2*x))+sin(x)*sign(sin(2*x))*2*cos(2*x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00165244\nMAX_RSS_KB 67272\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact product rule off contacts. At k*pi, original quotient sin(h)|sin2h|/h+(cos h-1)/h tends to zero. At pi/2+k*pi its two limits are -3(-1)^k and (-1)^k, including the smooth cosine summand. Guards cover both infinite families."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0",
+        "pi": "0",
+        "pi/2": "undef",
+        "-pi/2": "undef"
+      }
+    },
+    {
+      "id": "PC13-D2",
+      "outer": false,
+      "stack": "normal",
+      "input": "diff((1+x)^(1/x),x)",
+      "exit": 0,
+      "result": "-1/x^2*ln(1+x)*(1+x)^(1/x)+1/x*(1+x)^(1/x-1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000301486\nMAX_RSS_KB 67272\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact power algebra for positive base t=1+x, t!=1; logarithmic differentiation holds on both components. Taylor ln(1+h)/h=1-h/2+O(h\u00b2) and the original exponential quotient prove the separate extension slope -e/2, while original x=0 stays excluded."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "undef"
+      }
+    },
+    {
+      "id": "PC13-D2",
+      "outer": false,
+      "stack": "64",
+      "input": "diff((1+x)^(1/x),x)",
+      "exit": 0,
+      "result": "-1/x^2*ln(1+x)*(1+x)^(1/x)+1/x*(1+x)^(1/x-1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000311657\nMAX_RSS_KB 67272\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact power algebra for positive base t=1+x, t!=1; logarithmic differentiation holds on both components. Taylor ln(1+h)/h=1-h/2+O(h\u00b2) and the original exponential quotient prove the separate extension slope -e/2, while original x=0 stays excluded."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "undef"
+      }
+    },
+    {
+      "id": "PC13-D2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(diff((1+x)^(1/x),x))",
+      "exit": 0,
+      "result": "(-x*(x+1)^((-x+1)/x)*ln(x+1)+x*(x+1)^((-x+1)/x)-(x+1)^((-x+1)/x)*ln(x+1))/x^2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00120016\nMAX_RSS_KB 67272\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact power algebra for positive base t=1+x, t!=1; logarithmic differentiation holds on both components. Taylor ln(1+h)/h=1-h/2+O(h\u00b2) and the original exponential quotient prove the separate extension slope -e/2, while original x=0 stays excluded."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "undef"
+      }
+    },
+    {
+      "id": "PC13-D2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(diff((1+x)^(1/x),x))",
+      "exit": 0,
+      "result": "(-x*(x+1)^((-x+1)/x)*ln(x+1)+x*(x+1)^((-x+1)/x)-(x+1)^((-x+1)/x)*ln(x+1))/x^2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.0011409\nMAX_RSS_KB 67272\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact power algebra for positive base t=1+x, t!=1; logarithmic differentiation holds on both components. Taylor ln(1+h)/h=1-h/2+O(h\u00b2) and the original exponential quotient prove the separate extension slope -e/2, while original x=0 stays excluded."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "undef"
+      }
+    },
+    {
+      "id": "PC13-S1",
+      "outer": false,
+      "stack": "normal",
+      "input": "ln(sqrt(x^2-y^2)/(x-y))-(ln(x+y)-ln(x-y))/2",
+      "exit": 0,
+      "result": "ln(sqrt(x^2-y^2)/(x-y))-(ln(x+y)-ln(x-y))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000318686\nMAX_RSS_KB 67272\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact retained expression. Original separate logs require x\u00b1y>0, precisely x>|y|. Set A=x+y>0,B=x-y>0: sqrt(AB)/B=sqrt(A/B), so real logs cancel only on that wedge. Opposite wedge and both boundary rays remain excluded."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC13-S1",
+      "outer": false,
+      "stack": "64",
+      "input": "ln(sqrt(x^2-y^2)/(x-y))-(ln(x+y)-ln(x-y))/2",
+      "exit": 0,
+      "result": "ln(sqrt(x^2-y^2)/(x-y))-(ln(x+y)-ln(x-y))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000308307\nMAX_RSS_KB 67272\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact retained expression. Original separate logs require x\u00b1y>0, precisely x>|y|. Set A=x+y>0,B=x-y>0: sqrt(AB)/B=sqrt(A/B), so real logs cancel only on that wedge. Opposite wedge and both boundary rays remain excluded."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC13-S1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(ln(sqrt(x^2-y^2)/(x-y))-(ln(x+y)-ln(x-y))/2)",
+      "exit": 0,
+      "result": "ln(sqrt(x^2-y^2)/(x-y))-(ln(x+y)-ln(x-y))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000315556\nMAX_RSS_KB 67272\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact retained expression. Original separate logs require x\u00b1y>0, precisely x>|y|. Set A=x+y>0,B=x-y>0: sqrt(AB)/B=sqrt(A/B), so real logs cancel only on that wedge. Opposite wedge and both boundary rays remain excluded."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC13-S1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(ln(sqrt(x^2-y^2)/(x-y))-(ln(x+y)-ln(x-y))/2)",
+      "exit": 0,
+      "result": "ln(sqrt(x^2-y^2)/(x-y))-(ln(x+y)-ln(x-y))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000328566\nMAX_RSS_KB 67272\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact retained expression. Original separate logs require x\u00b1y>0, precisely x>|y|. Set A=x+y>0,B=x-y>0: sqrt(AB)/B=sqrt(A/B), so real logs cancel only on that wedge. Opposite wedge and both boundary rays remain excluded."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC13-R1",
+      "outer": false,
+      "stack": "normal",
+      "input": "sum(k*binomial(16,k)*x^k*y^(16-k),k,0,16)/(x+y)^16",
+      "exit": 0,
+      "result": "(16*x^16+240*x^15*y+1680*x^14*y^2+7280*x^13*y^3+21840*x^12*y^4+48048*x^11*y^5+80080*x^10*y^6+102960*x^9*y^7+102960*x^8*y^8+80080*x^7*y^9+48048*x^6*y^10+21840*x^5*y^11+7280*x^4*y^12+1680*x^3*y^13+240*x^2*y^14+16*x*y^15)/(x+y)^16",
+      "stderr": "Unable to isolate function factorial\nPARSER_CALLS 1\nSECONDS 0.00100546\nMAX_RSS_KB 67272\n",
+      "verification": {
+        "exact": true,
+        "method": "Differentiate the finite binomial polynomial and multiply by x: numerator=16x(x+y)^15 identically, including both axes. Original and returned denominators exclude exactly x+y=0; bounded sixteen nonzero monomials, not runaway expansion."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC13-R1",
+      "outer": false,
+      "stack": "64",
+      "input": "sum(k*binomial(16,k)*x^k*y^(16-k),k,0,16)/(x+y)^16",
+      "exit": 0,
+      "result": "(16*x^16+240*x^15*y+1680*x^14*y^2+7280*x^13*y^3+21840*x^12*y^4+48048*x^11*y^5+80080*x^10*y^6+102960*x^9*y^7+102960*x^8*y^8+80080*x^7*y^9+48048*x^6*y^10+21840*x^5*y^11+7280*x^4*y^12+1680*x^3*y^13+240*x^2*y^14+16*x*y^15)/(x+y)^16",
+      "stderr": "Unable to isolate function factorial\nPARSER_CALLS 1\nSECONDS 0.00115316\nMAX_RSS_KB 67272\n",
+      "verification": {
+        "exact": true,
+        "method": "Differentiate the finite binomial polynomial and multiply by x: numerator=16x(x+y)^15 identically, including both axes. Original and returned denominators exclude exactly x+y=0; bounded sixteen nonzero monomials, not runaway expansion."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC13-R1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(sum(k*binomial(16,k)*x^k*y^(16-k),k,0,16)/(x+y)^16)",
+      "exit": 0,
+      "result": "(16*x^16+240*x^15*y+1680*x^14*y^2+7280*x^13*y^3+21840*x^12*y^4+48048*x^11*y^5+80080*x^10*y^6+102960*x^9*y^7+102960*x^8*y^8+80080*x^7*y^9+48048*x^6*y^10+21840*x^5*y^11+7280*x^4*y^12+1680*x^3*y^13+240*x^2*y^14+16*x*y^15)/(x+y)^16",
+      "stderr": "Unable to isolate function factorial\nPARSER_CALLS 1\nSECONDS 0.00102778\nMAX_RSS_KB 67272\n",
+      "verification": {
+        "exact": true,
+        "method": "Differentiate the finite binomial polynomial and multiply by x: numerator=16x(x+y)^15 identically, including both axes. Original and returned denominators exclude exactly x+y=0; bounded sixteen nonzero monomials, not runaway expansion."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC13-R1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(sum(k*binomial(16,k)*x^k*y^(16-k),k,0,16)/(x+y)^16)",
+      "exit": 0,
+      "result": "(16*x^16+240*x^15*y+1680*x^14*y^2+7280*x^13*y^3+21840*x^12*y^4+48048*x^11*y^5+80080*x^10*y^6+102960*x^9*y^7+102960*x^8*y^8+80080*x^7*y^9+48048*x^6*y^10+21840*x^5*y^11+7280*x^4*y^12+1680*x^3*y^13+240*x^2*y^14+16*x*y^15)/(x+y)^16",
+      "stderr": "Unable to isolate function factorial\nPARSER_CALLS 1\nSECONDS 0.00106197\nMAX_RSS_KB 67272\n",
+      "verification": {
+        "exact": true,
+        "method": "Differentiate the finite binomial polynomial and multiply by x: numerator=16x(x+y)^15 identically, including both axes. Original and returned denominators exclude exactly x+y=0; bounded sixteen nonzero monomials, not runaway expansion."
+      },
+      "pass": true
+    }
+  ],
+  "polar_probe_sha256": "ade13089b0183c50538ff327e719dc33f4ceede577e19d475c0e880f8a22df4d",
+  "instrumentation_sha256": {
+    "integration_probe.cc": "b7a48228cca9500ec8860af7260d416f9f7c2c2b51da9a4307d859f678bd898f",
+    "guarded_probe_stack.h": "a77ebd2e40e1b83a53bfce40d3c4aba9205b601e47cef01ff76ab15ea81b1ae6"
+  },
+  "source_sha256": {
+    "yintg.cc": "36fa02fc17cc96593e894990b20f928e0ceac5e062e01e0e8129dbde4f824f09",
+    "zintgab.cc": "e6c56eebc5d302929dbb949c3222ccec1fd9c2c175439db479ba0012fdec52ea",
+    "ksubst.cc": "c20b73a141a0fd0ac0b16862b159108c5d97fa7d2c8c0f87d733f6681ce46271",
+    "yderive.cc": "52ac806200fb03bb99a77eb22c66b51aba995ec2e9bedb54d6ff95d2b893586b",
+    "dilogarithm.h": "ca822ef4c094a4ed1f4aecf7219011668735d86d259c51ec6304515f8fa84d7a",
+    "kconvert.cc": "0c15955e3b6d3522589469c404dadd6ef9bd3699bab02a5ccb871fa256ed5934",
+    "equation_normalize.h": "4bfb644f0e18bb36e280ce8886c8ac12695c9aeeaef187ea3e5f967cd1642e37",
+    "kusual.cc": "0a169f2a44b187b4310bde6f73bf03a0e593c5e00212a9d54ef6bd420420743d",
+    "zusual.cc": "41d3a4d321ed94b43ee468701dbb59ee6a73fdf4e4158f3bc75dba957df51a35",
+    "zprog.cc": "baf6570eac3b985e50bb2bbf8a3bbc47b72b34ce6835ce2f7a873185a7efe499",
+    "conditional_eval.h": "88f50b7ad755c1befed6806207567f1450f0e8941b493aea5d28bdd511f94b09",
+    "zvecteur.cc": "17c430cfed0e2fbda09813cb0d677042252a93017d740406c1e09aa42d758104",
+    "determinant_small.h": "3ccfffb425a9441b519004be8577a8691dce8e6410ab24a90bd1ab35836eb670",
+    "logarithmic_span.h": "5775e7ca93212d1a699058a509cff64a10ca72ee0da9b850ec92e7032377cbc0",
+    "elliptic_first.h": "55d2350050d140ad87f61ee493ef73d51a723d1298311b6b5263d350875a3f35",
+    "ksymbolic.cc": "269fccbccdc7ed89752c6e212efe1513494949478561e5524aa0dca9eada654d"
+  },
+  "cases": [
+    {
+      "id": "PC13-I1",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC13-I2",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC13-D1",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC13-D2",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC13-S1",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC13-R1",
+      "all_four_pass": true
+    }
+  ]
+}

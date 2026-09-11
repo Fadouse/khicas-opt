@@ -14,7 +14,7 @@ saved=json.loads(a.saved_runs.read_text())['runs'] if a.saved_runs else []
 report=dict(scope='Actual repository integration/yderive/FXCG simplify on host dependencies; guarded 64 KiB stack, not SH4/MMU emulation.',corpus_sha256=hashlib.sha256(a.corpus.read_bytes()).hexdigest(),probe_sha256=hashlib.sha256(a.probe.read_bytes()).hexdigest(),runs=rows)
 if a.polar_probe:report['polar_probe_sha256']=hashlib.sha256(a.polar_probe.read_bytes()).hexdigest()
 if not saved:report['instrumentation_sha256']={n:hashlib.sha256(Path('tests',n).read_bytes()).hexdigest() for n in ['integration_probe.cc','guarded_probe_stack.h']}
-if not saved:report['source_sha256']={n:hashlib.sha256(Path(n).read_bytes()).hexdigest() for n in ['yintg.cc','zintgab.cc','ksubst.cc','yderive.cc','dilogarithm.h','kconvert.cc','equation_normalize.h','kusual.cc','zusual.cc','zprog.cc','conditional_eval.h','zvecteur.cc','determinant_small.h','logarithmic_span.h']}
+if not saved:report['source_sha256']={n:hashlib.sha256(Path(n).read_bytes()).hexdigest() for n in ['yintg.cc','zintgab.cc','ksubst.cc','yderive.cc','dilogarithm.h','kconvert.cc','equation_normalize.h','kusual.cc','zusual.cc','zprog.cc','conditional_eval.h','zvecteur.cc','determinant_small.h','logarithmic_span.h','elliptic_first.h','ksymbolic.cc']}
 for c in cases:
  for outer in [False,True]:
   for stack in ['normal','64']:
@@ -27,7 +27,8 @@ for c in cases:
    command=[str(a.probe),expression]
    if c['type']=='polar':
     assert a.polar_probe is not None
-    command=[str(a.polar_probe),'cart',c['input'][len('cart2polar'):]]
+    conversion='param2polar' if c['input'].startswith('param2polar(') else 'cart2polar'
+    command=[str(a.polar_probe),'param' if conversion=='param2polar' else 'cart',c['input'][len(conversion):]]
     if outer:env['KHICAS_OUTER_SIMPLIFY']='1'
    try:
     if saved:
@@ -40,12 +41,15 @@ for c in cases:
     key=(c['id'],row['result'])
     if key not in cache:cache[key]=verify(c,row['result'])
     row['verification']=cache[key];row['pass']=True
-    if c['id'] in ('PC19-S1','PC20-S1') and outer:assert row['verification'].get('normalized',False),'Explicit simplify must produce the proved guarded normal form'
+    if c['id'] in ('PC19-S1','PC20-S1','PC21-S1') and outer:assert row['verification'].get('normalized',False),'Explicit simplify must produce the proved guarded normal form'
     if c['id'].startswith('PC18-'):
      from polar_cycle18_reference import actual_checks
      row['actual_domain_checks']=actual_checks(c,expression,a.probe,env)
     if c['id'].startswith('PC19-'):
      from polar_cycle19_reference import actual_checks
+     row['actual_domain_checks']=actual_checks(c,expression,a.probe,env)
+    if c['id'].startswith('PC21-'):
+     from polar_cycle21_reference import actual_checks
      row['actual_domain_checks']=actual_checks(c,expression,a.probe,env)
     if c['id'].startswith('PC20-'):
      from polar_cycle20_reference import actual_checks

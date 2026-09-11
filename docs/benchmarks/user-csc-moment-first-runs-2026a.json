@@ -1,0 +1,78 @@
+{
+  "expected": "pi/4+ln(2)/2",
+  "scope": "User-reported CG50 crash. Installed checkpoint20 host extraction compared to working checkpoint21; normal/64 KiB host are not hardware emulation.",
+  "runs": [
+    {
+      "version": "installed20",
+      "stack": "normal",
+      "outer": false,
+      "input": "integrate(x/sin(x)^2,x,pi/4,pi/2)",
+      "exit": 0,
+      "result": "-1/4*(2*ln(2)-pi)+1/2*ln(4)",
+      "stderr": "  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 268435456\nPARSER_CALLS 32\nSECONDS 0.0275905\nMAX_RSS_KB 29092\n"
+    },
+    {
+      "version": "installed20",
+      "stack": "normal",
+      "outer": true,
+      "input": "simplify(integrate(x/sin(x)^2,x,pi/4,pi/2))",
+      "exit": 0,
+      "result": "(pi+ln(4))/4",
+      "stderr": "  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 268435456\nPARSER_CALLS 32\nSECONDS 0.0279201\nMAX_RSS_KB 28948\n"
+    },
+    {
+      "version": "installed20",
+      "stack": "64",
+      "outer": false,
+      "input": "integrate(x/sin(x)^2,x,pi/4,pi/2)",
+      "exit": 0,
+      "result": "-1/4*(2*ln(2)-pi)+1/2*ln(4)",
+      "stderr": "  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 268435456\nPARSER_CALLS 32\nSECONDS 0.0285882\nMAX_RSS_KB 28800\n"
+    },
+    {
+      "version": "installed20",
+      "stack": "64",
+      "outer": true,
+      "input": "simplify(integrate(x/sin(x)^2,x,pi/4,pi/2))",
+      "exit": -11,
+      "result": "",
+      "stderr": "  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 268435456\n"
+    },
+    {
+      "version": "working21",
+      "stack": "normal",
+      "outer": false,
+      "input": "integrate(x/sin(x)^2,x,pi/4,pi/2)",
+      "exit": 0,
+      "result": "-1/4*(2*ln(2)-pi)+1/2*ln(4)",
+      "stderr": "  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 268435456\nPARSER_CALLS 32\nSECONDS 0.0298069\nMAX_RSS_KB 29332\n"
+    },
+    {
+      "version": "working21",
+      "stack": "normal",
+      "outer": true,
+      "input": "simplify(integrate(x/sin(x)^2,x,pi/4,pi/2))",
+      "exit": 0,
+      "result": "(pi+ln(4))/4",
+      "stderr": "  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 268435456\nPARSER_CALLS 32\nSECONDS 0.0288658\nMAX_RSS_KB 29040\n"
+    },
+    {
+      "version": "working21",
+      "stack": "64",
+      "outer": false,
+      "input": "integrate(x/sin(x)^2,x,pi/4,pi/2)",
+      "exit": 0,
+      "result": "-1/4*(2*ln(2)-pi)+1/2*ln(4)",
+      "stderr": "  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 268435456\nPARSER_CALLS 32\nSECONDS 0.0282156\nMAX_RSS_KB 29312\n"
+    },
+    {
+      "version": "working21",
+      "stack": "64",
+      "outer": true,
+      "input": "simplify(integrate(x/sin(x)^2,x,pi/4,pi/2))",
+      "exit": -11,
+      "result": "",
+      "stderr": "  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 536870912\n  ***   Warning: not enough memory, new PARI stack 268435456\n"
+    }
+  ]
+}

@@ -751,6 +751,57 @@ namespace giac {
 #if defined(__GNUC__) && !defined(__clang__)
   __attribute__((noinline,optimize("Os")))
 #endif
+  static bool derive_squared_affine_radical(const gen &g,const identificateur &i,gen &result,GIAC_CONTEXT){
+    if(complex_mode(contextptr) || complex_variables(contextptr))return false;
+    gen Q;
+    if(g.is_symb_of_sommet(at_sqrt))Q=g._SYMBptr->feuille;
+    else if(g.is_symb_of_sommet(at_pow) && g._SYMBptr->feuille.type==_VECT && g._SYMBptr->feuille._VECTptr->size()==2 && g._SYMBptr->feuille[1]==plus_one_half)Q=g._SYMBptr->feuille[0];
+    else return false;
+    unsigned budget=96;equation_polynomial_budget bound;gen x(i);
+    if(taille(Q,65)>64 || !equation_polynomial_bound(Q,budget,0,bound) || bound.degree>3 || bound.terms>16)return false;
+    vecteur powers=lop(Q,at_pow);
+    for(unsigned j=0;j<powers.size();++j){
+      const gen &f=powers[j]._SYMBptr->feuille;
+      if(f.type!=_VECT || f._VECTptr->size()!=2 || (f[1]!=2 && f[1]!=3))continue;
+      gen H=f[0],a,b,k,c;
+      if(!is_linear_wrt(H,x,a,b,contextptr) || !equation_rational(a) || !equation_rational(b) || is_zero(a))continue;
+      gen L=ratnormal(Q/(f[1]==2?powers[j]:H*H),contextptr);
+      if(!is_linear_wrt(L,x,k,c,contextptr) || !equation_rational(k) || !equation_rational(c) || is_zero(k))continue;
+      // sqrt(H² L)=|H| sqrt(L) only on L>=0. H=0,L<0 is an
+      // isolated real-domain point, not a differentiable removable zero.
+      gen root=symbolic(at_sqrt,L),regular=a*symbolic(at_sign,H)*root+symbolic(at_abs,H)*k/(2*root);
+      gen contact=symbolic(at_when,makesequence(symb_equal(H,0),0,undef));
+      result=symbolic(at_when,makesequence(symbolic(at_inferieur_strict,makesequence(L,0)),undef,
+        symbolic(at_when,makesequence(symb_equal(L,0),contact,
+          symbolic(at_when,makesequence(symb_equal(H,0),undef,regular))))));return true;
+    }
+    return false;
+  }
+
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static bool derive_minmax_contact(const gen &g,const identificateur &i,gen &result,GIAC_CONTEXT){
+    if(complex_mode(contextptr) || complex_variables(contextptr) ||
+       (!g.is_symb_of_sommet(at_max) && !g.is_symb_of_sommet(at_min)) || taille(g,65)>64)return false;
+    const gen &v=g._SYMBptr->feuille;
+    if(v.type!=_VECT || v._VECTptr->size()!=2)return false;
+    unsigned budget=96;equation_polynomial_budget a,b;
+    if(!equation_polynomial_bound(v[0],budget,0,a) || !equation_polynomial_bound(v[1],budget,0,b) ||
+       a.degree>8 || b.degree>8 || a.terms>32 || b.terms>32 ||
+       !is_zero(im(v[0],contextptr)) || !is_zero(im(v[1],contextptr)))return false;
+    gen da=derive(v[0],i,contextptr),db=derive(v[1],i,contextptr);
+    // At equality, max/min of two C1 functions is differentiable exactly
+    // when their slopes agree. This includes coalescing parameter roots.
+    gen contact=symbolic(at_when,makesequence(symb_equal(da,db),da,undef));
+    gen active=symbolic(g.is_symb_of_sommet(at_max)?at_superieur_strict:at_inferieur_strict,makesequence(v[0],v[1]));
+    result=symbolic(at_when,makesequence(symb_equal(v[0],v[1]),contact,
+      symbolic(at_when,makesequence(active,da,db))));return true;
+  }
+
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
   static bool derive_floor_phase(const gen &g,const gen &x,gen &phase,gen &den,GIAC_CONTEXT){
     if(taille(g,97)>96 || !has_op(g,*at_floor))return false;
     vecteur floors=lop(g,at_floor);if(floors.size()!=1)return false;
@@ -1357,13 +1408,18 @@ namespace giac {
   __attribute__((noinline,optimize("Os")))
 #endif
   static gen derive_SYMB(const gen &g_orig,const identificateur & i,GIAC_CONTEXT){
-    gen abs_composed;if(derive_floor_accumulation(g_orig,i,abs_composed,contextptr) || derive_floor_weight(g_orig,i,abs_composed,contextptr) || derive_abs_composition(g_orig,i,abs_composed,contextptr))return abs_composed;
+    gen abs_composed;if(derive_squared_affine_radical(g_orig,i,abs_composed,contextptr) || derive_minmax_contact(g_orig,i,abs_composed,contextptr) || derive_floor_accumulation(g_orig,i,abs_composed,contextptr) || derive_floor_weight(g_orig,i,abs_composed,contextptr) || derive_abs_composition(g_orig,i,abs_composed,contextptr))return abs_composed;
     const symbolic & s = *g_orig._SYMBptr;
     if(s.sommet==at_pnt && s.feuille.type==_VECT && !s.feuille._VECTptr->empty())
       return derive_symbolic_point(g_orig,i,contextptr);
     // if s does not depend on i return 0
     if (!depend(g_orig,i))
       return zero;
+    if(s.sommet==at_EllipticF && s.feuille.type==_VECT && s.feuille._VECTptr->size()==2 &&
+       !contains(s.feuille[1],gen(i))){
+      gen phase=s.feuille[0],si=symbolic(at_sin,phase);
+      return derive(phase,i,contextptr)/symbolic(at_sqrt,1-s.feuille[1]*si*si);
+    }
     // On the unit circle, differentiate the imaginary dilogarithm before
     // re/im expand the complex quotient into repeated trigonometric trees.
     // d Im Li2(exp(i*u)) = -u' log(2*abs(sin(u/2))) for real u off 2*pi*Z.

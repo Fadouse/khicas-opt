@@ -1319,6 +1319,13 @@ namespace giac {
     if (e.is_symb_of_sommet(at_inv))
       return inv(sqrt(e._SYMBptr->feuille,contextptr),contextptr);
     if (e.type==_SYMB){
+      // sqrt(H^(4n+3)) cannot extract H^(2n+1): for negative real
+      // H that changes the sign of the principal square root. Keep the
+      // original root so later calculus retains its branch and domain.
+      if(e.is_symb_of_sommet(at_pow) && e._SYMBptr->feuille.type==_VECT && e._SYMBptr->feuille._VECTptr->size()==2){
+        const gen &power=e._SYMBptr->feuille[1];
+        if(power.type==_INT_ && power.val>0 && power.val%4==3)return symbolic(at_sqrt,e);
+      }
       vecteur v=lvar(e);
       if (v.size()==1 && v.front().is_symb_of_sommet(at_pow) && v.front()._SYMBptr->feuille[1]==plus_one_half && is_integer(v.front()._SYMBptr->feuille[0])){
 	gen a,b,c=v.front()._SYMBptr->feuille[0];
