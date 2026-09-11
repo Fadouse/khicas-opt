@@ -1,5 +1,6 @@
 /* -*- mode:C++ ; compile-command: "g++ -DHAVE_CONFIG_H -I. -I.. -DIN_GIAC -DGIAC_GENERIC_CONSTANTS  -g -c -fno-strict-aliasing prog.cc -Wall" -*- */
 #include "giacPCH.h"
+#include "conditional_eval.h"
 
 /*
  *  Copyright (C) 2001,14 B. Parisse, Institut Fourier, 38402 St Martin d'Heres
@@ -2125,6 +2126,13 @@ namespace giac {
     if (args.type!=_VECT)
       return gensizeerr(gettext("3 or 4 arguments expected"));
     vecteur & v=*args._VECTptr;
+    if(v.size()==3 || v.size()==4){
+      gen condition;
+      if(conditional_symbolic_equal(v[0],condition,contextptr)){
+        if(v.size()==4)return v[3];
+        return symbolic(at_when,makesequence(condition,v[1],v[2]));
+      }
+    }
     if (v.size()==3){
       gen res=ifte(args,false,contextptr);
       return res;
@@ -12819,10 +12827,19 @@ namespace giac {
     gen test;
     for (int i=0;i<s/2;++i){
       test=v[2*i];
+      gen condition;
+      if(conditional_symbolic_equal(test,condition,contextptr)){
+        vecteur rest(v.begin()+2*i,v.end());rest[0]=condition;
+        return symbolic(at_piecewise,gen(rest,g.subtype));
+      }
       test=equaltosame(test.eval(eval_level(contextptr),contextptr)).eval(eval_level(contextptr),contextptr);
       test=test.evalf_double(eval_level(contextptr),contextptr);
-      if ( (test.type!=_DOUBLE_) && (test.type!=_CPLX) )
-	return symbolic(at_piecewise,g.eval(eval_level(contextptr),contextptr));
+      if ( (test.type!=_DOUBLE_) && (test.type!=_CPLX) ){
+        // The first undecided condition bounds a lazy suffix. Evaluating
+        // that suffix now can discard later equalities or enter 1/0.
+        vecteur rest(v.begin()+2*i,v.end());rest[0]=test;
+        return symbolic(at_piecewise,gen(rest,g.subtype));
+      }
       if (is_zero(test))
 	continue;
       return v[2*i+1].eval(eval_level(contextptr),contextptr);

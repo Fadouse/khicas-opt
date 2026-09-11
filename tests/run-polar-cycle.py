@@ -11,7 +11,7 @@ p.add_argument('--saved-runs',type=Path)
 a=p.parse_args();cases=json.loads(a.corpus.read_text())['cases'];rows=[];cache={}
 saved=json.loads(a.saved_runs.read_text())['runs'] if a.saved_runs else []
 report=dict(scope='Actual repository integration/yderive/FXCG simplify on host dependencies; guarded 64 KiB stack, not SH4/MMU emulation.',corpus_sha256=hashlib.sha256(a.corpus.read_bytes()).hexdigest(),probe_sha256=hashlib.sha256(a.probe.read_bytes()).hexdigest(),runs=rows)
-if not saved:report['source_sha256']={n:hashlib.sha256(Path(n).read_bytes()).hexdigest() for n in ['yintg.cc','zintgab.cc','ksubst.cc','yderive.cc','dilogarithm.h','kconvert.cc','equation_normalize.h']}
+if not saved:report['source_sha256']={n:hashlib.sha256(Path(n).read_bytes()).hexdigest() for n in ['yintg.cc','zintgab.cc','ksubst.cc','yderive.cc','dilogarithm.h','kconvert.cc','equation_normalize.h','kusual.cc','zprog.cc','conditional_eval.h']}
 for c in cases:
  for outer in [False,True]:
   for stack in ['normal','64']:
@@ -30,7 +30,7 @@ for c in cases:
     key=(c['id'],row['result'])
     if key not in cache:cache[key]=verify(c,row['result'])
     row['verification']=cache[key];row['pass']=True
-    points={'PC1-D1':[-1,1],'PC2-D1':[0],'PC2-D2':[0,1]}.get(c['id'],[])
+    points={'PC1-D1':[-1,1],'PC2-D1':[0],'PC2-D2':[0,1],'PC3-I1':[0],'PC3-D2':[0]}.get(c['id'],[])
     if points:
      for point in points:
       r=subprocess.run([str(a.probe),'eval(subst('+expression+',x='+str(point)+'))'],capture_output=True,text=True,env=env,timeout=12)

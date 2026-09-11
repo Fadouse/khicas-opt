@@ -1,0 +1,161 @@
+{
+  "cases": [
+    {
+      "id": "PC3-I1",
+      "type": "integral",
+      "input": "simplify(integrate(1/(1+surd(x,3)),x))",
+      "conditions": [
+        "x is real and x!=-1; x=0 is included.",
+        "surd(x,3) is the real cube root, including negative x; ln(abs(...)) is a real logarithm.",
+        "A differentiable antiderivative is required throughout each of (-infinity,-1) and (-1,infinity); constants may differ between these two intervals."
+      ],
+      "expected": {
+        "expression": "3*surd(x,3)^2/2-3*surd(x,3)+3*ln(abs(1+surd(x,3)))",
+        "properties": [
+          "Return an explicit exact antiderivative without unevaluated integrate; mathematically equivalent evaluable forms are acceptable.",
+          "Cover negative x on both sides of -1 using the real cube root, without replacing it by a principal complex power.",
+          "The primitive must be defined and differentiable at x=0, with derivative 1 there, despite the singular derivative of the substitution itself.",
+          "The pole at x=-1 remains excluded. Safe unevaluated retention does not count as solving the integral."
+        ]
+      },
+      "reason": "Set u=surd(x,3), so x=u^3. Away from u=0, dx=3*u^2 du and 3*u^2/(1+u)=3*u-3+3/(1+u), giving the stated primitive. This calculation applies to negative as well as positive u and excludes only u=-1. To check the point that the substitution derivative cannot handle directly, use ln(1+u)=u-u^2/2+u^3/3+O(u^4) near zero. The primitive equals u^3+O(u^4)=x+O(abs(x)^(4/3)), with value zero at x=0. Its difference quotient therefore tends to 1 from both sides, exactly matching the integrand at zero."
+    },
+    {
+      "id": "PC3-I2",
+      "type": "integral",
+      "input": "simplify(integrate(1/(1+exp(i*x)),x))",
+      "conditions": [
+        "x is real and x!=(2*k+1)*pi for every integer k.",
+        "ln(abs(cos(x/2))) denotes the real logarithm of a strictly positive argument on this domain.",
+        "Antiderivatives are required on every connected domain interval; additive constants may differ between intervals. No global primitive across the excluded poles is requested."
+      ],
+      "expected": {
+        "expression": "x/2+i*ln(abs(cos(x/2)))",
+        "properties": [
+          "Return an explicit exact complex antiderivative without unevaluated integrate.",
+          "Preserve both the real and imaginary parts of the integrand; a real-logarithm-only primitive cannot suffice.",
+          "Cover intervals with either sign of cos(x/2), and remain regular at every x=2*k*pi.",
+          "Equivalent evaluable complex-logarithm forms are acceptable when their derivative is correct on each entire domain interval; intervalwise constants need not match the displayed expression.",
+          "Safe unevaluated retention is not integral success."
+        ]
+      },
+      "reason": "The identity 1+exp(i*x)=2*exp(i*x/2)*cos(x/2) gives 1/(1+exp(i*x))=1/2-i*tan(x/2)/2 wherever cos(x/2)!=0. Since d ln(abs(cos(x/2)))/dx=-tan(x/2)/2 on every such interval, differentiation proves the answer. The denominator vanishes exactly at odd multiples of pi, whereas at even multiples it is 2. An alternative is x+i*ln(1+exp(i*x)): the logarithm argument has positive real part throughout the domain, so its principal logarithm introduces no additional cut within any allowed interval, and direct differentiation gives the same integrand."
+    },
+    {
+      "id": "PC3-I3",
+      "type": "integral",
+      "input": "simplify(integrate(x^2/(1+x^2)^2,x))",
+      "conditions": [
+        "x is real; atan is the principal real inverse tangent.",
+        "One antiderivative is required on the entire real axis, up to a global additive constant."
+      ],
+      "expected": {
+        "expression": "atan(x)/2-x/(2*(1+x^2))",
+        "properties": [
+          "Return an explicit exact antiderivative without unevaluated integrate; equivalent evaluable forms are acceptable.",
+          "The primitive must be regular for every real x, including x=0, where its derivative is zero.",
+          "Do not introduce a real pole or an uncorrected branch jump into the connected real domain.",
+          "Safe unevaluated retention does not solve this routine rational integral with a repeated irreducible quadratic denominator."
+        ]
+      },
+      "reason": "Write x^2/(1+x^2)^2=1/(1+x^2)-1/(1+x^2)^2. The identity d[x/(1+x^2)]/dx=(1-x^2)/(1+x^2)^2 then gives x^2/(1+x^2)^2=(1/2)*d[atan(x)-x/(1+x^2)]/dx. Equivalently, differentiating the displayed answer produces 1/(2*(1+x^2))-(1-x^2)/(2*(1+x^2)^2), whose numerator is x^2. Since 1+x^2>0, the argument and the formula are valid globally, including zero."
+    },
+    {
+      "id": "PC3-D1",
+      "type": "derivative",
+      "input": "simplify(diff(asin(2*x/(1+x^2)),x))",
+      "conditions": [
+        "x is real and x!=-1 and x!=1.",
+        "asin is the principal real inverse sine with values in [-pi/2,pi/2]; square roots in chain-rule formulas are nonnegative.",
+        "The original function is defined at x=-1 and x=1 but has no derivative there."
+      ],
+      "expected": {
+        "expression": "2*sign(1-x^2)/(1+x^2)",
+        "properties": [
+          "Return an explicit exact derivative on all three domain intervals; equivalent evaluable forms are acceptable.",
+          "The derivative is positive for -1<x<1 and negative for abs(x)>1; its value at zero is 2.",
+          "The principal inverse sine folds the angle: replacing the original function globally by 2*atan(x) yields the wrong derivative on both outer intervals.",
+          "Any value assigned by the displayed sign formula at x=+/-1 is not a derivative value and must not override the stated exclusions."
+        ]
+      },
+      "reason": "For every real x, abs(2*x)<=1+x^2, so the original inverse sine is real and defined. Away from x=+/-1, the chain rule has numerator 2*(1-x^2)/(1+x^2)^2 and denominator sqrt(1-4*x^2/(1+x^2)^2)=abs(1-x^2)/(1+x^2). Their quotient is the stated signed expression. At x=1 the one-sided derivatives are +1 and -1, and at x=-1 they are -1 and +1. Thus the two excluded points are actual corners rather than removable derivative singularities."
+    },
+    {
+      "id": "PC3-D2",
+      "type": "derivative",
+      "input": "simplify(diff(piecewise(x==0,0,x^2*sin(1/x)),x))",
+      "conditions": [
+        "x is real, including x=0.",
+        "The input explicitly defines the original function to be zero at x=0; the other branch applies only for x!=0."
+      ],
+      "expected": {
+        "expression": "piecewise(x==0,0,2*x*sin(1/x)-cos(1/x))",
+        "properties": [
+          "Return an explicit exact derivative on the entire real axis, with its value at x=0 equal to zero.",
+          "Equivalent evaluable representations are acceptable, but an unqualified formula containing 1/x at x=0 is insufficient.",
+          "Do not evaluate the inactive singular branch to undef when substituting x=0.",
+          "Do not demand continuity of the derivative at zero: the derivative exists there but has no limit there."
+        ]
+      },
+      "reason": "For x!=0, the product and chain rules give 2*x*sin(1/x)-cos(1/x). At zero the difference quotient is h*sin(1/h), bounded in absolute value by abs(h), so its two-sided limit is zero. The derivative need not be continuous: along x_n=1/(2*pi*n) the nonzero-branch derivative is -1, while along y_n=1/((2*n+1)*pi) it is +1. Both sequences tend to zero. This distinguishes a directly proved derivative value from an invalid attempt to take a limit of the nearby derivative formula."
+    },
+    {
+      "id": "PC3-D3",
+      "type": "derivative",
+      "input": "simplify(diff((1+x^2)^sin(x),x))",
+      "conditions": [
+        "x is real.",
+        "The variable power is defined by the positive real base: (1+x^2)^sin(x)=exp(sin(x)*ln(1+x^2))."
+      ],
+      "expected": {
+        "expression": "(1+x^2)^sin(x)*(cos(x)*ln(1+x^2)+2*x*sin(x)/(1+x^2))",
+        "properties": [
+          "Return an explicit exact real derivative with no unevaluated diff; equivalent evaluable forms are acceptable.",
+          "Account for variation in both the base and the exponent.",
+          "Preserve the entire real domain, including x=0 where the derivative is zero, and all zeros of sine or cosine."
+        ]
+      },
+      "reason": "Set g(x)=sin(x)*ln(1+x^2), which is smooth on the entire real axis because 1+x^2>0. Differentiating exp(g(x)) gives exp(g(x))*g'(x), with g'(x)=cos(x)*ln(1+x^2)+2*x*sin(x)/(1+x^2). Replacing exp(g(x)) by the original positive-base power yields the answer. At zero both summands in g' vanish; no division by sin(x), cos(x), or ln(1+x^2) is needed anywhere."
+    },
+    {
+      "id": "PC3-S1",
+      "type": "simplify",
+      "input": "simplify(sqrt(-x+i)*sqrt(-x-i)+sqrt(-x^2))",
+      "conditions": [
+        "x is real, including x=0.",
+        "Every sqrt is the principal complex square root, with sqrt(-a)=i*sqrt(a) for real a>=0."
+      ],
+      "expected": {
+        "expression": "sqrt(x^2+1)+i*abs(x)",
+        "properties": [
+          "Return an exact expression equivalent on the entire real axis; mathematically equivalent evaluable forms are acceptable.",
+          "The real part is sqrt(x^2+1)>0 and the imaginary part is abs(x)>=0.",
+          "The exact value at zero is 1, and the result is even in x.",
+          "Do not replace sqrt(-x^2) by i*x for negative x, or use an unjustified product-of-square-roots identity across a branch cut."
+        ]
+      },
+      "reason": "Let z=-x+i. It never lies on the real axis, and its conjugate is -x-i. For a nonreal z the principal square roots of z and its conjugate are conjugates, so their product is abs(sqrt(z))^2=abs(z)=sqrt(x^2+1), a positive real number. Separately, -x^2 is nonpositive real, and the specified principal boundary value gives sqrt(-x^2)=i*abs(x), including zero. Adding proves the expression and its parity without making an unrestricted claim that principal square roots are multiplicative."
+    },
+    {
+      "id": "PC3-R1",
+      "type": "resource",
+      "input": "simplify(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2)))))))))))))))))))))))))",
+      "conditions": [
+        "x is real.",
+        "The compact continued fraction is R_12, where R_0=1+x^2 and R_(n+1)=1+x^2/(1+R_n); there are exactly twelve reciprocal nesting steps.",
+        "Use the existing finite CG50 stack, heap, and simplification budgets; do not increase them to pass this case.",
+        "Expansion into numerator and denominator polynomials, or finding an antiderivative, is not requested."
+      ],
+      "expected": {
+        "properties": [
+          "Safe preservation of the original compact expression is an accepted result; any rewrite must be exactly equivalent for every real x.",
+          "The result is real, finite, even, at least 1, and at most 1+x^2/2; it equals 1 at x=0 and is strictly greater than 1 elsewhere.",
+          "No crash, stack overflow, runaway expansion, undef, or newly introduced real pole is acceptable.",
+          "Bounds and parity alone do not establish equivalence; preserve the exact input or justify the returned rewrite mathematically.",
+          "This tests bounded simplification only. Safe retention earns no credit for solving any integral, and this expression must not be treated as an integration request."
+        ]
+      },
+      "reason": "Start with R_0=1+x^2>=1. If R_n>=1 is finite and real, then 1+R_n>=2 and R_(n+1)=1+x^2/(1+R_n) lies in [1,1+x^2/2]; its denominator cannot vanish. Induction proves global regularity and the bounds for all twelve steps. Each step depends only on x^2, so every R_n is even. At x=0 all R_n equal 1, and for nonzero x each added quotient is strictly positive. The written nesting has linear size; these proofs require neither distribution into high-degree rational polynomials nor an expansion of repeated denominators."
+    }
+  ]
+}

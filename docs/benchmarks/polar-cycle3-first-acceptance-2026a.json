@@ -1,0 +1,465 @@
+{
+  "scope": "Actual repository integration/yderive/FXCG simplify on host dependencies; guarded 64 KiB stack, not SH4/MMU emulation.",
+  "corpus_sha256": "534e88c4578f240c5a2588f8d6f5df82be2e852e69919cd7b0241ee332e03a14",
+  "probe_sha256": "0a6dbd166aa82486d4cff7c03903c259319b91417d89a65f703df4a5c064229b",
+  "runs": [
+    {
+      "id": "PC3-I1",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(1/(1+surd(x,3)),x)",
+      "exit": 0,
+      "result": "3*(1/2*(surd(x,3))^2-(surd(x,3))+ln(surd(x,3)+1))",
+      "stderr": "Temporary replacing surd/NTHROOT by fractional powers\nTemporary replacing surd/NTHROOT by fractional powers\nTemporary replacing surd/NTHROOT by fractional powers\nPARSER_CALLS 2\nSECONDS 0.00191545\nMAX_RSS_KB 20748\n",
+      "error": "",
+      "pass": false
+    },
+    {
+      "id": "PC3-I1",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(1/(1+surd(x,3)),x)",
+      "exit": -11,
+      "result": "",
+      "stderr": "",
+      "error": "(-11, '')",
+      "pass": false
+    },
+    {
+      "id": "PC3-I1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(1/(1+surd(x,3)),x))",
+      "exit": 0,
+      "result": "(3*(surd(x,3))^2-6*surd(x,3)+6*ln(surd(x,3)+1))/2",
+      "stderr": "Temporary replacing surd/NTHROOT by fractional powers\nTemporary replacing surd/NTHROOT by fractional powers\nTemporary replacing surd/NTHROOT by fractional powers\nTemporary replacing surd/NTHROOT by fractional powers\nPARSER_CALLS 2\nSECONDS 0.00199106\nMAX_RSS_KB 27916\n",
+      "error": "",
+      "pass": false
+    },
+    {
+      "id": "PC3-I1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(1/(1+surd(x,3)),x))",
+      "exit": -11,
+      "result": "",
+      "stderr": "",
+      "error": "(-11, '')",
+      "pass": false
+    },
+    {
+      "id": "PC3-I2",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(1/(1+exp(i*x)),x)",
+      "exit": 0,
+      "result": "(-i)*ln(exp(i*x))+i*ln(i*exp(i*x)+i)",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.00130233\nMAX_RSS_KB 27916\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative. log(exp(i*x)) cuts only at excluded odd*pi; i*(1+exp(i*x)) has strictly positive imaginary part 1+cos(x) away from those same poles. No additional jump within any allowed interval."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC3-I2",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(1/(1+exp(i*x)),x)",
+      "exit": 0,
+      "result": "(-i)*ln(exp(i*x))+i*ln(i*exp(i*x)+i)",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.00152337\nMAX_RSS_KB 27916\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative. log(exp(i*x)) cuts only at excluded odd*pi; i*(1+exp(i*x)) has strictly positive imaginary part 1+cos(x) away from those same poles. No additional jump within any allowed interval."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC3-I2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(1/(1+exp(i*x)),x))",
+      "exit": 0,
+      "result": "(-i)*ln(exp(i*x))+i*ln(i*exp(i*x)+i)",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.00128486\nMAX_RSS_KB 27916\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative. log(exp(i*x)) cuts only at excluded odd*pi; i*(1+exp(i*x)) has strictly positive imaginary part 1+cos(x) away from those same poles. No additional jump within any allowed interval."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC3-I2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(1/(1+exp(i*x)),x))",
+      "exit": 0,
+      "result": "(-i)*ln(exp(i*x))+i*ln(i*exp(i*x)+i)",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.00134531\nMAX_RSS_KB 27916\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative. log(exp(i*x)) cuts only at excluded odd*pi; i*(1+exp(i*x)) has strictly positive imaginary part 1+cos(x) away from those same poles. No additional jump within any allowed interval."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC3-I3",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(x^2/(1+x^2)^2,x)",
+      "exit": 0,
+      "result": "-x/(2*(x^2+1))+1/2*atan(x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00146294\nMAX_RSS_KB 27916\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact rational derivative, positive denominator and global real atan."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC3-I3",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(x^2/(1+x^2)^2,x)",
+      "exit": 0,
+      "result": "-x/(2*(x^2+1))+1/2*atan(x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00151244\nMAX_RSS_KB 27916\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact rational derivative, positive denominator and global real atan."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC3-I3",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(x^2/(1+x^2)^2,x))",
+      "exit": 0,
+      "result": "(x^2*atan(x)-x+atan(x))/(2*x^2+2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00168479\nMAX_RSS_KB 27916\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact rational derivative, positive denominator and global real atan."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC3-I3",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(x^2/(1+x^2)^2,x))",
+      "exit": 0,
+      "result": "(x^2*atan(x)-x+atan(x))/(2*x^2+2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00178343\nMAX_RSS_KB 27916\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact rational derivative, positive denominator and global real atan."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC3-D1",
+      "outer": false,
+      "stack": "normal",
+      "input": "diff(asin(2*x/(1+x^2)),x)",
+      "exit": 0,
+      "result": "(2/(1+x^2)-2*x*2*x/(1+x^2)^2)/abs(x^4-1)*(x^4+2*x^2+1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00217799\nMAX_RSS_KB 27916\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact two-sign proof; |x\u2074-1|=|x\u00b2-1|(x\u00b2+1). True corners \u00b11 excluded; value 2 at zero."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC3-D1",
+      "outer": false,
+      "stack": "64",
+      "input": "diff(asin(2*x/(1+x^2)),x)",
+      "exit": 0,
+      "result": "(2/(1+x^2)-2*x*2*x/(1+x^2)^2)/abs(x^4-1)*(x^4+2*x^2+1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00227182\nMAX_RSS_KB 27916\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact two-sign proof; |x\u2074-1|=|x\u00b2-1|(x\u00b2+1). True corners \u00b11 excluded; value 2 at zero."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC3-D1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(diff(asin(2*x/(1+x^2)),x))",
+      "exit": 0,
+      "result": "(-2*x^2+2)/abs(x^4-1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00259054\nMAX_RSS_KB 27916\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact two-sign proof; |x\u2074-1|=|x\u00b2-1|(x\u00b2+1). True corners \u00b11 excluded; value 2 at zero."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC3-D1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(diff(asin(2*x/(1+x^2)),x))",
+      "exit": 0,
+      "result": "(-2*x^2+2)/abs(x^4-1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.0030478\nMAX_RSS_KB 27916\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact two-sign proof; |x\u2074-1|=|x\u00b2-1|(x\u00b2+1). True corners \u00b11 excluded; value 2 at zero."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC3-D2",
+      "outer": false,
+      "stack": "normal",
+      "input": "diff(piecewise(x==0,0,x^2*sin(1/x)),x)",
+      "exit": 0,
+      "result": "2*x*sin(1/x)-x^2/x^2*cos(1/x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000395336\nMAX_RSS_KB 27916\n",
+      "error": "",
+      "pass": false
+    },
+    {
+      "id": "PC3-D2",
+      "outer": false,
+      "stack": "64",
+      "input": "diff(piecewise(x==0,0,x^2*sin(1/x)),x)",
+      "exit": 0,
+      "result": "2*x*sin(1/x)-x^2/x^2*cos(1/x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000413645\nMAX_RSS_KB 27916\n",
+      "error": "",
+      "pass": false
+    },
+    {
+      "id": "PC3-D2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(diff(piecewise(x==0,0,x^2*sin(1/x)),x))",
+      "exit": 0,
+      "result": "2*x*sin(1/x)-cos(1/x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000487764\nMAX_RSS_KB 27916\n",
+      "error": "",
+      "pass": false
+    },
+    {
+      "id": "PC3-D2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(diff(piecewise(x==0,0,x^2*sin(1/x)),x))",
+      "exit": 0,
+      "result": "2*x*sin(1/x)-cos(1/x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000525284\nMAX_RSS_KB 27916\n",
+      "error": "",
+      "pass": false
+    },
+    {
+      "id": "PC3-D3",
+      "outer": false,
+      "stack": "normal",
+      "input": "diff((1+x^2)^sin(x),x)",
+      "exit": 0,
+      "result": "cos(x)*ln(1+x^2)*(1+x^2)^(sin(x))+sin(x)*2*x*(1+x^2)^(sin(x)-1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000402826\nMAX_RSS_KB 27916\n",
+      "verification": {
+        "exact": true,
+        "method": "Positive-base logarithmic differentiation accounts for both base and exponent; entire real domain and zero at origin."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC3-D3",
+      "outer": false,
+      "stack": "64",
+      "input": "diff((1+x^2)^sin(x),x)",
+      "exit": 0,
+      "result": "cos(x)*ln(1+x^2)*(1+x^2)^(sin(x))+sin(x)*2*x*(1+x^2)^(sin(x)-1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000435455\nMAX_RSS_KB 27916\n",
+      "verification": {
+        "exact": true,
+        "method": "Positive-base logarithmic differentiation accounts for both base and exponent; entire real domain and zero at origin."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC3-D3",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(diff((1+x^2)^sin(x),x))",
+      "exit": 0,
+      "result": "exp(ln(x^2+1)*sin(x)-ln(x^2+1))*x^2*cos(x)*ln(x^2+1)+2*exp(ln(x^2+1)*sin(x)-ln(x^2+1))*x*sin(x)+exp(ln(x^2+1)*sin(x)-ln(x^2+1))*cos(x)*ln(x^2+1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00407565\nMAX_RSS_KB 27916\n",
+      "verification": {
+        "exact": true,
+        "method": "Positive-base logarithmic differentiation accounts for both base and exponent; entire real domain and zero at origin."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC3-D3",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(diff((1+x^2)^sin(x),x))",
+      "exit": 0,
+      "result": "exp(ln(x^2+1)*sin(x)-ln(x^2+1))*x^2*cos(x)*ln(x^2+1)+2*exp(ln(x^2+1)*sin(x)-ln(x^2+1))*x*sin(x)+exp(ln(x^2+1)*sin(x)-ln(x^2+1))*cos(x)*ln(x^2+1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00461437\nMAX_RSS_KB 27916\n",
+      "verification": {
+        "exact": true,
+        "method": "Positive-base logarithmic differentiation accounts for both base and exponent; entire real domain and zero at origin."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC3-S1",
+      "outer": false,
+      "stack": "normal",
+      "input": "sqrt(-x+i)*sqrt(-x-i)+sqrt(-x^2)",
+      "exit": 0,
+      "result": "sqrt(2*sqrt(x^2+1)-2*x)/2*(1+i/(-x+sqrt(x^2+1)))*sqrt(2*sqrt(x^2+1)-2*x)/2*(1+(-i)/(-x+sqrt(x^2+1)))+sqrt(-x^2)",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.00090906\nMAX_RSS_KB 27916\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact radical-field identity plus positive denominator sqrt(x\u00b2+1)-x>0. Conjugate principal roots multiply to the positive modulus; sqrt(-x\u00b2)=i|x| on both signs."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC3-S1",
+      "outer": false,
+      "stack": "64",
+      "input": "sqrt(-x+i)*sqrt(-x-i)+sqrt(-x^2)",
+      "exit": 0,
+      "result": "sqrt(2*sqrt(x^2+1)-2*x)/2*(1+i/(-x+sqrt(x^2+1)))*sqrt(2*sqrt(x^2+1)-2*x)/2*(1+(-i)/(-x+sqrt(x^2+1)))+sqrt(-x^2)",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.00092088\nMAX_RSS_KB 27916\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact radical-field identity plus positive denominator sqrt(x\u00b2+1)-x>0. Conjugate principal roots multiply to the positive modulus; sqrt(-x\u00b2)=i|x| on both signs."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC3-S1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(sqrt(-x+i)*sqrt(-x-i)+sqrt(-x^2))",
+      "exit": 0,
+      "result": "sqrt(2*sqrt(x^2+1)-2*x)/2*(1+i/(-x+sqrt(x^2+1)))*sqrt(2*sqrt(x^2+1)-2*x)/2*(1+(-i)/(-x+sqrt(x^2+1)))+sqrt(-x^2)",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.00089005\nMAX_RSS_KB 27916\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact radical-field identity plus positive denominator sqrt(x\u00b2+1)-x>0. Conjugate principal roots multiply to the positive modulus; sqrt(-x\u00b2)=i|x| on both signs."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC3-S1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(sqrt(-x+i)*sqrt(-x-i)+sqrt(-x^2))",
+      "exit": 0,
+      "result": "sqrt(2*sqrt(x^2+1)-2*x)/2*(1+i/(-x+sqrt(x^2+1)))*sqrt(2*sqrt(x^2+1)-2*x)/2*(1+(-i)/(-x+sqrt(x^2+1)))+sqrt(-x^2)",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.00095098\nMAX_RSS_KB 27916\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact radical-field identity plus positive denominator sqrt(x\u00b2+1)-x>0. Conjugate principal roots multiply to the positive modulus; sqrt(-x\u00b2)=i|x| on both signs."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC3-R1",
+      "outer": false,
+      "stack": "normal",
+      "input": "1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2))))))))))))))))))))))))",
+      "exit": 0,
+      "result": "1+x^2/(1+1+x^2/(1+1+x^2/(1+1+x^2/(1+1+x^2/(1+1+x^2/(1+1+x^2/(1+1+x^2/(1+1+x^2/(1+1+x^2/(1+1+x^2/(1+1+x^2/(1+1+x^2))))))))))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000294647\nMAX_RSS_KB 27916\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact structural retention. Twelve recurrence steps with R_n>=1 prove positive denominators, evenness, and 1<=R_12<=1+x\u00b2/2."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC3-R1",
+      "outer": false,
+      "stack": "64",
+      "input": "1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2))))))))))))))))))))))))",
+      "exit": 0,
+      "result": "1+x^2/(1+1+x^2/(1+1+x^2/(1+1+x^2/(1+1+x^2/(1+1+x^2/(1+1+x^2/(1+1+x^2/(1+1+x^2/(1+1+x^2/(1+1+x^2/(1+1+x^2/(1+1+x^2))))))))))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000319536\nMAX_RSS_KB 27916\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact structural retention. Twelve recurrence steps with R_n>=1 prove positive denominators, evenness, and 1<=R_12<=1+x\u00b2/2."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC3-R1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2)))))))))))))))))))))))))",
+      "exit": 0,
+      "result": "1+x^2/(1+1+x^2/(1+1+x^2/(1+1+x^2/(1+1+x^2/(1+1+x^2/(1+1+x^2/(1+1+x^2/(1+1+x^2/(1+1+x^2/(1+1+x^2/(1+1+x^2/(1+1+x^2))))))))))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000296997\nMAX_RSS_KB 27916\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact structural retention. Twelve recurrence steps with R_n>=1 prove positive denominators, evenness, and 1<=R_12<=1+x\u00b2/2."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC3-R1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2/(1+(1+x^2)))))))))))))))))))))))))",
+      "exit": 0,
+      "result": "1+x^2/(1+1+x^2/(1+1+x^2/(1+1+x^2/(1+1+x^2/(1+1+x^2/(1+1+x^2/(1+1+x^2/(1+1+x^2/(1+1+x^2/(1+1+x^2/(1+1+x^2/(1+1+x^2))))))))))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000432375\nMAX_RSS_KB 27916\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact structural retention. Twelve recurrence steps with R_n>=1 prove positive denominators, evenness, and 1<=R_12<=1+x\u00b2/2."
+      },
+      "pass": true
+    }
+  ],
+  "cases": [
+    {
+      "id": "PC3-I1",
+      "all_four_pass": false
+    },
+    {
+      "id": "PC3-I2",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC3-I3",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC3-D1",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC3-D2",
+      "all_four_pass": false
+    },
+    {
+      "id": "PC3-D3",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC3-S1",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC3-R1",
+      "all_four_pass": true
+    }
+  ]
+}

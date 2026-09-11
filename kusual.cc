@@ -2968,6 +2968,11 @@ namespace giac {
 
   gen _abs(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
+    // A real odd root has either sign. Avoid a generic algebraic sign
+    // shortcut treating its positive-power surrogate as nonnegative.
+    if(args.type==_SYMB && taille(args,65)<=64 &&
+       (has_op(args,*at_surd) || has_op(args,*at_NTHROOT)))
+      return symbolic(at_abs,args);
     if (args.type!=_VECT)
       return abs(args,contextptr);
     if (ckmatrix(args))

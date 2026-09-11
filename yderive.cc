@@ -353,7 +353,7 @@ namespace giac {
       if (vs>=3 && (s.sommet==at_ifte || s.sommet==at_when) ){
 	for (int j=1;j<vs;++j){
 	  gen & tmp=v[j];
-	  tmp=derive(tmp,i,contextptr); // v[j]=derive(v[j],i,contextptr);
+	  tmp=derive(eval_before_diff(tmp,gen(i),contextptr),i,contextptr);
 	  // if (is_undef(tmp)) return tmp; 
 	  // commented otherwise diff(when(x<0,x^2+3,undef)) returns undef
 	}
@@ -362,11 +362,11 @@ namespace giac {
       if (s.sommet==at_piecewise){
 	for (int j=0;j<vs/2;++j){
 	  gen & tmp=v[2*j+1];
-	  tmp=derive(tmp,i,contextptr); // v[2*j+1]=derive(v[2*j+1],i,contextptr);
+	  tmp=derive(eval_before_diff(tmp,gen(i),contextptr),i,contextptr);
 	}
 	if (vs%2){
 	  gen & tmp=v[vs-1];
-	  tmp=derive(tmp,i,contextptr); // v[vs-1]=derive(v[vs-1],i,contextptr);
+	  tmp=derive(eval_before_diff(tmp,gen(i),contextptr),i,contextptr);
 	}
 	return symbolic(s.sommet,gen(v,s.feuille.subtype));
       }

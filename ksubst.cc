@@ -2430,7 +2430,7 @@ namespace giac {
   static gen simplify_special_core(const gen & e_orig,GIAC_CONTEXT){
     // An unresolved integral is an opaque atom, as in simplifier(). Avoid
     // expanding its integrand and restarting a failed integration search.
-    if (e_orig.is_symb_of_sommet(at_integrate) || e_orig.is_symb_of_sommet(at_when))
+    if (e_orig.is_symb_of_sommet(at_integrate) || e_orig.is_symb_of_sommet(at_when) || e_orig.is_symb_of_sommet(at_piecewise))
       return e_orig;
     if (e_orig.type<=_POLY || is_inf(e_orig) || has_num_coeff(e_orig))
       return e_orig;
@@ -2950,7 +2950,7 @@ namespace giac {
     // Treat dilogarithms and lazy conditional values as algebraic atoms.
     // Expanding their phases can construct large cyclotomic extensions;
     // descending into when can evaluate an undefined unselected branch.
-    if(contains(e_orig,*at_Li2) || contains(e_orig,*at_when))return terms>64?e_orig:ratnormal(e_orig,contextptr);
+    if(contains(e_orig,*at_Li2) || contains(e_orig,*at_when) || contains(e_orig,*at_piecewise))return terms>64?e_orig:ratnormal(e_orig,contextptr);
     // Keep large closed trig constants out of algebraic-extension/trig
     // rewriting. Only explicit rational multiples of pi are masked: these
     // sin/cos values are real, even when other constants in the expression
@@ -3141,7 +3141,11 @@ namespace giac {
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     // A conditional value is a lazy branch boundary. Evaluating or
     // normalizing both branches can enter an undefined Gamma/log branch.
-    if(args.is_symb_of_sommet(at_when))return args;
+    if(args.is_symb_of_sommet(at_when) || args.is_symb_of_sommet(at_piecewise))return args;
+    // surd2pow's algebraic surrogate may be assumed nonnegative while a
+    // real odd root changes sign. Keep real logarithm magnitudes intact.
+    if(taille(args,129)<=128 && contains(args,*at_ln) && contains(args,*at_abs) &&
+       (has_op(args,*at_surd) || has_op(args,*at_NTHROOT)))return ratnormal(args,contextptr);
     bool large_power=false;
     if(!simplify_preflight(args,large_power))return simplify_shallow_leaf(args,contextptr);
     if(large_power)return args;

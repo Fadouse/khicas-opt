@@ -43,3 +43,15 @@ PC2-R1 的输出从679字符保留为79字符，两个版本都经独立代数�
 本轮首次仍有错题，下一步继续派发全新题集，尚不进入最终性能代理验收。
 
 [第二轮首次](benchmarks/polar-cycle2-first-acceptance-2026a.json) · [第二轮修复后](benchmarks/polar-cycle2-fixed-acceptance-2026a.json) · [结构变体](benchmarks/polar-cycle2-root-guards-2026a.json) · [资源](benchmarks/resources-polar-cycle2-2026a.json) · [测量](benchmarks/polar-cycle2-performance-2026a.json)。
+
+## 第三轮：实根对数与惰性分段
+
+标签 `checkpoint/polar-stability-cycle3-2026a`。全新8题首次6题完整通过，实立方根分式积分在64 KiB栈崩溃，分段函数求导丢失零点条件。变量幂导数的外层形式本来正确，独立验证器改为使用正底数恒等式证明，未把验证器的改进算作引擎修复。
+
+奇数实根的仿射分母现在用有界多项式除法直接积分，保留 `ln(abs(...))` 及负数实根；化简不再把实根代数替身的非负假设用于删除绝对值。`when/piecewise` 保留含自由变量的未决等式，`piecewise` 的第一个未决条件之后保持惰性。求导逐分支规范化算术，避免原始除法残留 `diff`。独立补测覆盖多分支在 −2、0、2 的选择、未选中除零分支、三/五/七次实根与仿射移动，共42项。独立 `==` 和程序控制流未改动；并非宣称所有逻辑复合条件或所有分段函数的接点可导性均已自动证明。
+
+第三轮32项、前两轮80项、旧混合题96项、极坐标60项、21项正式回归及7项补充任务全部通过。通过积分清单更新至651条：646精确、5导数采样。新题的主机5次进程中位数均低于3.5 ms；崩溃或错误旧结果不作为成功计算加速比的分母。主机探针额外链接实际仓库 `_when/_piecewise/_abs`；仍依赖主机Giac，不是SH4/MMU模拟，也没有本轮实机安装或耗时测量。
+
+ROM 2,064,136 / 2,065,152 B（余1,016 B），AC2 2,473,692 / 2,559,996 B（余86,304 B）；静态RAM 424,620 B和CAS堆1,572,864 B不变。首次有错题，提交后继续派发全新题集，尚不进入最终性能代理验收。
+
+[首次](benchmarks/polar-cycle3-first-acceptance-2026a.json) · [修复后](benchmarks/polar-cycle3-fixed-acceptance-2026a.json) · [边界与实根](benchmarks/polar-cycle3-root-guards-2026a.json) · [资源](benchmarks/resources-polar-cycle3-2026a.json) · [主机测量](benchmarks/polar-cycle3-performance-2026a.json)。

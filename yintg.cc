@@ -6213,6 +6213,19 @@ namespace giac {
     int n=index.val<0?-index.val:index.val;
     if (n<3 || n%2==0 || !is_linear_wrt(arg,x,a,b,contextptr) ||
         !integration_rational(a) || !integration_rational(b) || is_zero(a)) return false;
+    if(roots.size()==1 && index.val>0){
+      gen base=integration_syntax(e,contextptr),coefficient=integration_syntax(integration_coefficient(base,x,contextptr),contextptr),den,A,B;
+      if(integration_resource_rational(coefficient) && integration_power(base,den,-1) &&
+         is_linear_wrt(den,roots[0],A,B,contextptr) && integration_resource_rational(A) &&
+         integration_resource_rational(B) && !is_zero(A)){
+        gen u=symbolic(at_NTHROOT,makesequence(n,arg)),q=-B/A,total=0;
+        // Polynomial division in the real root variable. This avoids a
+        // generic rational-integration call and its deep algebraic stack.
+        for(int j=0;j<n-1;++j)total+=pow(q,j)*pow(u,n-1-j)/(n-1-j);
+        if(!is_zero(B))total+=pow(q,n-1)*symbolic(at_ln,symbolic(at_abs,A*u+B));
+        res=coefficient*gen(n)*total/(a*A);return true;
+      }
+    }
     vecteur powers=lop(e,at_pow);
     for (unsigned i=0;i<powers.size();++i){
       const gen &p=powers[i]._SYMBptr->feuille;

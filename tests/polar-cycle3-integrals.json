@@ -1,0 +1,33 @@
+{
+  "cases": [
+    {
+      "id": "PC3-I1",
+      "input": "simplify(integrate(1/(1+surd(x,3)),x))",
+      "expected": "3*surd(x,3)^2/2-3*surd(x,3)+3*ln(abs(1+surd(x,3)))",
+      "conditions": [
+        "x is real and x!=-1; x=0 is included.",
+        "surd(x,3) is the real cube root, including negative x; ln(abs(...)) is a real logarithm.",
+        "A differentiable antiderivative is required throughout each of (-infinity,-1) and (-1,infinity); constants may differ between these two intervals."
+      ]
+    },
+    {
+      "id": "PC3-I2",
+      "input": "simplify(integrate(1/(1+exp(i*x)),x))",
+      "expected": "x/2+i*ln(abs(cos(x/2)))",
+      "conditions": [
+        "x is real and x!=(2*k+1)*pi for every integer k.",
+        "ln(abs(cos(x/2))) denotes the real logarithm of a strictly positive argument on this domain.",
+        "Antiderivatives are required on every connected domain interval; additive constants may differ between intervals. No global primitive across the excluded poles is requested."
+      ]
+    },
+    {
+      "id": "PC3-I3",
+      "input": "simplify(integrate(x^2/(1+x^2)^2,x))",
+      "expected": "atan(x)/2-x/(2*(1+x^2))",
+      "conditions": [
+        "x is real; atan is the principal real inverse tangent.",
+        "One antiderivative is required on the entire real axis, up to a global additive constant."
+      ]
+    }
+  ]
+}

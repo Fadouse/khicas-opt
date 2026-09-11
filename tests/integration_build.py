@@ -61,7 +61,12 @@ def derivative_source(ref='current'):
     """
     s=source(ref,'yderive.cc')
     out='#include "giacPCH.h"\n#include "equation_normalize.h"\nnamespace giac {\n'
+    if '#include "conditional_eval.h"' in source(ref,'zprog.cc'):
+        out='#include "giacPCH.h"\n#include "equation_normalize.h"\n#include "conditional_eval.h"\nnamespace giac {\n'
+        for sig in ('  gen _when(', '  gen _piecewise('):
+            out+=function(source(ref,'zprog.cc'),sig)
     out+='extern const unary_function_ptr * const at_Li2;\n'
+    out+=function(source(ref,'kusual.cc'),'  gen _abs(')
     out+='gen host_symb_derive(const gen &);\ngen host_symb_derive(const gen &,const gen &);\ngen host_symb_derive(const gen &,const gen &,const gen &);\n'
     out+='gen symb_prog3(const gen &,const gen &,const gen &);\n'
     for sig in ('   gen eval_before_diff(', '  bool depend(', '  static int count_noncst(', '  static bool derive_real_composition(', '  static gen derive_SYMB(',
@@ -122,6 +127,8 @@ def build(directory, ref='current', target_simplify=False, target_derive=False):
         (directory / 'simplify.cc').write_text(simplified+'}\n')
         extra=[str(directory / 'simplify.cc')]
     if target_derive:
+        if '#include "conditional_eval.h"' in source(ref,'zprog.cc'):
+            (directory/'conditional_eval.h').write_text(source(ref,'conditional_eval.h'))
         (directory/'derivative.cc').write_text(derivative_source(ref))
         extra.append(str(directory/'derivative.cc'))
     flags, libs = compiler_options()
