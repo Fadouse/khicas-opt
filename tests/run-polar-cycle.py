@@ -42,6 +42,7 @@ for c in cases:
     values.update({'PC7-I1':{0:'0'},'PC7-I2':{'1/2':'pi/2-sqrt(2)*atan(sqrt(2))'},'PC7-D1':{-1:'cos(1)',1:'cos(1)',0:'1'},'PC7-D2':{-1:'-2',0:'0',1:'undef',2:'0'},'PC7-S1':{'-2*pi':'2*i*pi','-pi':'2*i*pi','pi':'0','2*pi':'-2*i*pi'}}.get(c['id'],{}))
     values.update({'PC8-I1':{0:'0'},'PC8-D1':{1:'3',0:'undef'},'PC8-D2':{0:'undef',1:'2',2:'2'},'PC8-S1':{-1:'-2*i',0:'0',1:'2*i'}}.get(c['id'],{}))
     values.update({'PC9-I1':{0:'0'},'PC9-I2':{0:'-(ln(2)+1)/2'},'PC9-D1':{0:'2',1:'cos(1)'},'PC9-D2':{-1:'exp(-1)',0:'1',1:'undef',2:'exp(1/2)/2'},'PC9-S1':{0:'0'}}.get(c['id'],{}))
+    values.update({'PC10-I2':{1:'0'},'PC10-D1':{0:'0',1:'undef'},'PC10-D2':{-1:'1/2',0:'0',1:'3/4',2:'9/4'},'PC10-S1':{-1:'2*i*pi',1:'0'}}.get(c['id'],{}))
     if values:
      from mixed_reference import parse,equal
      for point,expected in values.items():
@@ -49,6 +50,10 @@ for c in cases:
       if expected=='undef':assert r.returncode==3 and r.stdout.strip()=='undef',(point,r.stdout,r.stderr)
       else:assert r.returncode==0 and equal(parse(r.stdout.strip()),parse(expected)),(point,r.stdout,r.stderr)
      row['actual_boundary_substitution']=values
+    if c['id']=='PC10-R1':
+     r=subprocess.run([str(a.probe),'eval(subst('+expression+',[x,y],[0,0]))'],capture_output=True,text=True,env=env,timeout=12)
+     assert r.returncode==3 and r.stdout.strip()=='undef',(r.stdout,r.stderr)
+     row['actual_origin_exclusion']='undef'
    except Exception as e:row.update(error=str(e),**{'pass':False})
    rows.append(row);a.report.write_text(json.dumps(report,indent=2)+'\n')
    print(c['id'],outer,stack,row['pass'],row.get('error','')[:200],flush=True)

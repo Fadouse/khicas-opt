@@ -22,10 +22,11 @@ for name in regions:
 # Verify every selected helper actually moved, including compiler clones.
 selectors=re.findall(r'yintg\.o\(\.text\.\*(\w+)\*\)',(d/'prizm.ld').read_text())
 derivative_helpers=re.findall(r'yderive\.o\(\.text\.\*(\w+)\*\)',(d/'prizm.ld').read_text())
+simplify_helpers=re.findall(r'ksubst\.o\(\.text\.\*(\w+)\*\)',(d/'prizm.ld').read_text())
 symbols=(d/'khicasen.elf.symbols').read_text(); moved={}
 conversion_names=['_'+name for name in ('cart2param','cart2polar','param2cart','param2polar','polar2cart','polar2param')] if 'kconvert.o(.text.*)' in (d/'prizm.ld').read_text() else []
 conversion_helpers=['curve_conic_param','curve_sign'] if 'static bool curve_conic_param(' in (d/'kconvert.cc').read_text() else []
-for name in selectors+conversion_names+conversion_helpers+derivative_helpers:
+for name in selectors+conversion_names+conversion_helpers+derivative_helpers+simplify_helpers:
     hits=re.findall(r'^([0-9a-f]+)\s+.*?\bF\s+(\S+)\s+([0-9a-f]+)\s+giac::'+name+r'\(',symbols,re.M)
     assert hits, f'Missing helper: {name}'
     for address,section,size in hits:
@@ -47,6 +48,7 @@ report={'scope':'SH4 linker/binary capacity and single compiler stack frames; no
         'moved_conversion_helpers':{name:moved[name] for name in conversion_helpers},
         'moved_derivative_helpers':{name:moved[name] for name in derivative_helpers},
         'conversion_helper_frames':[r for r in frames if any(name+'(' in r['function'] for name in conversion_helpers)],
+        'moved_simplify_helpers':{name:moved[name] for name in simplify_helpers},
         'derivative_frames':[r for r in frames if 'derive' in r['function']],
         'largest_single_frames':sorted(frames,key=lambda v:v['bytes'],reverse=True)[:30],
         'integration_helper_frames':[r for r in frames if any(name+'(' in r['function'] for name in selectors)],

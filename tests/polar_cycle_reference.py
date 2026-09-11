@@ -5,6 +5,9 @@ from mixed_round2_reference import canonical_dilog
 
 def verify(case,printed):
     ident=case['id']
+    if ident.startswith('PC10-'):
+        from polar_cycle10_reference import verify as next_cycle
+        return next_cycle(case,printed)
     if ident.startswith('PC9-'):
         from polar_cycle9_reference import verify as next_cycle
         return next_cycle(case,printed)
@@ -29,8 +32,17 @@ def verify(case,printed):
     if ident.startswith('PC3-'):
         from polar_cycle3_reference import verify as next_cycle
         return next_cycle(case,printed)
-    assert not any(t in printed for t in ('integrate(', 'diff(', 'undef', 'rootof(')),printed
+    forbidden=('integrate(', 'diff(', 'rootof(') if ident=='PC1-D4' else ('integrate(', 'diff(', 'undef', 'rootof(')
+    assert not any(t in printed for t in forbidden),printed
     a=parse(printed)
+    if ident=='PC1-D4' and a.has(s.Piecewise):
+        excluded=set()
+        for p in a.atoms(s.Piecewise):
+            (yes,condition),(no,otherwise)=p.args
+            assert yes==s.Symbol('undef') and otherwise==True and condition.lhs==x
+            excluded.add(condition.rhs)
+        assert excluded=={-1,1},'Only the original absolute-value corners are excluded'
+        while a.has(s.Piecewise):a=a.replace(lambda z:z.func==s.Piecewise,lambda z:z.args[-1][0])
     if ident in ('PC1-I1','PC1-I2'):
         expected=parse(case['expected']['expression'])
         assert equal(canonical_dilog(a,expected),expected)

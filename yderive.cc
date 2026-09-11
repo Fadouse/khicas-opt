@@ -200,8 +200,8 @@ namespace giac {
       if(!derive_piecewise_regular(f,x,point,a,budget,depth+1,contextptr))return false;
       if(op==at_neg){value=-a;return true;}
       if(op==at_inv && equation_rational(a) && !is_zero(a)){value=gen(1)/a;return true;}
-      if(equation_rational(a) && (op==at_exp || ((op==at_sqrt || op==at_ln) && is_strictly_positive(a,contextptr)))){
-        value=op==at_sqrt?sqrt(a,contextptr):(op==at_ln?ln(a,contextptr):exp(a,contextptr));return true;
+      if(equation_rational(a) && (op==at_exp || (angle_radian(contextptr) && (op==at_sin || op==at_cos || op==at_atan)) || ((op==at_sqrt || op==at_ln) && is_strictly_positive(a,contextptr)))){
+        value=op==at_sqrt?sqrt(a,contextptr):(op==at_ln?ln(a,contextptr):(op==at_exp?exp(a,contextptr):op(a,contextptr)));return true;
       }
       return false;
     }
@@ -222,6 +222,57 @@ namespace giac {
     }
     if(op==at_division && derive_piecewise_regular(v[1],x,point,b,budget,depth+1,contextptr) && equation_rational(b) && !is_zero(b)){
       value=a/b;return true;
+    }
+    return false;
+  }
+
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static bool derive_root_product(const gen &g,const identificateur &i,gen &result,GIAC_CONTEXT){
+    if(taille(g,97)>96 || complex_mode(contextptr) || complex_variables(contextptr) ||
+       (!has_op(g,*at_abs) && !has_op(g,*at_surd) && !has_op(g,*at_NTHROOT) && !has_op(g,*at_sqrt) && !has_op(g,*at_pow)))return false;
+    vecteur roots=mergevecteur(mergevecteur(lop(g,at_surd),lop(g,at_NTHROOT)),mergevecteur(lop(g,at_sqrt),lop(g,at_pow)));
+    roots=mergevecteur(roots,lop(g,at_abs));
+    gen x(i);
+    for(unsigned j=0;j<roots.size();++j){
+      const gen &root=roots[j],f=root._SYMBptr->feuille;gen Q,n=2;bool absolute=root.is_symb_of_sommet(at_abs);
+      if(absolute){Q=f;n=1;}
+      else if(root.is_symb_of_sommet(at_sqrt))Q=f;
+      else if(f.type==_VECT && f._VECTptr->size()==2){
+        if(root.is_symb_of_sommet(at_pow)){if(f[1]!=gen(1)/2)continue;Q=f[0];}
+        else {bool nth=root.is_symb_of_sommet(at_NTHROOT);Q=f[nth?1:0];n=f[nth?0:1];}
+      }
+      else continue;
+      if(n.type!=_INT_ || n.val<1 || n.val>9 || (n.val!=2 && n.val%2==0))continue;
+      unsigned budget=128;equation_polynomial_budget bound;
+      if(!equation_polynomial_bound(Q,budget,0,bound) || bound.degree>2 || !bound.degree)continue;
+      vecteur variables=lvar(Q);if(variables.size()!=1 || variables[0]!=x)continue;
+      gen C,L;if(!is_linear_wrt(g,root,C,L,contextptr) || !is_zero(L) || has_i(C) || taille(C,49)>48)continue;
+      gen dQ=derive(Q,i,contextptr),a,b,c;vecteur points;
+      if(is_linear_wrt(Q,x,a,b,contextptr) && equation_rational(a) && equation_rational(b) && !is_zero(a))points.push_back(-b/a);
+      else {
+        if(!is_linear_wrt(dQ,x,a,b,contextptr) || !equation_rational(a) || !equation_rational(b) || is_zero(a))continue;
+        a=a/2;c=ratnormal(subst(Q,x,0,false,contextptr),contextptr);
+        if(!equation_rational(c))continue;
+        gen discriminant=b*b-4*a*c;
+        if(!is_zero(discriminant) && !is_strictly_positive(discriminant,contextptr))continue;
+        if(is_zero(discriminant) && n==2 && !is_strictly_positive(a,contextptr))continue;
+        gen d=sqrt(discriminant,contextptr);if(!equation_rational(d))continue;
+        points.push_back((-b+d)/(2*a));if(!is_zero(d))points.push_back((-b-d)/(2*a));
+      }
+      gen dC=derive(C,i,contextptr),answer=dC*root+(absolute?C*symbolic(at_sign,Q)*dQ:C*dQ/(n*pow(root,n-1,contextptr)));bool changed=false;
+      for(unsigned k=0;k<points.size();++k){
+        gen value,slope;budget=192;
+        if(!derive_piecewise_regular(C,x,points[k],value,budget,0,contextptr) ||
+           !derive_piecewise_regular(dC,x,points[k],slope,budget,0,contextptr))continue;
+        bool zero=is_zero(value) || (absolute && is_zero(subst(dQ,x,points[k],false,contextptr)));
+        if(!zero && !is_strictly_positive(value,contextptr) && !is_strictly_positive(-value,contextptr))continue;
+        // Analytic C with C(p)=0 gives C*root(Q)=o(x-p). Otherwise a
+        // simple/quadratic real root zero remains a cusp (or a sqrt endpoint).
+        answer=symbolic(at_when,makesequence(symb_equal(x,points[k]),zero?gen(0):undef,answer));changed=true;
+      }
+      if(changed){result=answer;return true;}
     }
     return false;
   }
@@ -401,7 +452,7 @@ namespace giac {
       return res;
     }
     if (s.sommet==at_prod){
-      gen composed;if(derive_real_composition(s,i,composed,contextptr))return composed;
+      gen composed;if(derive_real_composition(s,i,composed,contextptr) || derive_root_product(g_orig,i,composed,contextptr))return composed;
       bool do_step=step_infolevel(contextptr)>1 && count_noncst(s.feuille,i)>1;
       if (s.feuille.type==_VECT && s.feuille._VECTptr->size()==2 && s.feuille._VECTptr->back().is_symb_of_sommet(at_inv) && !is_constant_wrt(s.feuille._VECTptr->back()._SYMBptr->feuille,i,contextptr)){
 	gen u=s.feuille._VECTptr->front(),v=s.feuille._VECTptr->back()._SYMBptr->feuille;

@@ -1,0 +1,24 @@
+{
+  "cases": [
+    {
+      "id": "PC10-I1",
+      "input": "simplify(integrate(sin(x)^3/(2+cos(x)),x))",
+      "expected": "cos(x)^2/2-2*cos(x)+3*ln(2+cos(x))",
+      "conditions": [
+        "x is any finite real number; trigonometric arguments are in radians and ln is the real logarithm.",
+        "The integrand is defined and smooth on the whole real axis because 2+cos(x)>=1. An explicit exact antiderivative is required everywhere, up to one global additive constant.",
+        "The substitution cos(x) is not globally injective and has stationary points at every integer multiple of pi. These points are included in the required primitive's differentiability domain."
+      ]
+    },
+    {
+      "id": "PC10-I2",
+      "input": "simplify(integrate(ln(x)/(x*(1+sqrt(ln(x)))),x))",
+      "expected": "2*sqrt(ln(x))^3/3-ln(x)+2*sqrt(ln(x))-2*ln(1+sqrt(ln(x)))",
+      "conditions": [
+        "x is real with x>=1, the entire real domain of the original integrand. ln is the real logarithm and sqrt is the nonnegative real square root.",
+        "An explicit exact antiderivative is required on (1,infinity), with a continuous extension to x=1 whose right derivative equals the integrand value zero. A two-sided real derivative at this domain endpoint is not required or defined by the given expression.",
+        "The integrand is defined and continuous at x=1. The singular derivative of the substitution sqrt(ln(x)) at one must not create a new exclusion in the returned primitive."
+      ]
+    }
+  ]
+}

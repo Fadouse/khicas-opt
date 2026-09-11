@@ -1,0 +1,1025 @@
+{
+  "scope": "Repository integration, normalization and FXCG simplification entry points; other dependencies host Giac, not a CG50 emulator or hardware timings",
+  "validation": "Printed target results independently checked in a separate host-Giac process",
+  "corpus_sha256": "83718e2b01573892a2075d83609e1774cb8bb77ac20b481daf88439436123918",
+  "validation_probe_sha256": "389931bcb1768f94a589ce5b4cdc1422b9629a9e2b5e3281dab7e775beb834a4",
+  "source_sha256": {
+    "yintg.cc": "1f2dbf27fbc725ed08af29bfa12d9380e6db16e1819a4ae1b95686d805c63757",
+    "zintgab.cc": "3b6fa78aba4d53b1a11479c33bacb4c85e3d6091389ef3073ec60085a7ae9448",
+    "ysym2poly.cc": "ca2e4abe3652bf6314e38703100426e6996b3d272ad6f6215d469acf7ecb979c",
+    "ksubst.cc": "b437e5e42cd7035bfc9d91f3b52b9ca5afe140d622e3f376f2ef4eafe9630c69",
+    "integration_guard.h": "5f4bfda11a19fdf8b4b41da6bb037f602dd741ec1f3492066abab251e85d48a9",
+    "equation_normalize.h": "4bfb644f0e18bb36e280ce8886c8ac12695c9aeeaef187ea3e5f967cd1642e37",
+    "dilogarithm.h": "ca822ef4c094a4ed1f4aecf7219011668735d86d259c51ec6304515f8fa84d7a"
+  },
+  "runs": [
+    {
+      "id": "TL1",
+      "input": "integrate(3*ln((1)*sin((2)*x+(0))),x)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "3*(-x*ln(2)-1/2*im(Li2(exp(2*i*2*x)))/2+i/2*pi*(2*x-pi+abs(2*x-2*pi*floor(2*x/(2*pi))-pi))/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000370708\nMAX_RSS_KB 65156\n",
+      "host_seconds": 0.000370708,
+      "parser_calls": 1,
+      "host_max_rss_kb": 65156,
+      "result_characters": 93,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 1.6440214533477577e-55
+      },
+      "status": "exact"
+    },
+    {
+      "id": "TL1",
+      "input": "integrate(3*ln((1)*sin((2)*x+(0))),x)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "3*(-x*ln(2)-1/2*im(Li2(exp(2*i*2*x)))/2+i/2*pi*(2*x-pi+abs(2*x-2*pi*floor(2*x/(2*pi))-pi))/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000542608\nMAX_RSS_KB 65708\n",
+      "host_seconds": 0.000542608,
+      "parser_calls": 1,
+      "host_max_rss_kb": 65708,
+      "result_characters": 93,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 1.6440214533477577e-55
+      },
+      "status": "exact"
+    },
+    {
+      "id": "TL1",
+      "input": "simplify(integrate(3*ln((1)*sin((2)*x+(0))),x))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "((-3*i)*pi^2+6*i*pi*x+3*i*pi*abs(2*x-2*pi*floor(2*x/(2*pi))-pi)-12*x*ln(2)-3*im(Li2(exp(2*i*2*x))))/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000406568\nMAX_RSS_KB 65708\n",
+      "host_seconds": 0.000406568,
+      "parser_calls": 1,
+      "host_max_rss_kb": 65708,
+      "result_characters": 101,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 1.6440214533477577e-55
+      },
+      "status": "exact"
+    },
+    {
+      "id": "TL1",
+      "input": "simplify(integrate(3*ln((1)*sin((2)*x+(0))),x))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "((-3*i)*pi^2+6*i*pi*x+3*i*pi*abs(2*x-2*pi*floor(2*x/(2*pi))-pi)-12*x*ln(2)-3*im(Li2(exp(2*i*2*x))))/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000624108\nMAX_RSS_KB 65708\n",
+      "host_seconds": 0.000624108,
+      "parser_calls": 1,
+      "host_max_rss_kb": 65708,
+      "result_characters": 101,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 1.6440214533477577e-55
+      },
+      "status": "exact"
+    },
+    {
+      "id": "TL2",
+      "input": "integrate(1*ln((1)*cos((3)*x+(1))),x)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-x*ln(2)-1/3*im(Li2(exp(2*i*(3*x+1+pi/2))))/2+i/3*pi*(3*x+1+pi/2-pi+abs(3*x+1+pi/2-2*pi*floor((3*x+1+pi/2)/(2*pi))-pi))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000371069\nMAX_RSS_KB 65708\n",
+      "host_seconds": 0.000371069,
+      "parser_calls": 1,
+      "host_max_rss_kb": 65708,
+      "result_characters": 121,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 1.0195788231247695e-55
+      },
+      "status": "exact"
+    },
+    {
+      "id": "TL2",
+      "input": "integrate(1*ln((1)*cos((3)*x+(1))),x)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-x*ln(2)-1/3*im(Li2(exp(2*i*(3*x+1+pi/2))))/2+i/3*pi*(3*x+1+pi/2-pi+abs(3*x+1+pi/2-2*pi*floor((3*x+1+pi/2)/(2*pi))-pi))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000871587\nMAX_RSS_KB 66220\n",
+      "host_seconds": 0.000871587,
+      "parser_calls": 1,
+      "host_max_rss_kb": 66220,
+      "result_characters": 121,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 1.0195788231247695e-55
+      },
+      "status": "exact"
+    },
+    {
+      "id": "TL2",
+      "input": "simplify(integrate(1*ln((1)*cos((3)*x+(1))),x))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "((-i)*pi^2+6*i*pi*x+2*i*pi*abs(3*x+1+pi/2-2*pi*floor((3*x+1+pi/2)/(2*pi))-pi)+2*i*pi-12*x*ln(2)-2*im(Li2(exp(2*i*(3*x+1+pi/2)))))/12",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000407688\nMAX_RSS_KB 66220\n",
+      "host_seconds": 0.000407688,
+      "parser_calls": 1,
+      "host_max_rss_kb": 66220,
+      "result_characters": 132,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 1.0195788231247695e-55
+      },
+      "status": "exact"
+    },
+    {
+      "id": "TL2",
+      "input": "simplify(integrate(1*ln((1)*cos((3)*x+(1))),x))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "((-i)*pi^2+6*i*pi*x+2*i*pi*abs(3*x+1+pi/2-2*pi*floor((3*x+1+pi/2)/(2*pi))-pi)+2*i*pi-12*x*ln(2)-2*im(Li2(exp(2*i*(3*x+1+pi/2)))))/12",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000455768\nMAX_RSS_KB 66220\n",
+      "host_seconds": 0.000455768,
+      "parser_calls": 1,
+      "host_max_rss_kb": 66220,
+      "result_characters": 132,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 1.0195788231247695e-55
+      },
+      "status": "exact"
+    },
+    {
+      "id": "TL3",
+      "input": "integrate(1*ln((1)*sin((-2)*x+(1))),x)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-x*ln(2)+1/2*im(Li2(exp(2*i*(-2*x+1))))/2+(-i)/2*pi*(-2*x+1-pi+abs(-2*x+1-2*pi*floor((-2*x+1)/(2*pi))-pi))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000439459\nMAX_RSS_KB 66220\n",
+      "host_seconds": 0.000439459,
+      "parser_calls": 1,
+      "host_max_rss_kb": 66220,
+      "result_characters": 108,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 5.0978941156238473e-57
+      },
+      "status": "exact"
+    },
+    {
+      "id": "TL3",
+      "input": "integrate(1*ln((1)*sin((-2)*x+(1))),x)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-x*ln(2)+1/2*im(Li2(exp(2*i*(-2*x+1))))/2+(-i)/2*pi*(-2*x+1-pi+abs(-2*x+1-2*pi*floor((-2*x+1)/(2*pi))-pi))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000487378\nMAX_RSS_KB 66476\n",
+      "host_seconds": 0.000487378,
+      "parser_calls": 1,
+      "host_max_rss_kb": 66476,
+      "result_characters": 108,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 5.0978941156238473e-57
+      },
+      "status": "exact"
+    },
+    {
+      "id": "TL3",
+      "input": "simplify(integrate(1*ln((1)*sin((-2)*x+(1))),x))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(i*pi^2+2*i*pi*x+(-i)*pi*abs(-2*x+1-2*pi*floor((-2*x+1)/(2*pi))-pi)+(-i)*pi-4*x*ln(2)+im(Li2(exp(2*i*(-2*x+1)))))/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000407448\nMAX_RSS_KB 66476\n",
+      "host_seconds": 0.000407448,
+      "parser_calls": 1,
+      "host_max_rss_kb": 66476,
+      "result_characters": 115,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 5.0978941156238473e-57
+      },
+      "status": "exact"
+    },
+    {
+      "id": "TL3",
+      "input": "simplify(integrate(1*ln((1)*sin((-2)*x+(1))),x))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(i*pi^2+2*i*pi*x+(-i)*pi*abs(-2*x+1-2*pi*floor((-2*x+1)/(2*pi))-pi)+(-i)*pi-4*x*ln(2)+im(Li2(exp(2*i*(-2*x+1)))))/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000619667\nMAX_RSS_KB 66476\n",
+      "host_seconds": 0.000619667,
+      "parser_calls": 1,
+      "host_max_rss_kb": 66476,
+      "result_characters": 115,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 5.0978941156238473e-57
+      },
+      "status": "exact"
+    },
+    {
+      "id": "TL4",
+      "input": "integrate(1*ln(abs((1)*sin((1)*x+(0)))),x)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-x*ln(2)-im(Li2(exp(2*i*x)))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00219718\nMAX_RSS_KB 66476\n",
+      "host_seconds": 0.00219718,
+      "parser_calls": 1,
+      "host_max_rss_kb": 66476,
+      "result_characters": 30,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 5.0978941156238473e-57
+      },
+      "status": "exact"
+    },
+    {
+      "id": "TL4",
+      "input": "integrate(1*ln(abs((1)*sin((1)*x+(0)))),x)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-x*ln(2)-im(Li2(exp(2*i*x)))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00288806\nMAX_RSS_KB 66732\n",
+      "host_seconds": 0.00288806,
+      "parser_calls": 1,
+      "host_max_rss_kb": 66732,
+      "result_characters": 30,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 5.0978941156238473e-57
+      },
+      "status": "exact"
+    },
+    {
+      "id": "TL4",
+      "input": "simplify(integrate(1*ln(abs((1)*sin((1)*x+(0)))),x))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(-2*x*ln(2)-im(Li2(exp(2*i*x))))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00205238\nMAX_RSS_KB 66732\n",
+      "host_seconds": 0.00205238,
+      "parser_calls": 1,
+      "host_max_rss_kb": 66732,
+      "result_characters": 34,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 5.0978941156238473e-57
+      },
+      "status": "exact"
+    },
+    {
+      "id": "TL4",
+      "input": "simplify(integrate(1*ln(abs((1)*sin((1)*x+(0)))),x))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(-2*x*ln(2)-im(Li2(exp(2*i*x))))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00259189\nMAX_RSS_KB 66732\n",
+      "host_seconds": 0.00259189,
+      "parser_calls": 1,
+      "host_max_rss_kb": 66732,
+      "result_characters": 34,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 5.0978941156238473e-57
+      },
+      "status": "exact"
+    },
+    {
+      "id": "TL5",
+      "input": "integrate(2*ln(abs((1)*cos((-3)*x+(1)))),x)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "2*(-x*ln(2)+1/3*im(Li2(exp(2*i*(-3*x+1+pi/2))))/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00249029\nMAX_RSS_KB 66732\n",
+      "host_seconds": 0.00249029,
+      "parser_calls": 1,
+      "host_max_rss_kb": 66732,
+      "result_characters": 50,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 2.039157646249539e-55
+      },
+      "status": "exact"
+    },
+    {
+      "id": "TL5",
+      "input": "integrate(2*ln(abs((1)*cos((-3)*x+(1)))),x)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "2*(-x*ln(2)+1/3*im(Li2(exp(2*i*(-3*x+1+pi/2))))/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.0032813\nMAX_RSS_KB 66732\n",
+      "host_seconds": 0.0032813,
+      "parser_calls": 1,
+      "host_max_rss_kb": 66732,
+      "result_characters": 50,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 2.039157646249539e-55
+      },
+      "status": "exact"
+    },
+    {
+      "id": "TL5",
+      "input": "simplify(integrate(2*ln(abs((1)*cos((-3)*x+(1)))),x))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(-6*x*ln(2)+im(Li2(exp(2*i*(-3*x+1+pi/2)))))/3",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00261043\nMAX_RSS_KB 66732\n",
+      "host_seconds": 0.00261043,
+      "parser_calls": 1,
+      "host_max_rss_kb": 66732,
+      "result_characters": 46,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 2.039157646249539e-55
+      },
+      "status": "exact"
+    },
+    {
+      "id": "TL5",
+      "input": "simplify(integrate(2*ln(abs((1)*cos((-3)*x+(1)))),x))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(-6*x*ln(2)+im(Li2(exp(2*i*(-3*x+1+pi/2)))))/3",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00299244\nMAX_RSS_KB 66732\n",
+      "host_seconds": 0.00299244,
+      "parser_calls": 1,
+      "host_max_rss_kb": 66732,
+      "result_characters": 46,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 2.039157646249539e-55
+      },
+      "status": "exact"
+    },
+    {
+      "id": "TL6",
+      "input": "integrate(ln(sin(x))+ln(sin(x+pi)),x)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-x*ln(2)-im(Li2(exp(2*i*x)))/2+i*pi*(x-pi+abs(x-2*pi*floor(x/(2*pi))-pi))/2-x*ln(2)-im(Li2(exp(2*i*(x+pi))))/2+i*pi*(x+pi-pi+abs(x+pi-2*pi*floor((x+pi)/(2*pi))-pi))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000375998\nMAX_RSS_KB 66732\n",
+      "host_seconds": 0.000375998,
+      "parser_calls": 1,
+      "host_max_rss_kb": 66732,
+      "result_characters": 166,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 1.0195788231247695e-56
+      },
+      "status": "exact"
+    },
+    {
+      "id": "TL6",
+      "input": "integrate(ln(sin(x))+ln(sin(x+pi)),x)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-x*ln(2)-im(Li2(exp(2*i*x)))/2+i*pi*(x-pi+abs(x-2*pi*floor(x/(2*pi))-pi))/2-x*ln(2)-im(Li2(exp(2*i*(x+pi))))/2+i*pi*(x+pi-pi+abs(x+pi-2*pi*floor((x+pi)/(2*pi))-pi))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000708877\nMAX_RSS_KB 66988\n",
+      "host_seconds": 0.000708877,
+      "parser_calls": 1,
+      "host_max_rss_kb": 66988,
+      "result_characters": 166,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 1.0195788231247695e-56
+      },
+      "status": "exact"
+    },
+    {
+      "id": "TL6",
+      "input": "simplify(integrate(ln(sin(x))+ln(sin(x+pi)),x))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "((-i)*pi^2+2*i*pi*x+i*pi*abs(x+pi-2*pi*floor((x+pi)/(2*pi))-pi)+i*pi*abs(x-2*pi*floor(x/(2*pi))-pi)-4*x*ln(2)-im(Li2(exp(2*i*(x+pi))))-im(Li2(exp(2*i*x))))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000468409\nMAX_RSS_KB 66988\n",
+      "host_seconds": 0.000468409,
+      "parser_calls": 1,
+      "host_max_rss_kb": 66988,
+      "result_characters": 157,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 1.0195788231247695e-56
+      },
+      "status": "exact"
+    },
+    {
+      "id": "TL6",
+      "input": "simplify(integrate(ln(sin(x))+ln(sin(x+pi)),x))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "((-i)*pi^2+2*i*pi*x+i*pi*abs(x+pi-2*pi*floor((x+pi)/(2*pi))-pi)+i*pi*abs(x-2*pi*floor(x/(2*pi))-pi)-4*x*ln(2)-im(Li2(exp(2*i*(x+pi))))-im(Li2(exp(2*i*x))))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000748127\nMAX_RSS_KB 66988\n",
+      "host_seconds": 0.000748127,
+      "parser_calls": 1,
+      "host_max_rss_kb": 66988,
+      "result_characters": 157,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 1.0195788231247695e-56
+      },
+      "status": "exact"
+    },
+    {
+      "id": "shift-abs-1",
+      "input": "integrate(2*ln(abs((3)*sin((1)*x+(pi/3)))),x)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "2*(x*ln(3/2)-im(Li2(exp(2*i*(x+pi/3))))/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00256661\nMAX_RSS_KB 66988\n",
+      "host_seconds": 0.00256661,
+      "parser_calls": 1,
+      "host_max_rss_kb": 66988,
+      "result_characters": 42,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 1.0195788231247695e-55
+      },
+      "status": "exact"
+    },
+    {
+      "id": "shift-abs-1",
+      "input": "integrate(2*ln(abs((3)*sin((1)*x+(pi/3)))),x)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "2*(x*ln(3/2)-im(Li2(exp(2*i*(x+pi/3))))/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00347768\nMAX_RSS_KB 67500\n",
+      "host_seconds": 0.00347768,
+      "parser_calls": 1,
+      "host_max_rss_kb": 67500,
+      "result_characters": 42,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 1.0195788231247695e-55
+      },
+      "status": "exact"
+    },
+    {
+      "id": "shift-abs-1",
+      "input": "simplify(integrate(2*ln(abs((3)*sin((1)*x+(pi/3)))),x))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "2*x*ln(3/2)-im(Li2(exp(2*i*(x+pi/3))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00263623\nMAX_RSS_KB 67500\n",
+      "host_seconds": 0.00263623,
+      "parser_calls": 1,
+      "host_max_rss_kb": 67500,
+      "result_characters": 38,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 1.0195788231247695e-55
+      },
+      "status": "exact"
+    },
+    {
+      "id": "shift-abs-1",
+      "input": "simplify(integrate(2*ln(abs((3)*sin((1)*x+(pi/3)))),x))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "2*x*ln(3/2)-im(Li2(exp(2*i*(x+pi/3))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00289917\nMAX_RSS_KB 67500\n",
+      "host_seconds": 0.00289917,
+      "parser_calls": 1,
+      "host_max_rss_kb": 67500,
+      "result_characters": 38,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 1.0195788231247695e-55
+      },
+      "status": "exact"
+    },
+    {
+      "id": "shift-principal-1",
+      "input": "integrate(-2*ln((-3)*cos((1)*x+(pi/3))),x)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-2*(x*ln(3/2)-im(Li2(exp(2*i*(x+pi/3+pi/2+pi))))/2+i*pi*(x+pi/3+pi/2+pi-pi+abs(x+pi/3+pi/2+pi-2*pi*floor((x+pi/3+pi/2+pi)/(2*pi))-pi))/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000477008\nMAX_RSS_KB 67500\n",
+      "host_seconds": 0.000477008,
+      "parser_calls": 1,
+      "host_max_rss_kb": 67500,
+      "result_characters": 137,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 1.4274103523746772e-55
+      },
+      "status": "exact"
+    },
+    {
+      "id": "shift-principal-1",
+      "input": "integrate(-2*ln((-3)*cos((1)*x+(pi/3))),x)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-2*(x*ln(3/2)-im(Li2(exp(2*i*(x+pi/3+pi/2+pi))))/2+i*pi*(x+pi/3+pi/2+pi-pi+abs(x+pi/3+pi/2+pi-2*pi*floor((x+pi/3+pi/2+pi)/(2*pi))-pi))/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000446898\nMAX_RSS_KB 67500\n",
+      "host_seconds": 0.000446898,
+      "parser_calls": 1,
+      "host_max_rss_kb": 67500,
+      "result_characters": 137,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 1.4274103523746772e-55
+      },
+      "status": "exact"
+    },
+    {
+      "id": "shift-principal-1",
+      "input": "simplify(integrate(-2*ln((-3)*cos((1)*x+(pi/3))),x))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "((-5*i)*pi^2+(-6*i)*pi*x+(-6*i)*pi*abs(x+pi/3+pi/2+pi-2*pi*floor((x+pi/3+pi/2+pi)/(2*pi))-pi)-12*x*ln(3/2)+6*im(Li2(exp(2*i*(x+pi/3+pi/2+pi)))))/6",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000489748\nMAX_RSS_KB 67500\n",
+      "host_seconds": 0.000489748,
+      "parser_calls": 1,
+      "host_max_rss_kb": 67500,
+      "result_characters": 146,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 1.4274103523746772e-55
+      },
+      "status": "exact"
+    },
+    {
+      "id": "shift-principal-1",
+      "input": "simplify(integrate(-2*ln((-3)*cos((1)*x+(pi/3))),x))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "((-5*i)*pi^2+(-6*i)*pi*x+(-6*i)*pi*abs(x+pi/3+pi/2+pi-2*pi*floor((x+pi/3+pi/2+pi)/(2*pi))-pi)-12*x*ln(3/2)+6*im(Li2(exp(2*i*(x+pi/3+pi/2+pi)))))/6",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000652948\nMAX_RSS_KB 67500\n",
+      "host_seconds": 0.000652948,
+      "parser_calls": 1,
+      "host_max_rss_kb": 67500,
+      "result_characters": 146,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 1.4274103523746772e-55
+      },
+      "status": "exact"
+    },
+    {
+      "id": "shift-abs--1",
+      "input": "integrate(2*ln(abs((3)*sin((-1)*x+(-2)))),x)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "2*(x*ln(3/2)+im(Li2(exp(2*i*(-x-2))))/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00278134\nMAX_RSS_KB 67500\n",
+      "host_seconds": 0.00278134,
+      "parser_calls": 1,
+      "host_max_rss_kb": 67500,
+      "result_characters": 40,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 2.039157646249539e-56
+      },
+      "status": "exact"
+    },
+    {
+      "id": "shift-abs--1",
+      "input": "integrate(2*ln(abs((3)*sin((-1)*x+(-2)))),x)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "2*(x*ln(3/2)+im(Li2(exp(2*i*(-x-2))))/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00275233\nMAX_RSS_KB 67756\n",
+      "host_seconds": 0.00275233,
+      "parser_calls": 1,
+      "host_max_rss_kb": 67756,
+      "result_characters": 40,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 2.039157646249539e-56
+      },
+      "status": "exact"
+    },
+    {
+      "id": "shift-abs--1",
+      "input": "simplify(integrate(2*ln(abs((3)*sin((-1)*x+(-2)))),x))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "2*x*ln(3/2)+im(Li2(exp(2*i*(-x-2))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00250108\nMAX_RSS_KB 67756\n",
+      "host_seconds": 0.00250108,
+      "parser_calls": 1,
+      "host_max_rss_kb": 67756,
+      "result_characters": 36,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 2.039157646249539e-56
+      },
+      "status": "exact"
+    },
+    {
+      "id": "shift-abs--1",
+      "input": "simplify(integrate(2*ln(abs((3)*sin((-1)*x+(-2)))),x))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "2*x*ln(3/2)+im(Li2(exp(2*i*(-x-2))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00291587\nMAX_RSS_KB 67756\n",
+      "host_seconds": 0.00291587,
+      "parser_calls": 1,
+      "host_max_rss_kb": 67756,
+      "result_characters": 36,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 2.039157646249539e-56
+      },
+      "status": "exact"
+    },
+    {
+      "id": "shift-principal--1",
+      "input": "integrate(-2*ln((-3)*cos((-1)*x+(-2))),x)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-2*(x*ln(3/2)+im(Li2(exp(2*i*(-x-2+pi/2+pi))))/2+(-i)*pi*(-x-2+pi/2+pi-pi+abs(-x-2+pi/2+pi-2*pi*floor((-x-2+pi/2+pi)/(2*pi))-pi))/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000367199\nMAX_RSS_KB 67756\n",
+      "host_seconds": 0.000367199,
+      "parser_calls": 1,
+      "host_max_rss_kb": 67756,
+      "result_characters": 132,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 2.039157646249539e-56
+      },
+      "status": "exact"
+    },
+    {
+      "id": "shift-principal--1",
+      "input": "integrate(-2*ln((-3)*cos((-1)*x+(-2))),x)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-2*(x*ln(3/2)+im(Li2(exp(2*i*(-x-2+pi/2+pi))))/2+(-i)*pi*(-x-2+pi/2+pi-pi+abs(-x-2+pi/2+pi-2*pi*floor((-x-2+pi/2+pi)/(2*pi))-pi))/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000877017\nMAX_RSS_KB 67756\n",
+      "host_seconds": 0.000877017,
+      "parser_calls": 1,
+      "host_max_rss_kb": 67756,
+      "result_characters": 132,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 2.039157646249539e-56
+      },
+      "status": "exact"
+    },
+    {
+      "id": "shift-principal--1",
+      "input": "simplify(integrate(-2*ln((-3)*cos((-1)*x+(-2))),x))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(i*pi^2+(-2*i)*pi*x+2*i*pi*abs(-x-2+pi/2+pi-2*pi*floor((-x-2+pi/2+pi)/(2*pi))-pi)+(-4*i)*pi-4*x*ln(3/2)-2*im(Li2(exp(2*i*(-x-2+pi/2+pi)))))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000416659\nMAX_RSS_KB 67756\n",
+      "host_seconds": 0.000416659,
+      "parser_calls": 1,
+      "host_max_rss_kb": 67756,
+      "result_characters": 141,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 2.039157646249539e-56
+      },
+      "status": "exact"
+    },
+    {
+      "id": "shift-principal--1",
+      "input": "simplify(integrate(-2*ln((-3)*cos((-1)*x+(-2))),x))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(i*pi^2+(-2*i)*pi*x+2*i*pi*abs(-x-2+pi/2+pi-2*pi*floor((-x-2+pi/2+pi)/(2*pi))-pi)+(-4*i)*pi-4*x*ln(3/2)-2*im(Li2(exp(2*i*(-x-2+pi/2+pi)))))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000793317\nMAX_RSS_KB 67756\n",
+      "host_seconds": 0.000793317,
+      "parser_calls": 1,
+      "host_max_rss_kb": 67756,
+      "result_characters": 141,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 2.039157646249539e-56
+      },
+      "status": "exact"
+    },
+    {
+      "id": "shift-abs-7",
+      "input": "integrate(2*ln(abs((3)*sin((7)*x+(3*pi/2)))),x)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "2*(x*ln(3/2)-1/7*im(Li2(exp(2*i*(7*x+pi/2))))/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00234861\nMAX_RSS_KB 67756\n",
+      "host_seconds": 0.00234861,
+      "parser_calls": 1,
+      "host_max_rss_kb": 67756,
+      "result_characters": 48,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 2.8548207047493545e-55
+      },
+      "status": "exact"
+    },
+    {
+      "id": "shift-abs-7",
+      "input": "integrate(2*ln(abs((3)*sin((7)*x+(3*pi/2)))),x)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "2*(x*ln(3/2)-1/7*im(Li2(exp(2*i*(7*x+pi/2))))/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00284402\nMAX_RSS_KB 68268\n",
+      "host_seconds": 0.00284402,
+      "parser_calls": 1,
+      "host_max_rss_kb": 68268,
+      "result_characters": 48,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 2.8548207047493545e-55
+      },
+      "status": "exact"
+    },
+    {
+      "id": "shift-abs-7",
+      "input": "simplify(integrate(2*ln(abs((3)*sin((7)*x+(3*pi/2)))),x))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "(14*x*ln(3/2)-im(Li2(exp(2*i*(7*x+pi/2)))))/7",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00239682\nMAX_RSS_KB 68268\n",
+      "host_seconds": 0.00239682,
+      "parser_calls": 1,
+      "host_max_rss_kb": 68268,
+      "result_characters": 45,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 2.8548207047493545e-55
+      },
+      "status": "exact"
+    },
+    {
+      "id": "shift-abs-7",
+      "input": "simplify(integrate(2*ln(abs((3)*sin((7)*x+(3*pi/2)))),x))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "(14*x*ln(3/2)-im(Li2(exp(2*i*(7*x+pi/2)))))/7",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00280051\nMAX_RSS_KB 68268\n",
+      "host_seconds": 0.00280051,
+      "parser_calls": 1,
+      "host_max_rss_kb": 68268,
+      "result_characters": 45,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 2.8548207047493545e-55
+      },
+      "status": "exact"
+    },
+    {
+      "id": "shift-principal-7",
+      "input": "integrate(-2*ln((-3)*cos((7)*x+(3*pi/2))),x)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-2*(x*ln(3/2)-1/7*im(Li2(exp(2*i*(7*x+pi))))/2+i/7*pi*(7*x+pi-pi+abs(7*x+pi-2*pi*floor((7*x+pi)/(2*pi))-pi))/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000432328\nMAX_RSS_KB 68268\n",
+      "host_seconds": 0.000432328,
+      "parser_calls": 1,
+      "host_max_rss_kb": 68268,
+      "result_characters": 111,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 2.8548207047493545e-55
+      },
+      "status": "exact"
+    },
+    {
+      "id": "shift-principal-7",
+      "input": "integrate(-2*ln((-3)*cos((7)*x+(3*pi/2))),x)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-2*(x*ln(3/2)-1/7*im(Li2(exp(2*i*(7*x+pi))))/2+i/7*pi*(7*x+pi-pi+abs(7*x+pi-2*pi*floor((7*x+pi)/(2*pi))-pi))/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000976836\nMAX_RSS_KB 68524\n",
+      "host_seconds": 0.000976836,
+      "parser_calls": 1,
+      "host_max_rss_kb": 68524,
+      "result_characters": 111,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 2.8548207047493545e-55
+      },
+      "status": "exact"
+    },
+    {
+      "id": "shift-principal-7",
+      "input": "simplify(integrate(-2*ln((-3)*cos((7)*x+(3*pi/2))),x))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "((-7*i)*pi*x+(-i)*pi*abs(7*x+pi-2*pi*floor((7*x+pi)/(2*pi))-pi)-14*x*ln(3/2)+im(Li2(exp(2*i*(7*x+pi)))))/7",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000657057\nMAX_RSS_KB 68780\n",
+      "host_seconds": 0.000657057,
+      "parser_calls": 1,
+      "host_max_rss_kb": 68780,
+      "result_characters": 106,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 2.8548207047493545e-55
+      },
+      "status": "exact"
+    },
+    {
+      "id": "shift-principal-7",
+      "input": "simplify(integrate(-2*ln((-3)*cos((7)*x+(3*pi/2))),x))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "((-7*i)*pi*x+(-i)*pi*abs(7*x+pi-2*pi*floor((7*x+pi)/(2*pi))-pi)-14*x*ln(3/2)+im(Li2(exp(2*i*(7*x+pi)))))/7",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000647457\nMAX_RSS_KB 68780\n",
+      "host_seconds": 0.000647457,
+      "parser_calls": 1,
+      "host_max_rss_kb": 68780,
+      "result_characters": 106,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 2.8548207047493545e-55
+      },
+      "status": "exact"
+    },
+    {
+      "id": "shift-abs-1/3",
+      "input": "integrate(2*ln(abs((3)*sin((1/3)*x+(-pi/7)))),x)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "2*(x*ln(3/2)-3*im(Li2(exp(2*i*(1/3*x-pi/7))))/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00277537\nMAX_RSS_KB 68780\n",
+      "host_seconds": 0.00277537,
+      "parser_calls": 1,
+      "host_max_rss_kb": 68780,
+      "result_characters": 48,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 2.2430734108744928e-55
+      },
+      "status": "exact"
+    },
+    {
+      "id": "shift-abs-1/3",
+      "input": "integrate(2*ln(abs((3)*sin((1/3)*x+(-pi/7)))),x)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "2*(x*ln(3/2)-3*im(Li2(exp(2*i*(1/3*x-pi/7))))/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00258813\nMAX_RSS_KB 69292\n",
+      "host_seconds": 0.00258813,
+      "parser_calls": 1,
+      "host_max_rss_kb": 69292,
+      "result_characters": 48,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 2.2430734108744928e-55
+      },
+      "status": "exact"
+    },
+    {
+      "id": "shift-abs-1/3",
+      "input": "simplify(integrate(2*ln(abs((3)*sin((1/3)*x+(-pi/7)))),x))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "2*x*ln(3/2)-3*im(Li2(exp(2*i*(1/3*x-pi/7))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00220198\nMAX_RSS_KB 69292\n",
+      "host_seconds": 0.00220198,
+      "parser_calls": 1,
+      "host_max_rss_kb": 69292,
+      "result_characters": 44,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 2.2430734108744928e-55
+      },
+      "status": "exact"
+    },
+    {
+      "id": "shift-abs-1/3",
+      "input": "simplify(integrate(2*ln(abs((3)*sin((1/3)*x+(-pi/7)))),x))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "2*x*ln(3/2)-3*im(Li2(exp(2*i*(1/3*x-pi/7))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00287701\nMAX_RSS_KB 69292\n",
+      "host_seconds": 0.00287701,
+      "parser_calls": 1,
+      "host_max_rss_kb": 69292,
+      "result_characters": 44,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 2.2430734108744928e-55
+      },
+      "status": "exact"
+    },
+    {
+      "id": "shift-principal-1/3",
+      "input": "integrate(-2*ln((-3)*cos((1/3)*x+(-pi/7))),x)",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "-2*(x*ln(3/2)-3*im(Li2(exp(2*i*(1/3*x-pi/7+pi/2+pi))))/2+3*i*pi*(1/3*x-pi/7+pi/2+pi-pi+abs(1/3*x-pi/7+pi/2+pi-2*pi*floor((1/3*x-pi/7+pi/2+pi)/(2*pi))-pi))/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000432318\nMAX_RSS_KB 69292\n",
+      "host_seconds": 0.000432318,
+      "parser_calls": 1,
+      "host_max_rss_kb": 69292,
+      "result_characters": 157,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 5.709641409498709e-55
+      },
+      "status": "exact"
+    },
+    {
+      "id": "shift-principal-1/3",
+      "input": "integrate(-2*ln((-3)*cos((1/3)*x+(-pi/7))),x)",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "-2*(x*ln(3/2)-3*im(Li2(exp(2*i*(1/3*x-pi/7+pi/2+pi))))/2+3*i*pi*(1/3*x-pi/7+pi/2+pi-pi+abs(1/3*x-pi/7+pi/2+pi-2*pi*floor((1/3*x-pi/7+pi/2+pi)/(2*pi))-pi))/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000634607\nMAX_RSS_KB 69548\n",
+      "host_seconds": 0.000634607,
+      "parser_calls": 1,
+      "host_max_rss_kb": 69548,
+      "result_characters": 157,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 5.709641409498709e-55
+      },
+      "status": "exact"
+    },
+    {
+      "id": "shift-principal-1/3",
+      "input": "simplify(integrate(-2*ln((-3)*cos((1/3)*x+(-pi/7))),x))",
+      "stack_KiB": "normal",
+      "exit": 0,
+      "result": "((-15*i)*pi^2+(-14*i)*pi*x+(-42*i)*pi*abs(1/3*x-pi/7+pi/2+pi-2*pi*floor((1/3*x-pi/7+pi/2+pi)/(2*pi))-pi)-28*x*ln(3/2)+42*im(Li2(exp(2*i*(1/3*x-pi/7+pi/2+pi)))))/14",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000506848\nMAX_RSS_KB 69548\n",
+      "host_seconds": 0.000506848,
+      "parser_calls": 1,
+      "host_max_rss_kb": 69548,
+      "result_characters": 163,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 5.709641409498709e-55
+      },
+      "status": "exact"
+    },
+    {
+      "id": "shift-principal-1/3",
+      "input": "simplify(integrate(-2*ln((-3)*cos((1/3)*x+(-pi/7))),x))",
+      "stack_KiB": "64",
+      "exit": 0,
+      "result": "((-15*i)*pi^2+(-14*i)*pi*x+(-42*i)*pi*abs(1/3*x-pi/7+pi/2+pi-2*pi*floor((1/3*x-pi/7+pi/2+pi)/(2*pi))-pi)-28*x*ln(3/2)+42*im(Li2(exp(2*i*(1/3*x-pi/7+pi/2+pi)))))/14",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000526667\nMAX_RSS_KB 69548\n",
+      "host_seconds": 0.000526667,
+      "parser_calls": 1,
+      "host_max_rss_kb": 69548,
+      "result_characters": 163,
+      "validation": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 5.709641409498709e-55
+      },
+      "status": "exact"
+    }
+  ]
+}

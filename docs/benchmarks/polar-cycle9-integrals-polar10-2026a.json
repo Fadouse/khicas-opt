@@ -1,0 +1,162 @@
+{
+  "source_sha256": {
+    "yintg.cc": "1f2dbf27fbc725ed08af29bfa12d9380e6db16e1819a4ae1b95686d805c63757",
+    "zintgab.cc": "3b6fa78aba4d53b1a11479c33bacb4c85e3d6091389ef3073ec60085a7ae9448",
+    "ksubst.cc": "b437e5e42cd7035bfc9d91f3b52b9ca5afe140d622e3f376f2ef4eafe9630c69",
+    "yderive.cc": "e3564c5ab4b955f468e55bc97852193a3797853bb65a5e04a24e36c94c1726c4",
+    "dilogarithm.h": "ca822ef4c094a4ed1f4aecf7219011668735d86d259c51ec6304515f8fa84d7a",
+    "kconvert.cc": "eed558eb2f8ff62e0cf1e94fdbf8497954a35577e283a8d07283350e65b76003",
+    "equation_normalize.h": "4bfb644f0e18bb36e280ce8886c8ac12695c9aeeaef187ea3e5f967cd1642e37",
+    "kusual.cc": "88020df204d4e478fed95d42aa5d79cf93768a4d7143b1aee5301d1f8cd8a865",
+    "zprog.cc": "513111030cf5233496da8c3efff53df9391f12d185254f314608600e13e5639e",
+    "conditional_eval.h": "f602bbce59fbcfcadb85a78ca5ba6a79cd56f643067f84d02a02a73a040f40c1"
+  },
+  "corpus_sha256": "e3ec2fccaec749efbed045a1da37fee01ad028bc5a9b88e562691766d69dde7c",
+  "provenance": "polar-cycle9-acceptance-polar10-2026a.json",
+  "runs": [
+    {
+      "id": "PC9-I1",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(ln(1+surd(x,3)^2),x)",
+      "exit": 0,
+      "result": "3*((surd(x,3))^3/3*ln(1+(surd(x,3))^2)-2*((3*(surd(x,3))^3-9*surd(x,3))/27+1/3*atan(surd(x,3))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00186921\nMAX_RSS_KB 66252\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact real cube-root substitution, logarithm positivity and global primitive identity. Original difference quotient G(u)/u³ tends to zero on both sides; all terms odd, and the derivative is positive away from zero. One global constant suffices."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC9-I1",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(ln(1+surd(x,3)^2),x)",
+      "exit": 0,
+      "result": "3*((surd(x,3))^3/3*ln(1+(surd(x,3))^2)-2*((3*(surd(x,3))^3-9*surd(x,3))/27+1/3*atan(surd(x,3))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00196048\nMAX_RSS_KB 66252\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact real cube-root substitution, logarithm positivity and global primitive identity. Original difference quotient G(u)/u³ tends to zero on both sides; all terms odd, and the derivative is positive away from zero. One global constant suffices."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC9-I1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(ln(1+surd(x,3)^2),x))",
+      "exit": 0,
+      "result": "3*((surd(x,3))^3/3*ln(1+(surd(x,3))^2)-2*((3*(surd(x,3))^3-9*surd(x,3))/27+1/3*atan(surd(x,3))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00188632\nMAX_RSS_KB 66252\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact real cube-root substitution, logarithm positivity and global primitive identity. Original difference quotient G(u)/u³ tends to zero on both sides; all terms odd, and the derivative is positive away from zero. One global constant suffices."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC9-I1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(ln(1+surd(x,3)^2),x))",
+      "exit": 0,
+      "result": "3*((surd(x,3))^3/3*ln(1+(surd(x,3))^2)-2*((3*(surd(x,3))^3-9*surd(x,3))/27+1/3*atan(surd(x,3))))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00195567\nMAX_RSS_KB 66252\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact real cube-root substitution, logarithm positivity and global primitive identity. Original difference quotient G(u)/u³ tends to zero on both sides; all terms odd, and the derivative is positive away from zero. One global constant suffices."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC9-I2",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(exp(x)*ln(1+exp(x))/(1+exp(x))^2,x)",
+      "exit": 0,
+      "result": "-1/(exp(x)+1)*ln(exp(x)+1)-1/(exp(x)+1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000973556\nMAX_RSS_KB 66252\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact t=1+exp(x)>1 substitution and elementary integration by parts. Positive derivative, global positive log argument, and limits -1 and zero establish the real domain and range."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "-(ln(2)+1)/2"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC9-I2",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(exp(x)*ln(1+exp(x))/(1+exp(x))^2,x)",
+      "exit": 0,
+      "result": "-1/(exp(x)+1)*ln(exp(x)+1)-1/(exp(x)+1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00105722\nMAX_RSS_KB 66252\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact t=1+exp(x)>1 substitution and elementary integration by parts. Positive derivative, global positive log argument, and limits -1 and zero establish the real domain and range."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "-(ln(2)+1)/2"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC9-I2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(exp(x)*ln(1+exp(x))/(1+exp(x))^2,x))",
+      "exit": 0,
+      "result": "(-ln(exp(x)+1)-1)/(exp(x)+1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00118789\nMAX_RSS_KB 66252\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact t=1+exp(x)>1 substitution and elementary integration by parts. Positive derivative, global positive log argument, and limits -1 and zero establish the real domain and range."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "-(ln(2)+1)/2"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC9-I2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(exp(x)*ln(1+exp(x))/(1+exp(x))^2,x))",
+      "exit": 0,
+      "result": "(-ln(exp(x)+1)-1)/(exp(x)+1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00120872\nMAX_RSS_KB 66252\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact t=1+exp(x)>1 substitution and elementary integration by parts. Positive derivative, global positive log argument, and limits -1 and zero establish the real domain and range."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "-(ln(2)+1)/2"
+      },
+      "status": "exact"
+    }
+  ]
+}

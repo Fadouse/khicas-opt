@@ -138,3 +138,20 @@ ROM 2,065,112 / 2,065,152 B（余40 B），AC2 2,487,388 / 2,559,996 B（余72,6
 5次主机计算中位数最大约2.2 ms；本轮仍没有CG50实机计时或安装，64 KiB主机保护栈不是SH4/MMU模拟。ROM余40 B，AC2余72,412 B（使用2,487,584 B），静态RAM与CAS堆不变。首次有错题，下一步继续全新题集，未进入最终性能代理验收。
 
 [首次](benchmarks/polar-cycle9-first-acceptance-2026a.json) · [修复后](benchmarks/polar-cycle9-fixed-acceptance-2026a.json) · [变体](benchmarks/root-branch-guards-polar9-2026a.json) · [资源](benchmarks/resources-polar-cycle9-2026a.json) · [测量](benchmarks/polar-cycle9-performance-2026a.json) · [回归索引](benchmarks/polar-cycle9-regression-index-2026a.json)。
+
+
+## 第十轮：光滑振幅消除根尖点、资源分区与定义域验收
+
+标签 `checkpoint/polar-stability-cycle10-2026a`。新6题首次4题完整通过，两道导数题都在本来有限的接点残留除零。主代理补测还发现x*sqrt(x²)在零点的同类误判。修复后24项全部通过，另有48项正反例验证exp、ln、sin、atan振幅、绝对值角点、平方根单侧端点与奇次实根尖点。
+
+新规则限制为有界一/二次实多项式根内式、可精确识别的有理零点，以及能证明局部解析的振幅。振幅在根零点也消失时，原函数差商是O(h)*O(|h|^alpha)/h，趋于零；振幅不消失时保留真实不可导点。平方根端点只使用允许实域内的单侧结论，分段拼接另检查完整原函数。绝对值二重零点与一重角点分别处理。短实奇次根表达式保留实根节点，避免外层化简把负实根换成主值复幂；这会保留部分原本可以进一步展开的写法。
+
+首次SH4链接超出ROM 120 B。将根式域检查提取为单独的AC2函数，并合并重复大小遍历后，ROM使用2,064,552 / 2,065,152 B（余600 B），AC2使用2,491,652 / 2,559,996 B（余68,344 B）。新增求导及化简辅助函数的链接地址均已核对；静态RAM和CAS堆不变，没有提高求解、展开或测试栈预算。
+
+资源题的re/im在进入化简前生成两个共25个单项式的多项式，外层平方仍保持，符合有限项数预算；独立多项式恒等式验证模长比为一。原点使用同时代入[x,y]=[0,0]验证undef。逐个代入会先在某一坐标轴上约分，不适合作为原表达式的原点定义域检查，故未将这种测试器差异误记为程序缺陷。
+
+本轮24项、新48项乘积检查、前三轮104项变体、旧114项边界检查、前九轮256项、旧混合96项、极坐标60项、21项正式任务和7项补充任务均通过。第一轮绝对值导数新增明确的±1不可导分支，独立验收核实它们恰为原题排除点。积分清单665条：660精确、5导数采样，642种去空白文本。5次主机中位数最大约2.5 ms；没有本轮CG50安装或实机计时，主机64 KiB保护栈不是SH4/MMU模拟。
+
+首次仍有错题，提交后继续全新题集，尚不进入最终性能代理验收。
+
+[首次](benchmarks/polar-cycle10-first-acceptance-2026a.json) · [修复后](benchmarks/polar-cycle10-fixed-acceptance-2026a.json) · [变体](benchmarks/root-product-guards-polar10-2026a.json) · [资源](benchmarks/resources-polar-cycle10-2026a.json) · [测量](benchmarks/polar-cycle10-performance-2026a.json) · [回归索引](benchmarks/polar-cycle10-regression-index-2026a.json)。

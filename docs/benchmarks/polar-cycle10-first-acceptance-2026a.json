@@ -1,0 +1,377 @@
+{
+  "scope": "Actual repository integration/yderive/FXCG simplify on host dependencies; guarded 64 KiB stack, not SH4/MMU emulation.",
+  "corpus_sha256": "040140073e69828251c0008ce5c8c06d70efc3f673752968bf46ec87a4aeb066",
+  "probe_sha256": "4fd3d86f082db5ad14d269e708c07ab00dc136521656451bd449bb523b19513b",
+  "runs": [
+    {
+      "id": "PC10-I1",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(sin(x)^3/(2+cos(x)),x)",
+      "exit": 0,
+      "result": "1/2*cos(x)^2-2*cos(x)+3*ln(cos(x)+2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00358724\nMAX_RSS_KB 20972\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact trig derivative from polynomial division in cos(x). 2+cos(x)>=1 proves global smoothness, including every k*pi stationary point; cos composition establishes evenness, periodicity and zero full-period integral."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC10-I1",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(sin(x)^3/(2+cos(x)),x)",
+      "exit": 0,
+      "result": "1/2*cos(x)^2-2*cos(x)+3*ln(cos(x)+2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00321989\nMAX_RSS_KB 29212\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact trig derivative from polynomial division in cos(x). 2+cos(x)>=1 proves global smoothness, including every k*pi stationary point; cos composition establishes evenness, periodicity and zero full-period integral."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC10-I1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(sin(x)^3/(2+cos(x)),x))",
+      "exit": 0,
+      "result": "(cos(x)^2-4*cos(x)+6*ln(cos(x)+2))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00270208\nMAX_RSS_KB 29224\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact trig derivative from polynomial division in cos(x). 2+cos(x)>=1 proves global smoothness, including every k*pi stationary point; cos composition establishes evenness, periodicity and zero full-period integral."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC10-I1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(sin(x)^3/(2+cos(x)),x))",
+      "exit": 0,
+      "result": "(cos(x)^2-4*cos(x)+6*ln(cos(x)+2))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00259743\nMAX_RSS_KB 29224\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact trig derivative from polynomial division in cos(x). 2+cos(x)>=1 proves global smoothness, including every k*pi stationary point; cos composition establishes evenness, periodicity and zero full-period integral."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC10-I2",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(ln(x)/(x*(1+sqrt(ln(x)))),x)",
+      "exit": 0,
+      "result": "2*(1/3*sqrt(ln(x))*ln(x)-1/2*ln(x)+sqrt(ln(x))-ln(sqrt(ln(x))+1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00114262\nMAX_RSS_KB 29224\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact u=sqrt(ln x) substitution on x>1. The original primitive quotient G(u)/(exp(u\u00b2)-1) tends to zero from the right at one. Its domain is x>=1; no two-sided derivative there is claimed."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "1": "0"
+      }
+    },
+    {
+      "id": "PC10-I2",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(ln(x)/(x*(1+sqrt(ln(x)))),x)",
+      "exit": 0,
+      "result": "2*(1/3*sqrt(ln(x))*ln(x)-1/2*ln(x)+sqrt(ln(x))-ln(sqrt(ln(x))+1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00133981\nMAX_RSS_KB 29224\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact u=sqrt(ln x) substitution on x>1. The original primitive quotient G(u)/(exp(u\u00b2)-1) tends to zero from the right at one. Its domain is x>=1; no two-sided derivative there is claimed."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "1": "0"
+      }
+    },
+    {
+      "id": "PC10-I2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(ln(x)/(x*(1+sqrt(ln(x)))),x))",
+      "exit": 0,
+      "result": "(2*sqrt(ln(x))*ln(x)+6*sqrt(ln(x))-6*ln(sqrt(ln(x))+1)-3*ln(x))/3",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00168234\nMAX_RSS_KB 29224\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact u=sqrt(ln x) substitution on x>1. The original primitive quotient G(u)/(exp(u\u00b2)-1) tends to zero from the right at one. Its domain is x>=1; no two-sided derivative there is claimed."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "1": "0"
+      }
+    },
+    {
+      "id": "PC10-I2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(ln(x)/(x*(1+sqrt(ln(x)))),x))",
+      "exit": 0,
+      "result": "(2*sqrt(ln(x))*ln(x)+6*sqrt(ln(x))-6*ln(sqrt(ln(x))+1)-3*ln(x))/3",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00163667\nMAX_RSS_KB 29224\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact u=sqrt(ln x) substitution on x>1. The original primitive quotient G(u)/(exp(u\u00b2)-1) tends to zero from the right at one. Its domain is x>=1; no two-sided derivative there is claimed."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "1": "0"
+      }
+    },
+    {
+      "id": "PC10-D1",
+      "outer": false,
+      "stack": "normal",
+      "input": "diff((exp(x)-1)*surd(x*(x-1),3)+ln(1+x^2),x)",
+      "exit": 0,
+      "result": "exp(x)*surd(x*(x-1),3)+(exp(x)-1)/3*(x-1+x)*surd(x*(x-1),3)/(x*(x-1))+2*x/(1+x^2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000333406\nMAX_RSS_KB 29224\n",
+      "error": "Missing removable value at zero",
+      "pass": false
+    },
+    {
+      "id": "PC10-D1",
+      "outer": false,
+      "stack": "64",
+      "input": "diff((exp(x)-1)*surd(x*(x-1),3)+ln(1+x^2),x)",
+      "exit": 0,
+      "result": "exp(x)*surd(x*(x-1),3)+(exp(x)-1)/3*(x-1+x)*surd(x*(x-1),3)/(x*(x-1))+2*x/(1+x^2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000356395\nMAX_RSS_KB 29224\n",
+      "error": "Missing removable value at zero",
+      "pass": false
+    },
+    {
+      "id": "PC10-D1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(diff((exp(x)-1)*surd(x*(x-1),3)+ln(1+x^2),x))",
+      "exit": 0,
+      "result": "(3*x^4*(x^2-x)^(1/3)*exp(x)-x^3*(x^2-x)^(1/3)*exp(x)-2*x^3*(x^2-x)^(1/3)+6*x^3+2*x^2*(x^2-x)^(1/3)*exp(x)+x^2*(x^2-x)^(1/3)-6*x^2-x*(x^2-x)^(1/3)*exp(x)-2*x*(x^2-x)^(1/3)-(x^2-x)^(1/3)*exp(x)+(x^2-x)^(1/3))/(3*x^4-3*x^3+3*x^2-3*x)",
+      "stderr": "Temporary replacing surd/NTHROOT by fractional powers\nPARSER_CALLS 1\nSECONDS 0.00171577\nMAX_RSS_KB 29224\n",
+      "error": "Missing removable value at zero",
+      "pass": false
+    },
+    {
+      "id": "PC10-D1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(diff((exp(x)-1)*surd(x*(x-1),3)+ln(1+x^2),x))",
+      "exit": 0,
+      "result": "(3*x^4*(x^2-x)^(1/3)*exp(x)-x^3*(x^2-x)^(1/3)*exp(x)-2*x^3*(x^2-x)^(1/3)+6*x^3+2*x^2*(x^2-x)^(1/3)*exp(x)+x^2*(x^2-x)^(1/3)-6*x^2-x*(x^2-x)^(1/3)*exp(x)-2*x*(x^2-x)^(1/3)-(x^2-x)^(1/3)*exp(x)+(x^2-x)^(1/3))/(3*x^4-3*x^3+3*x^2-3*x)",
+      "stderr": "Temporary replacing surd/NTHROOT by fractional powers\nPARSER_CALLS 1\nSECONDS 0.00152766\nMAX_RSS_KB 29224\n",
+      "error": "Missing removable value at zero",
+      "pass": false
+    },
+    {
+      "id": "PC10-D2",
+      "outer": false,
+      "stack": "normal",
+      "input": "diff(piecewise(x<=0,ln(1-x)+x,x<1,x^2/(1+x),1/2+3*(x-1)/4+(x-1)*sqrt(x-1)),x)",
+      "exit": 0,
+      "result": "piecewise(0>=x,-1/(1-x)+1,x<1,(2*x*(1+x)-x^2)/(1+x)^2,sqrt(x-1)+(x-1)/2*(sqrt(x-1))^-1+3/4)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000470784\nMAX_RSS_KB 29224\n",
+      "error": "",
+      "pass": false
+    },
+    {
+      "id": "PC10-D2",
+      "outer": false,
+      "stack": "64",
+      "input": "diff(piecewise(x<=0,ln(1-x)+x,x<1,x^2/(1+x),1/2+3*(x-1)/4+(x-1)*sqrt(x-1)),x)",
+      "exit": 0,
+      "result": "piecewise(0>=x,-1/(1-x)+1,x<1,(2*x*(1+x)-x^2)/(1+x)^2,sqrt(x-1)+(x-1)/2*(sqrt(x-1))^-1+3/4)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000523743\nMAX_RSS_KB 29224\n",
+      "error": "",
+      "pass": false
+    },
+    {
+      "id": "PC10-D2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(diff(piecewise(x<=0,ln(1-x)+x,x<1,x^2/(1+x),1/2+3*(x-1)/4+(x-1)*sqrt(x-1)),x))",
+      "exit": 0,
+      "result": "piecewise(0>=x,-1/(1-x)+1,x<1,(2*x*(1+x)-x^2)/(1+x)^2,sqrt(x-1)+(x-1)/2*(sqrt(x-1))^-1+3/4)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000526493\nMAX_RSS_KB 29224\n",
+      "error": "",
+      "pass": false
+    },
+    {
+      "id": "PC10-D2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(diff(piecewise(x<=0,ln(1-x)+x,x<1,x^2/(1+x),1/2+3*(x-1)/4+(x-1)*sqrt(x-1)),x))",
+      "exit": 0,
+      "result": "piecewise(0>=x,-1/(1-x)+1,x<1,(2*x*(1+x)-x^2)/(1+x)^2,sqrt(x-1)+(x-1)/2*(sqrt(x-1))^-1+3/4)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000498303\nMAX_RSS_KB 29224\n",
+      "error": "",
+      "pass": false
+    },
+    {
+      "id": "PC10-S1",
+      "outer": false,
+      "stack": "normal",
+      "input": "ln(x+sqrt(x^2-1))+ln(x-sqrt(x^2-1))",
+      "exit": 0,
+      "result": "ln(x+sqrt(x^2-1))+ln(x-sqrt(x^2-1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000302406\nMAX_RSS_KB 29224\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact retained principal logs. Arguments multiply to one and are nonzero globally; both positive for x>1, both negative for x<-1, unit-circle conjugates for -1<x<1. Separate cut evaluations give 2*i*pi at -1 and zero at 1."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "2*i*pi",
+        "1": "0"
+      }
+    },
+    {
+      "id": "PC10-S1",
+      "outer": false,
+      "stack": "64",
+      "input": "ln(x+sqrt(x^2-1))+ln(x-sqrt(x^2-1))",
+      "exit": 0,
+      "result": "ln(x+sqrt(x^2-1))+ln(x-sqrt(x^2-1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000325476\nMAX_RSS_KB 29224\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact retained principal logs. Arguments multiply to one and are nonzero globally; both positive for x>1, both negative for x<-1, unit-circle conjugates for -1<x<1. Separate cut evaluations give 2*i*pi at -1 and zero at 1."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "2*i*pi",
+        "1": "0"
+      }
+    },
+    {
+      "id": "PC10-S1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(ln(x+sqrt(x^2-1))+ln(x-sqrt(x^2-1)))",
+      "exit": 0,
+      "result": "ln(x+sqrt(x^2-1))+ln(x-sqrt(x^2-1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000511894\nMAX_RSS_KB 29224\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact retained principal logs. Arguments multiply to one and are nonzero globally; both positive for x>1, both negative for x<-1, unit-circle conjugates for -1<x<1. Separate cut evaluations give 2*i*pi at -1 and zero at 1."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "2*i*pi",
+        "1": "0"
+      }
+    },
+    {
+      "id": "PC10-S1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(ln(x+sqrt(x^2-1))+ln(x-sqrt(x^2-1)))",
+      "exit": 0,
+      "result": "ln(x+sqrt(x^2-1))+ln(x-sqrt(x^2-1))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000517904\nMAX_RSS_KB 29224\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact retained principal logs. Arguments multiply to one and are nonzero globally; both positive for x>1, both negative for x<-1, unit-circle conjugates for -1<x<1. Separate cut evaluations give 2*i*pi at -1 and zero at 1."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "-1": "2*i*pi",
+        "1": "0"
+      }
+    },
+    {
+      "id": "PC10-R1",
+      "outer": false,
+      "stack": "normal",
+      "input": "(re((x+i*y)^24)^2+im((x+i*y)^24)^2)/(x^2+y^2)^24",
+      "exit": 0,
+      "result": "((x^24-276*x^22*y^2+10626*x^20*y^4-134596*x^18*y^6+735471*x^16*y^8-1961256*x^14*y^10+2704156*x^12*y^12-1961256*x^10*y^14+735471*x^8*y^16-134596*x^6*y^18+10626*x^4*y^20-276*x^2*y^22+y^24)^2+(24*x^23*y-2024*x^21*y^3+42504*x^19*y^5-346104*x^17*y^7+1307504*x^15*y^9-2496144*x^13*y^11+2496144*x^11*y^13-1307504*x^9*y^15+346104*x^7*y^17-42504*x^5*y^19+2024*x^3*y^21-24*x*y^23)^2)/(x^2+y^2)^24",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000364625\nMAX_RSS_KB 29224\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact polynomial identity for the two retained real/imaginary component polynomials. Their 25 total monomials remain under outer squares, within the existing finite budget; no full numerator distribution is performed by the engine. Complex norm algebra gives one on the punctured real plane; explicit denominator preserves the origin exclusion."
+      },
+      "pass": true,
+      "actual_origin_exclusion": "undef"
+    },
+    {
+      "id": "PC10-R1",
+      "outer": false,
+      "stack": "64",
+      "input": "(re((x+i*y)^24)^2+im((x+i*y)^24)^2)/(x^2+y^2)^24",
+      "exit": 0,
+      "result": "((x^24-276*x^22*y^2+10626*x^20*y^4-134596*x^18*y^6+735471*x^16*y^8-1961256*x^14*y^10+2704156*x^12*y^12-1961256*x^10*y^14+735471*x^8*y^16-134596*x^6*y^18+10626*x^4*y^20-276*x^2*y^22+y^24)^2+(24*x^23*y-2024*x^21*y^3+42504*x^19*y^5-346104*x^17*y^7+1307504*x^15*y^9-2496144*x^13*y^11+2496144*x^11*y^13-1307504*x^9*y^15+346104*x^7*y^17-42504*x^5*y^19+2024*x^3*y^21-24*x*y^23)^2)/(x^2+y^2)^24",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000448915\nMAX_RSS_KB 29224\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact polynomial identity for the two retained real/imaginary component polynomials. Their 25 total monomials remain under outer squares, within the existing finite budget; no full numerator distribution is performed by the engine. Complex norm algebra gives one on the punctured real plane; explicit denominator preserves the origin exclusion."
+      },
+      "pass": true,
+      "actual_origin_exclusion": "undef"
+    },
+    {
+      "id": "PC10-R1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify((re((x+i*y)^24)^2+im((x+i*y)^24)^2)/(x^2+y^2)^24)",
+      "exit": 0,
+      "result": "((x^24-276*x^22*y^2+10626*x^20*y^4-134596*x^18*y^6+735471*x^16*y^8-1961256*x^14*y^10+2704156*x^12*y^12-1961256*x^10*y^14+735471*x^8*y^16-134596*x^6*y^18+10626*x^4*y^20-276*x^2*y^22+y^24)^2+(24*x^23*y-2024*x^21*y^3+42504*x^19*y^5-346104*x^17*y^7+1307504*x^15*y^9-2496144*x^13*y^11+2496144*x^11*y^13-1307504*x^9*y^15+346104*x^7*y^17-42504*x^5*y^19+2024*x^3*y^21-24*x*y^23)^2)/(x^2+y^2)^24",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000368966\nMAX_RSS_KB 29224\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact polynomial identity for the two retained real/imaginary component polynomials. Their 25 total monomials remain under outer squares, within the existing finite budget; no full numerator distribution is performed by the engine. Complex norm algebra gives one on the punctured real plane; explicit denominator preserves the origin exclusion."
+      },
+      "pass": true,
+      "actual_origin_exclusion": "undef"
+    },
+    {
+      "id": "PC10-R1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify((re((x+i*y)^24)^2+im((x+i*y)^24)^2)/(x^2+y^2)^24)",
+      "exit": 0,
+      "result": "((x^24-276*x^22*y^2+10626*x^20*y^4-134596*x^18*y^6+735471*x^16*y^8-1961256*x^14*y^10+2704156*x^12*y^12-1961256*x^10*y^14+735471*x^8*y^16-134596*x^6*y^18+10626*x^4*y^20-276*x^2*y^22+y^24)^2+(24*x^23*y-2024*x^21*y^3+42504*x^19*y^5-346104*x^17*y^7+1307504*x^15*y^9-2496144*x^13*y^11+2496144*x^11*y^13-1307504*x^9*y^15+346104*x^7*y^17-42504*x^5*y^19+2024*x^3*y^21-24*x*y^23)^2)/(x^2+y^2)^24",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000402304\nMAX_RSS_KB 29224\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact polynomial identity for the two retained real/imaginary component polynomials. Their 25 total monomials remain under outer squares, within the existing finite budget; no full numerator distribution is performed by the engine. Complex norm algebra gives one on the punctured real plane; explicit denominator preserves the origin exclusion."
+      },
+      "pass": true,
+      "actual_origin_exclusion": "undef"
+    }
+  ],
+  "cases": [
+    {
+      "id": "PC10-I1",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC10-I2",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC10-D1",
+      "all_four_pass": false
+    },
+    {
+      "id": "PC10-D2",
+      "all_four_pass": false
+    },
+    {
+      "id": "PC10-S1",
+      "all_four_pass": true
+    },
+    {
+      "id": "PC10-R1",
+      "all_four_pass": true
+    }
+  ]
+}

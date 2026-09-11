@@ -3142,33 +3142,43 @@ namespace giac {
   static define_unary_function_eval (__expln2trig,&expln2trig,_expln2trig_s);
   define_unary_function_ptr5( at_expln2trig ,alias_at_expln2trig,&__expln2trig,0,true);
 
+#if defined(__GNUC__) && !defined(__clang__)
+  __attribute__((noinline,optimize("Os")))
+#endif
+  static bool simplify_root_domain(const gen &args){
+    if(taille(args,257)>256)return false;
+    // Principal complex roots and real logarithm magnitudes carry domain
+    // information that a real algebraic surrogate cannot discard.
+    if((has_i(args) || (contains(args,*at_ln) && contains(args,*at_abs)))){
+      if(has_op(args,*at_sqrt))return true;
+      vecteur powers=lop(args,at_pow);
+      for(unsigned j=0;j<powers.size();++j){
+        const gen &f=powers[j]._SYMBptr->feuille;
+        if(f.type==_VECT && f._VECTptr->size()==2 && f[1]==gen(1)/2)return true;
+      }
+    }
+    // Rational inner arguments of real roots must not be replaced by a
+    // principal complex power during algebraic normalization.
+    if(has_op(args,*at_surd) || has_op(args,*at_NTHROOT)){
+      vecteur roots=mergevecteur(lop(args,at_surd),lop(args,at_NTHROOT));
+      for(unsigned j=0;j<roots.size();++j){
+        const gen &f=roots[j]._SYMBptr->feuille;
+        if(f.type==_VECT && f._VECTptr->size()==2){
+          bool nth=roots[j].is_symb_of_sommet(at_NTHROOT);
+          const gen &u=f[nth?1:0],&n=f[nth?0:1];
+          if((n.type==_INT_ && n.val>1 && n.val%2) || has_op(u,*at_inv) || has_op(u,*at_division))return true;
+        }
+      }
+    }
+    return false;
+  }
+
   gen _simplify(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     // A conditional value is a lazy branch boundary. Evaluating or
     // normalizing both branches can enter an undefined Gamma/log branch.
     if(args.is_symb_of_sommet(at_when) || args.is_symb_of_sommet(at_piecewise))return args;
-    // Principal complex roots and real logarithm magnitudes carry domain
-    // information that a real algebraic surrogate cannot discard.
-    if(taille(args,257)<=256 && (has_i(args) || (contains(args,*at_ln) && contains(args,*at_abs)))){
-      if(has_op(args,*at_sqrt))return args;
-      vecteur powers=lop(args,at_pow);
-      for(unsigned j=0;j<powers.size();++j){
-        const gen &f=powers[j]._SYMBptr->feuille;
-        if(f.type==_VECT && f._VECTptr->size()==2 && f[1]==gen(1)/2)return args;
-      }
-    }
-    // Rational inner arguments of real roots must not be replaced by a
-    // principal complex power during algebraic normalization.
-    if(taille(args,257)<=256 && (has_op(args,*at_surd) || has_op(args,*at_NTHROOT))){
-      vecteur roots=mergevecteur(lop(args,at_surd),lop(args,at_NTHROOT));
-      for(unsigned j=0;j<roots.size();++j){
-        const gen &f=roots[j]._SYMBptr->feuille;
-        if(f.type==_VECT && f._VECTptr->size()==2){
-          const gen &u=f[roots[j].is_symb_of_sommet(at_NTHROOT)?1:0];
-          if(has_op(u,*at_inv) || has_op(u,*at_division))return args;
-        }
-      }
-    }
+    if(simplify_root_domain(args))return args;
     // surd2pow's algebraic surrogate may be assumed nonnegative while a
     // real odd root changes sign. Keep real logarithm magnitudes intact.
     if(taille(args,129)<=128 && contains(args,*at_ln) && contains(args,*at_abs) &&

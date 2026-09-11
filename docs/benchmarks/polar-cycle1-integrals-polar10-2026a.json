@@ -1,0 +1,258 @@
+{
+  "source_sha256": {
+    "yintg.cc": "1f2dbf27fbc725ed08af29bfa12d9380e6db16e1819a4ae1b95686d805c63757",
+    "zintgab.cc": "3b6fa78aba4d53b1a11479c33bacb4c85e3d6091389ef3073ec60085a7ae9448",
+    "ksubst.cc": "b437e5e42cd7035bfc9d91f3b52b9ca5afe140d622e3f376f2ef4eafe9630c69",
+    "yderive.cc": "e3564c5ab4b955f468e55bc97852193a3797853bb65a5e04a24e36c94c1726c4",
+    "dilogarithm.h": "ca822ef4c094a4ed1f4aecf7219011668735d86d259c51ec6304515f8fa84d7a",
+    "kconvert.cc": "eed558eb2f8ff62e0cf1e94fdbf8497954a35577e283a8d07283350e65b76003",
+    "equation_normalize.h": "4bfb644f0e18bb36e280ce8886c8ac12695c9aeeaef187ea3e5f967cd1642e37",
+    "kusual.cc": "88020df204d4e478fed95d42aa5d79cf93768a4d7143b1aee5301d1f8cd8a865",
+    "zprog.cc": "513111030cf5233496da8c3efff53df9391f12d185254f314608600e13e5639e",
+    "conditional_eval.h": "f602bbce59fbcfcadb85a78ca5ba6a79cd56f643067f84d02a02a73a040f40c1"
+  },
+  "corpus_sha256": "0bc969e85f2f3f40205d58c976841513494d14c1e9acebe3a8cd9d6c6d4922e5",
+  "provenance": "polar-cycle1-acceptance-polar10-2026a.json",
+  "runs": [
+    {
+      "id": "PC1-I1",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate((3*x^2-1)*ln(abs(2*sin((x^3-x)/2))),x)",
+      "exit": 0,
+      "result": "-2*im(Li2(exp(2*i*(x^3-x)/2)))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00493749\nMAX_RSS_KB 66088\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact canonical Clausen primitive; |1-exp(i*phi)|=2|sin(phi/2)|; chain factor phi' is multiplied, never divided. All sine-sign intervals and stationary points retained."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC1-I1",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate((3*x^2-1)*ln(abs(2*sin((x^3-x)/2))),x)",
+      "exit": 0,
+      "result": "-2*im(Li2(exp(2*i*(x^3-x)/2)))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00518018\nMAX_RSS_KB 66088\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact canonical Clausen primitive; |1-exp(i*phi)|=2|sin(phi/2)|; chain factor phi' is multiplied, never divided. All sine-sign intervals and stationary points retained."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC1-I1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate((3*x^2-1)*ln(abs(2*sin((x^3-x)/2))),x))",
+      "exit": 0,
+      "result": "-im(Li2(exp(2*i*(x^3-x)/2)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.0045073\nMAX_RSS_KB 66088\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact canonical Clausen primitive; |1-exp(i*phi)|=2|sin(phi/2)|; chain factor phi' is multiplied, never divided. All sine-sign intervals and stationary points retained."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC1-I1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate((3*x^2-1)*ln(abs(2*sin((x^3-x)/2))),x))",
+      "exit": 0,
+      "result": "-im(Li2(exp(2*i*(x^3-x)/2)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00429406\nMAX_RSS_KB 66088\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact canonical Clausen primitive; |1-exp(i*phi)|=2|sin(phi/2)|; chain factor phi' is multiplied, never divided. All sine-sign intervals and stationary points retained."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC1-I2",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(ln(1-2*exp(-3*i*x/2)),x)",
+      "exit": 0,
+      "result": "(-2*i)/3*Li2(2*exp((-3*i)*x/2))",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000372208\nMAX_RSS_KB 66088\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact canonical principal Li2 primitive and logarithmic derivative z'/z=-3i/2. Valid on each arc excluding the principal cut, on both half-planes."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC1-I2",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(ln(1-2*exp(-3*i*x/2)),x)",
+      "exit": 0,
+      "result": "(-2*i)/3*Li2(2*exp((-3*i)*x/2))",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000529868\nMAX_RSS_KB 66088\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact canonical principal Li2 primitive and logarithmic derivative z'/z=-3i/2. Valid on each arc excluding the principal cut, on both half-planes."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC1-I2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(ln(1-2*exp(-3*i*x/2)),x))",
+      "exit": 0,
+      "result": "(-2*i)*Li2(2*exp((-3*i)*x/2))/3",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000388269\nMAX_RSS_KB 66088\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact canonical principal Li2 primitive and logarithmic derivative z'/z=-3i/2. Valid on each arc excluding the principal cut, on both half-planes."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC1-I2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(ln(1-2*exp(-3*i*x/2)),x))",
+      "exit": 0,
+      "result": "(-2*i)*Li2(2*exp((-3*i)*x/2))/3",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000749907\nMAX_RSS_KB 66088\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact canonical principal Li2 primitive and logarithmic derivative z'/z=-3i/2. Valid on each arc excluding the principal cut, on both half-planes."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC1-I3",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(sin(x)*cos(x)/(sin(x)^4+3*sin(x)^2*cos(x)^2+2*cos(x)^4),x)",
+      "exit": 0,
+      "result": "-1/2*ln(-sin(x)^2+2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00246327\nMAX_RSS_KB 66088\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative; denominator=(sin²+cos²)(sin²+2cos²)=1+cos²>=1 on the full real axis."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC1-I3",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(sin(x)*cos(x)/(sin(x)^4+3*sin(x)^2*cos(x)^2+2*cos(x)^4),x)",
+      "exit": 0,
+      "result": "-1/2*ln(-sin(x)^2+2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00252598\nMAX_RSS_KB 66088\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative; denominator=(sin²+cos²)(sin²+2cos²)=1+cos²>=1 on the full real axis."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC1-I3",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(sin(x)*cos(x)/(sin(x)^4+3*sin(x)^2*cos(x)^2+2*cos(x)^4),x))",
+      "exit": 0,
+      "result": "-ln(-sin(x)^2+2)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00243714\nMAX_RSS_KB 66088\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative; denominator=(sin²+cos²)(sin²+2cos²)=1+cos²>=1 on the full real axis."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC1-I3",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(sin(x)*cos(x)/(sin(x)^4+3*sin(x)^2*cos(x)^2+2*cos(x)^4),x))",
+      "exit": 0,
+      "result": "-ln(-sin(x)^2+2)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.0023909\nMAX_RSS_KB 66088\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative; denominator=(sin²+cos²)(sin²+2cos²)=1+cos²>=1 on the full real axis."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC1-I4",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(x/sqrt((x^2-4)^2),x)",
+      "exit": 0,
+      "result": "1/2*ln(abs(x^2-4))/sign(x^2-4)",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(x^2-4)]\nDiscontinuities at zeroes of x^2-4 were not checked\nPARSER_CALLS 1\nSECONDS 0.000874717\nMAX_RSS_KB 66088\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact algebra on both signs of x²-c; all connected real intervals covered. Only the original excluded zeros of x²-c remain excluded."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC1-I4",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(x/sqrt((x^2-4)^2),x)",
+      "exit": 0,
+      "result": "1/2*ln(abs(x^2-4))/sign(x^2-4)",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(x^2-4)]\nDiscontinuities at zeroes of x^2-4 were not checked\nPARSER_CALLS 1\nSECONDS 0.00113179\nMAX_RSS_KB 66088\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact algebra on both signs of x²-c; all connected real intervals covered. Only the original excluded zeros of x²-c remain excluded."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC1-I4",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(x/sqrt((x^2-4)^2),x))",
+      "exit": 0,
+      "result": "(x^2*ln(abs(x^2-4))-4*ln(abs(x^2-4)))/(2*abs(x^2-4))",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(x^2-4)]\nDiscontinuities at zeroes of x^2-4 were not checked\nPARSER_CALLS 1\nSECONDS 0.00151643\nMAX_RSS_KB 66088\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact algebra on both signs of x²-c; all connected real intervals covered. Only the original excluded zeros of x²-c remain excluded."
+      },
+      "pass": true,
+      "status": "exact"
+    },
+    {
+      "id": "PC1-I4",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(x/sqrt((x^2-4)^2),x))",
+      "exit": 0,
+      "result": "(x^2*ln(abs(x^2-4))-4*ln(abs(x^2-4)))/(2*abs(x^2-4))",
+      "stderr": "Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck [abs(x^2-4)]\nDiscontinuities at zeroes of x^2-4 were not checked\nPARSER_CALLS 1\nSECONDS 0.00201924\nMAX_RSS_KB 66088\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact algebra on both signs of x²-c; all connected real intervals covered. Only the original excluded zeros of x²-c remain excluded."
+      },
+      "pass": true,
+      "status": "exact"
+    }
+  ]
+}

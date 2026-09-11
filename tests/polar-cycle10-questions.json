@@ -1,0 +1,132 @@
+{
+  "cases": [
+    {
+      "id": "PC10-I1",
+      "type": "integral",
+      "input": "simplify(integrate(sin(x)^3/(2+cos(x)),x))",
+      "conditions": [
+        "x is any finite real number; trigonometric arguments are in radians and ln is the real logarithm.",
+        "The integrand is defined and smooth on the whole real axis because 2+cos(x)>=1. An explicit exact antiderivative is required everywhere, up to one global additive constant.",
+        "The substitution cos(x) is not globally injective and has stationary points at every integer multiple of pi. These points are included in the required primitive's differentiability domain."
+      ],
+      "expected": {
+        "expression": "cos(x)^2/2-2*cos(x)+3*ln(2+cos(x))",
+        "properties": [
+          "Return an explicit evaluable closed-form antiderivative without unevaluated integrate; equivalent exact closed forms and one global additive constant are acceptable.",
+          "Its derivative is sin(x)^3/(2+cos(x)) for every real x, including derivative zero at each x=k*pi for integer k.",
+          "The displayed primitive is smooth, even, and 2*pi-periodic. No tangent-substitution poles or unrelated constants on adjacent trigonometric intervals may be introduced.",
+          "The logarithm argument remains in [1,3]. Neither complex branch corrections nor additional real domain exclusions are needed.",
+          "The exact integral over any full period is zero; retaining an unevaluated integral does not count as solving this case."
+        ]
+      },
+      "reason": "On any open interval where sin(x)!=0, put t=cos(x), so sin(x)^3 dx=-(1-t^2) dt. Polynomial division gives (t^2-1)/(t+2)=t-2+3/(t+2), whose primitive is H(t)=t^2/2-2*t+3*ln(t+2). For every real x, including stationary substitution points, t lies in [-1,1], where H is smooth. Thus the ordinary chain rule directly proves d[H(cos(x))]/dx=-sin(x)*(cos(x)-2+3/(2+cos(x)))=sin(x)*(1-cos(x)^2)/(2+cos(x))=sin(x)^3/(2+cos(x)). This proof never divides by sin(x), so it also establishes derivative zero at all integer multiples of pi. Evenness and periodicity follow from those of cos(x), and the fundamental theorem of calculus applied to this globally smooth periodic primitive proves that its integrand has zero integral over every full period. Positivity of t+2 throughout the substitution range justifies the single real logarithm and the global choice of constant."
+    },
+    {
+      "id": "PC10-I2",
+      "type": "integral",
+      "input": "simplify(integrate(ln(x)/(x*(1+sqrt(ln(x)))),x))",
+      "conditions": [
+        "x is real with x>=1, the entire real domain of the original integrand. ln is the real logarithm and sqrt is the nonnegative real square root.",
+        "An explicit exact antiderivative is required on (1,infinity), with a continuous extension to x=1 whose right derivative equals the integrand value zero. A two-sided real derivative at this domain endpoint is not required or defined by the given expression.",
+        "The integrand is defined and continuous at x=1. The singular derivative of the substitution sqrt(ln(x)) at one must not create a new exclusion in the returned primitive."
+      ],
+      "expected": {
+        "expression": "2*sqrt(ln(x))^3/3-ln(x)+2*sqrt(ln(x))-2*ln(1+sqrt(ln(x)))",
+        "properties": [
+          "Return an explicit evaluable closed-form antiderivative without unevaluated integrate; equivalent exact closed forms and an additive constant are acceptable.",
+          "For the displayed normalization the primitive is zero at x=1, positive and strictly increasing for x>1, and differentiates to the original integrand on (1,infinity).",
+          "Prove continuity and right derivative zero at one from the original primitive's difference quotient, accounting for cancellation among the square-root and logarithmic terms.",
+          "The displayed formula has no real values for 0<x<1 under the stated square-root convention, and ln(x) excludes x<=0. No claim of a two-sided real derivative at one is acceptable without separately specifying an extension.",
+          "All evaluated logarithm arguments on the allowed domain are positive. Retaining an integral or merely specifying a derivative check does not satisfy the closed-form requirement."
+        ]
+      },
+      "reason": "Set u=sqrt(ln(x))>=0, so x=exp(u^2). For x>1, dx/x=2*u du and the transformed integrand is 2*u^3/(1+u). Division u^3/(1+u)=u^2-u+1-1/(1+u) gives G(u)=2*u^3/3-u^2+2*u-2*ln(1+u). Independently G'(u)=2*u^3/(1+u), and du/dx=1/(2*x*u) for u>0, so the displayed primitive's derivative is u^2/(x*(1+u)), exactly the requested integrand. At u=0 every term is defined and G(0)=0. Taylor's formula for the ordinary logarithm at one gives G(u)=u^4/2+O(u^5) as u tends to zero from above. The original right difference quotient at x=1 is G(u)/(exp(u^2)-1); since exp(u^2)-1=u^2+O(u^4), this quotient tends to zero. The same expansion proves continuity there. Because the integrand is strictly positive for x>1, the normalized primitive is strictly increasing and positive on that interval. The conditions ln(x)>=0 and x>0 are equivalent to x>=1, and 1+u>=1, establishing the full real domain and every logarithm's positivity. There is no left real neighborhood of one in this expression's domain, so the right derivative statement must not be promoted to a two-sided derivative."
+    },
+    {
+      "id": "PC10-D1",
+      "type": "derivative",
+      "input": "simplify(diff((exp(x)-1)*surd(x*(x-1),3)+ln(1+x^2),x))",
+      "conditions": [
+        "x is any finite real number. surd(t,3) is the unique real cube root for all real t; exp and ln have their real meanings.",
+        "The original function is defined and continuous on the whole real axis, including both radicand zeros zero and one. The factor exp(x)-1 vanishes only at the first of these points.",
+        "The derivative must be determined from the original function at both root zeros. Its finite derivative domain is the real axis with one removed. piecewise uses lazy selection, so inactive singular formulas are not evaluated."
+      ],
+      "expected": {
+        "expression": "piecewise(x==0,0,x==1,undef,exp(x)*surd(x*(x-1),3)+(exp(x)-1)*(2*x-1)/(3*surd(x*(x-1),3)^2)+2*x/(1+x^2))",
+        "properties": [
+          "Return an explicit exact derivative for every real x!=1, including the finite value zero at x=0; equivalent formulas with the same domain and endpoint values are acceptable.",
+          "At zero the smooth exponential factor cancels the real-root cusp strongly enough for the original two-sided difference quotient to tend to zero. This value requires a separate proof rather than substitution into a zero denominator.",
+          "At one the original function is defined with value ln(2) and is continuous. Its original difference quotient tends to positive infinity from both sides, so it has no finite derivative there.",
+          "For 0<x<1 the root must remain the negative real cube root. A principal complex fractional power would change the original function.",
+          "Retain both product-rule contributions and the logarithmic derivative. An unconditional exclusion of both radicand zeros, or a finite slope assigned at one, is incorrect."
+        ]
+      },
+      "reason": "Write u=surd(x*(x-1),3). At every x outside {0,1}, the real-root identity u^3=x*(x-1) yields u'=(2*x-1)/(3*u^2); the product and chain rules give the displayed nonexceptional formula. At zero the original value is zero. For nonzero h its original quotient is ((exp(h)-1)/h)*surd(h*(h-1),3)+ln(1+h^2)/h. The first factor in parentheses tends to one while the root tends to zero; the last term tends to zero since ln(1+h^2)=O(h^2). Thus the two-sided derivative exists and is zero. At one the original value is ln(2). For sufficiently small nonzero h, multiplicativity of real cube roots gives surd((1+h)*h,3)/h=surd(1+h,3)/surd(h,3)^2. Hence the original quotient is (exp(1+h)-1)*surd(1+h,3)/surd(h,3)^2+[ln(1+(1+h)^2)-ln(2)]/h. The numerator of the first term tends to exp(1)-1>0, its denominator tends to zero through positive values, and the final term tends to one. Both one-sided quotients therefore tend to positive infinity. Nevertheless the function itself is continuous at one because its root factor tends to zero. These computations separate continuity from finite differentiability and prove that one is the only excluded derivative point."
+    },
+    {
+      "id": "PC10-D2",
+      "type": "derivative",
+      "input": "simplify(diff(piecewise(x<=0,ln(1-x)+x,x<1,x^2/(1+x),1/2+3*(x-1)/4+(x-1)*sqrt(x-1)),x))",
+      "conditions": [
+        "x is any finite real number. piecewise selects the first true condition and otherwise its final default; inactive expressions are not evaluated.",
+        "ln is the real logarithm and sqrt is the nonnegative real square root. The logarithm is selected only for x<=0, the rational branch only for 0<x<1, and the square-root branch only for x>=1.",
+        "The original function is defined on the whole real axis, with selected values f(0)=0 and f(1)=1/2. Determine its derivative at the actual joins zero and one using original difference quotients."
+      ],
+      "expected": {
+        "expression": "piecewise(x<0,x/(x-1),x<=1,x*(x+2)/(1+x)^2,3/4+3*sqrt(x-1)/2)",
+        "properties": [
+          "Return an explicit exact derivative defined and continuous throughout the real axis, with values zero at zero and 3/4 at one; equivalent evaluable formulas are acceptable.",
+          "Prove both continuity and two-sided differentiability of the original function separately at each join. Matching neighboring symbolic derivative limits alone does not establish these facts.",
+          "The square-root derivative factor at x=1 is individually singular, but the original term (x-1)*sqrt(x-1) has right derivative zero there.",
+          "Inactive branch expressions impose no extra exclusions: the original function and its derivative are defined at x=-1 and at every x>1.",
+          "The first derivative is continuous at one although no finite second derivative exists there; a singular second-order behavior is not grounds for marking the requested first derivative undefined."
+        ]
+      },
+      "reason": "On the three open branch intervals, ordinary differentiation gives 1-1/(1-x)=x/(x-1), (2*x*(1+x)-x^2)/(1+x)^2=x*(x+2)/(1+x)^2, and 3/4+3*sqrt(x-1)/2. At zero the selected function value is zero and both adjacent function limits are zero. For h<0 the original quotient is [ln(1-h)+h]/h, which tends to zero because ln(1-h)=-h-h^2/2+O(h^3); for small h>0 it is h/(1+h), also tending to zero. At one both adjacent function limits equal the selected value 1/2. For small h<0 its original quotient is [((1+h)^2/(2+h))-1/2]/h=(3+2*h)/(2*(2+h)), tending to 3/4. For h>0 it is 3/4+sqrt(h), again tending to 3/4. This proves the requested finite derivatives independently of singular chain factors. The open-interval derivative formulas approach their assigned values at both joins, proving global continuity of the first derivative. For the second derivative at one, the right quotient of the first derivative is (3*sqrt(h)/2)/h=3/(2*sqrt(h)), which diverges, so no finite second derivative exists there. Each selected original and derivative branch has positive denominators and permitted real arguments on its own interval, completing the domain proof without evaluating inactive expressions."
+    },
+    {
+      "id": "PC10-S1",
+      "type": "simplify",
+      "input": "simplify(ln(x+sqrt(x^2-1))+ln(x-sqrt(x^2-1)))",
+      "conditions": [
+        "x is any finite real number, including x=-1 and x=1; i^2=-1.",
+        "sqrt is the principal complex square root and ln is the principal complex logarithm with argument in (-pi,pi]. Thus sqrt(-a)=i*sqrt(a) for a>0 and ln(-a)=ln(a)+i*pi.",
+        "Exact negative-real-axis values use the stated branch convention independently of floating-point signed zeros. Both logarithm arguments are nonzero for every allowed x."
+      ],
+      "expected": {
+        "expression": "piecewise(x<=-1,2*i*pi,0)",
+        "properties": [
+          "Return an exact expression equivalent for every real x; equivalent evaluable forms or exact retention of the compact original expression are acceptable.",
+          "The result is 2*i*pi for x<=-1 and zero for x>-1. The original expression is defined everywhere, has a jump at -1, and is continuous at 1.",
+          "At x=-1 evaluate the two principal logarithms of -1 separately to obtain 2*i*pi. At x=1 both arguments are one and the value is zero.",
+          "For -1<x<1, prove that the two arguments lie on the unit circle with opposite principal arguments. For each outer interval, prove the signs of the two real arguments before adding logarithms.",
+          "Their product is always one, but replacing the sum by ln(1) globally loses the branch contribution on x<=-1. No new domain hole is allowed."
+        ]
+      },
+      "reason": "Let s be the specified principal sqrt(x^2-1). Algebraically (x+s)*(x-s)=x^2-s^2=1, proving that neither logarithm argument ever vanishes. For x>1, s is real with 0<s<x, so both arguments are positive and their logarithms sum to the real logarithm of their product, zero. For x<-1, s is real with 0<s<-x, so both x+s and x-s are strictly negative. Their moduli have product one, and each principal logarithm has imaginary part pi; the sum is therefore 2*i*pi. For -1<x<1, s=i*sqrt(1-x^2). The arguments x+s and x-s are conjugate points of modulus one, with respective principal arguments theta and -theta for theta=acos(x) in (0,pi). Their principal logarithms are i*theta and -i*theta and cancel. At x=-1, s=0 and both arguments equal -1, so their logarithms are independently i*pi and the sum is 2*i*pi; the limit from the middle interval is zero, establishing the jump. At x=1, s=0 and both arguments equal one, so the value is zero and agrees with both neighboring formulas. These cases exhaust the real axis and justify every branch value without assuming an unrestricted logarithm product rule."
+    },
+    {
+      "id": "PC10-R1",
+      "type": "resource",
+      "input": "simplify((re((x+i*y)^24)^2+im((x+i*y)^24)^2)/(x^2+y^2)^24)",
+      "conditions": [
+        "x and y are finite real numbers with x^2+y^2>0, equivalently not both zero; i^2=-1 and re and im denote the exact real and imaginary parts.",
+        "Integer powers and all arithmetic have their exact complex or real meanings. Use the existing finite CG50 stack, heap, and simplification budgets without increasing them.",
+        "This is bounded simplification of a compact complex-norm expression. Full expansion into real multivariate polynomials is unnecessary; exact retention of the compact original expression is acceptable.",
+        "At the origin the original quotient is 0/0 and is undefined. A simplified constant must remain subject to the stated domain; a removable extension at the origin is not part of this request."
+      ],
+      "expected": {
+        "expression": "1",
+        "properties": [
+          "The exact value is one for every allowed pair. Return one subject to the original domain, an equivalent exact compact expression, or retain the original expression exactly.",
+          "The original denominator is strictly positive on the allowed domain, including every nonzero point on either coordinate axis. The value is real and finite there.",
+          "Preserve the origin exclusion. The limit one at the origin does not make the original quotient defined at that point.",
+          "Prove the identity by complex conjugation and integer-power algebra, without assuming x or y is positive or dividing by either coordinate individually.",
+          "No crash, stack overflow, runaway expansion, new domain hole, undef on the allowed domain, or increase to existing resource limits is acceptable.",
+          "Compact exact retention is valid for this resource case and does not relax either integral's explicit closed-form requirement."
+        ]
+      },
+      "reason": "Set z=x+i*y and w=z^24. For any complex w=a+i*b with real a,b, re(w)^2+im(w)^2=a^2+b^2=w*conjugate(w). Conjugation commutes with integer powers, so the numerator is z^24*conjugate(z)^24=(z*conjugate(z))^24=(x^2+y^2)^24. This uses only finite algebraic identities and does not require expanding either real or imaginary part. The denominator is positive exactly when x and y are not both zero, so division gives one on the entire stated domain, including either nonzero coordinate axis. At the origin w=0, so the numerator and denominator both vanish and the original quotient is undefined. Its constant value on the punctured plane establishes the limit one there but supplies only a possible extension, not an original value. The norm identity gives a proof whose symbolic size is independent of polynomial expansion, and exact compact retention preserves both the value and the original domain."
+    }
+  ]
+}
