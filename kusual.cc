@@ -1331,24 +1331,26 @@ namespace giac {
 	  }
 	}
       }
+      // Half-angle squares require an absolute value, not an eager
+      // global sign/range/limit search under interval assumptions.
       for (unsigned i=0;i<v.size();++i){
 	gen vi=v[i];
 	if (vi.is_symb_of_sommet(at_cos)){
 	  gen a,b;
 	  if (is_linear_wrt(e,vi,a,b,contextptr)){
 	    if (a==b)
-	      return sqrt(2*a,contextptr)*abs(cos(vi._SYMBptr->feuille/2,contextptr),contextptr);
+	      return sqrt(2*a,contextptr)*symbolic(at_abs,cos(vi._SYMBptr->feuille/2,contextptr));
 	    if (a==-b)
-	      return sqrt(-2*a,contextptr)*abs(sin(vi._SYMBptr->feuille/2,contextptr),contextptr);
+	      return sqrt(-2*a,contextptr)*symbolic(at_abs,sin(vi._SYMBptr->feuille/2,contextptr));
 	  }
 	}
 	if (vi.is_symb_of_sommet(at_sin)){
 	  gen a,b;
 	  if (is_linear_wrt(e,vi,a,b,contextptr)){
 	    if (a==b)
-	      return sqrt(2*a,contextptr)*abs(cos(vi._SYMBptr->feuille/2-cst_pi/4,contextptr),contextptr);
+	      return sqrt(2*a,contextptr)*symbolic(at_abs,cos(vi._SYMBptr->feuille/2-cst_pi/4,contextptr));
 	    if (a==-b)
-	      return sqrt(-2*a,contextptr)*abs(sin(vi._SYMBptr->feuille/2-cst_pi/4,contextptr),contextptr);
+	      return sqrt(-2*a,contextptr)*symbolic(at_abs,sin(vi._SYMBptr->feuille/2-cst_pi/4,contextptr));
 	  }
 	}
       } // end loop on vars

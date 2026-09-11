@@ -1,0 +1,63 @@
+{
+  "scope": "Actual repository integration/yderive/FXCG simplify on host dependencies; guarded 64 KiB stack, not SH4/MMU emulation.",
+  "corpus_sha256": "6124f30d47a27bf8c82d697aa882a38da0126ac989c26fd3392986aea0ba3c17",
+  "probe_sha256": "935699cdcbbe636866fc007ca70eea5e278389bfcd42700c2e2e4cc640de97af",
+  "runs": [
+    {
+      "id": "PC16-I3",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(sqrt(1+sin(x)),x,0,2*pi)",
+      "exit": 0,
+      "result": "sqrt(2)*2*pi*2/pi",
+      "stderr": "PARSER_CALLS 4\nSECONDS 0.00283566\nMAX_RSS_KB 20416\n",
+      "verification": {
+        "exact": true,
+        "method": "Global identity sqrt(1+sin x)=sqrt2*|cos(x/2-pi/4)|. Split the continuous integral at 3pi/2 and integrate the two signs; exact sum is 4sqrt2. All radicand zeros and both endpoints are included."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC16-I3",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(sqrt(1+sin(x)),x,0,2*pi)",
+      "exit": -11,
+      "result": "",
+      "stderr": "",
+      "error": "(-11, '')",
+      "pass": false
+    },
+    {
+      "id": "PC16-I3",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(sqrt(1+sin(x)),x,0,2*pi))",
+      "exit": 0,
+      "result": "sqrt(2)*2*pi*2/pi",
+      "stderr": "PARSER_CALLS 4\nSECONDS 0.00275157\nMAX_RSS_KB 29448\n",
+      "verification": {
+        "exact": true,
+        "method": "Global identity sqrt(1+sin x)=sqrt2*|cos(x/2-pi/4)|. Split the continuous integral at 3pi/2 and integrate the two signs; exact sum is 4sqrt2. All radicand zeros and both endpoints are included."
+      },
+      "pass": true
+    },
+    {
+      "id": "PC16-I3",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(sqrt(1+sin(x)),x,0,2*pi))",
+      "exit": -11,
+      "result": "",
+      "stderr": "",
+      "error": "(-11, '')",
+      "pass": false
+    }
+  ],
+  "cases": [
+    {
+      "id": "PC16-I3",
+      "all_four_pass": false
+    }
+  ]
+}

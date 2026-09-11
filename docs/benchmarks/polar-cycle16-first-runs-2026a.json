@@ -1,0 +1,224 @@
+{
+  "scope": "First execution on unchanged 6abb53f integration/yderive/simplify/actual-sqrt probe; execution completion is not mathematical acceptance.",
+  "probe": "/tmp/khicas-polar-cycle15-fix1/simplify/probe",
+  "probe_sha256": "935699cdcbbe636866fc007ca70eea5e278389bfcd42700c2e2e4cc640de97af",
+  "corpus_sha256": "953b0205c33b5bced766afec543433ef598d7adadc159eb719f84fee9cce09c1",
+  "runs": [
+    {
+      "id": "PC16-I1",
+      "input": "integrate(ln(x)^2/x^2,x)",
+      "outer": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "-1/x*ln(x)^2+2*(-1/x*ln(x)-1/x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00137203\nMAX_RSS_KB 19872\n"
+    },
+    {
+      "id": "PC16-I1",
+      "input": "integrate(ln(x)^2/x^2,x)",
+      "outer": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "-1/x*ln(x)^2+2*(-1/x*ln(x)-1/x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00162083\nMAX_RSS_KB 29600\n"
+    },
+    {
+      "id": "PC16-I1",
+      "input": "simplify(integrate(ln(x)^2/x^2,x))",
+      "outer": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(-ln(x)^2-2*ln(x)-2)/x",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00145557\nMAX_RSS_KB 29680\n"
+    },
+    {
+      "id": "PC16-I1",
+      "input": "simplify(integrate(ln(x)^2/x^2,x))",
+      "outer": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "(-ln(x)^2-2*ln(x)-2)/x",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00212408\nMAX_RSS_KB 29680\n"
+    },
+    {
+      "id": "PC16-I2",
+      "input": "integrate(x*sin(x)/(1+cos(x)^2),x,0,pi)",
+      "outer": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "pi/2*2*pi/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000464985\nMAX_RSS_KB 29680\n"
+    },
+    {
+      "id": "PC16-I2",
+      "input": "integrate(x*sin(x)/(1+cos(x)^2),x,0,pi)",
+      "outer": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "pi/2*2*pi/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000453435\nMAX_RSS_KB 29680\n"
+    },
+    {
+      "id": "PC16-I2",
+      "input": "simplify(integrate(x*sin(x)/(1+cos(x)^2),x,0,pi))",
+      "outer": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "pi^2/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000843081\nMAX_RSS_KB 29680\n"
+    },
+    {
+      "id": "PC16-I2",
+      "input": "simplify(integrate(x*sin(x)/(1+cos(x)^2),x,0,pi))",
+      "outer": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "pi^2/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000601294\nMAX_RSS_KB 29680\n"
+    },
+    {
+      "id": "PC16-D1",
+      "input": "diff(piecewise(x<=0,0,exp(-1/x)),x)",
+      "outer": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "piecewise(0>=x,0,1/x^2*exp(-1/x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000527655\nMAX_RSS_KB 29680\n"
+    },
+    {
+      "id": "PC16-D1",
+      "input": "diff(piecewise(x<=0,0,exp(-1/x)),x)",
+      "outer": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "piecewise(0>=x,0,1/x^2*exp(-1/x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000554883\nMAX_RSS_KB 29680\n"
+    },
+    {
+      "id": "PC16-D1",
+      "input": "simplify(diff(piecewise(x<=0,0,exp(-1/x)),x))",
+      "outer": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "piecewise(0>=x,0,1/x^2*exp(-1/x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000506554\nMAX_RSS_KB 29680\n"
+    },
+    {
+      "id": "PC16-D1",
+      "input": "simplify(diff(piecewise(x<=0,0,exp(-1/x)),x))",
+      "outer": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "piecewise(0>=x,0,1/x^2*exp(-1/x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000554804\nMAX_RSS_KB 29680\n"
+    },
+    {
+      "id": "PC16-D2",
+      "input": "diff((x-floor(x))^2*(1-x+floor(x))^2,x)",
+      "outer": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "2*(x-floor(x))*(1-x+floor(x))^2-(x-floor(x))^2*2*(1-x+floor(x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000459704\nMAX_RSS_KB 29680\n"
+    },
+    {
+      "id": "PC16-D2",
+      "input": "diff((x-floor(x))^2*(1-x+floor(x))^2,x)",
+      "outer": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "2*(x-floor(x))*(1-x+floor(x))^2-(x-floor(x))^2*2*(1-x+floor(x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000470495\nMAX_RSS_KB 29680\n"
+    },
+    {
+      "id": "PC16-D2",
+      "input": "simplify(diff((x-floor(x))^2*(1-x+floor(x))^2,x))",
+      "outer": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "4*x^3-12*x^2*floor(x)-6*x^2+12*x*floor(x)^2+12*x*floor(x)+2*x-4*floor(x)^3-6*floor(x)^2-2*floor(x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000664112\nMAX_RSS_KB 29680\n"
+    },
+    {
+      "id": "PC16-D2",
+      "input": "simplify(diff((x-floor(x))^2*(1-x+floor(x))^2,x))",
+      "outer": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "4*x^3-12*x^2*floor(x)-6*x^2+12*x*floor(x)^2+12*x*floor(x)+2*x-4*floor(x)^3-6*floor(x)^2-2*floor(x)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000676342\nMAX_RSS_KB 29680\n"
+    },
+    {
+      "id": "PC16-S1",
+      "input": "(tan(x)+tan(y))/(1-tan(x)*tan(y))-tan(x+y)",
+      "outer": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(tan(x)+tan(y))/(1-tan(x)*tan(y))-tan(x+y)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000491195\nMAX_RSS_KB 29680\n"
+    },
+    {
+      "id": "PC16-S1",
+      "input": "(tan(x)+tan(y))/(1-tan(x)*tan(y))-tan(x+y)",
+      "outer": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "(tan(x)+tan(y))/(1-tan(x)*tan(y))-tan(x+y)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000506614\nMAX_RSS_KB 29680\n"
+    },
+    {
+      "id": "PC16-S1",
+      "input": "simplify((tan(x)+tan(y))/(1-tan(x)*tan(y))-tan(x+y))",
+      "outer": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(-tan(x)*tan(x+y)*tan(y)-tan(x)+tan(x+y)-tan(y))/(tan(x)*tan(y)-1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00207424\nMAX_RSS_KB 29680\n"
+    },
+    {
+      "id": "PC16-S1",
+      "input": "simplify((tan(x)+tan(y))/(1-tan(x)*tan(y))-tan(x+y))",
+      "outer": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "(-tan(x)*tan(x+y)*tan(y)-tan(x)+tan(x+y)-tan(y))/(tan(x)*tan(y)-1)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00226353\nMAX_RSS_KB 29680\n"
+    },
+    {
+      "id": "PC16-R1",
+      "input": "sum((-1)^k*binomial(20,k)*(x+k)^20,k,0,20)",
+      "outer": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "2432902008176640000",
+      "stderr": "Unable to isolate function factorial\nPARSER_CALLS 1\nSECONDS 0.00145125\nMAX_RSS_KB 29680\n"
+    },
+    {
+      "id": "PC16-R1",
+      "input": "sum((-1)^k*binomial(20,k)*(x+k)^20,k,0,20)",
+      "outer": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "2432902008176640000",
+      "stderr": "Unable to isolate function factorial\nPARSER_CALLS 1\nSECONDS 0.00185735\nMAX_RSS_KB 29680\n"
+    },
+    {
+      "id": "PC16-R1",
+      "input": "simplify(sum((-1)^k*binomial(20,k)*(x+k)^20,k,0,20))",
+      "outer": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "2432902008176640000",
+      "stderr": "Unable to isolate function factorial\nPARSER_CALLS 1\nSECONDS 0.00179428\nMAX_RSS_KB 29680\n"
+    },
+    {
+      "id": "PC16-R1",
+      "input": "simplify(sum((-1)^k*binomial(20,k)*(x+k)^20,k,0,20))",
+      "outer": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "2432902008176640000",
+      "stderr": "Unable to isolate function factorial\nPARSER_CALLS 1\nSECONDS 0.00173628\nMAX_RSS_KB 29680\n"
+    }
+  ]
+}

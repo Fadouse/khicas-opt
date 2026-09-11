@@ -67,11 +67,11 @@ def derivative_source(ref='current'):
             out+=function(source(ref,'zprog.cc'),sig)
     out+='extern const unary_function_ptr * const at_Li2;\n'
     out+='gen symb_prog3(const gen &,const gen &,const gen &);\n'
-    out+=function(source(ref,'kusual.cc'),'  gen _abs(')
-    out+=function(source(ref,'kusual.cc'),'  gen sqrt(const gen & e,GIAC_CONTEXT)')
-    out+=function(source(ref,'kusual.cc'),'  gen symb_acos(')
-    out+=function(source(ref,'kusual.cc'),'  static gen asinasln(')
-    out+=function(source(ref,'kusual.cc'),'  gen acos(const gen & e0,GIAC_CONTEXT)')
+    out+=function(source(ref,'zusual.cc'),'  gen _abs(')
+    out+=function(source(ref,'zusual.cc'),'  gen sqrt(const gen & e,GIAC_CONTEXT)')
+    out+=function(source(ref,'zusual.cc'),'  gen symb_acos(')
+    out+=function(source(ref,'zusual.cc'),'  static gen asinasln(')
+    out+=function(source(ref,'zusual.cc'),'  gen acos(const gen & e0,GIAC_CONTEXT)')
     out+='gen host_symb_derive(const gen &);\ngen host_symb_derive(const gen &,const gen &);\ngen host_symb_derive(const gen &,const gen &,const gen &);\n'
     for sig in ('   gen eval_before_diff(', '  bool depend(', '  static int count_noncst(', '  static bool derive_real_composition(', '  static bool derive_piecewise_regular(', '  static bool derive_root_product(', '  static int derive_piecewise_oscillation(', '  static gen derive_piecewise_joints(', '  static gen derive_guarded_sum(', '  static gen derive_SYMB(',
                 '  static gen derive_VECT(', '  gen derive(const gen & e,const identificateur & i,GIAC_CONTEXT)',
@@ -122,7 +122,7 @@ def build(directory, ref='current', target_simplify=False, target_derive=False):
             simplified+=function(s, '  static unsigned simplify_special_terms(')
             simplified+=function(s, '  static gen simplify_special_core(')
         if '  static bool simplify_root_domain(' in s:simplified+=function(s,'  static bool simplify_root_domain(')
-        simplified+=function(source(ref,'kusual.cc'),'  gen expi(')
+        simplified+=function(source(ref,'zusual.cc'),'  gen expi(')
         simplified+='static gen cst_ipi(){return cst_pi*cst_i;}\n'  # newer constant accessor, same exact value on the older host ABI
         for sig in ('  static gen rewrite_strong_exp(', '  static bool ext_relation(', '  gen simplifypsi(', '  static void decompose(', '  static gen branch_evalf(', '  static gen expanded_ln(',
                     '  static gen simplifylnarg(', '  static gen simplifylnexp(', '  gen tsimplify_common(',

@@ -1,0 +1,126 @@
+{
+  "cases": [
+    {
+      "id": "PC16-I1",
+      "type": "integral",
+      "input": "simplify(integrate(ln(x)^2/x^2,x))",
+      "conditions": [
+        "x is finite real and ln is the strictly real logarithm. Determine the complete real domain from the original operations.",
+        "Require an explicit exact antiderivative on the whole connected original domain, up to one additive constant. An unevaluated integral or numerical quadrature is not acceptable."
+      ],
+      "expected": {
+        "expression": "piecewise(x>0,-(ln(x)^2+2*ln(x)+2)/x,undef)",
+        "properties": [
+          "The exact original domain is (0,infinity). Return the displayed primitive or an equivalent explicit exact primitive with this domain.",
+          "The displayed normalization has F(1)=-2, F'(1)=0, and limit zero as x tends to positive infinity.",
+          "The integrand and primitive are regular at x=1. No division by ln(x) may create an artificial hole there.",
+          "The exact improper integral from 1 to positive infinity is 2. Neither negative x nor x=0 belongs to the original real domain."
+        ]
+      },
+      "reason": "The original ln(x) requires x>0, which also ensures the denominator x^2 is nonzero; these conditions are necessary and sufficient. Write L=ln(x). Integration by parts with u=L^2 and dv=dx/x^2 gives I=-L^2/x+2*integrate(L/x^2,x). A second integration by parts gives integrate(L/x^2,x)=-L/x-1/x, hence F=-(L^2+2*L+2)/x. Direct differentiation yields F'=[L^2+2*L+2-(2*L+2)]/x^2=L^2/x^2 throughout x>0. Substitution at 1 gives the exact value and derivative. For the limit at infinity put x=exp(t); then F=-(t^2+2*t+2)*exp(-t), which tends to zero because exponential growth dominates a quadratic polynomial. The fundamental theorem on [1,b] followed by b tending to infinity proves the convergent improper integral equals 0-(-2)=2."
+    },
+    {
+      "id": "PC16-I2",
+      "type": "integral",
+      "input": "simplify(integrate(x*sin(x)/(1+cos(x)^2),x,0,pi))",
+      "conditions": [
+        "x is finite real and angles are in radians. Determine the complete real domain of the integrand independently of the integration interval.",
+        "This is the definite integral over [0,pi], including both endpoints. Require an explicit exact value; an unevaluated integral or numerical approximation is not acceptable."
+      ],
+      "expected": {
+        "expression": "pi^2/4",
+        "properties": [
+          "The complete real domain of the integrand is R, because 1+cos(x)^2>=1. The integrand is smooth everywhere.",
+          "Both endpoints of the integration interval are ordinary regular points with integrand value zero. No improper-integral convention is needed.",
+          "The exact integral is pi^2/4. Reflection x to pi-x provides an exact evaluation without requiring an elementary indefinite primitive for the weighted integrand.",
+          "The associated unweighted integral of sin(x)/(1+cos(x)^2) over [0,pi] is pi/2."
+        ]
+      },
+      "reason": "The real sine and cosine exist for every real x and the denominator is at least 1, proving the full original domain R and endpoint regularity. Set g(x)=sin(x)/(1+cos(x)^2). Since sin(pi-x)=sin(x) and cos(pi-x)=-cos(x), g(pi-x)=g(x). Substituting u=pi-x into I=integrate(x*g(x),x,0,pi) therefore gives I=integrate((pi-u)*g(u),u,0,pi). Adding the two equal representations yields 2*I=pi*integrate(g(x),x,0,pi). In the remaining integral t=cos(x), dt=-sin(x) dx, and the endpoints become 1 and -1, so its value is integrate(1/(1+t^2),t,-1,1)=atan(1)-atan(-1)=pi/2. Thus 2*I=pi^2/2 and I=pi^2/4. Every substitution is on a compact interval with a continuous integrand."
+    },
+    {
+      "id": "PC16-D1",
+      "type": "derivative",
+      "input": "simplify(diff(piecewise(x<=0,0,exp(-1/x)),x))",
+      "conditions": [
+        "x is finite real. piecewise selects its first true branch lazily, so the exponential branch is evaluated only for x>0.",
+        "Determine the ordinary two-sided derivative on the complete original domain. In particular, compute the original difference quotient at x=0 using its assigned value f(0)=0.",
+        "No extension is requested: the original piecewise function already defines every real x."
+      ],
+      "expected": {
+        "expression": "piecewise(x<=0,0,exp(-1/x)/x^2)",
+        "properties": [
+          "The complete original domain and the exact ordinary derivative domain are both R. The derivative at zero is exactly zero.",
+          "The derivative is zero for x<=0 and strictly positive for x>0. It is continuous at zero.",
+          "The original function is infinitely differentiable at zero and every derivative there is zero, although the function is positive for every positive x.",
+          "At x=1 the exact derivative is exp(-1). A result that evaluates 1/x in an inactive branch or declares zero undefined is incorrect."
+        ]
+      },
+      "reason": "For x<=0 the selected branch is the constant zero. For x>0 the reciprocal and exponential are defined, so lazy branch selection gives exactly the whole real line as the original domain. On the positive open half-line the chain rule gives exp(-1/x)/x^2, and on the negative open half-line the derivative is zero. At zero, the original quotient is zero for h<0; for h>0 it is exp(-1/h)/h=t*exp(-t), where t=1/h tends to positive infinity. The exponential series gives exp(t)>=t^3/6, so 0<=t*exp(-t)<=6/t^2, proving the actual two-sided derivative is zero. Similarly the positive-side derivative is t^2*exp(-t), which tends to zero, proving continuity at the join. More generally every positive-side derivative has the form P_n(1/x)*exp(-1/x) with a polynomial P_n: differentiation changes P_n(t) to t^2*(P_n(t)-P_n'(t)). Every such polynomial times exp(-t), and its product with t for the next difference quotient, tends to zero. Induction using the already assigned zero values on x<=0 proves all derivatives at zero exist and vanish. This argument never evaluates the inactive reciprocal at zero."
+    },
+    {
+      "id": "PC16-D2",
+      "type": "derivative",
+      "input": "simplify(diff((x-floor(x))^2*(1-x+floor(x))^2,x))",
+      "conditions": [
+        "x is finite real and floor(x) is the greatest integer not exceeding x, including for negative x.",
+        "The original function is defined on all of R. Determine its actual ordinary derivative at every integer as well as between integers.",
+        "At each integer use the original two-sided difference quotient with the original value. The nondifferentiability of floor by itself does not settle differentiability of the whole function."
+      ],
+      "expected": {
+        "expression": "2*(x-floor(x))*(1-x+floor(x))*(1-2*x+2*floor(x))",
+        "properties": [
+          "The exact derivative domain is all of R. At every integer n, the original value f(n) and the derivative f'(n) are both zero.",
+          "The displayed derivative is globally valid and directly evaluates to zero at each integer without an additional limiting convention.",
+          "The function and its derivative have period 1. On each interval (n,n+1/2) the derivative is positive, and on (n+1/2,n+1) it is negative.",
+          "At every half-integer n+1/2 the function is 1/16 and its derivative is zero. The function is twice continuously differentiable but is not three times differentiable at any integer.",
+          "No integer, including any negative integer, may become an artificial derivative-domain hole."
+        ]
+      },
+      "reason": "Write t=x-floor(x), so 0<=t<1 for every real x, and f=t^2*(1-t)^2. On (n,n+1), floor(x)=n is constant and ordinary polynomial differentiation yields f'=2*t*(1-t)*(1-2*t). At an integer n the original value is zero. For 0<h<1, f(n+h)=h^2*(1-h)^2, giving quotient h*(1-h)^2. For -1<h<0, floor(n+h)=n-1 and f(n+h)=(1+h)^2*h^2, giving quotient h*(1+h)^2. Both quotients tend to zero, which equals the displayed formula at t=0. The derivative polynomial tends to zero at both t=0 and t=1, so the derivative is continuous at every integer. Between integers f''=2-12*t+12*t^2; its two limiting values at each integer are both 2. The one-sided difference quotients of f' at n also both tend to 2, proving f''(n)=2 and global continuity of f''. The right derivative of f'' at n is -12 while its left derivative is 12, so f'''(n) does not exist. Periodicity follows from floor(x+1)=floor(x)+1, and signs and half-integer values follow by substitution into the polynomial formulas. All joining calculations apply to arbitrary integers n, with no restriction on their sign."
+    },
+    {
+      "id": "PC16-S1",
+      "type": "simplify",
+      "input": "simplify((tan(x)+tan(y))/(1-tan(x)*tan(y))-tan(x+y))",
+      "conditions": [
+        "x and y are finite real numbers and all angles are in radians. Each original tangent and each original quotient must be defined.",
+        "Determine and retain the complete original real domain. Return zero together with that domain, or an equivalent exact guarded expression; unrestricted zero is not acceptable.",
+        "piecewise selects its first true branch lazily. This case generalizes the recent cancelled-factor domain-loss failure to a two-variable trigonometric identity with infinitely many excluded lines."
+      ],
+      "expected": {
+        "expression": "piecewise(cos(x)==0,undef,cos(y)==0,undef,cos(x+y)==0,undef,0)",
+        "properties": [
+          "The exact original domain is cos(x)!=0 and cos(y)!=0 and cos(x+y)!=0. The value is identically zero on exactly this domain.",
+          "The excluded set consists of x=pi/2+k*pi, y=pi/2+k*pi, or x+y=pi/2+k*pi for any integer k. All these lines must remain excluded.",
+          "In particular (pi/2,pi/2) is excluded even though tan(x+y) alone is defined there, and (pi/4,pi/4) is excluded even though each of tan(x) and tan(y) is defined there.",
+          "The points (0,0), (pi/4,-pi/4), and (pi,pi) are allowed and have value zero. The domain and value are unchanged by adding an integer multiple of pi to either variable.",
+          "Exact retention of an equivalent domain-bearing trigonometric expression is acceptable; cancellation must not silently supply values on excluded lines."
+        ]
+      },
+      "reason": "The first two original tangents require cos(x) and cos(y) to be nonzero, and the last requires cos(x+y) nonzero. Under the first two conditions, 1-tan(x)*tan(y)=[cos(x)*cos(y)-sin(x)*sin(y)]/[cos(x)*cos(y)]=cos(x+y)/[cos(x)*cos(y)]. Thus nonvanishing of the original quotient denominator is exactly the third condition, and there are no other restrictions. Likewise tan(x)+tan(y)=sin(x+y)/[cos(x)*cos(y)]. Division, valid only under all three conditions, gives the first quotient equal to tan(x+y), so the difference is zero. The real zeros of cosine establish the stated complete excluded lines. At (pi/2,pi/2) the first two tangents are undefined although cos(x+y)=-1; at (pi/4,pi/4) the original quotient denominator and cos(x+y) both vanish. Exact substitution verifies the three allowed examples. Shifting either variable by an integer multiple of pi preserves nonvanishing of all three cosines and preserves tangent values. This proves a domain-qualified identity and does not define a continuation across any excluded line."
+    },
+    {
+      "id": "PC16-R1",
+      "type": "resource",
+      "input": "simplify(sum((-1)^k*binomial(20,k)*(x+k)^20,k,0,20))",
+      "conditions": [
+        "x is finite real. The original sum has exactly 21 terms, k=0 through 20; the degree and bounds are fixed numeric constants.",
+        "Each invocation has a fixed 10-second external wall-clock timeout and a 65536-byte output cap. Preserve all existing configured finite CG50 stack, heap and simplification budgets; do not enlarge limits or retry with enlarged limits.",
+        "Exact retention of the original compact finite sum, or an equivalent compact exact representation, is acceptable. Expansion of each twentieth power is not required."
+      ],
+      "expected": {
+        "expression": "2432902008176640000",
+        "properties": [
+          "The complete original domain is R. The sum is the constant 20!=2432902008176640000 for every real x.",
+          "Return this exact integer, an equivalent exact expression such as factorial(20), or retain the original compact finite sum exactly.",
+          "No cancellation may introduce a domain exclusion; in particular x=0, x=-10 and every x=-k occurring in a summand are ordinary allowed points.",
+          "No floating-point replacement is acceptable. Individual terms may be large and alternate in sign, but the exact answer is the same positive integer for every x.",
+          "No crash, stack overflow, timeout, output-cap overrun, runaway expansion or undef at an allowed point is acceptable. Resource limits must not be increased.",
+          "Compact exact retention is a resource-case alternative and does not relax the explicit exact-answer requirements for either integral."
+        ]
+      },
+      "reason": "Every summand is a polynomial in x multiplied by fixed integers, proving the original domain is all R with no exceptional zeros or poles. Define the forward difference of a polynomial by Delta p(x)=p(x+1)-p(x). Induction on n using Pascal's binomial identity gives Delta^n p(x)=sum((-1)^(n-k)*binomial(n,k)*p(x+k),k,0,n). For a polynomial with degree m>=1 and leading coefficient a, the binomial theorem shows Delta p has degree m-1 and leading coefficient a*m. Starting with p(x)=x^20, applying Delta twenty times therefore yields the constant 20*19*...*1=20!. Since 20 is even, (-1)^(20-k)=(-1)^k, so the displayed original sum is precisely Delta^20 p(x). Exact integer multiplication gives 20!=2432902008176640000. The finite-difference proof establishes the identity on every real x without evaluating or expanding all 21 powers and without division by any expression involving x."
+    }
+  ]
+}

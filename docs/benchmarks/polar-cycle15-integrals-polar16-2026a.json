@@ -1,0 +1,171 @@
+{
+  "source_sha256": {
+    "yintg.cc": "a93951c62d9ddd9605d04eea0fdb638142342e6f523b2215b9aa23d925061c88",
+    "zintgab.cc": "3b6fa78aba4d53b1a11479c33bacb4c85e3d6091389ef3073ec60085a7ae9448",
+    "ksubst.cc": "70d31c04acb86908939ec1fd7e050e979ba07978c80b63592e7e643b01c0605f",
+    "yderive.cc": "85736f3aca6d32311c62e1425ac3bf13d6debb9668d32466f902d63c72c1ad9a",
+    "dilogarithm.h": "ca822ef4c094a4ed1f4aecf7219011668735d86d259c51ec6304515f8fa84d7a",
+    "kconvert.cc": "eed558eb2f8ff62e0cf1e94fdbf8497954a35577e283a8d07283350e65b76003",
+    "equation_normalize.h": "4bfb644f0e18bb36e280ce8886c8ac12695c9aeeaef187ea3e5f967cd1642e37",
+    "kusual.cc": "0a169f2a44b187b4310bde6f73bf03a0e593c5e00212a9d54ef6bd420420743d",
+    "zusual.cc": "89491d75065f7b0e19386226ef35ca467ae11b0a1f0948b7187a8118a5512f58",
+    "zprog.cc": "baf6570eac3b985e50bb2bbf8a3bbc47b72b34ce6835ce2f7a873185a7efe499",
+    "conditional_eval.h": "763e56cb14146b9e45728c4fa245f7fe4506a8eea4041cbaf98b927ea15e27a2"
+  },
+  "corpus_sha256": "9060334d2fff3b77e06236f3fa27a53344f587d456abd5965826058e416cc4c2",
+  "provenance": "polar-cycle15-acceptance-polar16-2026a.json",
+  "runs": [
+    {
+      "id": "PC15-I1",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(x^2*exp(2*x)*sin(3*x),x)",
+      "exit": 0,
+      "result": "exp(2*x)*(((-5*x^2-4*x+2)*-9/2197+(12*x^2-6*x)*-46/2197)*cos(3*x)+((-5*x^2-4*x+2)*-46/2197-(12*x^2-6*x)*-9/2197)*sin(3*x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00115087\nMAX_RSS_KB 66832\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative of polynomial times exponential times sine/cosine; entire real domain, no denominators depending on x. Exponential decay gives zero at negative infinity."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "-18/2197"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC15-I1",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(x^2*exp(2*x)*sin(3*x),x)",
+      "exit": 0,
+      "result": "exp(2*x)*(((-5*x^2-4*x+2)*-9/2197+(12*x^2-6*x)*-46/2197)*cos(3*x)+((-5*x^2-4*x+2)*-46/2197-(12*x^2-6*x)*-9/2197)*sin(3*x))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.0014819\nMAX_RSS_KB 66832\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative of polynomial times exponential times sine/cosine; entire real domain, no denominators depending on x. Exponential decay gives zero at negative infinity."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "-18/2197"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC15-I1",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(x^2*exp(2*x)*sin(3*x),x))",
+      "exit": 0,
+      "result": "(-507*x^2*cos(3*x)*exp(2*x)+338*x^2*exp(2*x)*sin(3*x)+312*x*cos(3*x)*exp(2*x)+130*x*exp(2*x)*sin(3*x)-18*cos(3*x)*exp(2*x)-92*exp(2*x)*sin(3*x))/2197",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00107976\nMAX_RSS_KB 66832\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative of polynomial times exponential times sine/cosine; entire real domain, no denominators depending on x. Exponential decay gives zero at negative infinity."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "-18/2197"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC15-I1",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(x^2*exp(2*x)*sin(3*x),x))",
+      "exit": 0,
+      "result": "(-507*x^2*cos(3*x)*exp(2*x)+338*x^2*exp(2*x)*sin(3*x)+312*x*cos(3*x)*exp(2*x)+130*x*exp(2*x)*sin(3*x)-18*cos(3*x)*exp(2*x)-92*exp(2*x)*sin(3*x))/2197",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00109117\nMAX_RSS_KB 66832\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact derivative of polynomial times exponential times sine/cosine; entire real domain, no denominators depending on x. Exponential decay gives zero at negative infinity."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "-18/2197"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC15-I2",
+      "outer": false,
+      "stack": "normal",
+      "input": "integrate(1/(5+3*cos(x))^3,x)",
+      "exit": 0,
+      "result": "59/512*(x-2*atan(3*sin(x)/(9+3*cos(x))))/4+(-15*3*sin(x)/(5+3*cos(x))/16-3*sin(x)/((5+3*cos(x))*(5+3*cos(x))))/32",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000488975\nMAX_RSS_KB 66832\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact recurrence derivative. All displayed denominators are positive powers of 5+3cos(x)>=2 or atan chart 3+cos(x)>=2; globally continuous primitive with increment 59pi/1024."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0",
+        "pi": "59*pi/2048",
+        "-pi": "-59*pi/2048"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC15-I2",
+      "outer": false,
+      "stack": "64",
+      "input": "integrate(1/(5+3*cos(x))^3,x)",
+      "exit": 0,
+      "result": "59/512*(x-2*atan(3*sin(x)/(9+3*cos(x))))/4+(-15*3*sin(x)/(5+3*cos(x))/16-3*sin(x)/((5+3*cos(x))*(5+3*cos(x))))/32",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000716002\nMAX_RSS_KB 66832\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact recurrence derivative. All displayed denominators are positive powers of 5+3cos(x)>=2 or atan chart 3+cos(x)>=2; globally continuous primitive with increment 59pi/1024."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0",
+        "pi": "59*pi/2048",
+        "-pi": "-59*pi/2048"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC15-I2",
+      "outer": true,
+      "stack": "normal",
+      "input": "simplify(integrate(1/(5+3*cos(x))^3,x))",
+      "exit": 0,
+      "result": "59/512*(x-2*atan(3*sin(x)/(9+3*cos(x))))/4+(-15*3*sin(x)/(5+3*cos(x))/16-3*sin(x)/((5+3*cos(x))*(5+3*cos(x))))/32",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000481305\nMAX_RSS_KB 66832\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact recurrence derivative. All displayed denominators are positive powers of 5+3cos(x)>=2 or atan chart 3+cos(x)>=2; globally continuous primitive with increment 59pi/1024."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0",
+        "pi": "59*pi/2048",
+        "-pi": "-59*pi/2048"
+      },
+      "status": "exact"
+    },
+    {
+      "id": "PC15-I2",
+      "outer": true,
+      "stack": "64",
+      "input": "simplify(integrate(1/(5+3*cos(x))^3,x))",
+      "exit": 0,
+      "result": "59/512*(x-2*atan(3*sin(x)/(9+3*cos(x))))/4+(-15*3*sin(x)/(5+3*cos(x))/16-3*sin(x)/((5+3*cos(x))*(5+3*cos(x))))/32",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000502454\nMAX_RSS_KB 66832\n",
+      "verification": {
+        "exact": true,
+        "method": "Exact recurrence derivative. All displayed denominators are positive powers of 5+3cos(x)>=2 or atan chart 3+cos(x)>=2; globally continuous primitive with increment 59pi/1024."
+      },
+      "pass": true,
+      "actual_boundary_substitution": {
+        "0": "0",
+        "pi": "59*pi/2048",
+        "-pi": "-59*pi/2048"
+      },
+      "status": "exact"
+    }
+  ]
+}

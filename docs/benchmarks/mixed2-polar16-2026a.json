@@ -1,0 +1,842 @@
+{
+  "scope": "Repository integration, derivative engine and FXCG simplify; host dependencies remain, not CG50 hardware/MMU emulation. Independent exact proofs and explicit domain/display checks.",
+  "ref": "current",
+  "corpus_sha256": "aaea15b886a84bb57b376518cf7a1227049f32897e436af1f9a3dab45fe4f729",
+  "source_sha256": {
+    "yintg.cc": "a93951c62d9ddd9605d04eea0fdb638142342e6f523b2215b9aa23d925061c88",
+    "zintgab.cc": "3b6fa78aba4d53b1a11479c33bacb4c85e3d6091389ef3073ec60085a7ae9448",
+    "ksubst.cc": "70d31c04acb86908939ec1fd7e050e979ba07978c80b63592e7e643b01c0605f",
+    "yderive.cc": "85736f3aca6d32311c62e1425ac3bf13d6debb9668d32466f902d63c72c1ad9a",
+    "dilogarithm.h": "ca822ef4c094a4ed1f4aecf7219011668735d86d259c51ec6304515f8fa84d7a",
+    "kconvert.cc": "eed558eb2f8ff62e0cf1e94fdbf8497954a35577e283a8d07283350e65b76003",
+    "parametric_display.h": "50628670114a8a80b7db709e9f1d8f367011a9bf8084b3d5f65d4fe494047a8c"
+  },
+  "probe_sha256": {
+    "/tmp/khicas-polar-cycle16-fix2/simplify/probe": "691c5c913d9a78bb492b6f0aed76aceef4c760c92b9a290086eff785699e1629",
+    "/tmp/khicas-polar-cycle16-fix2/probe": "d346d00a08c70af14e97b8182ca7d1e40ad477f98666d96c0fd4388665032d9d"
+  },
+  "runs": [
+    {
+      "id": "MR2-I1",
+      "input": "integrate(2*ln(abs(3*sin(3*x/4+pi/8)))-ln(abs(2*cos(x/2-pi/9))),x)",
+      "outer_simplify": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "2*(x*ln(3/2)-4/3*im(Li2(exp(2*i*(3*x/4+pi/8))))/2)+2*im(Li2(exp(2*i*(x/2-pi/9+pi/2))))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00343453\nMAX_RSS_KB 67408\n",
+      "host_seconds": 0.00343453,
+      "verification": {
+        "exact": true,
+        "method": "canonical two-phase Li2 primitive; exact Clausen derivative and positive-log scale identities on all sign intersections"
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-I1",
+      "input": "integrate(2*ln(abs(3*sin(3*x/4+pi/8)))-ln(abs(2*cos(x/2-pi/9))),x)",
+      "outer_simplify": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "2*(x*ln(3/2)-4/3*im(Li2(exp(2*i*(3*x/4+pi/8))))/2)+2*im(Li2(exp(2*i*(x/2-pi/9+pi/2))))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00375432\nMAX_RSS_KB 67408\n",
+      "host_seconds": 0.00375432,
+      "verification": {
+        "exact": true,
+        "method": "canonical two-phase Li2 primitive; exact Clausen derivative and positive-log scale identities on all sign intersections"
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-I1",
+      "input": "simplify(integrate(2*ln(abs(3*sin(3*x/4+pi/8)))-ln(abs(2*cos(x/2-pi/9))),x))",
+      "outer_simplify": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(6*x*ln(3/2)-4*im(Li2(exp(2*i*(3*x/4+pi/8))))+3*im(Li2(exp(2*i*(x/2-pi/9+pi/2)))))/3",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00344198\nMAX_RSS_KB 67408\n",
+      "host_seconds": 0.00344198,
+      "verification": {
+        "exact": true,
+        "method": "canonical two-phase Li2 primitive; exact Clausen derivative and positive-log scale identities on all sign intersections"
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-I1",
+      "input": "simplify(integrate(2*ln(abs(3*sin(3*x/4+pi/8)))-ln(abs(2*cos(x/2-pi/9))),x))",
+      "outer_simplify": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "(6*x*ln(3/2)-4*im(Li2(exp(2*i*(3*x/4+pi/8))))+3*im(Li2(exp(2*i*(x/2-pi/9+pi/2)))))/3",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00365758\nMAX_RSS_KB 67408\n",
+      "host_seconds": 0.00365758,
+      "verification": {
+        "exact": true,
+        "method": "canonical two-phase Li2 primitive; exact Clausen derivative and positive-log scale identities on all sign intersections"
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-I2",
+      "input": "integrate(ln(-3*sin(2*x/3+pi/7)),x)",
+      "outer_simplify": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "x*ln(3/2)-3/2*im(Li2(exp(2*i*(2*x/3+pi/7+pi))))/2+3*i/2*pi*(2*x/3+pi/7+pi-pi+abs(2*x/3+pi/7+pi-2*pi*floor((2*x/3+pi/7+pi)/(2*pi))-pi))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000412525\nMAX_RSS_KB 67408\n",
+      "host_seconds": 0.000412525,
+      "verification": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 2.6509049401244006e-55
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-I2",
+      "input": "integrate(ln(-3*sin(2*x/3+pi/7)),x)",
+      "outer_simplify": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "x*ln(3/2)-3/2*im(Li2(exp(2*i*(2*x/3+pi/7+pi))))/2+3*i/2*pi*(2*x/3+pi/7+pi-pi+abs(2*x/3+pi/7+pi-2*pi*floor((2*x/3+pi/7+pi)/(2*pi))-pi))/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000839231\nMAX_RSS_KB 67408\n",
+      "host_seconds": 0.000839231,
+      "verification": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 2.6509049401244006e-55
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-I2",
+      "input": "simplify(integrate(ln(-3*sin(2*x/3+pi/7)),x))",
+      "outer_simplify": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(3*i*pi^2+14*i*pi*x+21*i*pi*abs(2*x/3+pi/7+pi-2*pi*floor((2*x/3+pi/7+pi)/(2*pi))-pi)+28*x*ln(3/2)-21*im(Li2(exp(2*i*(2*x/3+pi/7+pi)))))/28",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000451725\nMAX_RSS_KB 67408\n",
+      "host_seconds": 0.000451725,
+      "verification": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 2.6509049401244006e-55
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-I2",
+      "input": "simplify(integrate(ln(-3*sin(2*x/3+pi/7)),x))",
+      "outer_simplify": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "(3*i*pi^2+14*i*pi*x+21*i*pi*abs(2*x/3+pi/7+pi-2*pi*floor((2*x/3+pi/7+pi)/(2*pi))-pi)+28*x*ln(3/2)-21*im(Li2(exp(2*i*(2*x/3+pi/7+pi)))))/28",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000741812\nMAX_RSS_KB 67408\n",
+      "host_seconds": 0.000741812,
+      "verification": {
+        "exit": 0,
+        "stderr": "CHECK exact: canonical Clausen/Li2 identity with principal-log ramp; independent derivative samples on 28 real subinterval points",
+        "derivative_numeric_max_error": 2.6509049401244006e-55
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-I3",
+      "input": "integrate((2*x+1)*ln(1+(x^2+x)^2)/(x^2+x),x)",
+      "outer_simplify": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "-1/2*Li2(-(2*x^2/2+x)^2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00216054\nMAX_RSS_KB 67408\n",
+      "host_seconds": 0.00216054,
+      "verification": {
+        "exact": true,
+        "method": "canonical primitive and exact real-domain differentiation, including stationary substitution point"
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-I3",
+      "input": "integrate((2*x+1)*ln(1+(x^2+x)^2)/(x^2+x),x)",
+      "outer_simplify": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "-1/2*Li2(-(2*x^2/2+x)^2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00229021\nMAX_RSS_KB 67408\n",
+      "host_seconds": 0.00229021,
+      "verification": {
+        "exact": true,
+        "method": "canonical primitive and exact real-domain differentiation, including stationary substitution point"
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-I3",
+      "input": "simplify(integrate((2*x+1)*ln(1+(x^2+x)^2)/(x^2+x),x))",
+      "outer_simplify": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "-Li2(-(2*x^2/2+x)^2)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00199186\nMAX_RSS_KB 67408\n",
+      "host_seconds": 0.00199186,
+      "verification": {
+        "exact": true,
+        "method": "canonical primitive and exact real-domain differentiation, including stationary substitution point"
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-I3",
+      "input": "simplify(integrate((2*x+1)*ln(1+(x^2+x)^2)/(x^2+x),x))",
+      "outer_simplify": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "-Li2(-(2*x^2/2+x)^2)/2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00273025\nMAX_RSS_KB 67408\n",
+      "host_seconds": 0.00273025,
+      "verification": {
+        "exact": true,
+        "method": "canonical primitive and exact real-domain differentiation, including stationary substitution point"
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-I4",
+      "input": "integrate(x*atan(x^2),x)",
+      "outer_simplify": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "1/2*(x^2*atan(x^2)-ln(x^4+1)/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00102699\nMAX_RSS_KB 67408\n",
+      "host_seconds": 0.00102699,
+      "verification": {
+        "exact": true,
+        "method": "canonical primitive and exact real-domain differentiation, including stationary substitution point"
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-I4",
+      "input": "integrate(x*atan(x^2),x)",
+      "outer_simplify": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "1/2*(x^2*atan(x^2)-ln(x^4+1)/2)",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00164676\nMAX_RSS_KB 67408\n",
+      "host_seconds": 0.00164676,
+      "verification": {
+        "exact": true,
+        "method": "canonical primitive and exact real-domain differentiation, including stationary substitution point"
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-I4",
+      "input": "simplify(integrate(x*atan(x^2),x))",
+      "outer_simplify": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(2*x^2*atan(x^2)-ln(x^4+1))/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.0013021\nMAX_RSS_KB 67408\n",
+      "host_seconds": 0.0013021,
+      "verification": {
+        "exact": true,
+        "method": "canonical primitive and exact real-domain differentiation, including stationary substitution point"
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-I4",
+      "input": "simplify(integrate(x*atan(x^2),x))",
+      "outer_simplify": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "(2*x^2*atan(x^2)-ln(x^4+1))/4",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.00159038\nMAX_RSS_KB 67408\n",
+      "host_seconds": 0.00159038,
+      "verification": {
+        "exact": true,
+        "method": "canonical primitive and exact real-domain differentiation, including stationary substitution point"
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-C1",
+      "input": "((3*x+y-2)^2+2*(x-y+1)^2=18,[x,y],theta)",
+      "outer_simplify": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "RAW [[(-3*sqrt(11)*sin(theta)+12*sqrt(22)*cos(theta)+11)/44,(3*sqrt(11)*sin(theta)+5)/4]]\nVIEW [[x(theta)=((-3*sqrt(11)*sin(theta)+12*sqrt(22)*cos(theta)+11)/44),y(theta)=((3*sqrt(11)*sin(theta)+5)/4)]]\nNODES 38 46",
+      "stderr": "SECONDS 0.000405326\n",
+      "host_seconds": 0.000405326,
+      "coordinates": "[[(-3*sqrt(11)*sin(theta)+12*sqrt(22)*cos(theta)+11)/44,(3*sqrt(11)*sin(theta)+5)/4]]",
+      "label_nodes": 46,
+      "verification": {
+        "exact": true,
+        "coverage": "invertible affine image of the entire unit circle, t real; inverse angle exists for every point",
+        "branch_count": 1
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-C1",
+      "input": "((3*x+y-2)^2+2*(x-y+1)^2=18,[x,y],theta)",
+      "outer_simplify": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "RAW [[(-3*sqrt(11)*sin(theta)+12*sqrt(22)*cos(theta)+11)/44,(3*sqrt(11)*sin(theta)+5)/4]]\nVIEW [[x(theta)=((-3*sqrt(11)*sin(theta)+12*sqrt(22)*cos(theta)+11)/44),y(theta)=((3*sqrt(11)*sin(theta)+5)/4)]]\nNODES 38 46",
+      "stderr": "SECONDS 0.000390756\n",
+      "host_seconds": 0.000390756,
+      "coordinates": "[[(-3*sqrt(11)*sin(theta)+12*sqrt(22)*cos(theta)+11)/44,(3*sqrt(11)*sin(theta)+5)/4]]",
+      "label_nodes": 46,
+      "verification": {
+        "exact": true,
+        "coverage": "invertible affine image of the entire unit circle, t real; inverse angle exists for every point",
+        "branch_count": 1
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-C1",
+      "input": "((3*x+y-2)^2+2*(x-y+1)^2=18,[x,y],theta)",
+      "outer_simplify": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "RAW [[(-3*sqrt(11)*sin(theta)+12*sqrt(22)*cos(theta)+11)/44,(3*sqrt(11)*sin(theta)+5)/4]]\nVIEW [[x(theta)=((-3*sqrt(11)*sin(theta)+12*sqrt(22)*cos(theta)+11)/44),y(theta)=((3*sqrt(11)*sin(theta)+5)/4)]]\nNODES 38 46",
+      "stderr": "SECONDS 0.000759752\n",
+      "host_seconds": 0.000759752,
+      "coordinates": "[[(-3*sqrt(11)*sin(theta)+12*sqrt(22)*cos(theta)+11)/44,(3*sqrt(11)*sin(theta)+5)/4]]",
+      "label_nodes": 46,
+      "verification": {
+        "exact": true,
+        "coverage": "invertible affine image of the entire unit circle, t real; inverse angle exists for every point",
+        "branch_count": 1
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-C1",
+      "input": "((3*x+y-2)^2+2*(x-y+1)^2=18,[x,y],theta)",
+      "outer_simplify": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "RAW [[(-3*sqrt(11)*sin(theta)+12*sqrt(22)*cos(theta)+11)/44,(3*sqrt(11)*sin(theta)+5)/4]]\nVIEW [[x(theta)=((-3*sqrt(11)*sin(theta)+12*sqrt(22)*cos(theta)+11)/44),y(theta)=((3*sqrt(11)*sin(theta)+5)/4)]]\nNODES 38 46",
+      "stderr": "SECONDS 0.000758861\n",
+      "host_seconds": 0.000758861,
+      "coordinates": "[[(-3*sqrt(11)*sin(theta)+12*sqrt(22)*cos(theta)+11)/44,(3*sqrt(11)*sin(theta)+5)/4]]",
+      "label_nodes": 46,
+      "verification": {
+        "exact": true,
+        "coverage": "invertible affine image of the entire unit circle, t real; inverse angle exists for every point",
+        "branch_count": 1
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-C2",
+      "input": "((x-2*y+3)^2=8*(2*x+y-1),[x,y],t)",
+      "outer_simplify": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "RAW [[(t^2+20*t+92)/20,(t^2-8)/40]]\nVIEW [[x(t)=((t^2+20*t+92)/20),y(t)=((t^2-8)/40)]]\nNODES 19 27",
+      "stderr": "SECONDS 0.000352196\n",
+      "host_seconds": 0.000352196,
+      "coordinates": "[[(t^2+20*t+92)/20,(t^2-8)/40]]",
+      "label_nodes": 27,
+      "verification": {
+        "exact": true,
+        "coverage": "invertible affine image of (t,t^2), with t covering the full real line",
+        "branch_count": 1
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-C2",
+      "input": "((x-2*y+3)^2=8*(2*x+y-1),[x,y],t)",
+      "outer_simplify": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "RAW [[(t^2+20*t+92)/20,(t^2-8)/40]]\nVIEW [[x(t)=((t^2+20*t+92)/20),y(t)=((t^2-8)/40)]]\nNODES 19 27",
+      "stderr": "SECONDS 0.000368266\n",
+      "host_seconds": 0.000368266,
+      "coordinates": "[[(t^2+20*t+92)/20,(t^2-8)/40]]",
+      "label_nodes": 27,
+      "verification": {
+        "exact": true,
+        "coverage": "invertible affine image of (t,t^2), with t covering the full real line",
+        "branch_count": 1
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-C2",
+      "input": "((x-2*y+3)^2=8*(2*x+y-1),[x,y],t)",
+      "outer_simplify": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "RAW [[(t^2+20*t+92)/20,(t^2-8)/40]]\nVIEW [[x(t)=((t^2+20*t+92)/20),y(t)=((t^2-8)/40)]]\nNODES 19 27",
+      "stderr": "SECONDS 0.000447805\n",
+      "host_seconds": 0.000447805,
+      "coordinates": "[[(t^2+20*t+92)/20,(t^2-8)/40]]",
+      "label_nodes": 27,
+      "verification": {
+        "exact": true,
+        "coverage": "invertible affine image of (t,t^2), with t covering the full real line",
+        "branch_count": 1
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-C2",
+      "input": "((x-2*y+3)^2=8*(2*x+y-1),[x,y],t)",
+      "outer_simplify": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "RAW [[(t^2+20*t+92)/20,(t^2-8)/40]]\nVIEW [[x(t)=((t^2+20*t+92)/20),y(t)=((t^2-8)/40)]]\nNODES 19 27",
+      "stderr": "SECONDS 0.000460375\n",
+      "host_seconds": 0.000460375,
+      "coordinates": "[[(t^2+20*t+92)/20,(t^2-8)/40]]",
+      "label_nodes": 27,
+      "verification": {
+        "exact": true,
+        "coverage": "invertible affine image of (t,t^2), with t covering the full real line",
+        "branch_count": 1
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-C3",
+      "input": "((2*x-3*y+4)^2=25,[x,y],q)",
+      "outer_simplify": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "RAW [[(3*q+1)/2,q],[(3*q-9)/2,q]]\nVIEW [[x(q)=((3*q+1)/2),y(q)=q],[x(q)=((3*q-9)/2),y(q)=q]]\nNODES 18 34",
+      "stderr": "SECONDS 0.000412206\n",
+      "host_seconds": 0.000412206,
+      "coordinates": "[[(3*q+1)/2,q],[(3*q-9)/2,q]]",
+      "label_nodes": 34,
+      "verification": {
+        "exact": true,
+        "coverage": "two distinct complete lines contained in a nonzero quadratic exhaust its real zero set",
+        "branch_count": 2
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-C3",
+      "input": "((2*x-3*y+4)^2=25,[x,y],q)",
+      "outer_simplify": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "RAW [[(3*q+1)/2,q],[(3*q-9)/2,q]]\nVIEW [[x(q)=((3*q+1)/2),y(q)=q],[x(q)=((3*q-9)/2),y(q)=q]]\nNODES 18 34",
+      "stderr": "SECONDS 0.000350746\n",
+      "host_seconds": 0.000350746,
+      "coordinates": "[[(3*q+1)/2,q],[(3*q-9)/2,q]]",
+      "label_nodes": 34,
+      "verification": {
+        "exact": true,
+        "coverage": "two distinct complete lines contained in a nonzero quadratic exhaust its real zero set",
+        "branch_count": 2
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-C3",
+      "input": "((2*x-3*y+4)^2=25,[x,y],q)",
+      "outer_simplify": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "RAW [[(3*q+1)/2,q],[(3*q-9)/2,q]]\nVIEW [[x(q)=((3*q+1)/2),y(q)=q],[x(q)=((3*q-9)/2),y(q)=q]]\nNODES 18 34",
+      "stderr": "SECONDS 0.000434115\n",
+      "host_seconds": 0.000434115,
+      "coordinates": "[[(3*q+1)/2,q],[(3*q-9)/2,q]]",
+      "label_nodes": 34,
+      "verification": {
+        "exact": true,
+        "coverage": "two distinct complete lines contained in a nonzero quadratic exhaust its real zero set",
+        "branch_count": 2
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-C3",
+      "input": "((2*x-3*y+4)^2=25,[x,y],q)",
+      "outer_simplify": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "RAW [[(3*q+1)/2,q],[(3*q-9)/2,q]]\nVIEW [[x(q)=((3*q+1)/2),y(q)=q],[x(q)=((3*q-9)/2),y(q)=q]]\nNODES 18 34",
+      "stderr": "SECONDS 0.000428605\n",
+      "host_seconds": 0.000428605,
+      "coordinates": "[[(3*q+1)/2,q],[(3*q-9)/2,q]]",
+      "label_nodes": 34,
+      "verification": {
+        "exact": true,
+        "coverage": "two distinct complete lines contained in a nonzero quadratic exhaust its real zero set",
+        "branch_count": 2
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-C4",
+      "input": "((x+2*y-1)^2+4*(3*x-y+5)^2=0,[x,y],r)",
+      "outer_simplify": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "RAW [[-9/7,8/7]]\nVIEW [[x(r)=(-9/7),y(r)=(8/7)]]\nNODES 6 14",
+      "stderr": "SECONDS 0.000330696\n",
+      "host_seconds": 0.000330696,
+      "coordinates": "[[-9/7,8/7]]",
+      "label_nodes": 14,
+      "verification": {
+        "exact": true,
+        "coverage": "definite quadratic with zero value at its stationary point has precisely that singleton real zero set",
+        "branch_count": 1
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-C4",
+      "input": "((x+2*y-1)^2+4*(3*x-y+5)^2=0,[x,y],r)",
+      "outer_simplify": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "RAW [[-9/7,8/7]]\nVIEW [[x(r)=(-9/7),y(r)=(8/7)]]\nNODES 6 14",
+      "stderr": "SECONDS 0.000334776\n",
+      "host_seconds": 0.000334776,
+      "coordinates": "[[-9/7,8/7]]",
+      "label_nodes": 14,
+      "verification": {
+        "exact": true,
+        "coverage": "definite quadratic with zero value at its stationary point has precisely that singleton real zero set",
+        "branch_count": 1
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-C4",
+      "input": "((x+2*y-1)^2+4*(3*x-y+5)^2=0,[x,y],r)",
+      "outer_simplify": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "RAW [[-9/7,8/7]]\nVIEW [[x(r)=(-9/7),y(r)=(8/7)]]\nNODES 6 14",
+      "stderr": "SECONDS 0.000356226\n",
+      "host_seconds": 0.000356226,
+      "coordinates": "[[-9/7,8/7]]",
+      "label_nodes": 14,
+      "verification": {
+        "exact": true,
+        "coverage": "definite quadratic with zero value at its stationary point has precisely that singleton real zero set",
+        "branch_count": 1
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-C4",
+      "input": "((x+2*y-1)^2+4*(3*x-y+5)^2=0,[x,y],r)",
+      "outer_simplify": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "RAW [[-9/7,8/7]]\nVIEW [[x(r)=(-9/7),y(r)=(8/7)]]\nNODES 6 14",
+      "stderr": "SECONDS 0.000740292\n",
+      "host_seconds": 0.000740292,
+      "coordinates": "[[-9/7,8/7]]",
+      "label_nodes": 14,
+      "verification": {
+        "exact": true,
+        "coverage": "definite quadratic with zero value at its stationary point has precisely that singleton real zero set",
+        "branch_count": 1
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-D1",
+      "input": "diff(im(Li2(exp(i*(x^2+pi/4)))),x)+2*x*ln(2)",
+      "outer_simplify": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "((4*2*x/4=0)? 0 : -4*2*x/4*ln(2*abs(sin((pi+4*x^2)/4/2))))+2*x*ln(2)",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000437695\nMAX_RSS_KB 67408\n",
+      "host_seconds": 0.000437695,
+      "verification": {
+        "exact": true,
+        "method": "positive magnitude logarithm identity; exact nonlinear phase chain rule; regular value at zero"
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-D1",
+      "input": "diff(im(Li2(exp(i*(x^2+pi/4)))),x)+2*x*ln(2)",
+      "outer_simplify": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "((4*2*x/4=0)? 0 : -4*2*x/4*ln(2*abs(sin((pi+4*x^2)/4/2))))+2*x*ln(2)",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000425245\nMAX_RSS_KB 67408\n",
+      "host_seconds": 0.000425245,
+      "verification": {
+        "exact": true,
+        "method": "positive magnitude logarithm identity; exact nonlinear phase chain rule; regular value at zero"
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-D1",
+      "input": "simplify(diff(im(Li2(exp(i*(x^2+pi/4)))),x)+2*x*ln(2))",
+      "outer_simplify": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "2*x*ln(2)+((4*2*x/4=0)? 0 : -4*2*x/4*ln(2*abs(sin((pi+4*x^2)/4/2))))",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000447195\nMAX_RSS_KB 67408\n",
+      "host_seconds": 0.000447195,
+      "verification": {
+        "exact": true,
+        "method": "positive magnitude logarithm identity; exact nonlinear phase chain rule; regular value at zero"
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-D1",
+      "input": "simplify(diff(im(Li2(exp(i*(x^2+pi/4)))),x)+2*x*ln(2))",
+      "outer_simplify": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "2*x*ln(2)+((4*2*x/4=0)? 0 : -4*2*x/4*ln(2*abs(sin((pi+4*x^2)/4/2))))",
+      "stderr": "PARSER_CALLS 2\nSECONDS 0.000776882\nMAX_RSS_KB 67408\n",
+      "host_seconds": 0.000776882,
+      "verification": {
+        "exact": true,
+        "method": "positive magnitude logarithm identity; exact nonlinear phase chain rule; regular value at zero"
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-D2",
+      "input": "diff(Li2(-x^2*(x-1)^2),x)",
+      "outer_simplify": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(-2*x*(x-1)^2-x^2*2*(x-1))*((-x^2*(x-1)^2=0)? 1 : ln(1+x^2*(x-1)^2)/(x^2*(x-1)^2))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000326837\nMAX_RSS_KB 67408\n",
+      "host_seconds": 0.000326837,
+      "verification": {
+        "exact": true,
+        "method": "complete polynomial zero locus, exact branch formulas, all removable values/limits and stationary point or parity"
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-D2",
+      "input": "diff(Li2(-x^2*(x-1)^2),x)",
+      "outer_simplify": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "(-2*x*(x-1)^2-x^2*2*(x-1))*((-x^2*(x-1)^2=0)? 1 : ln(1+x^2*(x-1)^2)/(x^2*(x-1)^2))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000333196\nMAX_RSS_KB 67408\n",
+      "host_seconds": 0.000333196,
+      "verification": {
+        "exact": true,
+        "method": "complete polynomial zero locus, exact branch formulas, all removable values/limits and stationary point or parity"
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-D2",
+      "input": "simplify(diff(Li2(-x^2*(x-1)^2),x))",
+      "outer_simplify": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(-2*x*(x-1)^2-x^2*2*(x-1))*((-x^2*(x-1)^2=0)? 1 : ln(1+x^2*(x-1)^2)/(x^2*(x-1)^2))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000347076\nMAX_RSS_KB 67408\n",
+      "host_seconds": 0.000347076,
+      "verification": {
+        "exact": true,
+        "method": "complete polynomial zero locus, exact branch formulas, all removable values/limits and stationary point or parity"
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-D2",
+      "input": "simplify(diff(Li2(-x^2*(x-1)^2),x))",
+      "outer_simplify": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "(-2*x*(x-1)^2-x^2*2*(x-1))*((-x^2*(x-1)^2=0)? 1 : ln(1+x^2*(x-1)^2)/(x^2*(x-1)^2))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000362226\nMAX_RSS_KB 67408\n",
+      "host_seconds": 0.000362226,
+      "verification": {
+        "exact": true,
+        "method": "complete polynomial zero locus, exact branch formulas, all removable values/limits and stationary point or parity"
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-D3",
+      "input": "diff(Li2(x^2/(1+x^2)),x)",
+      "outer_simplify": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(2*x*(1+x^2)-x^2*2*x)/(1+x^2)^2*((x^2/(1+x^2)=0)? 1 : -ln(1-x^2/(1+x^2))/(x^2/(1+x^2)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000325707\nMAX_RSS_KB 67408\n",
+      "host_seconds": 0.000325707,
+      "verification": {
+        "exact": true,
+        "method": "complete polynomial zero locus, exact branch formulas, all removable values/limits and stationary point or parity"
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-D3",
+      "input": "diff(Li2(x^2/(1+x^2)),x)",
+      "outer_simplify": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "(2*x*(1+x^2)-x^2*2*x)/(1+x^2)^2*((x^2/(1+x^2)=0)? 1 : -ln(1-x^2/(1+x^2))/(x^2/(1+x^2)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000335447\nMAX_RSS_KB 67408\n",
+      "host_seconds": 0.000335447,
+      "verification": {
+        "exact": true,
+        "method": "complete polynomial zero locus, exact branch formulas, all removable values/limits and stationary point or parity"
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-D3",
+      "input": "simplify(diff(Li2(x^2/(1+x^2)),x))",
+      "outer_simplify": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "(2*x*(1+x^2)-x^2*2*x)/(1+x^2)^2*((x^2/(1+x^2)=0)? 1 : -ln(1-x^2/(1+x^2))/(x^2/(1+x^2)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000354336\nMAX_RSS_KB 67408\n",
+      "host_seconds": 0.000354336,
+      "verification": {
+        "exact": true,
+        "method": "complete polynomial zero locus, exact branch formulas, all removable values/limits and stationary point or parity"
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-D3",
+      "input": "simplify(diff(Li2(x^2/(1+x^2)),x))",
+      "outer_simplify": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "(2*x*(1+x^2)-x^2*2*x)/(1+x^2)^2*((x^2/(1+x^2)=0)? 1 : -ln(1-x^2/(1+x^2))/(x^2/(1+x^2)))",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000698422\nMAX_RSS_KB 67408\n",
+      "host_seconds": 0.000698422,
+      "verification": {
+        "exact": true,
+        "method": "complete polynomial zero locus, exact branch formulas, all removable values/limits and stationary point or parity"
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-D4",
+      "input": "diff(sqrt(1+x^2)*atan(x),x)-x*atan(x)/sqrt(1+x^2)+sin(2*x)^2+cos(2*x)^2",
+      "outer_simplify": false,
+      "stack": "normal",
+      "exit": 0,
+      "result": "1/2*2*x*(sqrt(1+x^2))^-1*atan(x)+sqrt(1+x^2)/(1+x^2)-x*atan(x)/sqrt(1+x^2)+sin(2*x)^2+cos(2*x)^2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000445805\nMAX_RSS_KB 67408\n",
+      "host_seconds": 0.000445805,
+      "verification": {
+        "exact": true,
+        "method": "exact positive-radical algebra and trig identity; real denominator has no roots"
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-D4",
+      "input": "diff(sqrt(1+x^2)*atan(x),x)-x*atan(x)/sqrt(1+x^2)+sin(2*x)^2+cos(2*x)^2",
+      "outer_simplify": false,
+      "stack": "64",
+      "exit": 0,
+      "result": "1/2*2*x*(sqrt(1+x^2))^-1*atan(x)+sqrt(1+x^2)/(1+x^2)-x*atan(x)/sqrt(1+x^2)+sin(2*x)^2+cos(2*x)^2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000592733\nMAX_RSS_KB 67408\n",
+      "host_seconds": 0.000592733,
+      "verification": {
+        "exact": true,
+        "method": "exact positive-radical algebra and trig identity; real denominator has no roots"
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-D4",
+      "input": "simplify(diff(sqrt(1+x^2)*atan(x),x)-x*atan(x)/sqrt(1+x^2)+sin(2*x)^2+cos(2*x)^2)",
+      "outer_simplify": true,
+      "stack": "normal",
+      "exit": 0,
+      "result": "1/2*2*x*(sqrt(1+x^2))^-1*atan(x)+sqrt(1+x^2)/(1+x^2)-x*atan(x)/sqrt(1+x^2)+sin(2*x)^2+cos(2*x)^2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000469385\nMAX_RSS_KB 67408\n",
+      "host_seconds": 0.000469385,
+      "verification": {
+        "exact": true,
+        "method": "exact positive-radical algebra and trig identity; real denominator has no roots"
+      },
+      "pass": true
+    },
+    {
+      "id": "MR2-D4",
+      "input": "simplify(diff(sqrt(1+x^2)*atan(x),x)-x*atan(x)/sqrt(1+x^2)+sin(2*x)^2+cos(2*x)^2)",
+      "outer_simplify": true,
+      "stack": "64",
+      "exit": 0,
+      "result": "1/2*2*x*(sqrt(1+x^2))^-1*atan(x)+sqrt(1+x^2)/(1+x^2)-x*atan(x)/sqrt(1+x^2)+sin(2*x)^2+cos(2*x)^2",
+      "stderr": "PARSER_CALLS 1\nSECONDS 0.000506314\nMAX_RSS_KB 67408\n",
+      "host_seconds": 0.000506314,
+      "verification": {
+        "exact": true,
+        "method": "exact positive-radical algebra and trig identity; real denominator has no roots"
+      },
+      "pass": true
+    }
+  ],
+  "cases": [
+    {
+      "id": "MR2-I1",
+      "all_four_pass": true
+    },
+    {
+      "id": "MR2-I2",
+      "all_four_pass": true
+    },
+    {
+      "id": "MR2-I3",
+      "all_four_pass": true
+    },
+    {
+      "id": "MR2-I4",
+      "all_four_pass": true
+    },
+    {
+      "id": "MR2-C1",
+      "all_four_pass": true
+    },
+    {
+      "id": "MR2-C2",
+      "all_four_pass": true
+    },
+    {
+      "id": "MR2-C3",
+      "all_four_pass": true
+    },
+    {
+      "id": "MR2-C4",
+      "all_four_pass": true
+    },
+    {
+      "id": "MR2-D1",
+      "all_four_pass": true
+    },
+    {
+      "id": "MR2-D2",
+      "all_four_pass": true
+    },
+    {
+      "id": "MR2-D3",
+      "all_four_pass": true
+    },
+    {
+      "id": "MR2-D4",
+      "all_four_pass": true
+    }
+  ]
+}

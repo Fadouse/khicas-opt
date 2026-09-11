@@ -1,0 +1,24 @@
+{
+  "cases": [
+    {
+      "id": "PC16-I3",
+      "type": "integral",
+      "input": "simplify(integrate(sqrt(1+sin(x)),x,0,2*pi))",
+      "conditions": [
+        "x is finite real, angles are in radians, and sqrt denotes the nonnegative real square root. Determine the complete real domain of the original integrand independently of the integration interval.",
+        "Evaluate the definite integral over the full closed interval [0,2*pi]. Require an explicit exact value; an unevaluated integral or numerical approximation is not acceptable.",
+        "Include points where the radicand is zero. A square root of a real square must be treated as an absolute value unless its sign has been established on the relevant interval."
+      ],
+      "expected": {
+        "expression": "4*sqrt(2)",
+        "properties": [
+          "The complete original real domain is R: 0<=1+sin(x)<=2 everywhere. The integrand is continuous and has period 2*pi.",
+          "Its zeros are exactly x=3*pi/2+2*k*pi for integers k. In [0,2*pi] the only zero is 3*pi/2; it is included and creates no improper-integral singularity.",
+          "Both endpoints are regular points with integrand value 1. The exact integral is 4*sqrt(2).",
+          "The globally valid identity is sqrt(1+sin(x))=sqrt(2)*abs(cos(x/2-pi/4)). In the integration interval the cosine changes sign at x=3*pi/2, so dropping its absolute value across the entire interval gives an incorrect result."
+        ]
+      },
+      "reason": "For every real x, sine exists and lies in [-1,1], so its shifted value 1+sin(x) is nonnegative. This is precisely the necessary and sufficient condition for the specified real square root, proving that every real x is allowed, including all radicand zeros. Continuity of sine and the nonnegative square root proves continuity of the integrand, hence ordinary Riemann integrability on [0,2*pi]. The zeros follow from sin(x)=-1, and substitution gives value 1 at both endpoints. The half-angle identity gives 1+sin(x)=2*cos(x/2-pi/4)^2, so the nonnegative square root is sqrt(2)*abs(cos(x/2-pi/4)) globally. Put t=x/2-pi/4; then dx=2*dt and the bounds become -pi/4 and 3*pi/4. Cosine is nonnegative on [-pi/4,pi/2] and nonpositive on [pi/2,3*pi/4]. Therefore the integral is 2*sqrt(2)*([sin(t)] from -pi/4 to pi/2 - [sin(t)] from pi/2 to 3*pi/4)=2*sqrt(2)*((1+sqrt(2)/2)+(1-sqrt(2)/2))=4*sqrt(2). Splitting at the included zero is justified by continuity, and every transformation preserves the specified nonnegative root. Periodicity follows directly from sin(x+2*pi)=sin(x)."
+    }
+  ]
+}

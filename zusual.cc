@@ -1242,6 +1242,10 @@ namespace giac {
       return makemod(a,b);
     }
     if (e.type==_CPLX || has_i(e)){
+      // A symbolic complex argument may reach the negative-real cut. The
+      // rectangular formula divides by a+|z| and can create a spurious pole.
+      // Preserve the principal root until its argument is specialized.
+      if(taille(e,129)<=128 && !lidnt(e).empty())return symbolic(at_sqrt,e);
       if (e.type==_CPLX && e.subtype){
 #ifdef _SOFTMATH_H
 	return std::giac_gnuwince_sqrt(gen2complex_d(e));
@@ -1328,24 +1332,26 @@ namespace giac {
 	  }
 	}
       }
+      // Half-angle squares require an absolute value, not an eager
+      // global sign/range/limit search under interval assumptions.
       for (unsigned i=0;i<v.size();++i){
 	gen vi=v[i];
 	if (vi.is_symb_of_sommet(at_cos)){
 	  gen a,b;
 	  if (is_linear_wrt(e,vi,a,b,contextptr)){
 	    if (a==b)
-	      return sqrt(2*a,contextptr)*abs(cos(vi._SYMBptr->feuille/2,contextptr),contextptr);
+	      return sqrt(2*a,contextptr)*symbolic(at_abs,cos(vi._SYMBptr->feuille/2,contextptr));
 	    if (a==-b)
-	      return sqrt(-2*a,contextptr)*abs(sin(vi._SYMBptr->feuille/2,contextptr),contextptr);
+	      return sqrt(-2*a,contextptr)*symbolic(at_abs,sin(vi._SYMBptr->feuille/2,contextptr));
 	  }
 	}
 	if (vi.is_symb_of_sommet(at_sin)){
 	  gen a,b;
 	  if (is_linear_wrt(e,vi,a,b,contextptr)){
 	    if (a==b)
-	      return sqrt(2*a,contextptr)*abs(cos(vi._SYMBptr->feuille/2-cst_pi/4,contextptr),contextptr);
+	      return sqrt(2*a,contextptr)*symbolic(at_abs,cos(vi._SYMBptr->feuille/2-cst_pi/4,contextptr));
 	    if (a==-b)
-	      return sqrt(-2*a,contextptr)*abs(sin(vi._SYMBptr->feuille/2-cst_pi/4,contextptr),contextptr);
+	      return sqrt(-2*a,contextptr)*symbolic(at_abs,sin(vi._SYMBptr->feuille/2-cst_pi/4,contextptr));
 	  }
 	}
       } // end loop on vars
@@ -2318,6 +2324,10 @@ namespace giac {
     return symbolic(at_acos,e);
   }
   gen acos(const gen & e0,GIAC_CONTEXT){
+    // Keep symbolic periodic contacts visible to differentiation. Numeric
+    // arguments still use the principal-value evaluation below.
+    if(e0.is_symb_of_sommet(at_cos) && taille(e0,65)<=64 && !lidnt(e0).empty())
+      return symbolic(at_acos,e0);
     if ( (calc_mode(contextptr)==38 || !escape_real(contextptr) ) && !complex_mode(contextptr) && (e0.type<=_POLY) && (!is_positive(e0+1,contextptr) || !is_positive(1-e0,contextptr)))
       return gensizeerr(contextptr);
 #if 0
@@ -2969,6 +2979,11 @@ namespace giac {
 
   gen _abs(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
+    // A real odd root has either sign. Avoid a generic algebraic sign
+    // shortcut treating its positive-power surrogate as nonnegative.
+    if(args.type==_SYMB && taille(args,65)<=64 &&
+       (has_op(args,*at_surd) || has_op(args,*at_NTHROOT)))
+      return symbolic(at_abs,args);
     if (args.type!=_VECT)
       return abs(args,contextptr);
     if (ckmatrix(args))

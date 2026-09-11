@@ -33,6 +33,14 @@ for name in selectors+conversion_names+conversion_helpers+derivative_helpers+sim
     for address,section,size in hits:
         assert section=='.rominram' and regions['r8c2'][0]<=int(address,16)<sum(regions['r8c2']), name
     moved[name]=sum(int(size,16) for _,_,size in hits)
+# The calculator links zusual, so host extraction and provenance must use
+# this implementation rather than the parallel, unlinked kusual copy.
+assert 'zusual.o' in (d/'Makefile').read_text()
+linked_usual={}
+for name in ('sqrt','acos','_abs'):
+ hits=re.findall(r'^([0-9a-f]+)\s+.*?\bF\s+(\S+)\s+([0-9a-f]+)\s+giac::'+name+r'\(giac::gen const&',symbols,re.M)
+ assert len(hits)==1 and hits[0][1]=='.rominram',name
+ linked_usual[name]={'address':hits[0][0],'code_bytes':int(hits[0][2],16),'source':'zusual.cc'}
 frames=[]
 for path in d.glob('*.su'):
     for line in path.read_text().splitlines():
@@ -44,6 +52,7 @@ assert heap_sizes=={0x180000}, 'Review CAS heap change separately'
 report={'scope':'SH4 linker/binary capacity and single compiler stack frames; no CG50 runtime measurements',
         'regions':{name:{'origin':hex(origin),'used_bytes':used[name],'capacity_bytes':size,'remaining_bytes':size-used[name]} for name,(origin,size) in regions.items()},
         'configured_CAS_heap_bytes':0x180000,
+        'linked_usual_functions':linked_usual,
         'moved_helpers':{name:moved[name] for name in selectors},
         'moved_conversion_entries':{name:moved[name] for name in conversion_names},
         'moved_conversion_helpers':{name:moved[name] for name in conversion_helpers},
@@ -54,7 +63,7 @@ report={'scope':'SH4 linker/binary capacity and single compiler stack frames; no
         'derivative_frames':[r for r in frames if 'derive' in r['function']],
         'largest_single_frames':sorted(frames,key=lambda v:v['bytes'],reverse=True)[:30],
         'integration_helper_frames':[r for r in frames if any(name+'(' in r['function'] for name in selectors)],
-        'sha256':{name:hashlib.sha256((d/name).read_bytes()).hexdigest() for name in ('khicas50.g3a','khicas50.ac2','khicasen.elf','prizm.ld','main.cc','kglobal.cc','static_lexer_.h','static_lexer.h','static_extern.h','usual.h','dilogarithm.h','yderive.cc','zmaple.cc','yintg.cc','ksubst.cc','equation_normalize.h','parametric_display.h','kconvert.cc','zprog.cc','kusual.cc','conditional_eval.h','input_lexer.cc','input_lexer.ll') if (d/name).exists()}}
+        'sha256':{name:hashlib.sha256((d/name).read_bytes()).hexdigest() for name in ('khicas50.g3a','khicas50.ac2','khicasen.elf','prizm.ld','main.cc','kglobal.cc','static_lexer_.h','static_lexer.h','static_extern.h','usual.h','dilogarithm.h','yderive.cc','zmaple.cc','yintg.cc','ksubst.cc','equation_normalize.h','parametric_display.h','kconvert.cc','zprog.cc','kusual.cc','zusual.cc','conditional_eval.h','input_lexer.cc','input_lexer.ll') if (d/name).exists()}}
 a.report.write_text(json.dumps(report,indent=2,ensure_ascii=False)+'\n')
 for name,row in report['regions'].items():
     print(f"{name}: {row['used_bytes']} / {row['capacity_bytes']} bytes; {row['remaining_bytes']} free")
