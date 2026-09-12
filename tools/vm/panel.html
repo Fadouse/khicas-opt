@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CG50 · QEMU</title>
+<style>
+:root{color-scheme:dark;font-family:system-ui,sans-serif;background:#101820;color:#e9eff5}body{max-width:860px;margin:32px auto;padding:0 20px}header{display:flex;align-items:center;justify-content:space-between}h1{font-size:22px;font-weight:600}small{color:#9eafbf}#screen{width:100%;aspect-ratio:16/9;image-rendering:pixelated;background:#fff;border-radius:4px}figure{margin:18px 0 24px;padding:16px;background:#23313e;border-radius:12px}button{font:inherit;color:inherit;border:1px solid #42505e;border-radius:6px;background:#283643;padding:12px;cursor:pointer}button:hover{background:#40556a}button:active{background:#257caa}#keys{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}.toolbar{display:flex;gap:10px;margin:14px 0}#status{color:#79c5e6}#error{color:#ffa990;min-height:24px}p{line-height:1.5}
+</style>
+<header><h1>CG50 <small>QEMU</small></h1><span id="status">Connecting…</span></header>
+<figure><img id="screen" alt="Live guest framebuffer"></figure>
+<div class="toolbar"><button onclick="act({action:'run'})">Run</button><button onclick="act({action:'pause'})">Pause</button></div>
+<div id="keys"></div><p id="error"></p>
+<small>Live firmware framebuffer · CLI: step, break, regs, disas, x, dump, screen.<br>Enter = EXE · Home = MENU · Escape = EXIT · End = AC · Backspace = DEL.<br>Boot and hardware compatibility remain experimental. A displayed frame alone does not verify a complete boot.</small>
+<script>
+const token=new URLSearchParams(location.search).get('token');
+const endpoint=p=>p+'?token='+encodeURIComponent(token);
+const keyNames=['F1','F2','F3','F4','F5','F6','SHIFT','ALPHA','OPTN','VARS','MENU','EXIT','X','LOG','LN','SIN','COS','TAN','FRAC','SD','(',')','SQUARE','^','STO',',','NEG','LEFT','UP','RIGHT','7','8','9','EXP','DOWN','DEL','4','5','6','*','/','DEL','1','2','3','+','-','AC','0','.','EXE'];
+for(const key of keyNames){const b=document.createElement('button');b.textContent=key;b.onclick=()=>act({action:'key',key});document.querySelector('#keys').append(b)}
+let busy=false;
+async function act(body){if(busy)return;busy=true;try{const r=await fetch(endpoint('/control'),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});if(!r.ok)throw Error(await r.text());document.querySelector('#error').textContent=''}catch(e){document.querySelector('#error').textContent=e.message}finally{busy=false}}
+async function frame(){try{const r=await fetch(endpoint('/frame'));if(!r.ok)throw Error(await r.text());const u=URL.createObjectURL(await r.blob()),img=document.querySelector('#screen'),old=img.src;img.src=u;if(old.startsWith('blob:'))URL.revokeObjectURL(old);const s=await (await fetch(endpoint('/status'))).json();document.querySelector('#status').textContent=s.status}catch(e){document.querySelector('#error').textContent=e.message}setTimeout(frame,300)}
+const map={Enter:'EXE',Home:'MENU',Escape:'EXIT',End:'AC',Backspace:'DEL',ArrowUp:'UP',ArrowDown:'DOWN',ArrowLeft:'LEFT',ArrowRight:'RIGHT',Shift:'SHIFT',Control:'ALPHA'};
+addEventListener('keydown',e=>{const k=map[e.key]||e.key.toUpperCase();if(keyNames.includes(k)){e.preventDefault();if(!e.repeat)act({action:'key',key:k})}});frame();
+</script></html>
