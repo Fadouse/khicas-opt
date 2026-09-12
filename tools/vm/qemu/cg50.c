@@ -17,7 +17,10 @@
 #include "hw/irq.h"
 #include "hw/sh4/sh_intc.h"
 #include "system/address-spaces.h"
+#include "system/reset.h"
 #include "ui/console.h"
+#include "cg50_usb.h"
+#include "cg50_rtc.h"
 
 #define FLASH_SIZE (32 * MiB)
 #define LCD_WIDTH 384
@@ -39,9 +42,13 @@ struct CG50State {
   QEMUTimer *timer, *flash_timer;
   uint32_t erase_base, erase_size, flash_toggle;
   struct intc_desc intc;
-  struct intc_source irq[2];
+  struct intc_source irq[7];
+  CG50USB usb;
+  CG50RTC rtc;
+  uint8_t rtc_mask;
+  bool usb_masked, cable_masked, cable_pending, cable_attached;
   uint64_t ticks;
-  uint32_t adc_flags;
+  uint16_t adc_flags[2];
   uint16_t keys[6], key_flags, key_enable;
   bool key_masked;
   uint32_t bcd_a, bcd_b, bcd_result, bcd_flag;
@@ -58,6 +65,48 @@ static void update_key_irq(CG50State * s) {
   bool asserted = priority && !s->key_masked && (s->key_flags & s->key_enable & 0xff);
   if (asserted != !!s->irq[1].asserted) {
     sh_intc_toggle_source(&s->irq[1], 0, asserted ? 1 : -1);
+  }
+}
+
+static void update_rtc_irq(void * opaque) {
+  CG50State * s = opaque;
+  unsigned priority = lduw_be_p(s->windows[0].regs + 0x080028) >> 12;
+  unsigned flags = cg50_rtc_irqs(&s->rtc) & ~s->rtc_mask;
+  static const unsigned masks[] = {2, 1, 4};
+  for (unsigned i = 0; i < 3; i++) {
+    bool asserted = priority && (flags & masks[i]);
+    if (asserted != !!s->irq[4 + i].asserted) {
+      sh_intc_toggle_source(&s->irq[4 + i], 0, asserted ? 1 : -1);
+    }
+  }
+}
+
+static void update_cable_irq(CG50State * s) {
+  unsigned priority = (ldl_be_p(s->windows[0].regs + 0x140010) >> 24) & 15;
+  unsigned sense = (lduw_be_p(s->windows[0].regs + 0x14001c) >> 12) & 3;
+  if (sense >= 2) {
+    s->cable_pending = s->usb.attached == (sense == 3);
+  }
+  bool asserted = priority && !s->cable_masked && s->cable_pending;
+  if (asserted != !!s->irq[3].asserted) {
+    sh_intc_toggle_source(&s->irq[3], 0, asserted ? 1 : -1);
+  }
+}
+
+static void update_usb_irq(void * opaque) {
+  CG50State * s = opaque;
+  if (s->cable_attached != s->usb.attached) {
+    unsigned sense = (lduw_be_p(s->windows[0].regs + 0x14001c) >> 12) & 3;
+    s->cable_attached = s->usb.attached;
+    if (sense < 2 && s->usb.attached == (sense == 1)) {
+      s->cable_pending = true;
+    }
+    update_cable_irq(s);
+  }
+  unsigned priority = lduw_be_p(s->windows[0].regs + 0x080014) & 0xf0;
+  bool asserted = priority && !s->usb_masked && cg50_usb_irq(&s->usb);
+  if (asserted != !!s->irq[2].asserted) {
+    sh_intc_toggle_source(&s->irq[2], 0, asserted ? 1 : -1);
   }
 }
 
@@ -268,6 +317,10 @@ static uint64_t mmio_read(void * opaque, hwaddr offset, unsigned size) {
     return e->expevt ? e->expevt : 0x0a02; /* fx-CG50 model strap */
   case 0xff000028:
     return e->intevt;
+  case 0xff000030:
+    return 0x10300b00; /* SH7305 processor family */
+  case 0xff000044:
+    return 0x00002c00; /* SH7305 product, also distinguishes native add-in loaders. */
   case 0xff000034:
     return e->ptea;
   case 0x04150020:
@@ -287,15 +340,21 @@ static uint64_t mmio_read(void * opaque, hwaddr offset, unsigned size) {
   case 0x04610089:
   case 0x0461008a:
   case 0x0461008b:
-    return s->adc_flags;
+    return size == 1 ? (s->adc_flags[(a - 0x04610088) / 2] >> (8 * !(a & 1))) & 0xff
+                     : s->adc_flags[(a - 0x04610088) / 2];
   case 0x04140024:
-    return 0x40; /* scan ready */
-  }
-  if ((a & 0xffff0000) == 0x04130000) {
-    return qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) / 1000;
+    return s->cable_pending ? 0x40 : 0;
+  case 0x04050162:
+    return (w->regs[offset] & ~2) | (s->usb.attached ? 2 : 0);
   }
   if (a >= 0x044b0000 && a < 0x044b000c) {
-    return s->keys[(a - 0x044b0000) / 2];
+    unsigned word = (a - 0x044b0000) / 2;
+    unsigned columns = lduw_be_p(w->regs + 0x4b001a);
+    unsigned rows = lduw_be_p(w->regs + 0x4b001c) & 0xff;
+    unsigned mask = ((columns & (1 << (2 * word))) ? rows : 0) |
+                    ((columns & (2 << (2 * word))) ? rows << 8 : 0);
+    uint16_t value = s->keys[word] & mask;
+    return size == 1 ? (value >> (8 * !(a & 1))) & 0xff : value;
   }
   if (a == 0x044b0014) {
     return (s->key_enable << 8) | s->key_flags;
@@ -347,8 +406,54 @@ static void mmio_write(void * opaque, hwaddr offset, uint64_t val, unsigned size
     }
   }
   switch (a) {
+  case 0x04080028:
+    update_rtc_irq(s);
+    return;
+  case 0x040800a8:
+    s->rtc_mask |= val & 7;
+    update_rtc_irq(s);
+    return;
+  case 0x040800e8:
+    s->rtc_mask &= ~(val & 7);
+    update_rtc_irq(s);
+    return;
+  case 0x04140010:
+  case 0x0414001c:
+    update_cable_irq(s);
+    return;
+  case 0x04140024:
+    if (!(val & 0x40)) {
+      s->cable_pending = false;
+      update_cable_irq(s);
+    }
+    return;
+  case 0x04140044:
+    if (val & 0x40) {
+      s->cable_masked = true;
+      update_cable_irq(s);
+    }
+    return;
+  case 0x04140064:
+    if (val & 0x40) {
+      s->cable_masked = false;
+      update_cable_irq(s);
+    }
+    return;
   case 0x04080014:
+    update_usb_irq(s);
     update_key_irq(s);
+    return;
+  case 0x040800a4:
+    if (val & 2) {
+      s->usb_masked = true;
+      update_usb_irq(s);
+    }
+    return;
+  case 0x040800e4:
+    if (val & 2) {
+      s->usb_masked = false;
+      update_usb_irq(s);
+    }
     return;
   case 0x04080094:
     if (val & 0x80) {
@@ -402,12 +507,19 @@ static void mmio_write(void * opaque, hwaddr offset, uint64_t val, unsigned size
   case 0x04610088:
   case 0x04610089:
   case 0x0461008a:
-  case 0x0461008b:
-    s->adc_flags = val;
-    if (!(val & 0xc000) && s->irq[0].asserted) {
+  case 0x0461008b: {
+    unsigned index = (a - 0x04610088) / 2;
+    if (size == 1) {
+      unsigned shift = 8 * !(a & 1);
+      s->adc_flags[index] = (s->adc_flags[index] & ~(0xff << shift)) | ((val & 0xff) << shift);
+    } else {
+      s->adc_flags[index] = val;
+    }
+    if (!((s->adc_flags[0] | s->adc_flags[1]) & 0x8000) && s->irq[0].asserted) {
       sh_intc_toggle_source(&s->irq[0], 0, -1);
     }
     return;
+  }
   }
   if ((a & 0xfffff000) == 0x04cb0000) {
     switch (a & 15) {
@@ -458,13 +570,15 @@ static const MemoryRegionOps mmio_ops = {
 
 static void timer_tick(void * opaque) {
   CG50State * s = opaque;
+  cg50_rtc_update(&s->rtc);
   s->ticks++;
-  /* Scan-complete interrupts let the OS debounce releases and implement repeat. */
-  if (!(s->ticks & 7) && (s->key_enable & 2)) {
+  /* Completion is latched even when its interrupt is disabled: the OS also polls scans. */
+  if (!(s->ticks & 7) && (lduw_be_p(s->windows[0].regs + 0x4b000c) & 0x8000)) {
     s->key_flags |= 2;
     update_key_irq(s);
   }
-  s->adc_flags |= 0xc000;
+  s->adc_flags[0] |= 0xc000;
+  s->adc_flags[1] |= 0xc000;
   if (!s->irq[0].asserted) {
     sh_intc_toggle_source(&s->irq[0], 0, 1);
   }
@@ -483,10 +597,10 @@ static const struct {
     {Q_KEY_CODE_F5, 2, 9},
     {Q_KEY_CODE_F6, 1, 9},
     {Q_KEY_CODE_RET, 2, 1},
-    {Q_KEY_CODE_ESC, 3, 8},
+    {Q_KEY_CODE_ESC, 3, 7},
     {Q_KEY_CODE_BACKSPACE, 3, 4},
     {Q_KEY_CODE_DELETE, 3, 4},
-    {Q_KEY_CODE_HOME, 3, 7},
+    {Q_KEY_CODE_HOME, 3, 8},
     {Q_KEY_CODE_END, 0, 0},
     {Q_KEY_CODE_UP, 1, 8},
     {Q_KEY_CODE_DOWN, 2, 7},
@@ -590,6 +704,12 @@ static void map_io(CG50State * s, unsigned i, const char * name, uint32_t base, 
   memory_region_init_io(&w->mr, NULL, &mmio_ops, w, name, size);
   memory_region_add_subregion(get_system_memory(), base, &w->mr);
 }
+static void cg50_cpu_reset(void * opaque) {
+  CG50State * s = opaque;
+  cpu_reset(CPU(s->cpu));
+  s->cpu->env.intc_handle = &s->intc;
+}
+
 static void cg50_init(MachineState * machine) {
   CG50State * s = g_new0(CG50State, 1);
   int64_t rom_size;
@@ -597,13 +717,18 @@ static void cg50_init(MachineState * machine) {
   s->flash_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, flash_complete, s);
   s->flash_trace_left = getenv("CG50_TRACE_FLASH") ? 512 : 0;
   s->intc.sources = s->irq;
-  s->intc.nr_sources = 2;
-  for (unsigned i = 0; i < 2; i++) {
+  s->intc.nr_sources = ARRAY_SIZE(s->irq);
+  for (unsigned i = 0; i < ARRAY_SIZE(s->irq); i++) {
     s->irq[i].parent = &s->intc;
     s->irq[i].enable_count = s->irq[i].enable_max = 1;
   }
   s->irq[0].vect = 0x560;
   s->irq[1].vect = 0xbe0;
+  s->irq[2].vect = 0xa20;
+  s->irq[3].vect = 0x620;
+  s->irq[4].vect = 0xaa0;
+  s->irq[5].vect = 0xac0;
+  s->irq[6].vect = 0xa80;
   s->cpu->env.intc_handle = &s->intc;
   map_ram(&s->ram, "cg50.dram", 0x0c000000, 8 * MiB);
   map_ram(&s->ilram, "cg50.ilram", 0xfd800000, 64 * KiB);
@@ -637,6 +762,8 @@ static void cg50_init(MachineState * machine) {
   map_io(s, 3, "cg50.dmac", 0xfe008000, 4096, true);
   map_io(s, 4, "cg50.bsc", 0xfec10000, 4096, true);
   map_io(s, 5, "cg50.cache-tlb", 0xf0000000, 128 * MiB, false);
+  cg50_usb_init(&s->usb, update_usb_irq, s);
+  cg50_rtc_init(&s->rtc, update_rtc_irq, s);
   s->frame_addr = 0x0c000000;
   keyboard_board = s;
   qemu_input_handler_register(NULL, &keyboard_handler);
@@ -644,6 +771,7 @@ static void cg50_init(MachineState * machine) {
   qemu_console_resize(s->con, LCD_WIDTH, LCD_HEIGHT);
   s->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, timer_tick, s);
   timer_mod(s->timer, 1000000);
+  qemu_register_reset(cg50_cpu_reset, s);
 }
 static void cg50_machine_init(MachineClass * mc) {
   mc->desc = "Casio fx-CG50 (experimental SH7305 board)";

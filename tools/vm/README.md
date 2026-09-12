@@ -34,12 +34,9 @@ the tested OS image, first boot opens Message Language. Keep English with
 F6, advance through display and power settings with F6, then use F1 to
 select the battery type, F1 to confirm, and F6 to finish. The actual guest
 screen is authoritative if another firmware follows a different sequence.
-In this image, selecting F1 on the language page opens a dialog labelled
-"Press: [EXIT]", but the executed wait routine accepts MENU/SET UP. MENU
-closes it in the VM. GDB confirmed EXIT reaches the OS as `0x7533`; the
-wait routine compares `0x7532`/`0x754d`. This image-specific discrepancy is
-not resolved; the board does not remap EXIT or patch the firmware. F6
-avoids that optional dialog during setup.
+The optional language confirmation closes with EXIT. A populated storage image
+can also show an add-in installation note after setup; acknowledge it with EXE.
+A CPU reset currently returns this extracted image to initial setup.
 
 `--ui` prints a local, token-protected URL. Open it for live 384×216 guest
 pixels and a keypad. It connects to the same VM as the CLI. No browser is
@@ -56,11 +53,12 @@ required for scripts or debugging. The service binds only to 127.0.0.1;
 | `break 0xADDRESS`, `delete 0xADDRESS` | Set/remove an execution breakpoint without patching ROM. |
 | `x /8wx 0x8c000000`, `xp /8wx 0x0c000000` | Virtual/physical memory in QEMU monitor syntax. |
 | `write 0x8c7f0000 12345678` | Write hexadecimal bytes to guest virtual memory while paused. |
-| `key EXE`, `key F6 0.2` | Press/release a key, then pause; optional hold time in seconds. |
+| `key EXE`, `key DOWN 0.06 0.5` | Press/release, with optional hold and settling times in seconds. |
+| `chord 1 , AC` | Press/release a group of matrix keys together. |
 | `hold X on`, `hold X off` | Hold/release a matrix key across later commands. |
 | `screen /tmp/screen.ppm` | Capture the actual guest framebuffer. |
 | `dump 0 0x2000000 /tmp/flash.bin` | Export physical memory, including guest-initialized flash. |
-| `hmp help` | Native QEMU monitor commands. |
+| `hmp help`, `hmp system_reset` | Monitor commands; reset restarts the CPU at A0000000, retaining memory and peripherals. |
 | `detach` | Release the built-in GDB client for input or external GDB. |
 | `quit` | Stop the VM and close local sockets. |
 
@@ -87,7 +85,7 @@ commands while single-stepping. QMP remains available for observation.
 
 `--script PATH` executes one CLI command per line (blank lines and `#`
 comments are ignored), stops on a command error, and terminates the VM at
-script completion. Example after initial setup:
+script completion. Add `--interactive` to keep the CLI open afterward. Example after initial setup:
 
 ```text
 key EXE
@@ -102,6 +100,45 @@ screen /tmp/calculation.ppm
 measurement. Runtime files include `input.json` (image size/hash),
 `qemu.log`, `cpu.log`, and requested screenshots. `--log unimp,guest_errors`
 helps inspect MMIO; verbose execution tracing can generate large logs.
+
+## Virtual USB host
+
+The CLI host exchanges USB setup and bulk packets with the modeled USBHS
+controller. The firmware performs enumeration, SCSI and storage operations;
+files are not injected into OS memory. Install requires `mcopy` from mtools
+(included in the Nix shell). This is a local Unix-socket host, not a device
+mounted by the host operating system.
+
+After the guest has completed initial setup:
+
+```text
+usb attach
+key F1 0.06 1
+usb enumerate
+usb scsi 120000002400 36
+usb scsi 25000000000000000000 8
+usb image /tmp/cg50-disk.img
+usb install /absolute/path/khicas50.g3a /absolute/path/khicas50.ac2
+usb detach
+run 3
+```
+
+Inspect the actual connection menu before choosing F1. `usb install` reads the
+virtual disk, modifies its FAT partition with mtools, writes changed sectors
+through firmware SCSI WRITE(10), and reads back each written sector. Original
+package names must match their add-in packaging. A new-file transfer, unlike
+an unchanged-file timestamp update, was accepted by the tested firmware's
+normal examination-mode exit workflow; follow its restart/EXIT prompt.
+
+`usb state` and `usb token COMMAND` also work while paused for GDB. Other USB
+commands run the guest for the transfer and pause afterward. Raw tokens include
+`setup HEX8`, `in ENDPOINT` and `out ENDPOINT HEX`. Use `CG50_TRACE_USB=1`
+for bounded controller write/FIFO traces in `cpu.log`. `usb reset` resets the
+USB bus, not the CPU. Export flash with `dump` before quitting to retain files.
+
+For menu navigation, short presses such as `key DOWN 0.06 0.5` avoid repeat.
+Longer default presses can help expression entry, but always check the actual
+input shown by the guest before judging a calculation.
 
 ## Validation
 
@@ -130,22 +167,34 @@ acceptance has not been run.
 ## Hardware coverage and limits
 
 The board uses QEMU's SH7785 SH-4A CPU model with native instruction/MMU/TLB
-execution. It is not a complete SH7305 implementation. Memory includes
-32 MiB NOR, 8 MiB main RAM, local/on-chip RAM, and peripheral windows.
-The model implements compatible NOR commands, the firmware-used BCD
-operations, a KEYSC matrix, two interrupt sources and an LCD surface read
-from the guest VRAM selected by LCD DMA setup.
+execution and SH7305 identification registers. It is not a complete SH7305
+implementation. Memory includes 32 MiB NOR, 8 MiB main RAM, local/on-chip RAM,
+and peripheral windows. Implemented paths include NOR programming/erase, BCD,
+KEYSC masks and polling/interrupt scans, USBHS control and bulk FIFOs, VBUS
+sensing, and a BCD calendar RTC with divider, periodic/carry/alarm flags.
 
-Clock/power/ADC/RTC and several MMIO registers are approximations. Timer
-periods and interrupt priorities are not calibrated to hardware. General
-DMA transfers, USB/storage passthrough, a G3A installer, full LCD controller
-behavior and complete save/restore/reset of peripheral state are not
-implemented. Exporting flash does not save RAM or a complete VM snapshot.
-Use a new process for a cold restart. Add-ins, KhiCAS and PoC behavior have
-not yet been accepted in this VM. It supports firmware bring-up and UI
-experiments; hardware timing, performance and device-sensitive behavior
-still require a calculator. It does not establish that every future CAS
-test can run equivalently on the host.
+Local acceptance additionally covered native USB enumeration (07cf:6103), a
+16,852,480-byte disk read, G3A/AC2 installation with 18,011 changed-sector
+readbacks, ordinary KhiCAS launch, exact fractions, integration, file save,
+exit/reentry, and session restoration from exported flash. Native UK exam entry,
+ordinary add-in restriction, power-off/on persistence and USB new-file exit
+were exercised. These are bounded scenario checks, not a full CAS regression.
+Package and model hashes and separate reset results are in
+[verification.json](../../docs/bench/verification.json).
+
+Clock, power, ADC conversion timing and interrupt priorities remain approximate.
+The LCD surface reads guest VRAM selected by LCD DMA setup: full LCD GRAM,
+controller-drawn examination borders and correct powered-off display retention
+are not implemented. General DMA, USB DMA and complete peripheral snapshot/
+reset serialization are not implemented. `system_reset` resets the CPU while
+retaining RAM, flash, RTC and device state; it is not a calibrated physical
+reset model. A new process reloads flash but does not restore a whole VM snapshot.
+
+Storage image/install operations use 4 KiB read batches. A 16 KiB READ returned
+all data but an inconsistent SCSI residue in testing; it remains unresolved and
+the host rejects it rather than ignoring the status. Hardware timing, performance,
+and other device-sensitive behavior still require calculator comparison. This
+VM does not establish that every future CAS test can replace a physical test.
 
 ## Sources and licenses
 
@@ -159,3 +208,7 @@ test can run equivalently on the host.
   Its MIT notice is retained in `qemu/LICENSE.reference`.
 - `qemu_vm.py` and `rsp.py` provide CLI/QMP/GDB control; `panel.py` and
   `panel.html` provide the browser view, using the PNG writer in `display.py`.
+
+- SH7305 IDs, matrix coordinates, RTC and USBHS register definitions were
+  cross-checked with [gint](https://git.planet-casio.com/Lephenixnoir/gint)
+  commit `badbd0fd2bd8ac796fd55d49b93691741bd8a139`.

@@ -15,6 +15,7 @@ import time
 import threading
 
 from rsp import RSP
+from build_qemu import overlay_digest
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -75,6 +76,7 @@ class DebugShell(cmd.Cmd):
         self.run_dir = run_dir
         self.debugger = None
         self.last_error = None
+        self.usb = None
 
     def onecmd(self, line):
         self.last_error = None
@@ -209,6 +211,9 @@ class DebugShell(cmd.Cmd):
         return aliases.get(name.upper(), name.lower())
 
     def send_key(self, name, down):
+        self.send_keys([name], down)
+
+    def send_keys(self, names, down):
         self.qmp.execute(
             "input-send-event",
             {
@@ -220,6 +225,7 @@ class DebugShell(cmd.Cmd):
                             "key": {"type": "qcode", "data": self.key_name(name)},
                         },
                     }
+                    for name in names
                 ]
             },
         )
@@ -251,21 +257,80 @@ class DebugShell(cmd.Cmd):
         print(self.gdb().request(f"M{address:x},{len(payload):x}:{payload.hex()}"))
 
     def do_key(self, arg):
-        """key NAME [seconds]: press/release a matrix key; run then pause the VM.
+        """key NAME [hold seconds] [settle seconds]: press/release a matrix key.
         Names: F1-F6, EXE, MENU, EXIT, AC, SHIFT, ALPHA, X, arrows, digits, + - * / .
         """
         parts = shlex.split(arg)
-        if not 1 <= len(parts) <= 2:
-            raise ValueError("key NAME [hold seconds]")
+        if not 1 <= len(parts) <= 3:
+            raise ValueError("key NAME [hold seconds] [settle seconds]")
         name = self.key_name(parts[0])
-        duration = float(parts[1]) if len(parts) == 2 else 0.06
+        duration = float(parts[1]) if len(parts) >= 2 else 0.12
+        settle = float(parts[2]) if len(parts) == 3 else 0.4
         if not 0.001 <= duration <= 5:
             raise ValueError("hold seconds must be 0.001..5")
+        if not 0.001 <= settle <= 5:
+            raise ValueError("settle seconds must be 0.001..5")
+        self.press_keys([name], duration, settle)
+
+    def do_chord(self, arg):
+        """chord NAME NAME [...]: press 2..6 matrix keys together, then release."""
+        names = shlex.split(arg)
+        if not 2 <= len(names) <= 6 or len(set(names)) != len(names):
+            raise ValueError("chord requires 2..6 different keys")
+        self.press_keys(names, 0.12, 0.4)
+
+    def press_keys(self, names, duration, settle):
         self.qmp.execute("cont")
         try:
             for down in (True, False):
-                self.send_key(name, down)
-                time.sleep(duration if down else 0.1)
+                self.send_keys(names, down)
+                time.sleep(duration if down else settle)
+        finally:
+            self.qmp.execute("stop")
+
+    def do_usb(self, arg):
+        """usb attach|detach|reset|state|enumerate|control HEX: drive the virtual USB host."""
+        from usbhost import USBHost
+
+        if self.usb is None:
+            self.usb = USBHost(self.run_dir / "usb.sock")
+        if arg == "state" or arg.startswith("token "):
+            print(self.usb.command(arg if arg == "state" else arg[6:]))
+            return
+        if self.debugger:
+            raise ValueError(
+                "use usb token for paused GDB debugging, or detach before USB transfers"
+            )
+        self.qmp.execute("cont")
+        try:
+            if arg == "enumerate":
+                result = self.usb.enumerate()
+                (self.run_dir / "usb-device.json").write_text(
+                    json.dumps(result, indent=2) + "\n"
+                )
+                print(json.dumps(result, indent=2))
+            elif arg.startswith("control "):
+                print(self.usb.control(bytes.fromhex(arg.split(" ", 1)[1])).hex())
+            elif arg.startswith("image "):
+                print(self.usb.image(Path(shlex.split(arg)[1]).resolve()))
+            elif arg.startswith("install "):
+                print(self.usb.install(shlex.split(arg)[1:], self.run_dir / "usb.img"))
+            elif arg.startswith("scsi "):
+                parts = shlex.split(arg)
+                print(
+                    self.usb.scsi(
+                        bytes.fromhex(parts[1]),
+                        int(parts[2], 0) if len(parts) > 2 else 0,
+                    ).hex()
+                )
+            elif arg in ("attach", "detach", "reset", "state"):
+                print(self.usb.command(arg))
+                if arg != "state":
+                    time.sleep(0.2)
+            else:
+                raise ValueError(
+                    "usb attach|detach|reset|state|enumerate|control HEX|scsi CDB [LENGTH]|image PATH|install FILE...|token COMMAND"
+                )
         finally:
             self.qmp.execute("stop")
 
@@ -286,6 +351,9 @@ class DebugShell(cmd.Cmd):
     def do_quit(self, arg):
         """quit: terminate this VM without changing the input firmware."""
         self.do_detach("")
+        if self.usb:
+            self.usb.close()
+            self.usb = None
         return True
 
     do_EOF = do_quit
@@ -293,6 +361,11 @@ class DebugShell(cmd.Cmd):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--interactive",
+        action="store_true",
+        help="keep a CLI session after scripted commands",
+    )
     parser.add_argument("--rom", type=Path, required=True)
     parser.add_argument(
         "--qemu", type=Path, help="override the locally recorded QEMU build"
@@ -320,9 +393,7 @@ def main():
         if not metadata_path.exists():
             parser.error("build QEMU first with tools/vm/build_qemu.py, or pass --qemu")
         build_info = json.loads(metadata_path.read_text())
-        board_hash = hashlib.sha256(
-            Path(__file__).with_name("qemu").joinpath("cg50.c").read_bytes()
-        ).hexdigest()
+        board_hash = overlay_digest()
         if build_info["board_sha256"] != board_hash:
             parser.error("CG50 board changed since the last build; rebuild QEMU")
         qemu = Path(build_info["binary"]).resolve(strict=True)
@@ -330,11 +401,12 @@ def main():
     run_dir.mkdir(parents=True, exist_ok=True)
     qmp_path = run_dir / "qmp.sock"
     gdb_path = run_dir / "gdb.sock"
+    usb_path = run_dir / "usb.sock"
     if len(str(qmp_path).encode()) >= 104 or len(str(gdb_path).encode()) >= 104:
         parser.error(
             "run directory path too long for Unix sockets; use --run-dir /tmp/cg50-session"
         )
-    if qmp_path.exists() or gdb_path.exists():
+    if any(p.exists() for p in (qmp_path, gdb_path, usb_path)):
         parser.error(
             "socket already exists; choose a different --run-dir or stop its VM first"
         )
@@ -360,6 +432,8 @@ def main():
         "-S",
         "-qmp",
         f"unix:{qmp_path},server=on,wait=off",
+        "-chardev",
+        f"socket,id=cg50-usb,path={usb_path},server=on,wait=off",
         "-gdb",
         f"unix:{gdb_path},server=on,wait=off",
         "-d",
@@ -371,6 +445,7 @@ def main():
         process = subprocess.Popen(command, stdout=log, stderr=log)
         connection = None
         panel = None
+        shell = None
         try:
             deadline = time.monotonic() + 10
             while not qmp_path.exists():
@@ -400,12 +475,16 @@ def main():
                             ) from shell.last_error
                         if stop:
                             break
+                if args.interactive:
+                    shell.cmdloop()
             else:
                 shell.cmdloop()
         finally:
             if panel:
                 panel.shutdown()
                 panel.server_close()
+            if shell:
+                shell.do_quit("")
             if connection:
                 connection.close()
             if process.poll() is None:
@@ -415,7 +494,7 @@ def main():
                 except subprocess.TimeoutExpired:
                     process.kill()
                     process.wait()
-            for path in (qmp_path, gdb_path):
+            for path in (qmp_path, gdb_path, usb_path):
                 path.unlink(missing_ok=True)
 
 

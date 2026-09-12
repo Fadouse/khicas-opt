@@ -541,5 +541,59 @@
       },
       "icon_source": "User-approved blue integral artwork; existing glyph reduced and panel positioned at (5,6)."
     }
+  },
+  "cg50_vm": {
+    "status": "bounded_scenarios_passed_with_limits",
+    "date": "2026-09-12",
+    "qemu_commit": "f8b2f64e2336a28bf0d50b6ef8a7d8c013e9bcf3",
+    "board_sha256": "2d21fd3254c32dc50d6930a27338cfc953f1483b4346d843b10f37a9b85e3f18",
+    "binary_sha256": "c26b1b21f32409ec93579164b1c1dc5516eb63f1d6b358169a9e855bd2f1980f",
+    "firmware": {
+      "version": "03.80.0010",
+      "bytes": 11927552,
+      "sha256": "9804a6f69b7446ad854558173691a53ce01783240c4bb2d43f5e5594c4bd1571",
+      "kind": "local extracted OS image, not full physical flash dump"
+    },
+    "device_checks": "tools/vm/tests/check-qemu.py: passed",
+    "usb": {
+      "vid": "07cf",
+      "pid": "6103",
+      "disk_bytes": 16852480,
+      "read_batch_bytes": 4096,
+      "install_verified_sectors": 18011,
+      "new_file_verified_sectors": 4970,
+      "package_readback": "all four installed package SHA256 values matched input"
+    },
+    "normal_package": {
+      "khicas50.g3a": {
+        "bytes": 2070152,
+        "sha256": "be9b48a12d44145f450fb1b8da5d09d6d8f7fa2e838e936c6538799a7f0b1b8e"
+      },
+      "khicas50.ac2": {
+        "bytes": 2539896,
+        "sha256": "9a0ea655a16b920d0ea2b5a61795ec0e2133206967bf383bd1e788e205e93e90"
+      }
+    },
+    "scenarios": {
+      "ordinary_launch_calculation_save_reentry": "passed: 1/3+1/6=1/2; integrate(x^2,x)=x^3/3; session/27.xw saved and restored",
+      "cold_flash_reload": "passed: packages and saved sessions remain",
+      "cpu_reset": "passed: PC=A0000000, SR=700000f0; native setup restarts; ordinary and test-profile sessions restored",
+      "exam_entry": "passed: native UK confirmation sequence",
+      "exam_restrictions": "passed: ordinary add-in blocked at menu",
+      "exam_off_on": "passed: ordinary add-in remains blocked",
+      "exam_cpu_reset": "passed: ordinary add-in remains blocked after CPU reset and native setup",
+      "exam_exit": "passed: native USB new-file transfer triggers exit/restart prompt and ordinary launch resumes"
+    },
+    "limitations": [
+      "16KiB READ data complete but CSW residue inconsistent; installer uses 4KiB batches",
+      "LCD off-state rendering reads cleared RAM rather than retained LCD GRAM; controller border rendering incomplete",
+      "CPU reset supported, complete peripheral snapshot/reset serialization not implemented"
+    ],
+    "input_observations": [
+      "Long menu key holds can repeat; acceptance used 60 ms menu presses and verified actual screen",
+      "Initial fast expression entry dropped a slash, producing 1/3+16=49/3; corrected input 1/3+1/6=1/2 was separately verified",
+      "Replacing an unchanged file changed only directory timestamp and did not exit exam mode; adding a new file did"
+    ],
+    "artifacts_committed": false
   }
 }
