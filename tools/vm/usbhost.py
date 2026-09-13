@@ -66,7 +66,11 @@ class USBHost:
                 raise RuntimeError("Expected zero-length USB status packet")
         return bytes(result)
 
-    def enumerate(self):
+    def enumerate(self, interface="storage"):
+        classes = {"storage": bytes((8, 6, 80)), "vendor": bytes((255, 0, 0))}
+        if interface not in classes:
+            raise ValueError("Interface must be storage or vendor")
+        self.bulk_in_endpoint = self.bulk_out_endpoint = None
         self.command("reset")
         time.sleep(0.2)
         device = self.control(struct.pack("<BBHHH", 128, 6, 0x100, 0, 18))
@@ -82,7 +86,7 @@ class USBHost:
         configuration = self.control(struct.pack("<BBHHH", 128, 6, 0x200, 0, length))
         if len(configuration) != length:
             raise RuntimeError("Truncated configuration descriptor")
-        offset, storage = 0, False
+        offset, selected = 0, False
         endpoints = {}
         while offset < length:
             size = configuration[offset]
@@ -90,9 +94,16 @@ class USBHost:
                 raise RuntimeError("Malformed USB descriptor chain")
             descriptor = configuration[offset : offset + size]
             if descriptor[1] == 4:
-                storage = size >= 9 and descriptor[5:8] == bytes((8, 6, 80))
+                selected = (
+                    size >= 9
+                    and len(endpoints) != 2
+                    and descriptor[3] == 0
+                    and descriptor[5:8] == classes[interface]
+                )
+                if selected:
+                    endpoints = {}
             elif (
-                descriptor[1] == 5 and storage and size >= 7 and descriptor[3] & 3 == 2
+                descriptor[1] == 5 and selected and size >= 7 and descriptor[3] & 3 == 2
             ):
                 packet = struct.unpack_from("<H", descriptor, 4)[0] & 0x7FF
                 if not 0 < packet <= 512 or not descriptor[2] & 15:
@@ -100,15 +111,36 @@ class USBHost:
                 endpoints[bool(descriptor[2] & 128)] = (descriptor[2] & 15, packet)
             offset += size
         if len(endpoints) != 2:
-            raise RuntimeError("No supported USB mass-storage endpoint pair")
+            raise RuntimeError("No supported USB " + interface + " endpoint pair")
         self.bulk_in_endpoint, self.bulk_in_size = endpoints[True]
         self.bulk_out_endpoint, self.bulk_out_size = endpoints[False]
         self.control(struct.pack("<BBHHH", 0, 9, header[5], 0, 0))
         return {
+            "interface": interface,
             "device": device.hex(),
             "configuration": configuration.hex(),
             "vid": f"{struct.unpack_from('<H', device, 8)[0]:04x}",
             "pid": f"{struct.unpack_from('<H', device, 10)[0]:04x}",
+        }
+
+    def reply(self):
+        """Receive the calculator's request before sending a matching response."""
+        request = self.bulk_in(64)
+        sequence = request[4:-1]
+        if (
+            not request.startswith(b"send")
+            or not request.endswith(b"\n")
+            or not sequence.isdigit()
+            or not 1 <= len(sequence) <= 10
+            or sequence.startswith(b"0")
+            or int(sequence) > 0xFFFFFFFF
+        ):
+            raise ValueError("Unexpected calculator request: " + request.hex())
+        response = b"recv" + sequence + b"\n"
+        self.bulk_out(response)
+        return {
+            "calculator_to_host": request.decode("ascii"),
+            "host_to_calculator": response.decode("ascii"),
         }
 
     def close(self):

@@ -594,6 +594,152 @@
       "Initial fast expression entry dropped a slash, producing 1/3+16=49/3; corrected input 1/3+1/6=1/2 was separately verified",
       "Replacing an unchanged file changed only directory timestamp and did not exit exam mode; adding a new file did"
     ],
-    "artifacts_committed": false
+    "artifacts_committed": false,
+    "usb_protocol_poc": {
+      "status": "bounded_qemu_acceptance_passed",
+      "date": "2026-09-12",
+      "build": {
+        "compiler": "sh3eb-elf-gcc (GCC) 7.3.0",
+        "files": {
+          "src/platform/usb_poc/main.c": {
+            "bytes": 8770,
+            "sha256": "764e28048b7a3f44d40cffc804397c6cf095af42ffd5d48869f2206aa460a167"
+          },
+          "build/linker/usb_poc.ld": {
+            "bytes": 383,
+            "sha256": "3900712eaf1aa67d83c1481abbd57c21ecfcffa52acc6b1d8c55d20ecba27c2c"
+          },
+          ".build/usb-poc/UsbPoc.elf": {
+            "bytes": 3556,
+            "sha256": "292353a96ef48e13e6bd0f82ca96b9524ac175438226f8eb35fa9ae89319e3b6"
+          },
+          ".build/usb-poc/UsbPoc.g3a": {
+            "bytes": 31154,
+            "sha256": "b6579fec881d6423dedb50cfce557ab801669c1f8c6efd0bf2f0b9c842782ef3"
+          }
+        }
+      },
+      "test": {
+        "status": "passed",
+        "flash_sha256": "e5ffe657a706de31f085078bd227aeab52a997a84c672fc5ba29318065a9aae0",
+        "checks": [
+          {
+            "name": "vendor interface",
+            "actual": "0902200001010080320904000002ff0000000705010240000007058202400000",
+            "expected": "0902200001010080320904000002ff0000000705010240000007058202400000",
+            "passed": true
+          },
+          {
+            "name": "calculator-first exchange 1",
+            "actual": {
+              "calculator_to_host": "send1\n",
+              "host_to_calculator": "recv1\n"
+            },
+            "expected": {
+              "calculator_to_host": "send1\n",
+              "host_to_calculator": "recv1\n"
+            },
+            "passed": true
+          },
+          {
+            "name": "next request requires device action",
+            "actual": "73656e64320a",
+            "expected": "73656e64320a",
+            "passed": true
+          },
+          {
+            "name": "reject wrong sequence",
+            "actual": "NAK",
+            "expected": "NAK",
+            "passed": true
+          },
+          {
+            "name": "reject embedded NUL suffix",
+            "actual": "NAK",
+            "expected": "NAK",
+            "passed": true
+          },
+          {
+            "name": "reject maximum packet",
+            "actual": "NAK",
+            "expected": "NAK",
+            "passed": true
+          },
+          {
+            "name": "calculator-first exchange 3",
+            "actual": {
+              "calculator_to_host": "send3\n",
+              "host_to_calculator": "recv3\n"
+            },
+            "expected": {
+              "calculator_to_host": "send3\n",
+              "host_to_calculator": "recv3\n"
+            },
+            "passed": true
+          },
+          {
+            "name": "calculator-first exchange 1",
+            "actual": {
+              "calculator_to_host": "send1\n",
+              "host_to_calculator": "recv1\n"
+            },
+            "expected": {
+              "calculator_to_host": "send1\n",
+              "host_to_calculator": "recv1\n"
+            },
+            "passed": true
+          },
+          {
+            "name": "OS storage restored",
+            "actual": [
+              "storage",
+              "07cf",
+              "6103"
+            ],
+            "expected": [
+              "storage",
+              "07cf",
+              "6103"
+            ],
+            "passed": true
+          }
+        ],
+        "transcript_sha256": "86d0d9dec99bbc7da4224c1a4277ff5b5ae6d80c1189cd817ff2c2891e55f00a"
+      },
+      "native_install": {
+        "verified_changed_sectors": 7,
+        "package_readback": "exact byte match with final UsbPoc.g3a"
+      },
+      "resources": {
+        "code_and_constants_bytes": 2478,
+        "mutable_globals_bytes": 0,
+        "heap_allocations": 0
+      },
+      "screenshots": {
+        "start": {
+          "sha256": "8ba1a8024b413697352d81fe4b73168a6f9a4ad5d4b97cb60fc5994928d1d093",
+          "visually_checked": true
+        },
+        "reply": {
+          "sha256": "d36bd65449918183009cf663ef20c57550ebfa1fcd1bcd272e2ceb9ee1fb1d1f",
+          "visually_checked": true
+        },
+        "exit": {
+          "sha256": "6983ba8c0a7de048e434560014928cb6d453d11c223dca65c9d132b975f7642c",
+          "visually_checked": true
+        }
+      },
+      "sources": {
+        "tools/build_usb_poc.py": "bd2b37ff740798db991b7eebba160ed7075bed2525a3ab3e8bfabc02d482da24",
+        "tools/vm/usbhost.py": "6d52633aa8172efd0ef1be5fc9f7ccdd736f8ae881963550a4eb57c31d55d500",
+        "tools/vm/qemu_vm.py": "95eb611c57915d236bcef7ad28d68e4f0c4dd70158bd62ebf41506f6c215a2e9",
+        "tools/vm/tests/check-usb-protocol.py": "26771b851a09c6cc7bdfc013891b10ac8e1804b564fe0a9373a5b92781ca79d1"
+      },
+      "limitations": [
+        "Transaction-level QEMU USB only; physical device and D+/D- electrical timing not tested",
+        "Polling driver with VM-only FFFF:FFFF identity; no USB conformance claim",
+        "Launch with OS USB storage idle and detach before EXIT; in-progress OS transfer state not preserved"
+      ]
+    }
   }
 }

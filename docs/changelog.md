@@ -1,5 +1,7 @@
 # 当前变更
 
+- 独立 `UsbPoc.g3a` 通过 USB 控制器先发送 `send1`，CLI 主机回复 `recv1`。QEMU 原生安装后，9 项协议检查通过，覆盖错误回复、重连和恢复系统 USB 存储；尚未进行实机 USB 验收。
+
 - `tools/vm` 增加原生 USBHS/CLI 存储安装、RTC、键盘扫描掩码与 CPU 复位；完成限定的 KhiCAS、文件持久化和 UK 考试模式流程验收。硬件差异及包哈希见 `docs/bench/verification.json` 的 `cg50_vm`。
 
 - 菜单名称缩短为 `Cas50`，保留蓝色积分图案。

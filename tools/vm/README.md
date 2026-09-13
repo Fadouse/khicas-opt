@@ -142,6 +142,65 @@ input shown by the guest before judging a calculation.
 
 ## Validation
 
+### Independent USB protocol add-in
+
+Build the small polling driver with the existing CG50 SDK/toolchain directory:
+
+```sh
+python3 tools/build_usb_poc.py --tools-dir /absolute/path/to/toolchain
+```
+
+The output is `.build/usb-poc/UsbPoc.g3a`, with ELF, linker map and input/output
+hashes alongside it. Install it through the native USB storage procedure above,
+detach USB, acknowledge the OS completion prompt, and launch **USB PoC** from
+MAIN MENU. Then use:
+
+```text
+usb attach
+usb enumerate vendor
+usb reply
+screen /tmp/usb-reply.ppm
+key EXE
+usb reply
+usb detach
+key EXIT
+```
+
+The calculator queues `send1\n` after configuration. The host's `usb reply`
+reads that request and sends `recv1\n`; the guest displays `Reply OK; EXE: next`.
+EXE advances the sequence only after a valid reply. USB IN transactions are
+still polled by the host; the calculator initiates the application message.
+`usb receive 64` and `usb send HEX` expose raw bulk payloads for debugging.
+The guest handles EP0 descriptors and configuration, writes requests to the
+controller's IN FIFO, and reads replies from its OUT FIFO. The QEMU controller
+does not generate protocol responses for either side.
+
+This VM-only prototype advertises vendor class FF, test VID/PID FFFF:FFFF,
+and two 64-byte bulk endpoints. It is independent of KhiCAS and does not alter
+its application entry or settings. Physical USB timing, electrical D+/D−
+behavior, assigned VID/PID and complete USB conformance are not validated.
+The polling driver assumes that OS USB storage is idle when launched; detach
+the virtual host before EXIT. It restores the saved clock/interrupt settings,
+but does not preserve an in-progress OS USB transfer.
+
+Export the installed flash using `dump 0 0x2000000 /tmp/usb-flash.bin`.
+Run native-firmware acceptance against that image:
+
+```sh
+python3 tools/vm/tests/check-usb-protocol.py \
+  --rom /tmp/usb-flash.bin --run-dir /tmp/usb-check --launch-keys UP
+```
+
+The runner uses the tested OS 03.80 setup sequence and starts menu navigation
+at Run-Matrix. Supply navigation keys matching the installed icon arrangement;
+`UP` selects USB PoC when it is the only icon in the last row. It checks actual
+calculator-first payloads, EXE sequencing, rejection of incorrect/embedded-NUL/
+64-byte replies, reconnection, and restoration of native OS storage enumeration.
+Results, transcript and guest screenshots stay in the run directory. The
+separate native USB install/readback precedes this runner.
+
+### Device models
+
 Run the focused device-model checks against the built binary:
 
 ```sh

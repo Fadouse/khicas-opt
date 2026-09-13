@@ -303,12 +303,22 @@ class DebugShell(cmd.Cmd):
             )
         self.qmp.execute("cont")
         try:
-            if arg == "enumerate":
-                result = self.usb.enumerate()
+            if arg in ("enumerate", "enumerate vendor"):
+                result = self.usb.enumerate(
+                    "vendor" if arg.endswith("vendor") else "storage"
+                )
                 (self.run_dir / "usb-device.json").write_text(
                     json.dumps(result, indent=2) + "\n"
                 )
                 print(json.dumps(result, indent=2))
+            elif arg == "reply":
+                print(json.dumps(self.usb.reply(), indent=2))
+                time.sleep(0.2)
+            elif arg.startswith("receive "):
+                print(self.usb.bulk_in(int(arg.split()[1], 0)).hex())
+            elif arg.startswith("send "):
+                self.usb.bulk_out(bytes.fromhex(arg.split(" ", 1)[1]))
+                time.sleep(0.2)
             elif arg.startswith("control "):
                 print(self.usb.control(bytes.fromhex(arg.split(" ", 1)[1])).hex())
             elif arg.startswith("image "):
@@ -329,7 +339,7 @@ class DebugShell(cmd.Cmd):
                     time.sleep(0.2)
             else:
                 raise ValueError(
-                    "usb attach|detach|reset|state|enumerate|control HEX|scsi CDB [LENGTH]|image PATH|install FILE...|token COMMAND"
+                    "usb attach|detach|reset|state|enumerate [vendor]|reply|receive LENGTH|send HEX|control HEX|scsi CDB [LENGTH]|image PATH|install FILE...|token COMMAND"
                 )
         finally:
             self.qmp.execute("stop")
