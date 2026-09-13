@@ -11,6 +11,8 @@ Casio fx-CG50 的符号计算程序，基于官方源码；当前版本 **2026a 
 
 菜单图标采用蓝色积分图案。92×64 像素画布中，82×38 的图形位于 `(5,6)`，底部 20 像素留给系统绘制名称。
 
+`ai(integrate(x^2,x,0,1))` 可通过 USB 请求主机 AI，并显示极简步骤和结果。Python 后端、密钥配置与 QEMU 操作见 [AI over USB](tools/vm/README.md#ai-over-usb)。
+
 ## 使用
 
 ```xcas

@@ -56,28 +56,8 @@ using namespace std;
 namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
 
-  const int HELP_LANGUAGES = 5;
-
-  struct static_help_t {
-    const char * cmd_name;
-    const char * cmd_howto;
-    const char * cmd_syntax;
-    const char * cmd_related;
-    const char * cmd_examples;
-  };
-
-  const static_help_t static_help[] = {
-#include "static_helpen.h"
-  };
-
-  const int static_help_size = sizeof(static_help) / sizeof(static_help_t);
-
-  struct static_help_sort {
-    static_help_sort() {}
-    inline bool operator()(const static_help_t & a, const static_help_t & b) {
-      return strcmp(a.cmd_name, b.cmd_name) < 0;
-    }
-  };
+#include "compact_helpen.h"
+#include "compact_help.h"
 
   inline int mon_max(int a, int b) {
     if (a > b)
@@ -88,43 +68,6 @@ namespace giac {
 
   bool seconddec(const pair<int, int> & a, const pair<int, int> & b) {
     return a.second > b.second;
-  }
-
-  // NB: cmd_name may be localized but related is not localized
-  bool has_static_help(const char * cmd_name, int lang, const char *& howto, const char *& syntax,
-                       const char *& related, const char *& examples) {
-#ifdef GIAC_HAS_STO_38
-    const char nullstring[] = " ";
-#else
-  const char nullstring[] = "";
-#endif
-    if (lang <= 0)
-      lang = 2;
-    if (lang > HELP_LANGUAGES)
-      lang = 2;
-    string s = unlocalize(cmd_name);
-    int l = int(s.size());
-    // cout << "static " << l << " " << cmd_name << '\n';
-    if ((l > 2) && (s[0] == '\'') && (s[l - 1] == '\''))
-      s = s.substr(1, l - 2);
-    static_help_t h = {s.c_str(), 0, 0, 0, 0};
-    std::pair<const static_help_t *, const static_help_t *> p =
-        equal_range(static_help, static_help + static_help_size, h, static_help_sort());
-    if (p.first != p.second && p.first != static_help + static_help_size) {
-      howto = p.first->cmd_howto;
-      syntax = p.first->cmd_syntax;
-      if (!syntax)
-        syntax = nullstring;
-      related = p.first->cmd_related;
-      if (!related)
-        related = nullstring;
-      examples = p.first->cmd_examples;
-      if (!examples)
-        examples = nullstring;
-      // cout << "howto " << howto << " " << examples << '\n';
-      return true;
-    }
-    return false;
   }
 
   static std::string output_quote(const string s) {

@@ -259,9 +259,9 @@ class USBHost:
     def install(self, paths, image_path):
         paths = [Path(path).resolve(strict=True) for path in paths]
         if not paths or any(
-            path.suffix.lower() not in (".g3a", ".ac2") for path in paths
+            path.suffix.lower() not in (".g3a", ".ac2", ".py", ".xw", ".txt") for path in paths
         ):
-            raise ValueError("Install requires G3A/AC2 files")
+            raise ValueError("Install requires G3A/AC2 or KhiCAS script/session/text files")
         self.image(image_path)
         original = Path(image_path).read_bytes()
         start = struct.unpack_from("<I", original, 454)[0]

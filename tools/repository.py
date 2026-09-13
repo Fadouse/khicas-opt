@@ -11,6 +11,8 @@ def build_inputs():
     inputs = {}
     for directory in ("src", "assets", "vendor", "build"):
         for path in sorted((ROOT / directory).rglob("*")):
+            if "__pycache__" in path.parts or path.suffix in (".pyc", ".pyo"):
+                continue
             if path.is_symlink() and not path.exists():
                 raise ValueError(f"Broken build input symlink: {path}")
             if not path.is_file():

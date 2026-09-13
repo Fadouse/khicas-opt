@@ -42,7 +42,9 @@ def main():
             "-Werror",
             "-nostdlib",
             "-I" + str(library / "include"),
+            "-I" + str(ROOT / "src/platform"),
             str(source),
+            str(ROOT / "src/platform/usb_device.c"),
             "-T" + str(linker),
             "-Wl,--gc-sections",
             "-Wl,-Map=" + str(out / "UsbPoc.map"),
@@ -90,7 +92,14 @@ def main():
                 "bytes": p.stat().st_size,
                 "sha256": hashlib.sha256(p.read_bytes()).hexdigest(),
             }
-            for p in [source, linker, out / "UsbPoc.elf", out / "UsbPoc.g3a"]
+            for p in [
+                source,
+                ROOT / "src/platform/usb_device.c",
+                ROOT / "src/platform/usb_device.h",
+                linker,
+                out / "UsbPoc.elf",
+                out / "UsbPoc.g3a",
+            ]
         },
     }
     (out / "build.json").write_text(json.dumps(report, indent=2) + "\n")

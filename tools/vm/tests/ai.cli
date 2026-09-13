@@ -1,0 +1,51 @@
+# OS 3.80.0010 initialized flash, Cas50 at menu J, native USB-installed AI build.
+# Install tests/fixtures/ai-fmenu.txt under the filename FMENU.py first.
+# Run from repo root with --run-dir .build/vm-ai --script tools/vm/tests/ai.cli.
+# Inspect screenshots: cancellation stays in console, math=4, both AI viewers.
+run 8
+key F6
+key F6
+key F6
+key F1
+key F1
+key F6
+run 3
+key EXE
+key MENU
+key 1
+key MENU
+key DOWN 0.06 0.5
+key DOWN 0.06 0.5
+key DOWN 0.06 0.5
+key DOWN 0.06 0.5
+key RIGHT 0.06 0.5
+key RIGHT 0.06 0.5
+key EXE
+run 2
+key EXE
+key AC
+key F1
+key F1 0.04 0.01
+key 1 0.04 0.01
+key EXE 0.06 0.1
+key EXIT 0.02 0.2
+run 1.1
+screen .build/vm-ai/cancel.ppm
+key 2 0.04 0.05
+key + 0.04 0.05
+key 2 0.04 0.05
+key EXE 0.04 0.3
+screen .build/vm-ai/math.ppm
+key F1 0.04 0.05
+key 1 0.04 0.01
+key EXE 0.04 0.1
+usb ai --mock-reply tests/fixtures/ai-response.txt
+screen .build/vm-ai/reply.ppm
+key EXE 0.04 0.3
+screen .build/vm-ai/closed.ppm
+key F1 0.04 0.05
+key 1 0.04 0.01
+key EXE 0.04 0.1
+usb ai --mock-reply tests/fixtures/ai-response.txt
+screen .build/vm-ai/second.ppm
+key EXE 0.04 0.3

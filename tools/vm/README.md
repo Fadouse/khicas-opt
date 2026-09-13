@@ -47,7 +47,7 @@ required for scripts or debugging. The service binds only to 127.0.0.1;
 
 | Command | Effect |
 | --- | --- |
-| `run [seconds]`, `pause`, `status` | Continue/stop the guest and inspect actual QEMU state. |
+| `run [seconds]`, `resume`, `pause`, `status` | Continue/stop the guest and inspect actual QEMU state. |
 | `regs`, `disas [address]` | Registers and guest disassembly. |
 | `step [count]` | Single-step through QEMU's GDB stub. |
 | `break 0xADDRESS`, `delete 0xADDRESS` | Set/remove an execution breakpoint without patching ROM. |
@@ -139,6 +139,98 @@ USB bus, not the CPU. Export flash with `dump` before quitting to retain files.
 For menu navigation, short presses such as `key DOWN 0.06 0.5` avoid repeat.
 Longer default presses can help expression entry, but always check the actual
 input shown by the guest before judging a calculation.
+
+## AI over USB
+
+The optimized KhiCAS build provides `ai(integrate(x^2,x,0,1))` and
+`ai("integrate(f(x),x,n,m)")`. The argument is quoted: the original expression
+is sent before CAS evaluation. The host requests 1–3 short English ASCII
+steps and a `Result:` line. KhiCAS displays a scrollable text result and
+returns a string; model output is never evaluated as calculator code.
+EXIT cancels a pending request; EXE or EXIT closes the result viewer.
+
+The Python backend uses only the standard library. Copy `tools/ai.env.example`
+to the ignored `.env`, fill in the provider base URL (normally ending in `/v1`),
+model and API key, then load it before starting the VM:
+
+```sh
+set -a
+. ./.env
+set +a
+python3 tools/vm/qemu_vm.py --rom /absolute/path/to/installed-flash.bin
+```
+
+Launch KhiCAS, enter `ai(...)`, and while it displays **Waiting for host** run:
+
+```text
+usb ai
+```
+
+This enumerates the custom bulk interface, receives the calculator's question,
+calls `BASE_URL/chat/completions`, sends the response, waits for the calculator's
+ACK and detaches the virtual cable. The key stays on the host. Use HTTPS for
+remote endpoints; loopback HTTP is supported for local fixtures. Redirects are
+rejected. No API key, provider account or real cloud response is included.
+
+For offline transport/UI verification:
+
+```text
+usb ai --mock-reply tests/fixtures/ai-response.txt
+```
+
+The fixture is explicitly labeled `[MOCK]`; it is not an AI-generated answer.
+For a separate host process, enter `ai(...)`, then run `usb close` and `resume`
+in the VM CLI. In another shell with the same environment:
+
+```sh
+python3 tools/ai_host.py --usb-socket /absolute/path/to/run-dir/usb.sock
+```
+
+`usb close` releases the CLI's socket; it does not detach the cable. Only one
+USB host may own the socket. `ai_host.py` serves one request per invocation.
+The current host adapter targets QEMU's Unix socket. Physical USB/ESP32 host
+integration and electrical/timing validation remain untested.
+
+The wire header is 16 bytes, big endian: magic `KAI1`, kind (u8), status (u8),
+reserved zero (u16), nonzero request ID (u32), payload byte length (u32).
+Kinds are question=1, reply=2, ACK=3. Status is zero except a reply error=1.
+Questions are 1–1024 UTF-8 bytes; replies are 1–2048 English ASCII bytes;
+ACK has no payload. Frames are split into bulk packets of at most 64 bytes,
+calculator IN endpoint 0x82 and OUT endpoint 0x01. IDs must match. The
+calculator deadline is 120 RTC seconds and the HTTP socket timeout is 45 seconds.
+A calculator cancellation does not guarantee cancellation of an in-flight
+provider request. The prompt targets at most 600 characters; oversized or
+truncated responses are rejected rather than silently cutting mathematical text.
+
+Focused validation uses `tests/check-ai-backend.py` (local HTTP with a dummy
+key), `tests/check-ai-framing.c` (actual C framing with USB/clock/key fixtures),
+and `tests/check-help-packing.cc` (all 2,075 English help entries and lookups).
+Build the C fixture with the SDK headers **after** host system headers:
+
+```sh
+mkdir -p .build/ai
+cc -std=c99 -Wall -Wextra -Werror -fsanitize=address,undefined \
+  -I src/platform -idirafter /absolute/path/to/toolchain/casiolocal/include \
+  tests/check-ai-framing.c src/platform/ai_usb.c -o .build/ai/check-framing
+ASAN_OPTIONS=detect_leaks=0 .build/ai/check-framing
+python3 tests/check-ai-backend.py
+c++ -std=c++11 -I .build/optimized -I src/cas \
+  tests/check-help-packing.cc -o .build/ai/check-help
+.build/ai/check-help
+```
+
+For native UI reproduction on the tested OS/menu layout, copy
+`tests/fixtures/ai-fmenu.txt` to `.build/ai/FMENU.py`, install it and the two
+KhiCAS package files through `usb install`, detach and export the flash. Then:
+
+```sh
+python3 tools/vm/qemu_vm.py --rom /absolute/path/to/installed-flash.bin \
+  --run-dir .build/vm-ai --script tools/vm/tests/ai.cli
+```
+
+That script assumes Cas50 at menu J and the supplied FMENU.py. Inspect its
+screenshots for a cancelled request in the console, subsequent `2+2=4`, and
+two result viewers. It does not assert pixels or validate a cloud model's math.
 
 ## Validation
 

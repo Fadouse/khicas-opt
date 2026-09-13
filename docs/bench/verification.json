@@ -602,26 +602,34 @@
         "compiler": "sh3eb-elf-gcc (GCC) 7.3.0",
         "files": {
           "src/platform/usb_poc/main.c": {
-            "bytes": 8770,
-            "sha256": "764e28048b7a3f44d40cffc804397c6cf095af42ffd5d48869f2206aa460a167"
+            "bytes": 2956,
+            "sha256": "e553c2a5bc10d0dd072af04c79653ce058134620d356ab3c6caa97253297c526"
+          },
+          "src/platform/usb_device.c": {
+            "bytes": 6805,
+            "sha256": "771930e77cf0511ada4690949385e06920544d20f13bd73b1f8152b11ecf5196"
+          },
+          "src/platform/usb_device.h": {
+            "bytes": 915,
+            "sha256": "8cf5959accfb982b375653779e6a671ffea65417ea67a7187683c1acec1b2cf7"
           },
           "build/linker/usb_poc.ld": {
             "bytes": 383,
             "sha256": "3900712eaf1aa67d83c1481abbd57c21ecfcffa52acc6b1d8c55d20ecba27c2c"
           },
           ".build/usb-poc/UsbPoc.elf": {
-            "bytes": 3556,
-            "sha256": "292353a96ef48e13e6bd0f82ca96b9524ac175438226f8eb35fa9ae89319e3b6"
+            "bytes": 3960,
+            "sha256": "df5ead44eb879e2518ff9035b69c5711f04709a946b868f17cca9365b825df33"
           },
           ".build/usb-poc/UsbPoc.g3a": {
-            "bytes": 31154,
-            "sha256": "b6579fec881d6423dedb50cfce557ab801669c1f8c6efd0bf2f0b9c842782ef3"
+            "bytes": 31290,
+            "sha256": "bd0d99de19fb4520db390a1225e2803c6c1d4351a9ecc542686d9f9f695e6fb9"
           }
         }
       },
       "test": {
         "status": "passed",
-        "flash_sha256": "e5ffe657a706de31f085078bd227aeab52a997a84c672fc5ba29318065a9aae0",
+        "flash_sha256": "f019f31471db05379b8042e048f3ba79b70ce2c99cf866b534bffcf708305a2d",
         "checks": [
           {
             "name": "vendor interface",
@@ -704,7 +712,7 @@
             "passed": true
           }
         ],
-        "transcript_sha256": "86d0d9dec99bbc7da4224c1a4277ff5b5ae6d80c1189cd817ff2c2891e55f00a"
+        "transcript_sha256": "a4cc788c7d8e9d8601c14f0d97f1ac86648697f0044cd8568da57c923f2763ef"
       },
       "native_install": {
         "verified_changed_sectors": 7,
@@ -741,5 +749,108 @@
         "Launch with OS USB storage idle and detach before EXIT; in-progress OS transfer state not preserved"
       ]
     }
+  },
+  "cg50_ai": {
+    "status": "bounded_qemu_acceptance_passed",
+    "date": "2026-09-12",
+    "profile": "normal",
+    "packages": {
+      "khicasen.elf": {
+        "size": 5281732,
+        "sha256": "4bb4a2aa5883b02465e254b8979719dd50f84600e0bca410abbd6bed29955630"
+      },
+      "khicas50.g3a": {
+        "size": 2080224,
+        "sha256": "8678a911e2bcd67cad1db6e3ad9ed30920f6ba4627dcab1ec6015a752bd14042"
+      },
+      "khicas50.ac2": {
+        "size": 2558792,
+        "sha256": "90b7c51107cc271f8cc18d652bdfe512cb49d01d51654934603b2e29610508df"
+      }
+    },
+    "inputs_sha256": {
+      "src/cas/kai.cc": "42645cd3b2a82ec955818bb82c6a85f866728cbb326e80084dd661ae00ef49ac",
+      "src/platform/ai_usb.c": "f5913df55d4de039e76d1e23f563dc48bf63feb2bf8f59108180bea775474005",
+      "src/platform/ai_usb.h": "3b7af5d6f3c8c8200ce8dea420eff3368b40b4a85f46f7ae7a01ef341abd6ee6",
+      "src/platform/usb_device.c": "771930e77cf0511ada4690949385e06920544d20f13bd73b1f8152b11ecf5196",
+      "src/platform/usb_device.h": "8cf5959accfb982b375653779e6a671ffea65417ea67a7187683c1acec1b2cf7",
+      "src/runtime/khicas_ai.py": "c8b965ab8cd7641ab792ae9a914d5746788b920d258b761cd3278e702e8c6193",
+      "tools/ai_host.py": "e3fe9e8ffe68d4097f463a623283a775d5b9b607cbce1f031b6578993a01442e",
+      "tools/vm/qemu_vm.py": "8b60d64db6b38dd8af2639730ed537d35da6ee7b844be157c8f24a8b0a09d413",
+      "tests/check-ai-backend.py": "be4fd633adbf997bdab3314398bc65a941c07e85ea05ff51d281f32b8f8e23f2",
+      "tests/check-ai-framing.c": "06008bf20470478f0b931afe9e154ee5281b3df21dce5dba783fb5882ec59aae",
+      "tests/check-help-packing.cc": "c856d2bc19b1309725fd0e2cc6c0d750164bacae64eb4b2161716024884a992e",
+      "tools/vm/tests/ai.cli": "ea6526431a790281025e6695351a2bd7052955a84d0129f73eb2fa6fbfa77960"
+    },
+    "request": "integrate(x^2,x,0,1)",
+    "backend_fixture": {
+      "status": "passed",
+      "http_checks": 9,
+      "endpoint": "loopback /v1/chat/completions",
+      "credentials": "dummy local-test-key only",
+      "expected_reply": "1. Use x^3/3.\nResult: 1/3",
+      "real_cloud_request": false
+    },
+    "protocol_fixture": {
+      "status": "passed",
+      "request_max_bytes": 1024,
+      "reply_max_bytes": 2048,
+      "checks": [
+        "multi-packet bounds",
+        "ACK and request ID",
+        "wrong ID",
+        "oversize and invalid text",
+        "backend error",
+        "cancel",
+        "RTC timeout",
+        "empty/oversize request rejected before USB open"
+      ],
+      "asan_ubsan": true,
+      "leak_sanitizer": false
+    },
+    "help": {
+      "status": "passed",
+      "entries": 2075,
+      "fields_per_entry": 5,
+      "comparison": "compiled strings byte-identical; quoted, missing and null lookup"
+    },
+    "native": {
+      "status": "passed",
+      "flash_sha256": "609126ca2f152443c33dc5e919dad1abc8338547e75ff8907a45c26ba3e0bda3",
+      "checks": [
+        "native USB storage installation and changed-sector readback",
+        "unevaluated request integrate(x^2,x,0,1)",
+        "brief text viewer and return to CAS",
+        "subsequent local 2+2=4",
+        "EXIT cancellation returns to console without script editor",
+        "two consecutive mock replies with distinct request IDs"
+      ],
+      "screenshots_sha256": {
+        "cancel.ppm": "3f35d54eb919367687d8b036d722e5e550e5267b1589b4914b61fa6f909178ad",
+        "math.ppm": "08dd0c89df7053d709076719a816f7757fc1c660589a563c4f696d290deb2bbc",
+        "reply.ppm": "5f5753e0fb68e0bed76bcbb486a49b0124197347abc1360bde06a2d3bfe0437f",
+        "closed.ppm": "e137a5690e70c757e379b4f87c9f54315f3e533b14847c37d964b35bea217171",
+        "second.ppm": "5f5753e0fb68e0bed76bcbb486a49b0124197347abc1360bde06a2d3bfe0437f"
+      },
+      "pixel_verification": "manual inspection of actual guest screenshots; no automated pixel assertions",
+      "script": "tools/vm/tests/ai.cli"
+    },
+    "first_failure": {
+      "finding": "Raw EXIT reached the console again and opened its script editor; nonblocking OS key polling returned a cached EXE.",
+      "resolution": "After raw cancellation and USB restoration, consume a normal timed OS key event before returning to CAS.",
+      "retest": "normal native cancel screenshot and subsequent 2+2=4 passed",
+      "local_evidence": [
+        ".build/ai/cancel.log",
+        ".build/ai/key-coordinate-failure/",
+        ".build/ai/nonblocking-key-failure/"
+      ]
+    },
+    "limitations": [
+      "QEMU USB controller transactions; no D+/D- waveforms or physical USB/ESP32 acceptance",
+      "No user API key or real cloud response; fixture mathematics is not model accuracy validation",
+      "One request per host invocation; cancellation does not guarantee stopping a provider request",
+      "Reply is English ASCII text, never automatically evaluated as code",
+      "No full mathematical regression or hardware performance claim for this feature"
+    ]
   }
 }

@@ -151,6 +151,12 @@ class DebugShell(cmd.Cmd):
         """pause: stop execution at the current instruction boundary."""
         self.qmp.execute("stop")
 
+    def do_resume(self, arg):
+        """resume: leave the CPU running for a separate USB host process."""
+        if arg or self.debugger:
+            raise ValueError("detach the debugger, then use resume without arguments")
+        self.qmp.execute("cont")
+
     def do_regs(self, arg):
         """regs: display CPU registers."""
         print(self.qmp.hmp("info registers"))
@@ -292,6 +298,11 @@ class DebugShell(cmd.Cmd):
         """usb attach|detach|reset|state|enumerate|control HEX: drive the virtual USB host."""
         from usbhost import USBHost
 
+        if arg == "close":
+            if self.usb is not None:
+                self.usb.close()
+                self.usb = None
+            return
         if self.usb is None:
             self.usb = USBHost(self.run_dir / "usb.sock")
         if arg == "state" or arg.startswith("token "):
@@ -311,6 +322,19 @@ class DebugShell(cmd.Cmd):
                     json.dumps(result, indent=2) + "\n"
                 )
                 print(json.dumps(result, indent=2))
+            elif arg == "ai" or arg.startswith("ai "):
+                sys.path.insert(0, str(ROOT / "src/runtime"))
+                from khicas_ai import client_from_options, options, serve_once
+
+                try:
+                    args = options(shlex.split(arg)[1:])
+                except SystemExit as error:
+                    if error.code:
+                        raise ValueError("Invalid usb ai options") from None
+                    return
+                client = client_from_options(args)
+                print(json.dumps(serve_once(self.usb, client), indent=2))
+                time.sleep(0.4)
             elif arg == "reply":
                 print(json.dumps(self.usb.reply(), indent=2))
                 time.sleep(0.2)
@@ -339,7 +363,7 @@ class DebugShell(cmd.Cmd):
                     time.sleep(0.2)
             else:
                 raise ValueError(
-                    "usb attach|detach|reset|state|enumerate [vendor]|reply|receive LENGTH|send HEX|control HEX|scsi CDB [LENGTH]|image PATH|install FILE...|token COMMAND"
+                    "usb attach|detach|close|reset|state|enumerate [vendor]|ai [OPTIONS]|reply|receive LENGTH|send HEX|control HEX|scsi CDB [LENGTH]|image PATH|install FILE...|token COMMAND"
                 )
         finally:
             self.qmp.execute("stop")

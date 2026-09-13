@@ -30,7 +30,7 @@ LDEMUFLAGS =  -g -static -nostdlib -Tprizmemu.ld -Wl,--gc-sections,--print-memor
 # nm archive.a -f posix | sed -E '/:$/ d; /[^ ]+ [a-zU]/ d; s/^([^ ]+).*$/\1/'
 # sh3eb-elf-size *.o pour avoir les tailles
 # zgen and zglobal were not upgraded to giac 1.7.0
-CAS_OBJS = ysym2poly.o kgausspol.o kthreaded.o zcsturm.o zmaple.o zrpn.o zmoyal.o kmisc.o zpermu.o input_parser.o ksymbolic.o index.o kmodpoly.o kmodfactor.o kezgcd.o yderive.o zsolve.o yintg.o zintgab.o zlin.o zseries.o ksubst.o zvecteur.o kglobal.o zifactor.o yalg_ext.o zgauss.o zti89.o zplot.o zplot3d.o zprog.o yunary.o zusual.o yidentificateur.o kgen.o zrisch.o input_lexer.o first.o zdesolve.o ztex.o zisom.o zquater.o zadd.o overclock.o qrcodegen.o cutils.o libbf.o kconvert.o # memmgr.o mem.o
+CAS_OBJS = kai.o ai_usb.o usb_device.o ysym2poly.o kgausspol.o kthreaded.o zcsturm.o zmaple.o zrpn.o zmoyal.o kmisc.o zpermu.o input_parser.o ksymbolic.o index.o kmodpoly.o kmodfactor.o kezgcd.o yderive.o zsolve.o yintg.o zintgab.o zlin.o zseries.o ksubst.o zvecteur.o kglobal.o zifactor.o yalg_ext.o zgauss.o zti89.o zplot.o zplot3d.o zprog.o yunary.o zusual.o yidentificateur.o kgen.o zrisch.o input_lexer.o first.o zdesolve.o ztex.o zisom.o zquater.o zadd.o overclock.o qrcodegen.o cutils.o libbf.o kconvert.o # memmgr.o mem.o
 
 # old console: kmisc.cc should be compiled with -DOLD_CONSOLE
 #GUI_OBJS = fileGUI.o inputGUI.o menuGUI.o textGUI.o fileProvider.o graphicsProvider.o stringsProvider.o history.o kdisplay.o dConsole.o dmain.o
@@ -69,15 +69,17 @@ libcas.a: $(CAS_OBJS)
 	$(AR) cru $@ $^
 	$(RANLIB) $@
 
-mkhelp: mkhelp.cc
-	c++ mkhelp.cc -o mkhelp
+mkhelp: mkhelp.cc static_helpen.h
+	c++ -std=c++11 mkhelp.cc -o mkhelp
+
+compact_helpen.h: mkhelp static_helpen.h
+	./mkhelp
 
 khelpfr.o: khelpfr.cc static_help.h mkhelp
 	./mkhelp
 	$(CXX) $(CXXFLAGS) -c khelpfr.cc -o khelpfr.o
 
-khelpen.o: khelpen.cc static_help.h
-	./mkhelp
+khelpen.o: khelpen.cc compact_helpen.h compact_help.h
 	$(CXX) $(CXXFLAGS) -c khelpen.cc -o khelpen.o
 
 khicas.elf: $(CAS_OBJS) $(GUI_OBJS) khelpfr.o catalogfr.o helpfr.o prizm.ld
