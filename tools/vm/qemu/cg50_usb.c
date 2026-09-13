@@ -249,6 +249,8 @@ static void host_command(CG50USB * u, char * line) {
     }
     u->pipe[0].length = u->pipe[0].cursor = 0;
     u->pipe[0].ready = false;
+    /* A new SETUP ends a control-pipe STALL; NAK until firmware handles it. */
+    u->pipe[0].ctr &= (uint16_t)~3;
     u->transferred = 0;
     control_stage(u, u->setup[0] & 128 ? 1 : REG(u, 0x5a) ? 3 : 5);
     REG(u, INTSTS) |= 8;

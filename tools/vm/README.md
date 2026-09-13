@@ -363,3 +363,95 @@ VM does not establish that every future CAS test can replace a physical test.
 - SH7305 IDs, matrix coordinates, RTC and USBHS register definitions were
   cross-checked with [gint](https://git.planet-casio.com/Lephenixnoir/gint)
   commit `badbd0fd2bd8ac796fd55d49b93691741bd8a139`.
+
+## ESP32-S3 bridge
+
+The bridge runs ESP-IDF v5.5.1 on ESP32-S3, as a USB host for the calculator.
+Hardware firmware uses Wi-Fi AP+STA: the hidden WPA2 AP is `KhiCAS-<MAC suffix>`,
+at `192.168.50.1/24`, with NAT through the upstream station. HTTPS configuration
+is at `https://192.168.50.1/`, username `admin`. The local serial console prints
+the generated AP/admin password and the certificate SHA256 fingerprint. Join
+the hidden SSID manually. Verify/trust the local certificate using that
+fingerprint; remote API TLS verification remains enabled.
+
+The page configures upstream SSID/password, HTTPS API base URL, model, API key,
+and an optional private CA. A base URL such as `https://provider.example/v1`
+becomes `/v1/chat/completions`. Saved secrets are not returned by the page;
+blank password/key fields preserve saved values. API changes apply to the next
+request; restart from the page to apply upstream Wi-Fi changes. Settings,
+password and TLS identity persist in NVS. Upstream Wi-Fi must not use the AP's
+`192.168.50.0/24` subnet. The response prompt is shared with the Python backend:
+1–3 short English ASCII steps and `Result:`, displayed as text on the calculator.
+
+```sh
+python3 tools/vm/esp32.py setup
+python3 tools/vm/esp32.py build-qemu
+python3 tools/vm/esp32.py firmware qemu
+python3 tools/vm/esp32.py firmware hardware
+```
+
+SDKs, toolchains and binaries remain in `.build/esp32/`. The helper uses a Nix
+shell when available; otherwise install ESP-IDF's Linux prerequisites plus
+GLib, pixman, libgcrypt, libslirp and Meson for QEMU. ESP-IDF and QEMU commits
+are pinned in `tools/vm/esp32.py`; `.build/esp32/qemu.json` records the model
+patch, overlays and executable hashes. Firmware outputs are
+`.build/esp32/firmware-{qemu,hardware}/{khicas_bridge.elf,khicas_bridge.bin,flash.bin}`.
+`flash.bin` is a merged 4 MiB image with initially empty NVS.
+
+Espressif QEMU does not provide USB or Wi-Fi in its published
+[support matrix](https://github.com/espressif/esp-toolchain-docs/blob/main/qemu/README.md).
+This overlay adds S3 DWC2 full-speed control/bulk descriptor DMA, disconnect
+handling, and the CG50 token device. It uses eight host channels and 256 FIFO
+words. Isochronous/interrupt USB transfers, USB electrical signaling, Wi-Fi
+radio behavior and hidden-SSID association are outside this model. QEMU uses
+two OpenCores Ethernet interfaces for guest NAT/TLS/API acceptance; it does
+not claim to emulate Wi-Fi. Its firmware gets NTP from the upstream virtual
+host (`10.0.2.2`); the hardware target uses `pool.ntp.org`.
+
+Start the CG50 VM, enter `ai(integrate(x^2,x,0,1))`, and leave it running with
+`resume`. If its CLI owns USB, release it with `usb close`. Then start S3:
+
+```sh
+python3 tools/vm/esp32.py run --run-dir /tmp/khicas-s3 \
+  --usb-socket /tmp/cg50-session/usb.sock --lan-tap bridge-lan
+```
+
+`bridge-lan` must be a prepared TAP interface. Without `--lan-tap`, LAN Ethernet
+frames are exposed via QEMU's TCP socket backend on loopback port 5032
+(`--lan-port` changes it); this is not an HTTP port. The WAN uses slirp.
+The launcher keeps that run directory's flash/NVS across restarts, writes
+private `serial.log`, and exposes the QEMU monitor on stdin (`info registers`,
+`stop`, `cont`, `quit`). GDB connects to `/tmp/khicas-s3/gdb.sock`; use the
+SDK's `xtensa-esp32s3-elf-gdb` with the matching ELF and
+`target remote /tmp/khicas-s3/gdb.sock`, `hbreak bridge_api_solve`, `continue`.
+The QMP socket is in the same run directory. Flash snapshots and serial logs
+contain configuration secrets and are ignored by Git.
+
+Run isolated end-to-end acceptance without changing the host's routes:
+
+```sh
+python3 tests/check-esp32-e2e.py \
+  --cg50-rom /absolute/path/to/usb-installed-ai-flash.bin
+```
+
+This requires Linux user/network namespaces and TAP support. It creates a LAN
+client, HTTPS API fixture and NTP responder inside the namespace. It checks
+certificate validation, authentication, configuration rejection/redaction,
+NVS persistence and actual guest NAT by matching LAN/WAN TCP sequence numbers
+and translated addresses. With the supplied flash it launches native KhiCAS,
+verifies two USB/API replies and the reviewed native viewer pixels. The flash
+must already contain an AI-enabled package and `tests/fixtures/ai-fmenu.txt`
+installed as `FMENU.py`; default navigation selects menu slot J. Override
+`--launch-keys` for other positions (`EXE+X` denotes a held-key chord).
+Without `--cg50-rom`, only networking is tested and `usb_ai` remains false.
+Results, PCAPs and screenshots are under `.build/esp32/acceptance/` or `--output`.
+The fixture marks replies `[MOCK]`; no real AI key is required or silently used.
+
+For a physical S3, USB D−/D+ are GPIO19/GPIO20. The board needs a suitable USB
+host connector and 5 V VBUS supply/switch. Configure
+`CONFIG_BRIDGE_VBUS_GPIO` for its active-high switch in the hardware sdkconfig;
+`-1` leaves switching to external hardware. The calculator protocol waits for
+host detach after ACK, so a physical setup must actually remove VBUS at that
+point. Controller register power alone does not drive an unspecified board's
+5 V circuit. Real radio, connector, VBUS cycling and cloud-provider behavior
+remain to be tested on hardware; the VM is not evidence of electrical compatibility.

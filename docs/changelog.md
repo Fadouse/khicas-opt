@@ -1,5 +1,8 @@
 # 当前变更
 
+- 增加 ESP32-S3 USB AI 桥固件、固定 ESP-IDF/QEMU 构建与 CLI/GDB 入口。双虚拟机验收覆盖普通版与 PoC 连续请求、真实固件 NAT、HTTPS 配置、NVS 重启持久化和原生结果页面；上游使用明确标注 MOCK 的本地 HTTPS 服务。AP+STA/隐藏 SSID 实机目标已交叉构建，无线电、VBUS 电路和真实云端未验收。
+- S3 QEMU 补充非周期 USB 描述符 DMA、根端口断开与 CG50 token 连接；CG50 USB 模型在新 SETUP 时清除旧控制管道 STALL，兼容 ESP-IDF 的可选字符串描述符探测及后续配置请求。
+
 - 增加引用参数的 `ai(...)`、共享 USB 驱动和 Python 兼容 API 后端；解答为 1–3 条简短英文步骤与结果文本。QEMU 已验证 USB 往返、显示和继续计算；普通版另验证取消及连续请求。英文帮助复用只读偏移表，2,075 条内容逐字段一致。真实云端与物理 USB 尚未验收。
 
 - 独立 `UsbPoc.g3a` 通过 USB 控制器先发送 `send1`，CLI 主机回复 `recv1`。QEMU 原生安装后，9 项协议检查通过，覆盖错误回复、重连和恢复系统 USB 存储；尚未进行实机 USB 验收。

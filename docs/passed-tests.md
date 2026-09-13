@@ -1,5 +1,7 @@
 # 通过测试
 
+ESP32-S3 桥专项：普通版与 PoC 各两次原生 `ai(...)` 经 S3 USB Host、HTTPS 测试服务返回并显示；AP HTTPS 登录/校验、配置保存/密钥隐藏、NAT 抓包与重启持久化通过。S3 实机目标交叉构建、GDB 寄存器/硬件断点及 CG50 USB 9 项回归通过。证据见 [verification.json](bench/verification.json) 的 `esp32_bridge`；无线电和实体 USB 不计为已通过。
+
 AI/USB 专项：本地 HTTP 9 项检查、C 协议边界/取消/超时、共享 USB 9 项回归、2,075 条英文帮助逐字段比较通过。QEMU 验证范围及包哈希见 [AI 验收](bench/verification.json) 的 `cg50_ai`；未验证云端模型数学正确性。
 
 积分记录 **690 条**：685 条精确验证、5 条导数采样、0 条数值常量核对。

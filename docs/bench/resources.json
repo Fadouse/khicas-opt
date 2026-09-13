@@ -1312,5 +1312,81 @@
     "transport_heap_allocations": 0,
     "request_max_bytes": 1024,
     "reply_buffer_bytes": 2049
+  },
+  "esp32_bridge": {
+    "flash_capacity_bytes": 4194304,
+    "usb_host_channels": 8,
+    "usb_fifo_words": 256,
+    "measurement": "QEMU executes S3 firmware without RF driver; heap figures do not include physical Wi-Fi runtime",
+    "request_max_bytes": 1024,
+    "reply_max_bytes": 2048,
+    "runtime": {
+      "normal": [
+        {
+          "free_heap_bytes": 279352,
+          "minimum_heap_bytes": 217412,
+          "usb_task_stack_remaining_bytes": 5348
+        },
+        {
+          "free_heap_bytes": 279352,
+          "minimum_heap_bytes": 217408,
+          "usb_task_stack_remaining_bytes": 5348
+        }
+      ],
+      "poc": [
+        {
+          "free_heap_bytes": 279348,
+          "minimum_heap_bytes": 217480,
+          "usb_task_stack_remaining_bytes": 5348
+        },
+        {
+          "free_heap_bytes": 279348,
+          "minimum_heap_bytes": 217412,
+          "usb_task_stack_remaining_bytes": 5348
+        }
+      ]
+    },
+    "targets": {
+      "qemu": {
+        "status": "cross_build_passed",
+        "artifacts": [
+          {
+            "path": ".build/esp32/firmware-qemu/khicas_bridge.elf",
+            "bytes": 9188688,
+            "sha256": "5350fbb2511a697de91ad00a2ba2724f68b7e7819ea790de41821264e8e3ee3a"
+          },
+          {
+            "path": ".build/esp32/firmware-qemu/khicas_bridge.bin",
+            "bytes": 679776,
+            "sha256": "0f8a631741e7541c9f5e35c4a8c6bcaea4a310561f2ac06ae8ba97b2b893c803"
+          },
+          {
+            "path": ".build/esp32/firmware-qemu/flash.bin",
+            "bytes": 4194304,
+            "sha256": "5c914c364cec6013c42e6e8b2ca3ae32a68a3256013585e4f23d77a4216ff3f4"
+          }
+        ]
+      },
+      "hardware": {
+        "status": "cross_build_passed",
+        "artifacts": [
+          {
+            "path": ".build/esp32/firmware-hardware/khicas_bridge.elf",
+            "bytes": 10773464,
+            "sha256": "57873ca6286e29fc04090a0271cd96b20db4417e54f48c5a6abd0daabe4f64d0"
+          },
+          {
+            "path": ".build/esp32/firmware-hardware/khicas_bridge.bin",
+            "bytes": 998752,
+            "sha256": "75f2dfe281aeedbcc71cfa20f3d554a6a634ff7074e36757fd22a1c6fa357fd5"
+          },
+          {
+            "path": ".build/esp32/firmware-hardware/flash.bin",
+            "bytes": 4194304,
+            "sha256": "b2732ea8db7501408c6f2287798d6d5d9b7f50aeb657f78175b3c15b8f12d772"
+          }
+        ]
+      }
+    }
   }
 }

@@ -852,5 +852,138 @@
       "Reply is English ASCII text, never automatically evaluated as code",
       "No full mathematical regression or hardware performance claim for this feature"
     ]
+  },
+  "esp32_bridge": {
+    "status": "passed_with_declared_hardware_gaps",
+    "date": "2026-09-12",
+    "scope": "Real S3 ESP-IDF firmware; full-speed USB control/bulk descriptor DMA; CG50 native ai(); two virtual Ethernet NICs and guest lwIP NAPT; local HTTPS fixture",
+    "source_sha256": "4fac139b19781014155402f14337ddb1e4a4e46ab7d0fb04c8fa683ca3a768fe",
+    "esp_idf_commit": "fcae32885b0296b32044cb99ecbdc50d98dddb83",
+    "s3_qemu": {
+      "upstream": "febae182e132e4055529be423a818225ebddaa3a",
+      "patch_sha256": "128de11e4d9959db14aa2b18588da1e6ede5745b1d4e5e79d8f8a496f785fa30",
+      "overlays": {
+        "dwc2-esp32-dma.inc": "764f6198806df2fa2a833f3d0bc19f6c41657c343d9aa0d97cd6dea034bf2663",
+        "cg50-proxy.c": "1a64e2b481d8e3dd521650bbfbee4c5188d6aa157cda25ec808a2811d089df2b"
+      },
+      "binary_sha256": "43f9de9d8204fb598b2f6448b1218d79768c480f95dc20fcc290e45cec0364b7"
+    },
+    "cg50_qemu": {
+      "qemu_commit": "f8b2f64e2336a28bf0d50b6ef8a7d8c013e9bcf3",
+      "source": "/tmp/cg50-qemu",
+      "binary": "/home/fadouse/.codex/worktrees/8e9f/khicas-opt/.build/vm/bin/qemu-system-sh4eb",
+      "board_sha256": "02d9906aab1e2bcefef4ec3631a24a602fe6778c2770fc0933f90ccbd8b81846",
+      "binary_sha256": "7aa819a81c3d27e68273b68f9e550182ef0bd46bc0111eb81fa22652ac54181e",
+      "version": "QEMU emulator version 10.1.0 (v10.1.0-dirty)\nCopyright (c) 2003-2025 Fabrice Bellard and the QEMU Project developers"
+    },
+    "cg50_flash_sha256": "609126ca2f152443c33dc5e919dad1abc8338547e75ff8907a45c26ba3e0bda3",
+    "acceptance": {
+      "normal": {
+        "boot": true,
+        "https": true,
+        "configuration": true,
+        "guest_nat": true,
+        "persistence": true,
+        "radio": "not emulated",
+        "usb_ai": true,
+        "provider": "local HTTPS fixture; no real AI key configured",
+        "questions": [
+          "integrate(x^2,x,0,1)",
+          "integrate(x^2,x,0,1)"
+        ],
+        "artifacts": [
+          {
+            "path": ".build/esp32/normal-accepted/result.json",
+            "bytes": 291,
+            "sha256": "deed982be12e96155a680851f7c5f8e21a64059963923a4a258603ae22ada79e"
+          },
+          {
+            "path": ".build/esp32/normal-accepted/wan.pcap",
+            "bytes": 20139,
+            "sha256": "997ed4ca7ab9344702fbd1215bfb8c2838cce3311909a66de9f5d9ada92a025b"
+          },
+          {
+            "path": ".build/esp32/normal-accepted/lan.pcap",
+            "bytes": 61538,
+            "sha256": "60285a2d46d518d86f4c62539529a6a0621f31e817293cf543190bff4a947263"
+          },
+          {
+            "path": ".build/esp32/normal-accepted/cg50-reply.ppm",
+            "bytes": 248847,
+            "sha256": "6f3c10c7a2184fc77fcc23b36ef8a6d3d0d2fde1789db3e4601cc9d83a45a5c5"
+          },
+          {
+            "path": ".build/esp32/normal-accepted/cg50-second.ppm",
+            "bytes": 248847,
+            "sha256": "6f3c10c7a2184fc77fcc23b36ef8a6d3d0d2fde1789db3e4601cc9d83a45a5c5"
+          }
+        ],
+        "native_viewer_region_sha256": "0c0fb5c897b08b2ed76982033ddf58a0a7f4428dd468e064b4be6ed1db196980"
+      },
+      "poc": {
+        "boot": true,
+        "https": true,
+        "configuration": true,
+        "guest_nat": true,
+        "persistence": true,
+        "radio": "not emulated",
+        "usb_ai": true,
+        "provider": "local HTTPS fixture; no real AI key configured",
+        "questions": [
+          "integrate(x^2,x,0,1)",
+          "integrate(x^2,x,0,1)"
+        ],
+        "artifacts": [
+          {
+            "path": ".build/esp32/poc-accepted/result.json",
+            "bytes": 291,
+            "sha256": "deed982be12e96155a680851f7c5f8e21a64059963923a4a258603ae22ada79e"
+          },
+          {
+            "path": ".build/esp32/poc-accepted/wan.pcap",
+            "bytes": 19855,
+            "sha256": "1feee6a95399531520c371c5ff92f3f0bd7ce40a4c36d0477ff7b64f9670512b"
+          },
+          {
+            "path": ".build/esp32/poc-accepted/lan.pcap",
+            "bytes": 61512,
+            "sha256": "2ae4344a88e7ed8f890a9b886ac2e64b57b4fb1479793f0e210a9615fb194767"
+          },
+          {
+            "path": ".build/esp32/poc-accepted/cg50-reply.ppm",
+            "bytes": 248847,
+            "sha256": "6f3c10c7a2184fc77fcc23b36ef8a6d3d0d2fde1789db3e4601cc9d83a45a5c5"
+          },
+          {
+            "path": ".build/esp32/poc-accepted/cg50-second.ppm",
+            "bytes": 248847,
+            "sha256": "6f3c10c7a2184fc77fcc23b36ef8a6d3d0d2fde1789db3e4601cc9d83a45a5c5"
+          }
+        ],
+        "native_viewer_region_sha256": "0c0fb5c897b08b2ed76982033ddf58a0a7f4428dd468e064b4be6ed1db196980"
+      }
+    },
+    "usb_regression": {
+      "status": "passed",
+      "checks": 9,
+      "transcript_sha256": "b76efd2c18f51fcb3742f50c36e398d2504187a271adc2be33beecd6746f337e"
+    },
+    "debugger": {
+      "status": "passed",
+      "checks": [
+        "CLI boot",
+        "GDB reads live PC",
+        "hardware breakpoint at bridge_api_solve",
+        "delete breakpoint and detach"
+      ],
+      "log_sha256": "80e2ff5c7b1550dc7cc9b8bdcd02588636b2c11ad7a4919e6d9e78a73f06c7a1"
+    },
+    "gaps": [
+      "No Wi-Fi radio model: hidden SSID and AP/STA association require physical testing",
+      "S3/CG50 USB PHY, connector and switched 5V VBUS require physical testing",
+      "Hardware firmware cross-compiled, not flashed to an S3",
+      "Only local HTTPS MOCK provider exercised; no real cloud API key supplied",
+      "USB model supports non-periodic full-speed control/bulk transfers, not all USB classes"
+    ]
   }
 }

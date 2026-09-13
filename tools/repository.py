@@ -11,6 +11,9 @@ def build_inputs():
     inputs = {}
     for directory in ("src", "assets", "vendor", "build"):
         for path in sorted((ROOT / directory).rglob("*")):
+            # ESP-IDF owns this target's inputs; upstream CG50 make uses basenames.
+            if path.is_relative_to(ROOT / "src/platform/esp32") or path.is_relative_to(ROOT / "build/esp32"):
+                continue
             if "__pycache__" in path.parts or path.suffix in (".pyc", ".pyo"):
                 continue
             if path.is_symlink() and not path.exists():

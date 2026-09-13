@@ -13,6 +13,8 @@ Casio fx-CG50 的符号计算程序，基于官方源码；当前版本 **2026a 
 
 `ai(integrate(x^2,x,0,1))` 可通过 USB 请求主机 AI，并显示极简步骤和结果。Python 后端、密钥配置与 QEMU 操作见 [AI over USB](tools/vm/README.md#ai-over-usb)。
 
+ESP32-S3 USB Host 固件提供隐藏 AP+STA、NAT 和 HTTPS 配置页；支持双虚拟机 USB/API 往返、CLI 与 GDB 调试。构建和验收入口见 [ESP32-S3 bridge](tools/vm/README.md#esp32-s3-bridge)。QEMU 使用双虚拟以太网，无线关联和实体 USB 尚待实机验证。
+
 ## 使用
 
 ```xcas

@@ -1,0 +1,192 @@
+diff --git a/hw/usb/hcd-dwc2.c b/hw/usb/hcd-dwc2.c
+index b4f0652..09915ba 100644
+--- a/hw/usb/hcd-dwc2.c
++++ b/hw/usb/hcd-dwc2.c
+@@ -220,9 +220,15 @@ static const char *dirs[] = {
+     "Out", "In"
+ };
+
++#include "dwc2-esp32-dma.inc"
++
+ static void dwc2_handle_packet(DWC2State *s, uint32_t devadr, USBDevice *dev,
+                                USBEndpoint *ep, uint32_t index, bool send)
+ {
++    if (s->hcfg & (1u << 23)) {
++        dwc2_descriptor_packet(s, devadr, dev, ep, index);
++        return;
++    }
+     DWC2Packet *p;
+     uint32_t hcchar = s->hreg1[index];
+     uint32_t hctsiz = s->hreg1[index + 4];
+@@ -473,6 +479,9 @@ static void dwc2_detach(USBPort *port)
+     s->hprt0 &= ~(HPRT0_SPD_MASK | HPRT0_SUSP | HPRT0_ENA | HPRT0_CONNSTS);
+     s->hprt0 |= HPRT0_CONNDET | HPRT0_ENACHG;
+
++    if (s->core_id == 0x4f54400a && !s->port_resetting) {
++        dwc2_raise_global_irq(s, GINTSTS_DISCONNINT);
++    }
+     dwc2_raise_global_irq(s, GINTSTS_PRTINT);
+ }
+
+@@ -943,7 +952,9 @@ static void dwc2_hreg0_write(void *ptr, hwaddr addr, int index, uint64_t val,
+         trace_usb_dwc2_hreg0_write(addr, hreg0nm[index], orig, old,
+                                    val & ~HPRT0_CONNDET);
+         trace_usb_dwc2_hreg0_action("call usb_port_reset");
++        s->port_resetting = true;
+         usb_port_reset(&s->uport);
++        s->port_resetting = false;
+         val &= ~HPRT0_CONNDET;
+     } else {
+         trace_usb_dwc2_hreg0_write(addr, hreg0nm[index], orig, old, val);
+@@ -1029,6 +1040,9 @@ static void dwc2_hreg1_write(void *ptr, hwaddr addr, int index, uint64_t val,
+         val &= ~HCINTMSK_RESERVED14_31;
+         iflg = 1;
+         break;
++    case HCDMA(0):
++        s->hreg1[(index & ~7) + 7] = 0;
++        break;
+     case HCDMAB(0):
+         qemu_log_mask(LOG_GUEST_ERROR, "%s: write to read-only register\n",
+                       __func__);
+@@ -1264,7 +1278,7 @@ static void dwc2_reset_enter(Object *obj, ResetType type)
+     s->gpvndctl = 0;
+     s->ggpio = 0;
+     s->guid = 0;
+-    s->gsnpsid = 0x4f54294a;
++    s->gsnpsid = s->core_id;
+     s->ghwcfg1 = 0;
+     s->ghwcfg2 = (8 << GHWCFG2_DEV_TOKEN_Q_DEPTH_SHIFT) |
+                  (4 << GHWCFG2_HOST_PERIO_TX_Q_DEPTH_SHIFT) |
+@@ -1278,6 +1292,15 @@ static void dwc2_reset_enter(Object *obj, ResetType type)
+                  (4 << GHWCFG3_PACKET_SIZE_CNTR_WIDTH_SHIFT) |
+                  (4 << GHWCFG3_XFER_SIZE_CNTR_WIDTH_SHIFT);
+     s->ghwcfg4 = 0;
++    if (s->core_id == 0x4f54400a) {
++        /* ESP32-S3 usb_dwc_cfg.h: eight channels and 256 FIFO words. */
++        s->ghwcfg2 = (s->ghwcfg2 & ~GHWCFG2_NUM_HOST_CHAN_MASK) |
++                    (7 << GHWCFG2_NUM_HOST_CHAN_SHIFT) |
++                    (GHWCFG2_FS_PHY_TYPE_DEDICATED << GHWCFG2_FS_PHY_TYPE_SHIFT);
++        s->ghwcfg3 = (s->ghwcfg3 & ~GHWCFG3_DFIFO_DEPTH_MASK) |
++                    (256 << GHWCFG3_DFIFO_DEPTH_SHIFT);
++        s->ghwcfg4 = GHWCFG4_DESC_DMA | GHWCFG4_DED_FIFO_EN;
++    }
+     s->glpmcfg = 0;
+     s->gpwrdn = GPWRDN_PWRDNRSTN;
+     s->gdfifocfg = 0;
+@@ -1450,6 +1473,7 @@ const VMStateDescription vmstate_dwc2_state = {
+
+ static Property dwc2_usb_properties[] = {
+     DEFINE_PROP_UINT32("usb_version", DWC2State, usb_version, 2),
++    DEFINE_PROP_UINT32("core-id", DWC2State, core_id, 0x4f54294a),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+
+diff --git a/hw/usb/hcd-dwc2.h b/hw/usb/hcd-dwc2.h
+index 9c3d88e..002b43a 100644
+--- a/hw/usb/hcd-dwc2.h
++++ b/hw/usb/hcd-dwc2.h
+@@ -163,6 +163,8 @@ struct DWC2State {
+     int64_t usb_frame_time;
+     int64_t usb_bit_time;
+     uint32_t usb_version;
++    uint32_t core_id;
++    bool port_resetting;
+     uint16_t frame_number;
+     uint16_t fi;
+     uint16_t next_chan;
+diff --git a/hw/usb/meson.build b/hw/usb/meson.build
+index 1b4d150..d641ae7 100644
+--- a/hw/usb/meson.build
++++ b/hw/usb/meson.build
+@@ -23,7 +23,7 @@ system_ss.add(when: 'CONFIG_USB_XHCI', if_true: files('hcd-xhci.c'))
+ system_ss.add(when: 'CONFIG_USB_XHCI_PCI', if_true: files('hcd-xhci-pci.c'))
+ system_ss.add(when: 'CONFIG_USB_XHCI_SYSBUS', if_true: files('hcd-xhci-sysbus.c'))
+ system_ss.add(when: 'CONFIG_USB_XHCI_NEC', if_true: files('hcd-xhci-nec.c'))
+-system_ss.add(when: 'CONFIG_USB_DWC2', if_true: files('hcd-dwc2.c'))
++system_ss.add(when: 'CONFIG_USB_DWC2', if_true: files('hcd-dwc2.c', 'cg50-proxy.c'))
+ system_ss.add(when: 'CONFIG_USB_DWC3', if_true: files('hcd-dwc3.c'))
+
+ system_ss.add(when: 'CONFIG_IMX', if_true: files('chipidea.c'))
+diff --git a/hw/xtensa/Kconfig b/hw/xtensa/Kconfig
+index 5866207..8dcc124 100644
+--- a/hw/xtensa/Kconfig
++++ b/hw/xtensa/Kconfig
+@@ -34,6 +34,7 @@ config XTENSA_ESP32
+     select ESP_RGB
+
+ config XTENSA_ESP32S3
++    select USB_DWC2
+     bool
+     default y
+     depends on XTENSA
+diff --git a/hw/xtensa/esp32s3.c b/hw/xtensa/esp32s3.c
+index 4a24a04..49bf62e 100644
+--- a/hw/xtensa/esp32s3.c
++++ b/hw/xtensa/esp32s3.c
+@@ -32,6 +32,7 @@
+ #include "hw/xtensa/esp32s3_intc.h"
+
+ #include "hw/sd/dwc_sdmmc.h"
++#include "hw/usb/hcd-dwc2.h"
+ #include "hw/misc/ssi_psram.h"
+ #include "core-esp32s3/core-isa.h"
+ #include "qemu/datadir.h"
+@@ -328,24 +329,26 @@ static void esp32s3_init_openeth(Esp32s3SocState *ms)
+
+     MemoryRegion* sys_mem = get_system_memory();
+
+-    /* Create a new OpenCores Ethernet component */
+-    DeviceState* open_eth_dev = qemu_create_nic_device("open_eth", true, NULL);
+-    if (!open_eth_dev) {
+-        return;
+-    }
+-    ms->eth = open_eth_dev;
+-    sbd = SYS_BUS_DEVICE(open_eth_dev);
+-    sysbus_realize(sbd, &error_fatal);
++    for (unsigned nic = 0; nic < 2; nic++) {
++        /* Create a new OpenCores Ethernet component */
++        DeviceState* open_eth_dev = qemu_create_nic_device("open_eth", true, NULL);
++        if (!open_eth_dev) {
++            return;
++        }
++        ms->eth = open_eth_dev;
++        sbd = SYS_BUS_DEVICE(open_eth_dev);
++        sysbus_realize(sbd, &error_fatal);
+
+-    /* OpenCores Ethernet has two memory regions: one for registers and one for descriptors,
+-        * we need to provide one I/O range for each of them */
+-    mr = sysbus_mmio_get_region(sbd, 0);
+-    memory_region_add_subregion_overlap(sys_mem, DR_REG_EMAC_BASE, mr, 0);
+-    mr = sysbus_mmio_get_region(sbd, 1);
+-    memory_region_add_subregion_overlap(sys_mem, DR_REG_EMAC_BASE + 0x400, mr, 0);
++        /* OpenCores Ethernet has two memory regions: one for registers and one for descriptors,
++            * we need to provide one I/O range for each of them */
++        mr = sysbus_mmio_get_region(sbd, 0);
++        memory_region_add_subregion_overlap(sys_mem, DR_REG_EMAC_BASE + nic * 0x1000, mr, 0);
++        mr = sysbus_mmio_get_region(sbd, 1);
++        memory_region_add_subregion_overlap(sys_mem, DR_REG_EMAC_BASE + nic * 0x1000 + 0x400, mr, 0);
+
+-    sysbus_connect_irq(sbd, 0,
+-                        qdev_get_gpio_in(DEVICE(&ms->intmatrix), ETS_ETH_MAC_INTR_SOURCE));
++        sysbus_connect_irq(sbd, 0,
++                            qdev_get_gpio_in(DEVICE(&ms->intmatrix), ETS_ETH_MAC_INTR_SOURCE + nic));
++    }
+ }
+
+
+@@ -668,6 +671,15 @@ static void esp32s3_machine_init(MachineState *machine)
+     /* Initialize OpenCores Ethernet controller now sicne it requires the interrupt matrix */
+     esp32s3_init_openeth(ss);
+
++    DeviceState *usb = qdev_new(TYPE_DWC2_USB);
++    object_property_add_const_link(OBJECT(usb), "dma-mr", OBJECT(sys_mem));
++    qdev_prop_set_uint32(usb, "usb_version", 1);
++    qdev_prop_set_uint32(usb, "core-id", 0x4f54400a);
++    sysbus_realize_and_unref(SYS_BUS_DEVICE(usb), &error_fatal);
++    sysbus_mmio_map(SYS_BUS_DEVICE(usb), 0, 0x60080000);
++    sysbus_connect_irq(SYS_BUS_DEVICE(usb), 0,
++                      qdev_get_gpio_in(DEVICE(&ss->intmatrix), ETS_USB_INTR_SOURCE));
++
+     /* USB Serial JTAG realization */
+     {
+         sysbus_realize(SYS_BUS_DEVICE(&ss->jtag), &error_fatal);
